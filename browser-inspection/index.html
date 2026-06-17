@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="./assets/brand/mark.svg" type="image/svg+xml" />
+    <title>Rasa Browser Demo</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        background: #0d0f12;
+        color: #e8edf2;
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: #0d0f12;
+      }
+
+      main {
+        box-sizing: border-box;
+        min-height: 100vh;
+        padding: 24px;
+      }
+
+      @media (max-width: 720px) {
+        main {
+          padding: 12px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <rasa-browser-inspection-workbench
+        engine-url="../assets/engine.wasm"
+        mode="workbench"
+      ></rasa-browser-inspection-workbench>
+    </main>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

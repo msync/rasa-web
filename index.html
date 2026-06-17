@@ -4,43 +4,325 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" href="./assets/brand/mark.svg" type="image/svg+xml" />
-    <title>Rasa Preview</title>
+    <title>Rasa Preview Demos</title>
     <style>
       :root {
         color-scheme: dark;
-        background: #0d0f12;
-        color: #e8edf2;
+        --surface: #0d0f12;
+        --panel: #12161c;
+        --panel-raised: #151a22;
+        --line: #29313d;
+        --line-strong: #3a4656;
+        --text: #e8edf2;
+        --muted: #9aa6b6;
+        --gold: #e8b84a;
+        --blue: #78a7ff;
+        --green: #83d7aa;
+        --violet: #b08cff;
         font-family:
           Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
           "Segoe UI", sans-serif;
+        background: var(--surface);
+        color: var(--text);
+      }
+
+      * {
+        box-sizing: border-box;
       }
 
       body {
         margin: 0;
         min-height: 100vh;
-        background: #0d0f12;
+        background:
+          linear-gradient(90deg, rgba(41, 49, 61, 0.42) 1px, transparent 1px),
+          linear-gradient(180deg, rgba(41, 49, 61, 0.28) 1px, transparent 1px),
+          linear-gradient(180deg, #111720 0%, #0d0f12 54%, #090b0e 100%);
+        background-size: 48px 48px, 48px 48px, auto;
       }
 
       main {
-        box-sizing: border-box;
+        display: grid;
+        gap: 22px;
+        margin: 0 auto;
+        max-width: 1180px;
         min-height: 100vh;
+        padding: 28px;
+      }
+
+      header,
+      .notice,
+      .demo-card {
+        background: rgba(18, 22, 28, 0.94);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+      }
+
+      header {
+        align-items: center;
+        display: grid;
+        gap: 22px;
+        grid-template-columns: minmax(0, 1fr) auto;
         padding: 24px;
       }
 
-      @media (max-width: 720px) {
+      .brand {
+        align-items: center;
+        display: flex;
+        gap: 18px;
+        min-width: 0;
+      }
+
+      .brand img {
+        height: 62px;
+        width: auto;
+      }
+
+      .eyebrow,
+      .kicker,
+      .demo-card span {
+        color: var(--gold);
+        display: block;
+        font-size: 12px;
+        font-weight: 820;
+        letter-spacing: 0;
+        text-transform: uppercase;
+      }
+
+      h1,
+      h2,
+      p {
+        margin: 0;
+      }
+
+      h1 {
+        font-size: clamp(32px, 5vw, 58px);
+        line-height: 0.98;
+        margin-top: 6px;
+        max-width: 780px;
+      }
+
+      header p {
+        color: var(--muted);
+        font-size: 17px;
+        line-height: 1.55;
+        margin-top: 16px;
+        max-width: 760px;
+      }
+
+      .mark {
+        align-items: center;
+        border: 1px solid var(--line-strong);
+        border-radius: 8px;
+        display: grid;
+        height: 86px;
+        justify-items: center;
+        width: 86px;
+      }
+
+      .mark img {
+        height: 46px;
+      }
+
+      .notice {
+        align-items: center;
+        display: flex;
+        gap: 12px;
+        justify-content: space-between;
+        padding: 14px 16px;
+      }
+
+      .notice p {
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      .status-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: flex-end;
+      }
+
+      .pill {
+        border: 1px solid var(--line-strong);
+        border-radius: 999px;
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 760;
+        padding: 7px 10px;
+        white-space: nowrap;
+      }
+
+      .pill.ok {
+        border-color: rgba(131, 215, 170, 0.46);
+        color: var(--green);
+      }
+
+      .demos {
+        display: grid;
+        gap: 18px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .demo-card {
+        color: inherit;
+        display: grid;
+        gap: 18px;
+        min-height: 260px;
+        overflow: hidden;
+        padding: 22px;
+        position: relative;
+        text-decoration: none;
+      }
+
+      .demo-card::before {
+        background: linear-gradient(90deg, var(--gold), var(--blue), var(--green));
+        content: "";
+        height: 3px;
+        left: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+      }
+
+      .demo-card h2 {
+        font-size: 30px;
+        line-height: 1.08;
+        margin-top: 8px;
+      }
+
+      .demo-card p {
+        color: var(--muted);
+        line-height: 1.55;
+        max-width: 560px;
+      }
+
+      .card-footer {
+        align-items: end;
+        align-self: end;
+        display: flex;
+        gap: 10px;
+        justify-content: space-between;
+      }
+
+      .card-footer strong {
+        color: var(--text);
+        font-size: 14px;
+      }
+
+      .arrow {
+        border: 1px solid var(--line-strong);
+        border-radius: 8px;
+        color: var(--text);
+        font-size: 24px;
+        line-height: 1;
+        padding: 8px 12px 10px;
+      }
+
+      footer {
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.5;
+        padding: 4px 2px 18px;
+      }
+
+      @media (max-width: 840px) {
         main {
-          padding: 12px;
+          padding: 14px;
+        }
+
+        header {
+          grid-template-columns: 1fr;
+        }
+
+        .mark {
+          display: none;
+        }
+
+        .notice {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        .demos {
+          grid-template-columns: 1fr;
         }
       }
     </style>
   </head>
   <body>
     <main>
-      <rasa-preview-evaluator
-        engine-url="./engine.wasm"
-        mode="workbench"
-      ></rasa-preview-evaluator>
+      <header>
+        <section>
+          <div class="brand">
+            <img src="./assets/brand/logo.svg" alt="Rasa" />
+            <div>
+              <span class="eyebrow">Browser Preview</span>
+              <h1>Rasa previews for a portable runtime.</h1>
+            </div>
+          </div>
+          <p>
+            These are static previews of the Rasa WebAssembly runtime and
+            browser extension model. The full release notes, tutorials, and
+            installation paths will arrive with the release; this site is the
+            live preview surface.
+          </p>
+        </section>
+        <aside class="mark" aria-hidden="true">
+          <img src="./assets/brand/mark.svg" alt="" />
+        </aside>
+      </header>
+
+      <section class="notice">
+        <p>
+          One shared Rasa Wasm engine is served from this site and loaded by
+          each demo. The demos are browser-only; no server computes language
+          data.
+        </p>
+        <div class="status-row">
+          <span class="pill ok">static hosting</span>
+          <span class="pill">shared engine</span>
+          <span class="pill">preview build</span>
+        </div>
+      </section>
+
+      <section class="demos" aria-label="Rasa demos">
+        <a class="demo-card" href="./browser-inspection/">
+          <div>
+            <span>Demo 1</span>
+            <h2>Browser inspection workbench</h2>
+          </div>
+          <p>
+            Inspect Rasa reader, analysis, facts, plan evidence, diagnostics,
+            and runtime data from the browser-targeted Wasm artifact.
+          </p>
+          <div class="card-footer">
+            <strong>Language artifact preview</strong>
+            <span class="arrow" aria-hidden="true">-&gt;</span>
+          </div>
+        </a>
+
+        <a class="demo-card" href="./model-architecture-explorer/">
+          <div>
+            <span>Demo 2</span>
+            <h2>Model architecture explorer</h2>
+          </div>
+          <p>
+            Load small TensorFlow.js models through explicit Rasa forms, then
+            inspect layer graphs, model handles, parameter counts, and weight
+            aggregates in-browser.
+          </p>
+          <div class="card-footer">
+            <strong>Extension capability preview</strong>
+            <span class="arrow" aria-hidden="true">-&gt;</span>
+          </div>
+        </a>
+      </section>
+
+      <footer>
+        Rasa is a Clojure-family language/runtime built around structured phase
+        data, explicit host capabilities, and WebAssembly distribution.
+      </footer>
     </main>
-    <script type="module" src="./app.js"></script>
   </body>
 </html>

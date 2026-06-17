@@ -9,7 +9,7 @@
   },
   {
     "label": "Example 3",
-    "source": "(def user ^map {:name ^string \"Rasa\" :score ^i64 42})\n\n(assoc user :level :preview)"
+    "source": "(def user ^map {:name ^string \"Rasa\" :score ^i64 42})\n\n(assoc user :level :demo)"
   },
   {
     "label": "Example 4",

@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" href="./assets/brand/mark.svg" type="image/svg+xml" />
-    <title>Rasa Preview Article Embed</title>
+    <title>Rasa Browser Demo Article Embed</title>
     <style>
       :root {
         color-scheme: dark;
@@ -49,10 +49,10 @@
         This embedded evaluator loads the browser-targeted Rasa Wasm artifact
         and runs locally. The page is static; no server computes language data.
       </p>
-      <rasa-preview-evaluator
-        engine-url="./engine.wasm"
+      <rasa-browser-inspection-workbench
+        engine-url="../assets/engine.wasm"
         mode="article"
-      ></rasa-preview-evaluator>
+      ></rasa-browser-inspection-workbench>
     </article>
     <script type="module" src="./app.js"></script>
   </body>

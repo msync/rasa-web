@@ -1,8 +1,8 @@
 {
-  "schema": "rasa.preview.static.v1",
-  "name": "Rasa Browser Preview",
+  "schema": "rasa.browser-demo.static.v1",
+  "name": "Rasa Browser Demo",
   "mode": "static-browser-wasm",
-  "engine": "./engine.wasm",
+  "engine": "../assets/engine.wasm",
   "brand": {
     "logo": "./assets/brand/logo.svg",
     "mark": "./assets/brand/mark.svg"

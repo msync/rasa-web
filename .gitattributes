@@ -1,0 +1,4 @@
+browser-inspection/app.js -whitespace
+browser-inspection/assets/brand/*.svg -whitespace
+model-architecture-explorer/assets/*.js -whitespace
+model-architecture-explorer/assets/brand/*.svg -whitespace
