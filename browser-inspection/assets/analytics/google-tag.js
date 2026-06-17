@@ -1,9 +1,10 @@
 const GOOGLE_TAG_ID = "G-0Q8CVSMVGS";
 
 window.dataLayer = window.dataLayer || [];
-window.gtag = function gtag() {
+function gtag() {
   window.dataLayer.push(arguments);
-};
+}
+window.gtag = window.gtag || gtag;
 
 const script = document.createElement("script");
 script.async = true;
