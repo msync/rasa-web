@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="./assets/brand/mark.svg" type="image/svg+xml" />
+    <title>Rasa Preview Article Embed</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        background: #0d0f12;
+        color: #e8edf2;
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: #0d0f12;
+      }
+
+      article {
+        box-sizing: border-box;
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 32px 20px;
+      }
+
+      h1 {
+        margin: 0 0 8px;
+        font-size: 32px;
+        line-height: 1.12;
+      }
+
+      p {
+        max-width: 760px;
+        margin: 0 0 24px;
+        color: #a7b1bd;
+        line-height: 1.6;
+      }
+    </style>
+  </head>
+  <body>
+    <article>
+      <h1>Rasa in the browser</h1>
+      <p>
+        This embedded evaluator loads the browser-targeted Rasa Wasm artifact
+        and runs locally. The page is static; no server computes language data.
+      </p>
+      <rasa-preview-evaluator
+        engine-url="./engine.wasm"
+        mode="article"
+      ></rasa-preview-evaluator>
+    </article>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
