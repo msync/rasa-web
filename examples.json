@@ -1,0 +1,22 @@
+[
+  {
+    "label": "Example 1",
+    "source": "(def scores ^vector [^i64 12 ^i64 25 ^i64 40])\n\n(count scores)"
+  },
+  {
+    "label": "Example 2",
+    "source": "{:sum (+ ^i64 1 ^i64 2 ^i64 3)\n :max (max ^i64 5 ^i64 2 ^i64 9)\n :ready true}"
+  },
+  {
+    "label": "Example 3",
+    "source": "(def user ^map {:name ^string \"Rasa\" :score ^i64 42})\n\n(assoc user :level :preview)"
+  },
+  {
+    "label": "Example 4",
+    "source": "(def inc-score (fn ^i64 [^i64 score] (inc score)))\n\n(inc-score 41)"
+  },
+  {
+    "label": "Example 5",
+    "source": "(let [scores ^vector [^i64 12 ^i64 25 ^i64 40]\n      boosted (map inc scores)]\n  {:count (count boosted)\n   :total (reduce + 0 boosted)\n   :kept (filter pos? boosted)})"
+  }
+]

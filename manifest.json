@@ -1,0 +1,12 @@
+{
+  "schema": "rasa.preview.static.v1",
+  "name": "Rasa Browser Preview",
+  "mode": "static-browser-wasm",
+  "engine": "./engine.wasm",
+  "brand": {
+    "logo": "./assets/brand/logo.svg",
+    "mark": "./assets/brand/mark.svg"
+  },
+  "pages": ["./index.html", "./article.html"],
+  "examples": "./examples.json"
+}
