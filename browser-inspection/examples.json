@@ -1,22 +1,22 @@
 [
   {
     "label": "Example 1",
-    "source": "(def scores ^vector [^i64 12 ^i64 25 ^i64 40])\n\n(count scores)"
+    "source": "(def scores ^vector [^i64 12 ^i64 25 ^i64 40])\n\n{:count (count scores)\n :first (nth scores 0)\n :total (reduce + 0 scores)}"
   },
   {
     "label": "Example 2",
-    "source": "{:sum (+ ^i64 1 ^i64 2 ^i64 3)\n :max (max ^i64 5 ^i64 2 ^i64 9)\n :ready true}"
+    "source": "(def sample ^map {:lane :browser :status :ready :score ^i64 9})\n\n{:status (:status sample)\n :score (:score sample)\n :passed (< ^i64 5 (:score sample))}"
   },
   {
     "label": "Example 3",
-    "source": "(def user ^map {:name ^string \"Rasa\" :score ^i64 42})\n\n(assoc user :level :demo)"
+    "source": "(def orders\n  [{:id ^i64 1 :kind :book :qty ^i64 2 :unit ^i64 30}\n   {:id ^i64 2 :kind :tool :qty ^i64 1 :unit ^i64 70}\n   {:id ^i64 3 :kind :book :qty ^i64 3 :unit ^i64 30}\n   {:id ^i64 4 :kind :demo :qty ^i64 1 :unit ^i64 0}])\n\n(def billable #{:book :tool})\n\n(def enriched\n  (map\n    (fn [order]\n      (let [total (* (:qty order) (:unit order))]\n        (assoc\n          (assoc order :total total)\n          :billable (some? (billable (:kind order))))))\n    orders))\n\n{:billable-kinds (into [] (map :kind (filter :billable enriched)))\n :billable-total (reduce + 0 (map :total (filter :billable enriched)))\n :by-id (zipmap (map :id enriched) enriched)}"
   },
   {
     "label": "Example 4",
-    "source": "(def inc-score (fn ^i64 [^i64 score] (inc score)))\n\n(inc-score 41)"
+    "source": "(def readings\n  (map\n    (fn [tick]\n      {:tick tick :load (+ ^i64 20 (* tick ^i64 5))})\n    (range)))\n\n(def warm\n  (drop-while\n    (fn [reading] (< (:load reading) ^i64 45))\n    readings))\n\n(def steady\n  (take-while\n    (fn [reading] (< (:load reading) ^i64 80))\n    warm))\n\n(def alerts\n  (remove\n    (fn [reading] (< (:load reading) ^i64 60))\n    steady))\n\n{:warmup-start (first warm)\n :steady-window (into [] steady)\n :alert-loads (into [] (map :load alerts))\n :tick->load (zipmap (map :tick alerts) (map :load alerts))}"
   },
   {
     "label": "Example 5",
-    "source": "(let [scores ^vector [^i64 12 ^i64 25 ^i64 40]\n      boosted (map inc scores)]\n  {:count (count boosted)\n   :total (reduce + 0 boosted)\n   :kept (filter pos? boosted)})"
+    "source": "(def events\n  (mapcat\n    (fn [batch]\n      [{:batch batch :id (+ (* batch ^i64 10) ^i64 1) :kind :edge :cost (+ batch ^i64 5)}\n       {:batch batch :id (+ (* batch ^i64 10) ^i64 2) :kind :core :cost (+ batch ^i64 20)}\n       {:batch batch :id (+ (* batch ^i64 10) ^i64 3) :kind :drop :cost ^i64 0}])\n    (range ^i64 1 ^i64 5)))\n\n(def shaped\n  (keep\n    (fn [event]\n      (if (= :drop (:kind event))\n        nil\n        (assoc event :weight (+ (:cost event) (:batch event)))))\n    events))\n\n(def window\n  (take\n    ^i64 5\n    (filter\n      (fn [event] (#{:edge :core} (:kind event)))\n      shaped)))\n\n(def by-id (zipmap (map :id window) window))\n\n{:window (into [] window)\n :heavy (into [] (drop-while (fn [event] (< (:weight event) ^i64 24)) window))\n :lookup (by-id ^i64 32)\n :max-weight (reduce max ^i64 0 (map :weight window))\n :ids (into [] (map :id window))}"
   }
 ]
