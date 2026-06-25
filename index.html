@@ -5,11 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" href="./assets/brand/mark.svg" type="image/svg+xml" />
     <script defer src="./assets/analytics/google-tag.js"></script>
-    <title>Rasa Preview Demos</title>
+    <title>Rasa Web Preview</title>
     <style>
       :root {
         color-scheme: dark;
         --surface: #0d0f12;
+        --surface-lift: #111720;
         --panel: #12161c;
         --panel-raised: #151a22;
         --line: #29313d;
@@ -27,6 +28,22 @@
         color: var(--text);
       }
 
+      :root[data-rasa-theme="light"] {
+        color-scheme: light;
+        --surface: #f7f8f5;
+        --surface-lift: #ffffff;
+        --panel: #ffffff;
+        --panel-raised: #fbfcfa;
+        --line: #d8ddd5;
+        --line-strong: #b8c0b4;
+        --text: #17201a;
+        --muted: #5d6a62;
+        --gold: #8a6418;
+        --blue: #315fa8;
+        --green: #24704a;
+        --violet: #6d4bab;
+      }
+
       * {
         box-sizing: border-box;
       }
@@ -35,9 +52,9 @@
         margin: 0;
         min-height: 100vh;
         background:
-          linear-gradient(90deg, rgba(41, 49, 61, 0.42) 1px, transparent 1px),
-          linear-gradient(180deg, rgba(41, 49, 61, 0.28) 1px, transparent 1px),
-          linear-gradient(180deg, #111720 0%, #0d0f12 54%, #090b0e 100%);
+          linear-gradient(90deg, color-mix(in srgb, var(--line) 42%, transparent) 1px, transparent 1px),
+          linear-gradient(180deg, color-mix(in srgb, var(--line) 28%, transparent) 1px, transparent 1px),
+          linear-gradient(180deg, var(--surface-lift) 0%, var(--surface) 54%, var(--surface) 100%);
         background-size: 48px 48px, 48px 48px, auto;
       }
 
@@ -52,8 +69,8 @@
 
       header,
       .notice,
-      .demo-card {
-        background: rgba(18, 22, 28, 0.94);
+      .section-card {
+        background: color-mix(in srgb, var(--panel) 94%, transparent);
         border: 1px solid var(--line);
         border-radius: 8px;
       }
@@ -80,7 +97,7 @@
 
       .eyebrow,
       .kicker,
-      .demo-card span {
+      .section-card span {
         color: var(--gold);
         display: block;
         font-size: 12px;
@@ -155,17 +172,30 @@
       }
 
       .pill.ok {
-        border-color: rgba(131, 215, 170, 0.46);
+        border-color: color-mix(in srgb, var(--green) 46%, var(--line));
         color: var(--green);
       }
 
-      .demos {
-        display: grid;
-        gap: 18px;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+      .theme-toggle {
+        background: var(--panel-raised);
+        border: 1px solid var(--line-strong);
+        border-radius: 999px;
+        color: var(--text);
+        cursor: pointer;
+        font: inherit;
+        font-size: 12px;
+        font-weight: 780;
+        min-height: 34px;
+        padding: 0 12px;
       }
 
-      .demo-card {
+      .sections {
+        display: grid;
+        gap: 18px;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .section-card {
         color: inherit;
         display: grid;
         gap: 18px;
@@ -176,7 +206,7 @@
         text-decoration: none;
       }
 
-      .demo-card::before {
+      .section-card::before {
         background: linear-gradient(90deg, var(--gold), var(--blue), var(--green));
         content: "";
         height: 3px;
@@ -186,13 +216,13 @@
         top: 0;
       }
 
-      .demo-card h2 {
+      .section-card h2 {
         font-size: 30px;
         line-height: 1.08;
         margin-top: 8px;
       }
 
-      .demo-card p {
+      .section-card p {
         color: var(--muted);
         line-height: 1.55;
         max-width: 560px;
@@ -245,7 +275,7 @@
           flex-direction: column;
         }
 
-        .demos {
+        .sections {
           grid-template-columns: 1fr;
         }
       }
@@ -276,21 +306,22 @@
 
       <section class="notice">
         <p>
-          One shared Rasa Wasm engine is served from this site and loaded by
-          each demo. The demos are browser-only; no server computes language
-          data.
+          One shared Rasa Wasm engine is served from this site and reused by
+          each browser section. The pages are static; no server computes
+          language data.
         </p>
         <div class="status-row">
           <span class="pill ok">static hosting</span>
           <span class="pill">shared engine</span>
           <span class="pill">preview build</span>
+          <button class="theme-toggle" type="button" data-theme-toggle>Light</button>
         </div>
       </section>
 
-      <section class="demos" aria-label="Rasa demos">
-        <a class="demo-card" href="./browser-inspection/">
+      <section class="sections" aria-label="Rasa website sections">
+        <a class="section-card" href="./browser-inspection/">
           <div>
-            <span>Demo 1</span>
+            <span>Inspect</span>
             <h2>Browser inspection workbench</h2>
           </div>
           <p>
@@ -303,9 +334,9 @@
           </div>
         </a>
 
-        <a class="demo-card" href="./model-architecture-explorer/">
+        <a class="section-card" href="./model-architecture-explorer/">
           <div>
-            <span>Demo 2</span>
+            <span>Model</span>
             <h2>Model architecture explorer</h2>
           </div>
           <p>
@@ -318,6 +349,21 @@
             <span class="arrow" aria-hidden="true">-&gt;</span>
           </div>
         </a>
+
+        <a class="section-card" href="./conformance-report/">
+          <div>
+            <span>Report</span>
+            <h2>Conformance report</h2>
+          </div>
+          <p>
+            Browse supported Clojure core forms, deferred functions, pass/fail
+            counts, drill-down test cases, and a shared in-browser Rasa REPL.
+          </p>
+          <div class="card-footer">
+            <strong>Compatibility evidence</strong>
+            <span class="arrow" aria-hidden="true">-&gt;</span>
+          </div>
+        </a>
       </section>
 
       <footer>
@@ -325,5 +371,24 @@
         data, explicit host capabilities, and WebAssembly distribution.
       </footer>
     </main>
+    <script>
+      const storageKey = "rasa.theme";
+      const root = document.documentElement;
+      const button = document.querySelector("[data-theme-toggle]");
+      const saved = localStorage.getItem(storageKey);
+      const preferred = saved === "light" || saved === "dark"
+        ? saved
+        : matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+      setTheme(preferred);
+      button.addEventListener("click", () => {
+        setTheme(root.dataset.rasaTheme === "light" ? "dark" : "light");
+      });
+      function setTheme(theme) {
+        root.dataset.rasaTheme = theme;
+        root.dataset.theme = theme;
+        localStorage.setItem(storageKey, theme);
+        button.textContent = theme === "light" ? "Dark" : "Light";
+      }
+    </script>
   </body>
 </html>

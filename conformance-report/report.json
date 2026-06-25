@@ -1,0 +1,5150 @@
+{
+  "schema": "rasa.conformance.web-report.v1",
+  "suite": {
+    "schema": "rasa.conformance.suite.v1",
+    "id": "clojure-core-portable",
+    "title": "Portable clojure.core surface",
+    "description": "Pure, portable clojure.core candidates projected from Rasa compatibility inventory, source-visible core facade data, and native pure-core registry.",
+    "source": {
+      "language": "Clojure",
+      "version": "1.12.5",
+      "inputs": [
+        "compat/generated/namespaces/clojure.core",
+        "lib/rasa/core.ras",
+        "crates/rasa-eval/src/native/mod.rs",
+        "web/conformance/cases/clojure-core-portable.json",
+        "web/conformance/projection/deferred-core.json",
+        "web/conformance/projection/excluded-core.json"
+      ]
+    },
+    "policy": {
+      "support": "portable-core",
+      "excludeHostDependent": true,
+      "excludeEffectful": true
+    },
+    "functions": [
+      {
+        "name": "-",
+        "kind": "function",
+        "arglists": [
+          "(- x)",
+          "(- x y)",
+          "(- x y & more)"
+        ],
+        "classification": "IntentionalDivergence",
+        "status": "implemented-alpha",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/-",
+        "notes": [
+          "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+          "Alpha numeric semantics cover checked i64 and finite f64; full Clojure numeric tower parity is deferred."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/s-x2d.ras"
+        ],
+        "summary": "Returns x negated, or the difference of nums.",
+        "caseIds": [
+          "core/minus/variadic"
+        ]
+      },
+      {
+        "name": "->",
+        "kind": "macro",
+        "arglists": [
+          "(-> x)",
+          "(-> x form)"
+        ],
+        "classification": "PortableEquivalent",
+        "status": "implemented-alpha",
+        "sequencePolicy": "none",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/-%3E",
+        "notes": [],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/macro/s-x2d-x3e.ras"
+        ],
+        "summary": "-> projected as PortableEquivalent with status implemented-alpha.",
+        "caseIds": [
+          "core/arrow/thread-first"
+        ]
+      },
+      {
+        "name": "*",
+        "kind": "function",
+        "arglists": [
+          "(*)",
+          "(* x)",
+          "(* x y)",
+          "(* x y & more)"
+        ],
+        "classification": "IntentionalDivergence",
+        "status": "implemented-alpha",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/*",
+        "notes": [
+          "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+          "Alpha numeric semantics cover checked i64 and finite f64; full Clojure numeric tower parity is deferred."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/s-x2a.ras"
+        ],
+        "summary": "Returns the product of nums.",
+        "caseIds": [
+          "core/multiply/integers"
+        ]
+      },
+      {
+        "name": "+",
+        "kind": "function",
+        "arglists": [
+          "(+)",
+          "(+ x)",
+          "(+ x y)",
+          "(+ x y & more)"
+        ],
+        "classification": "IntentionalDivergence",
+        "status": "implemented-alpha",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/+",
+        "notes": [
+          "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+          "Alpha numeric semantics cover checked i64 and finite f64; full Clojure numeric tower parity is deferred."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/s-x2b.ras"
+        ],
+        "summary": "Returns the sum of nums.",
+        "caseIds": [
+          "core/plus/integers"
+        ]
+      },
+      {
+        "name": "<",
+        "kind": "function",
+        "arglists": [
+          "(< x y)",
+          "(< x y & more)"
+        ],
+        "classification": "IntentionalDivergence",
+        "status": "implemented-alpha",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/%3C",
+        "notes": [
+          "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+          "Alpha numeric semantics cover checked i64 and finite f64; full Clojure numeric tower parity is deferred."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/s-x3c.ras"
+        ],
+        "summary": "Returns true when nums are strictly increasing.",
+        "caseIds": [
+          "core/compare/ordered"
+        ]
+      },
+      {
+        "name": "<=",
+        "kind": "function",
+        "arglists": [
+          "(<= x y)",
+          "(<= x y & more)"
+        ],
+        "classification": "IntentionalDivergence",
+        "status": "implemented-alpha",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/%3C=",
+        "notes": [
+          "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+          "Alpha numeric semantics cover checked i64 and finite f64; full Clojure numeric tower parity is deferred."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/s-x3c-x3d.ras"
+        ],
+        "summary": "Returns true when nums are non-decreasing.",
+        "caseIds": [
+          "core/compare/non-decreasing"
+        ]
+      },
+      {
+        "name": "=",
+        "kind": "function",
+        "arglists": [
+          "(=)",
+          "(= x)",
+          "(= x y)",
+          "(= x y & more)"
+        ],
+        "classification": "IntentionalDivergence",
+        "status": "implemented-alpha",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/=",
+        "notes": [
+          "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+          "Alpha public-core semantics cover finite Rasa runtime values; full Clojure edge parity is deferred."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/s-x3d.ras"
+        ],
+        "summary": "Returns true when all supplied values are equal.",
+        "caseIds": [
+          "core/equality/sequential",
+          "core/equality/numeric-tower-gap"
+        ]
+      },
+      {
+        "name": ">",
+        "kind": "function",
+        "arglists": [
+          "(> x y)",
+          "(> x y & more)"
+        ],
+        "classification": "IntentionalDivergence",
+        "status": "implemented-alpha",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/%3E",
+        "notes": [
+          "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+          "Alpha numeric semantics cover checked i64 and finite f64; full Clojure numeric tower parity is deferred."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/s-x3e.ras"
+        ],
+        "summary": "Returns true when nums are strictly decreasing.",
+        "caseIds": [
+          "core/compare/greater"
+        ]
+      },
+      {
+        "name": ">=",
+        "kind": "function",
+        "arglists": [
+          "(>= x y)",
+          "(>= x y & more)"
+        ],
+        "classification": "IntentionalDivergence",
+        "status": "implemented-alpha",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/%3E=",
+        "notes": [
+          "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+          "Alpha numeric semantics cover checked i64 and finite f64; full Clojure numeric tower parity is deferred."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/s-x3e-x3d.ras"
+        ],
+        "summary": "Returns true when nums are non-increasing.",
+        "caseIds": [
+          "core/compare/non-increasing"
+        ]
+      },
+      {
+        "name": "apply",
+        "kind": "function",
+        "arglists": [
+          "(apply ...)"
+        ],
+        "classification": "PortableEquivalent",
+        "status": "implemented-native",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/apply",
+        "notes": [
+          "Projected from the native pure core registry; compat descriptor is not yet generated."
+        ],
+        "provenance": [
+          "crates/rasa-eval/src/native/mod.rs"
+        ],
+        "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
+        "caseIds": [
+          "core/apply/plus"
+        ]
+      },
+      {
+        "name": "assoc",
+        "kind": "function",
+        "arglists": [
+          "(assoc ...)"
+        ],
+        "classification": "PortableEquivalent",
+        "status": "implemented-native",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/assoc",
+        "notes": [
+          "Projected from the native pure core registry; compat descriptor is not yet generated."
+        ],
+        "provenance": [
+          "crates/rasa-eval/src/native/mod.rs"
+        ],
+        "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
+        "caseIds": [
+          "core/assoc/map"
+        ]
+      },
+      {
+        "name": "boolean?",
+        "kind": "function",
+        "arglists": [
+          "(boolean? x)"
+        ],
+        "classification": "IntentionalDivergence",
+        "status": "implemented-alpha",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/boolean?",
+        "notes": [
+          "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+          "Alpha public-core semantics cover finite Rasa runtime values; full Clojure edge parity is deferred."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/boolean-x3f.ras"
+        ],
+        "summary": "Returns true when x is a boolean.",
+        "caseIds": [
+          "core/predicates/scalars"
+        ]
+      },
+      {
+        "name": "char?",
+        "kind": "function",
+        "arglists": [
+          "(char? x)"
+        ],
+        "classification": "IntentionalDivergence",
+        "status": "implemented-alpha",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/char?",
+        "notes": [
+          "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+          "Alpha public-core semantics cover finite Rasa runtime values; full Clojure edge parity is deferred."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/char-x3f.ras"
+        ],
+        "summary": "Returns true when x is a character.",
+        "caseIds": []
+      },
+      {
+        "name": "coll?",
+        "kind": "function",
+        "arglists": [
+          "(coll? x)"
+        ],
+        "classification": "IntentionalDivergence",
+        "status": "implemented-alpha",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/coll?",
+        "notes": [
+          "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+          "Alpha public-core semantics cover finite Rasa runtime values; full Clojure edge parity is deferred."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/coll-x3f.ras"
+        ],
+        "summary": "Returns true when x is a concrete collection, finite seq, or admitted lazy seq.",
+        "caseIds": [
+          "core/predicates/collections"
+        ]
+      },
+      {
+        "name": "concat",
+        "kind": "function",
+        "arglists": [
+          "(concat ...)"
+        ],
+        "classification": "PortableEquivalent",
+        "status": "implemented-native",
+        "sequencePolicy": "eager-finite",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/concat",
+        "notes": [
+          "Projected from the native pure core registry; compat descriptor is not yet generated."
+        ],
+        "provenance": [
+          "crates/rasa-eval/src/native/mod.rs"
+        ],
+        "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
+        "caseIds": []
+      },
+      {
+        "name": "conj",
+        "kind": "function",
+        "arglists": [
+          "(conj ...)"
+        ],
+        "classification": "PortableEquivalent",
+        "status": "implemented-native",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/conj",
+        "notes": [
+          "Projected from the native pure core registry; compat descriptor is not yet generated."
+        ],
+        "provenance": [
+          "crates/rasa-eval/src/native/mod.rs"
+        ],
+        "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
+        "caseIds": [
+          "core/conj/vector"
+        ]
+      },
+      {
+        "name": "cons",
+        "kind": "function",
+        "arglists": [
+          "(cons x coll)"
+        ],
+        "classification": "IntentionalDivergence",
+        "status": "implemented-eager",
+        "sequencePolicy": "eager-finite",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/cons",
+        "notes": [
+          "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+          "Rasa sequence operations are finite eager in alpha; Clojure LazySeq parity is deferred."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/cons.ras"
+        ],
+        "summary": "Returns a finite eager seq with x prepended to the finite seqable value.",
+        "caseIds": [
+          "core/cons/vector"
+        ]
+      },
+      {
+        "name": "contains?",
+        "kind": "function",
+        "arglists": [
+          "(contains? target key)"
+        ],
+        "classification": "IntentionalDivergence",
+        "status": "implemented-alpha",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/contains?",
+        "notes": [
+          "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+          "Alpha public-core semantics cover finite Rasa runtime values; full Clojure edge parity is deferred."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/contains-x3f.ras"
+        ],
+        "summary": "Returns whether a map has a key, vector has an index, or set has a member.",
+        "caseIds": [
+          "core/contains/vector"
+        ]
+      },
+      {
+        "name": "count",
+        "kind": "function",
+        "arglists": [
+          "(count x)"
+        ],
+        "classification": "IntentionalDivergence",
+        "status": "implemented-alpha",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/count",
+        "notes": [
+          "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+          "Alpha public-core semantics cover finite Rasa runtime values; full Clojure edge parity is deferred."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/count.ras"
+        ],
+        "summary": "Returns the item count for nil, strings, concrete collections, and safely finite lazy seqs.",
+        "caseIds": [
+          "core/count/vector"
+        ]
+      },
+      {
+        "name": "dec",
+        "kind": "function",
+        "arglists": [
+          "(dec x)"
+        ],
+        "classification": "IntentionalDivergence",
+        "status": "implemented-alpha",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/dec",
+        "notes": [
+          "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+          "Alpha numeric semantics cover checked i64 and finite f64; full Clojure numeric tower parity is deferred."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/dec.ras"
+        ],
+        "summary": "Returns x minus one.",
+        "caseIds": [
+          "core/dec/basic"
+        ]
+      },
+      {
+        "name": "defn",
+        "kind": "macro",
+        "arglists": [],
+        "classification": "PortableEquivalent",
+        "status": "implemented-alpha",
+        "sequencePolicy": "none",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/defn",
+        "notes": [],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/macro/defn.ras"
+        ],
+        "summary": "defn projected as PortableEquivalent with status implemented-alpha.",
+        "caseIds": [
+          "core/defn/basic"
+        ]
+      },
+      {
+        "name": "dissoc",
+        "kind": "function",
+        "arglists": [
+          "(dissoc ...)"
+        ],
+        "classification": "PortableEquivalent",
+        "status": "implemented-native",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/dissoc",
+        "notes": [
+          "Projected from the native pure core registry; compat descriptor is not yet generated."
+        ],
+        "provenance": [
+          "crates/rasa-eval/src/native/mod.rs"
+        ],
+        "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
+        "caseIds": [
+          "core/dissoc/map"
+        ]
+      },
+      {
+        "name": "drop",
+        "kind": "function",
+        "arglists": [
+          "(drop ...)"
+        ],
+        "classification": "PortableEquivalent",
+        "status": "implemented-native",
+        "sequencePolicy": "eager-finite",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/drop",
+        "notes": [
+          "Projected from the native pure core registry; compat descriptor is not yet generated."
+        ],
+        "provenance": [
+          "crates/rasa-eval/src/native/mod.rs"
+        ],
+        "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
+        "caseIds": []
+      },
+      {
+        "name": "drop-while",
+        "kind": "function",
+        "arglists": [
+          "(drop-while ...)"
+        ],
+        "classification": "PortableEquivalent",
+        "status": "implemented-native",
+        "sequencePolicy": "eager-finite",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/drop-while",
+        "notes": [
+          "Projected from the native pure core registry; compat descriptor is not yet generated."
+        ],
+        "provenance": [
+          "crates/rasa-eval/src/native/mod.rs"
+        ],
+        "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
+        "caseIds": []
+      },
+      {
+        "name": "empty?",
+        "kind": "function",
+        "arglists": [
+          "(empty? x)"
+        ],
+        "classification": "IntentionalDivergence",
+        "status": "implemented-alpha",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/empty?",
+        "notes": [
+          "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+          "Alpha public-core semantics cover finite Rasa runtime values; full Clojure edge parity is deferred."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/empty-x3f.ras"
+        ],
+        "summary": "Returns true when nil, a string, a concrete collection, or an admitted lazy seq has no items.",
+        "caseIds": [
+          "core/empty/nil"
+        ]
+      },
+      {
+        "name": "false?",
+        "kind": "function",
+        "arglists": [
+          "(false? x)"
+        ],
+        "classification": "IntentionalDivergence",
+        "status": "implemented-alpha",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/false?",
+        "notes": [
+          "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+          "Alpha public-core semantics cover finite Rasa runtime values; full Clojure edge parity is deferred."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/false-x3f.ras"
+        ],
+        "summary": "Returns true when x is false.",
+        "caseIds": []
+      },
+      {
+        "name": "filter",
+        "kind": "function",
+        "arglists": [
+          "(filter ...)"
+        ],
+        "classification": "PortableEquivalent",
+        "status": "implemented-native",
+        "sequencePolicy": "eager-finite",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/filter",
+        "notes": [
+          "Projected from the native pure core registry; compat descriptor is not yet generated."
+        ],
+        "provenance": [
+          "crates/rasa-eval/src/native/mod.rs"
+        ],
+        "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
+        "caseIds": [
+          "core/filter/vector"
+        ]
+      },
+      {
+        "name": "find",
+        "kind": "function",
+        "arglists": [
+          "(find map key)"
+        ],
+        "classification": "IntentionalDivergence",
+        "status": "implemented-alpha",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/find",
+        "notes": [
+          "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+          "Alpha public-core semantics cover finite Rasa runtime values; full Clojure edge parity is deferred."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/find.ras"
+        ],
+        "summary": "Returns a two-item vector of the canonical key and value when a map contains key, otherwise nil.",
+        "caseIds": [
+          "core/find/present-nil"
+        ]
+      },
+      {
+        "name": "first",
+        "kind": "function",
+        "arglists": [
+          "(first coll)"
+        ],
+        "classification": "IntentionalDivergence",
+        "status": "implemented-eager",
+        "sequencePolicy": "eager-finite",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/first",
+        "notes": [
+          "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+          "Rasa sequence operations are finite eager in alpha; Clojure LazySeq parity is deferred."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/first.ras"
+        ],
+        "summary": "Returns the first item of a seqable value, or nil when none exists.",
+        "caseIds": [
+          "core/first/vector"
+        ]
+      },
+      {
+        "name": "fn?",
+        "kind": "function",
+        "arglists": [
+          "(fn? x)"
+        ],
+        "classification": "IntentionalDivergence",
+        "status": "implemented-alpha",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/fn?",
+        "notes": [
+          "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+          "Alpha public-core semantics cover finite Rasa runtime values; full Clojure edge parity is deferred."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/fn-x3f.ras"
+        ],
+        "summary": "Returns true when x is a function or native function value.",
+        "caseIds": []
+      },
+      {
+        "name": "get",
+        "kind": "function",
+        "arglists": [
+          "(get target key)",
+          "(get target key default)"
+        ],
+        "classification": "IntentionalDivergence",
+        "status": "implemented-alpha",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/get",
+        "notes": [
+          "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+          "Alpha public-core semantics cover finite Rasa runtime values; full Clojure edge parity is deferred."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/get.ras"
+        ],
+        "summary": "Looks up a map key, vector index, or set member and returns nil or the supplied default when absent.",
+        "caseIds": [
+          "core/get/default"
+        ]
+      },
+      {
+        "name": "hash-map",
+        "kind": "function",
+        "arglists": [
+          "(hash-map ...)"
+        ],
+        "classification": "PortableEquivalent",
+        "status": "implemented-native",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/hash-map",
+        "notes": [
+          "Projected from the native pure core registry; compat descriptor is not yet generated."
+        ],
+        "provenance": [
+          "crates/rasa-eval/src/native/mod.rs"
+        ],
+        "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
+        "caseIds": []
+      },
+      {
+        "name": "hash-set",
+        "kind": "function",
+        "arglists": [
+          "(hash-set ...)"
+        ],
+        "classification": "PortableEquivalent",
+        "status": "implemented-native",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/hash-set",
+        "notes": [
+          "Projected from the native pure core registry; compat descriptor is not yet generated."
+        ],
+        "provenance": [
+          "crates/rasa-eval/src/native/mod.rs"
+        ],
+        "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
+        "caseIds": []
+      },
+      {
+        "name": "inc",
+        "kind": "function",
+        "arglists": [
+          "(inc x)"
+        ],
+        "classification": "IntentionalDivergence",
+        "status": "implemented-alpha",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/inc",
+        "notes": [
+          "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+          "Alpha numeric semantics cover checked i64 and finite f64; full Clojure numeric tower parity is deferred."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/inc.ras"
+        ],
+        "summary": "Returns x plus one.",
+        "caseIds": [
+          "core/inc/basic"
+        ]
+      },
+      {
+        "name": "integer?",
+        "kind": "function",
+        "arglists": [
+          "(integer? x)"
+        ],
+        "classification": "IntentionalDivergence",
+        "status": "implemented-alpha",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/integer?",
+        "notes": [
+          "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+          "Alpha public-core semantics cover finite Rasa runtime values; full Clojure edge parity is deferred."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/integer-x3f.ras"
+        ],
+        "summary": "Returns true when x is an integer.",
+        "caseIds": []
+      },
+      {
+        "name": "into",
+        "kind": "function",
+        "arglists": [
+          "(into ...)"
+        ],
+        "classification": "PortableEquivalent",
+        "status": "implemented-native",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/into",
+        "notes": [
+          "Projected from the native pure core registry; compat descriptor is not yet generated."
+        ],
+        "provenance": [
+          "crates/rasa-eval/src/native/mod.rs"
+        ],
+        "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
+        "caseIds": [
+          "core/into/vector"
+        ]
+      },
+      {
+        "name": "keep",
+        "kind": "function",
+        "arglists": [
+          "(keep ...)"
+        ],
+        "classification": "PortableEquivalent",
+        "status": "implemented-native",
+        "sequencePolicy": "eager-finite",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/keep",
+        "notes": [
+          "Projected from the native pure core registry; compat descriptor is not yet generated."
+        ],
+        "provenance": [
+          "crates/rasa-eval/src/native/mod.rs"
+        ],
+        "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
+        "caseIds": [
+          "core/keep/vector"
+        ]
+      },
+      {
+        "name": "keys",
+        "kind": "function",
+        "arglists": [
+          "(keys map)"
+        ],
+        "classification": "IntentionalDivergence",
+        "status": "implemented-eager",
+        "sequencePolicy": "eager-finite",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/keys",
+        "notes": [
+          "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+          "Rasa sequence operations are finite eager in alpha; Clojure LazySeq parity is deferred."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/keys.ras"
+        ],
+        "summary": "Returns a finite eager seq of map keys, or nil for nil and empty maps.",
+        "caseIds": [
+          "core/keys/map"
+        ]
+      },
+      {
+        "name": "keyword?",
+        "kind": "function",
+        "arglists": [
+          "(keyword? x)"
+        ],
+        "classification": "IntentionalDivergence",
+        "status": "implemented-alpha",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/keyword?",
+        "notes": [
+          "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+          "Alpha public-core semantics cover finite Rasa runtime values; full Clojure edge parity is deferred."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/keyword-x3f.ras"
+        ],
+        "summary": "Returns true when x is a keyword.",
+        "caseIds": []
+      },
+      {
+        "name": "list",
+        "kind": "function",
+        "arglists": [
+          "(list ...)"
+        ],
+        "classification": "PortableEquivalent",
+        "status": "implemented-native",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/list",
+        "notes": [
+          "Projected from the native pure core registry; compat descriptor is not yet generated."
+        ],
+        "provenance": [
+          "crates/rasa-eval/src/native/mod.rs"
+        ],
+        "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
+        "caseIds": []
+      },
+      {
+        "name": "list?",
+        "kind": "function",
+        "arglists": [
+          "(list? x)"
+        ],
+        "classification": "IntentionalDivergence",
+        "status": "implemented-alpha",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/list?",
+        "notes": [
+          "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+          "Alpha public-core semantics cover finite Rasa runtime values; full Clojure edge parity is deferred."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/list-x3f.ras"
+        ],
+        "summary": "Returns true when x is a list.",
+        "caseIds": []
+      },
+      {
+        "name": "map",
+        "kind": "function",
+        "arglists": [
+          "(map f coll)",
+          "(map f c1 c2)",
+          "(map f c1 c2 & colls)"
+        ],
+        "classification": "IntentionalDivergence",
+        "status": "implemented-eager",
+        "sequencePolicy": "eager-finite",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/map",
+        "notes": [
+          "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+          "Rasa sequence operations are finite eager in alpha; Clojure LazySeq parity is deferred."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/map.ras"
+        ],
+        "summary": "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+        "caseIds": [
+          "core/map/vector"
+        ]
+      },
+      {
+        "name": "map?",
+        "kind": "function",
+        "arglists": [
+          "(map? x)"
+        ],
+        "classification": "IntentionalDivergence",
+        "status": "implemented-alpha",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/map?",
+        "notes": [
+          "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+          "Alpha public-core semantics cover finite Rasa runtime values; full Clojure edge parity is deferred."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/map-x3f.ras"
+        ],
+        "summary": "Returns true when x is a map.",
+        "caseIds": []
+      },
+      {
+        "name": "mapcat",
+        "kind": "function",
+        "arglists": [
+          "(mapcat ...)"
+        ],
+        "classification": "PortableEquivalent",
+        "status": "implemented-native",
+        "sequencePolicy": "eager-finite",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/mapcat",
+        "notes": [
+          "Projected from the native pure core registry; compat descriptor is not yet generated."
+        ],
+        "provenance": [
+          "crates/rasa-eval/src/native/mod.rs"
+        ],
+        "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
+        "caseIds": []
+      },
+      {
+        "name": "max",
+        "kind": "function",
+        "arglists": [
+          "(max x)",
+          "(max x y)",
+          "(max x y & more)"
+        ],
+        "classification": "IntentionalDivergence",
+        "status": "implemented-alpha",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/max",
+        "notes": [
+          "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+          "Alpha numeric semantics cover checked i64 and finite f64; full Clojure numeric tower parity is deferred."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/max.ras"
+        ],
+        "summary": "Returns the greatest numeric argument.",
+        "caseIds": [
+          "core/max/basic"
+        ]
+      },
+      {
+        "name": "min",
+        "kind": "function",
+        "arglists": [
+          "(min x)",
+          "(min x y)",
+          "(min x y & more)"
+        ],
+        "classification": "IntentionalDivergence",
+        "status": "implemented-alpha",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/min",
+        "notes": [
+          "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+          "Alpha numeric semantics cover checked i64 and finite f64; full Clojure numeric tower parity is deferred."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/min.ras"
+        ],
+        "summary": "Returns the least numeric argument.",
+        "caseIds": [
+          "core/min/basic"
+        ]
+      },
+      {
+        "name": "neg?",
+        "kind": "function",
+        "arglists": [
+          "(neg? x)"
+        ],
+        "classification": "IntentionalDivergence",
+        "status": "implemented-alpha",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/neg?",
+        "notes": [
+          "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+          "Alpha numeric semantics cover checked i64 and finite f64; full Clojure numeric tower parity is deferred."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/neg-x3f.ras"
+        ],
+        "summary": "Returns true when x is negative.",
+        "caseIds": []
+      },
+      {
+        "name": "next",
+        "kind": "function",
+        "arglists": [
+          "(next coll)"
+        ],
+        "classification": "IntentionalDivergence",
+        "status": "implemented-eager",
+        "sequencePolicy": "eager-finite",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/next",
+        "notes": [
+          "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+          "Rasa sequence operations are finite eager in alpha; Clojure LazySeq parity is deferred."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/next.ras"
+        ],
+        "summary": "Returns the non-empty remainder as a finite seq or lazy view, or nil when no non-empty remainder exists.",
+        "caseIds": [
+          "core/next/singleton"
+        ]
+      },
+      {
+        "name": "nil?",
+        "kind": "function",
+        "arglists": [
+          "(nil? x)"
+        ],
+        "classification": "IntentionalDivergence",
+        "status": "implemented-alpha",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/nil?",
+        "notes": [
+          "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+          "Alpha public-core semantics cover finite Rasa runtime values; full Clojure edge parity is deferred."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/nil-x3f.ras"
+        ],
+        "summary": "Returns true when x is nil.",
+        "caseIds": []
+      },
+      {
+        "name": "not",
+        "kind": "function",
+        "arglists": [
+          "(not x)"
+        ],
+        "classification": "IntentionalDivergence",
+        "status": "implemented-alpha",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/not",
+        "notes": [
+          "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+          "Alpha public-core semantics cover finite Rasa runtime values; full Clojure edge parity is deferred."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/not.ras"
+        ],
+        "summary": "Returns true when x is falsey.",
+        "caseIds": []
+      },
+      {
+        "name": "not=",
+        "kind": "function",
+        "arglists": [
+          "(not=)",
+          "(not= x)",
+          "(not= x y)",
+          "(not= x y & more)"
+        ],
+        "classification": "IntentionalDivergence",
+        "status": "implemented-alpha",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/not=",
+        "notes": [
+          "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+          "Alpha public-core semantics cover finite Rasa runtime values; full Clojure edge parity is deferred."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/not-x3d.ras"
+        ],
+        "summary": "Returns true when supplied values are not all equal.",
+        "caseIds": [
+          "core/equality/not-equal"
+        ]
+      },
+      {
+        "name": "nth",
+        "kind": "function",
+        "arglists": [
+          "(nth coll index)",
+          "(nth coll index default)"
+        ],
+        "classification": "IntentionalDivergence",
+        "status": "implemented-alpha",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/nth",
+        "notes": [
+          "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+          "Alpha public-core semantics cover finite Rasa runtime values; full Clojure edge parity is deferred."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/nth.ras"
+        ],
+        "summary": "Returns the indexed item from a vector, list, finite seq, lazy seq, or string; with a default, returns that value when out of range.",
+        "caseIds": [
+          "core/nth/vector"
+        ]
+      },
+      {
+        "name": "pos?",
+        "kind": "function",
+        "arglists": [
+          "(pos? x)"
+        ],
+        "classification": "IntentionalDivergence",
+        "status": "implemented-alpha",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/pos?",
+        "notes": [
+          "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+          "Alpha numeric semantics cover checked i64 and finite f64; full Clojure numeric tower parity is deferred."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/pos-x3f.ras"
+        ],
+        "summary": "Returns true when x is positive.",
+        "caseIds": []
+      },
+      {
+        "name": "range",
+        "kind": "function",
+        "arglists": [
+          "(range ...)"
+        ],
+        "classification": "PortableEquivalent",
+        "status": "implemented-native",
+        "sequencePolicy": "eager-finite",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/range",
+        "notes": [
+          "Projected from the native pure core registry; compat descriptor is not yet generated."
+        ],
+        "provenance": [
+          "crates/rasa-eval/src/native/mod.rs"
+        ],
+        "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
+        "caseIds": []
+      },
+      {
+        "name": "reduce",
+        "kind": "function",
+        "arglists": [
+          "(reduce ...)"
+        ],
+        "classification": "PortableEquivalent",
+        "status": "implemented-native",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/reduce",
+        "notes": [
+          "Projected from the native pure core registry; compat descriptor is not yet generated."
+        ],
+        "provenance": [
+          "crates/rasa-eval/src/native/mod.rs"
+        ],
+        "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
+        "caseIds": [
+          "core/reduce/sum"
+        ]
+      },
+      {
+        "name": "remove",
+        "kind": "function",
+        "arglists": [
+          "(remove ...)"
+        ],
+        "classification": "PortableEquivalent",
+        "status": "implemented-native",
+        "sequencePolicy": "eager-finite",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/remove",
+        "notes": [
+          "Projected from the native pure core registry; compat descriptor is not yet generated."
+        ],
+        "provenance": [
+          "crates/rasa-eval/src/native/mod.rs"
+        ],
+        "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
+        "caseIds": []
+      },
+      {
+        "name": "rest",
+        "kind": "function",
+        "arglists": [
+          "(rest coll)"
+        ],
+        "classification": "IntentionalDivergence",
+        "status": "implemented-eager",
+        "sequencePolicy": "eager-finite",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/rest",
+        "notes": [
+          "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+          "Rasa sequence operations are finite eager in alpha; Clojure LazySeq parity is deferred."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/rest.ras"
+        ],
+        "summary": "Returns all but the first item as a finite seq or lazy view, or an empty seq when no remaining items exist.",
+        "caseIds": [
+          "core/rest/vector"
+        ]
+      },
+      {
+        "name": "satisfies?",
+        "kind": "function",
+        "arglists": [
+          "(satisfies? ...)"
+        ],
+        "classification": "PortableEquivalent",
+        "status": "implemented-native",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/satisfies%3F",
+        "notes": [
+          "Projected from the native pure core registry; compat descriptor is not yet generated."
+        ],
+        "provenance": [
+          "crates/rasa-eval/src/native/mod.rs"
+        ],
+        "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
+        "caseIds": []
+      },
+      {
+        "name": "seq",
+        "kind": "function",
+        "arglists": [
+          "(seq coll)"
+        ],
+        "classification": "IntentionalDivergence",
+        "status": "implemented-eager",
+        "sequencePolicy": "eager-finite",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/seq",
+        "notes": [
+          "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+          "Rasa sequence operations are finite eager in alpha; Clojure LazySeq parity is deferred."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/seq.ras"
+        ],
+        "summary": "Returns nil for nil or empty seqable values, otherwise returns a finite seq or admitted lazy seq.",
+        "caseIds": [
+          "core/seq/vector"
+        ]
+      },
+      {
+        "name": "set?",
+        "kind": "function",
+        "arglists": [
+          "(set? x)"
+        ],
+        "classification": "IntentionalDivergence",
+        "status": "implemented-alpha",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/set?",
+        "notes": [
+          "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+          "Alpha public-core semantics cover finite Rasa runtime values; full Clojure edge parity is deferred."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/set-x3f.ras"
+        ],
+        "summary": "Returns true when x is a set.",
+        "caseIds": []
+      },
+      {
+        "name": "some?",
+        "kind": "function",
+        "arglists": [
+          "(some? x)"
+        ],
+        "classification": "IntentionalDivergence",
+        "status": "implemented-alpha",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/some?",
+        "notes": [
+          "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+          "Alpha public-core semantics cover finite Rasa runtime values; full Clojure edge parity is deferred."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/some-x3f.ras"
+        ],
+        "summary": "Returns true when x is not nil.",
+        "caseIds": []
+      },
+      {
+        "name": "str",
+        "kind": "function",
+        "arglists": [
+          "(str ...)"
+        ],
+        "classification": "PortableEquivalent",
+        "status": "implemented-native",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/str",
+        "notes": [
+          "Projected from the native pure core registry; compat descriptor is not yet generated."
+        ],
+        "provenance": [
+          "crates/rasa-eval/src/native/mod.rs"
+        ],
+        "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
+        "caseIds": []
+      },
+      {
+        "name": "string?",
+        "kind": "function",
+        "arglists": [
+          "(string? x)"
+        ],
+        "classification": "IntentionalDivergence",
+        "status": "implemented-alpha",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/string?",
+        "notes": [
+          "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+          "Alpha public-core semantics cover finite Rasa runtime values; full Clojure edge parity is deferred."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/string-x3f.ras"
+        ],
+        "summary": "Returns true when x is a string.",
+        "caseIds": []
+      },
+      {
+        "name": "symbol?",
+        "kind": "function",
+        "arglists": [
+          "(symbol? x)"
+        ],
+        "classification": "IntentionalDivergence",
+        "status": "implemented-alpha",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/symbol?",
+        "notes": [
+          "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+          "Alpha public-core semantics cover finite Rasa runtime values; full Clojure edge parity is deferred."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/symbol-x3f.ras"
+        ],
+        "summary": "Returns true when x is a symbol.",
+        "caseIds": []
+      },
+      {
+        "name": "take",
+        "kind": "function",
+        "arglists": [
+          "(take ...)"
+        ],
+        "classification": "PortableEquivalent",
+        "status": "implemented-native",
+        "sequencePolicy": "eager-finite",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/take",
+        "notes": [
+          "Projected from the native pure core registry; compat descriptor is not yet generated."
+        ],
+        "provenance": [
+          "crates/rasa-eval/src/native/mod.rs"
+        ],
+        "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
+        "caseIds": []
+      },
+      {
+        "name": "take-while",
+        "kind": "function",
+        "arglists": [
+          "(take-while ...)"
+        ],
+        "classification": "PortableEquivalent",
+        "status": "implemented-native",
+        "sequencePolicy": "eager-finite",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/take-while",
+        "notes": [
+          "Projected from the native pure core registry; compat descriptor is not yet generated."
+        ],
+        "provenance": [
+          "crates/rasa-eval/src/native/mod.rs"
+        ],
+        "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
+        "caseIds": []
+      },
+      {
+        "name": "true?",
+        "kind": "function",
+        "arglists": [
+          "(true? x)"
+        ],
+        "classification": "IntentionalDivergence",
+        "status": "implemented-alpha",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/true?",
+        "notes": [
+          "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+          "Alpha public-core semantics cover finite Rasa runtime values; full Clojure edge parity is deferred."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/true-x3f.ras"
+        ],
+        "summary": "Returns true when x is true.",
+        "caseIds": []
+      },
+      {
+        "name": "vals",
+        "kind": "function",
+        "arglists": [
+          "(vals map)"
+        ],
+        "classification": "IntentionalDivergence",
+        "status": "implemented-eager",
+        "sequencePolicy": "eager-finite",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/vals",
+        "notes": [
+          "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+          "Rasa sequence operations are finite eager in alpha; Clojure LazySeq parity is deferred."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/vals.ras"
+        ],
+        "summary": "Returns a finite eager seq of map values, or nil for nil and empty maps.",
+        "caseIds": [
+          "core/vals/map"
+        ]
+      },
+      {
+        "name": "vector",
+        "kind": "function",
+        "arglists": [
+          "(vector ...)"
+        ],
+        "classification": "PortableEquivalent",
+        "status": "implemented-native",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/vector",
+        "notes": [
+          "Projected from the native pure core registry; compat descriptor is not yet generated."
+        ],
+        "provenance": [
+          "crates/rasa-eval/src/native/mod.rs"
+        ],
+        "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
+        "caseIds": []
+      },
+      {
+        "name": "vector?",
+        "kind": "function",
+        "arglists": [
+          "(vector? x)"
+        ],
+        "classification": "IntentionalDivergence",
+        "status": "implemented-alpha",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/vector?",
+        "notes": [
+          "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+          "Alpha public-core semantics cover finite Rasa runtime values; full Clojure edge parity is deferred."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/vector-x3f.ras"
+        ],
+        "summary": "Returns true when x is a vector.",
+        "caseIds": []
+      },
+      {
+        "name": "zero?",
+        "kind": "function",
+        "arglists": [
+          "(zero? x)"
+        ],
+        "classification": "IntentionalDivergence",
+        "status": "implemented-alpha",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/zero?",
+        "notes": [
+          "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+          "Alpha numeric semantics cover checked i64 and finite f64; full Clojure numeric tower parity is deferred."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/zero-x3f.ras"
+        ],
+        "summary": "Returns true when x is numeric zero.",
+        "caseIds": []
+      },
+      {
+        "name": "zipmap",
+        "kind": "function",
+        "arglists": [
+          "(zipmap ...)"
+        ],
+        "classification": "PortableEquivalent",
+        "status": "implemented-native",
+        "sequencePolicy": "eager-finite",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/zipmap",
+        "notes": [
+          "Projected from the native pure core registry; compat descriptor is not yet generated."
+        ],
+        "provenance": [
+          "crates/rasa-eval/src/native/mod.rs"
+        ],
+        "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
+        "caseIds": []
+      }
+    ],
+    "deferred": [
+      {
+        "name": "and",
+        "kind": "macro",
+        "classification": "Deferred",
+        "reason": "logical macro expansion surface is planned separately"
+      },
+      {
+        "name": "comp",
+        "kind": "function",
+        "classification": "Deferred",
+        "reason": "higher-order composition needs a stable function value and arity composition contract"
+      },
+      {
+        "name": "complement",
+        "kind": "function",
+        "classification": "Deferred",
+        "reason": "higher-order function wrapper semantics are not yet classified"
+      },
+      {
+        "name": "delay",
+        "kind": "macro",
+        "classification": "Deferred",
+        "reason": "deferred execution requires delayed value identity and forcing semantics"
+      },
+      {
+        "name": "every?",
+        "kind": "function",
+        "classification": "Deferred",
+        "reason": "finite predicate traversal is supportable but not yet projected into the public core surface"
+      },
+      {
+        "name": "force",
+        "kind": "function",
+        "classification": "Deferred",
+        "reason": "depends on delayed value representation"
+      },
+      {
+        "name": "lazy-seq",
+        "kind": "macro",
+        "classification": "Deferred",
+        "reason": "LazySeq object identity, forcing, caching, and realization timing are not yet admitted runtime values"
+      },
+      {
+        "name": "or",
+        "kind": "macro",
+        "classification": "Deferred",
+        "reason": "logical macro expansion surface is planned separately"
+      },
+      {
+        "name": "partial",
+        "kind": "function",
+        "classification": "Deferred",
+        "reason": "partial application needs a portable closure/value contract across runtime and Wasm"
+      },
+      {
+        "name": "reduced",
+        "kind": "function",
+        "classification": "Deferred",
+        "reason": "reduced wrapper value algebra is not yet represented"
+      },
+      {
+        "name": "reduced?",
+        "kind": "function",
+        "classification": "Deferred",
+        "reason": "depends on reduced wrapper value representation"
+      },
+      {
+        "name": "sequence",
+        "kind": "function",
+        "classification": "Deferred",
+        "reason": "depends on lazy sequence and transducer representation"
+      },
+      {
+        "name": "some",
+        "kind": "function",
+        "classification": "Deferred",
+        "reason": "finite predicate traversal is supportable but not yet projected into the public core surface"
+      },
+      {
+        "name": "transduce",
+        "kind": "function",
+        "classification": "Deferred",
+        "reason": "transducer arities and reduced short-circuit semantics are not yet admitted"
+      }
+    ],
+    "excluded": [
+      {
+        "name": "bean",
+        "reason": "JavaBean/JVM interop"
+      },
+      {
+        "name": "class",
+        "reason": "JVM class model"
+      },
+      {
+        "name": "compile",
+        "reason": "JVM compilation artifact"
+      },
+      {
+        "name": "future",
+        "reason": "host/threading semantics"
+      },
+      {
+        "name": "future-call",
+        "reason": "host/threading semantics"
+      },
+      {
+        "name": "gen-class",
+        "reason": "JVM bytecode generation"
+      },
+      {
+        "name": "import",
+        "reason": "JVM classpath and Java interop"
+      },
+      {
+        "name": "load-file",
+        "reason": "host filesystem and loader capability"
+      },
+      {
+        "name": "load-string",
+        "reason": "dynamic source loading is a capability boundary for Rasa"
+      },
+      {
+        "name": "promise",
+        "reason": "host concurrency primitive"
+      },
+      {
+        "name": "proxy",
+        "reason": "JVM object interop"
+      },
+      {
+        "name": "slurp",
+        "reason": "host filesystem or URL capability"
+      },
+      {
+        "name": "spit",
+        "reason": "host filesystem capability"
+      },
+      {
+        "name": "Thread",
+        "reason": "host/JVM thread type"
+      }
+    ],
+    "cases": [
+      {
+        "id": "core/plus/integers",
+        "function": "+",
+        "title": "Checked integer addition",
+        "source": "(+ 1 2 3)",
+        "expected": "6",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface",
+          "runtime-value-algebra"
+        ]
+      },
+      {
+        "id": "core/minus/variadic",
+        "function": "-",
+        "title": "Variadic subtraction",
+        "source": "(- 10 3 2)",
+        "expected": "5",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ]
+      },
+      {
+        "id": "core/multiply/integers",
+        "function": "*",
+        "title": "Integer multiplication",
+        "source": "(* 2 3 4)",
+        "expected": "24",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ]
+      },
+      {
+        "id": "core/compare/ordered",
+        "function": "<",
+        "title": "Strict numeric ordering",
+        "source": "(< 1 2 3)",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ]
+      },
+      {
+        "id": "core/compare/non-decreasing",
+        "function": "<=",
+        "title": "Non-decreasing numeric ordering",
+        "source": "(<= 1 1 2)",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ]
+      },
+      {
+        "id": "core/compare/greater",
+        "function": ">",
+        "title": "Strict descending ordering",
+        "source": "(> 3 2 1)",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ]
+      },
+      {
+        "id": "core/compare/non-increasing",
+        "function": ">=",
+        "title": "Non-increasing numeric ordering",
+        "source": "(>= 3 3 1)",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ]
+      },
+      {
+        "id": "core/inc/basic",
+        "function": "inc",
+        "title": "Increment",
+        "source": "(inc 41)",
+        "expected": "42",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ]
+      },
+      {
+        "id": "core/dec/basic",
+        "function": "dec",
+        "title": "Decrement",
+        "source": "(dec 42)",
+        "expected": "41",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ]
+      },
+      {
+        "id": "core/min/basic",
+        "function": "min",
+        "title": "Minimum",
+        "source": "(min 9 2 7)",
+        "expected": "2",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ]
+      },
+      {
+        "id": "core/max/basic",
+        "function": "max",
+        "title": "Maximum",
+        "source": "(max 9 2 7)",
+        "expected": "9",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ]
+      },
+      {
+        "id": "core/predicates/scalars",
+        "function": "boolean?",
+        "title": "Scalar predicates",
+        "source": "[(nil? nil) (some? 1) (true? true) (false? false) (boolean? true) (integer? 1) (string? \"x\") (keyword? :x) (symbol? 'x) (char? \\a)]",
+        "expected": "[true true true true true true true true true true]",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface",
+          "runtime-value-algebra"
+        ]
+      },
+      {
+        "id": "core/predicates/collections",
+        "function": "coll?",
+        "title": "Collection predicates",
+        "source": "[(coll? [1]) (list? '(1)) (vector? [1]) (map? {:a 1}) (set? #{:a})]",
+        "expected": "[true true true true true]",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface",
+          "runtime-value-algebra"
+        ]
+      },
+      {
+        "id": "core/equality/sequential",
+        "function": "=",
+        "title": "Sequential equality over admitted values",
+        "source": "(= [1 2] '(1 2))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface",
+          "runtime-value-algebra"
+        ]
+      },
+      {
+        "id": "core/equality/not-equal",
+        "function": "not=",
+        "title": "Not equal",
+        "source": "(not= :a :b)",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ]
+      },
+      {
+        "id": "core/equality/numeric-tower-gap",
+        "function": "=",
+        "title": "Broader numeric tower equality",
+        "source": "(= 1 1N)",
+        "expected": "true",
+        "expectation": "known-gap",
+        "expectedOutcome": "expected-failure",
+        "axes": [
+          "semantic-surface",
+          "runtime-value-algebra"
+        ],
+        "pressure": {
+          "gap": "numeric-tower",
+          "why": "Rasa alpha covers checked i64 and finite f64; BigInt/Ratio equality remains deferred."
+        }
+      },
+      {
+        "id": "core/seq/vector",
+        "function": "seq",
+        "title": "Vector seq",
+        "source": "(seq [1 2])",
+        "expected": "(1 2)",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ]
+      },
+      {
+        "id": "core/first/vector",
+        "function": "first",
+        "title": "First over vector",
+        "source": "(first [:a :b])",
+        "expected": ":a",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ]
+      },
+      {
+        "id": "core/rest/vector",
+        "function": "rest",
+        "title": "Rest over vector",
+        "source": "(rest [:a :b :c])",
+        "expected": "(:b :c)",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ]
+      },
+      {
+        "id": "core/next/singleton",
+        "function": "next",
+        "title": "Next over singleton",
+        "source": "(next [:a])",
+        "expected": "nil",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ]
+      },
+      {
+        "id": "core/cons/vector",
+        "function": "cons",
+        "title": "Cons onto vector",
+        "source": "(cons :a [:b :c])",
+        "expected": "(:a :b :c)",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ]
+      },
+      {
+        "id": "core/nth/vector",
+        "function": "nth",
+        "title": "Vector nth",
+        "source": "(nth [:a :b :c] 1)",
+        "expected": ":b",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ]
+      },
+      {
+        "id": "core/find/present-nil",
+        "function": "find",
+        "title": "Find preserves present nil",
+        "source": "(find {:a nil} :a)",
+        "expected": "[:a nil]",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ]
+      },
+      {
+        "id": "core/keys/map",
+        "function": "keys",
+        "title": "Map keys",
+        "source": "(keys {:a 1 :b 2})",
+        "expected": "(:a :b)",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ]
+      },
+      {
+        "id": "core/vals/map",
+        "function": "vals",
+        "title": "Map vals",
+        "source": "(vals {:a 1 :b 2})",
+        "expected": "(1 2)",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ]
+      },
+      {
+        "id": "core/count/vector",
+        "function": "count",
+        "title": "Count vector",
+        "source": "(count [1 2 3])",
+        "expected": "3",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ]
+      },
+      {
+        "id": "core/empty/nil",
+        "function": "empty?",
+        "title": "Nil is empty",
+        "source": "(empty? nil)",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ]
+      },
+      {
+        "id": "core/get/default",
+        "function": "get",
+        "title": "Get default",
+        "source": "(get {:a 1} :b :none)",
+        "expected": ":none",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ]
+      },
+      {
+        "id": "core/contains/vector",
+        "function": "contains?",
+        "title": "Vector index containment",
+        "source": "(contains? [:a :b] 1)",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ]
+      },
+      {
+        "id": "core/map/vector",
+        "function": "map",
+        "title": "Map over vector",
+        "source": "(map inc [1 2 3])",
+        "expected": "(2 3 4)",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface",
+          "eval-semantics"
+        ]
+      },
+      {
+        "id": "core/filter/vector",
+        "function": "filter",
+        "title": "Filter over vector",
+        "source": "(filter pos? [-1 0 2 3])",
+        "expected": "(2 3)",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface",
+          "eval-semantics"
+        ]
+      },
+      {
+        "id": "core/keep/vector",
+        "function": "keep",
+        "title": "Keep non-nil results",
+        "source": "(keep (fn [x] (get {1 :one 3 :three} x)) [1 2 3])",
+        "expected": "(:one :three)",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface",
+          "eval-semantics"
+        ]
+      },
+      {
+        "id": "core/reduce/sum",
+        "function": "reduce",
+        "title": "Reduce with initial value",
+        "source": "(reduce + 0 [1 2 3])",
+        "expected": "6",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface",
+          "eval-semantics"
+        ]
+      },
+      {
+        "id": "core/apply/plus",
+        "function": "apply",
+        "title": "Apply plus",
+        "source": "(apply + [1 2 3])",
+        "expected": "6",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface",
+          "eval-semantics"
+        ]
+      },
+      {
+        "id": "core/into/vector",
+        "function": "into",
+        "title": "Into vector",
+        "source": "(into [:a] [:b :c])",
+        "expected": "[:a :b :c]",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ]
+      },
+      {
+        "id": "core/assoc/map",
+        "function": "assoc",
+        "title": "Assoc map key",
+        "source": "(assoc {:a 1} :b 2)",
+        "expected": "{:a 1 :b 2}",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ]
+      },
+      {
+        "id": "core/dissoc/map",
+        "function": "dissoc",
+        "title": "Dissoc map key",
+        "source": "(dissoc {:a 1 :b 2} :a)",
+        "expected": "{:b 2}",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ]
+      },
+      {
+        "id": "core/conj/vector",
+        "function": "conj",
+        "title": "Conj onto vector",
+        "source": "(conj [:a] :b :c)",
+        "expected": "[:a :b :c]",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ]
+      },
+      {
+        "id": "core/arrow/thread-first",
+        "function": "->",
+        "title": "Thread-first macro",
+        "source": "(-> 1 inc)",
+        "expected": "2",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ]
+      },
+      {
+        "id": "core/defn/basic",
+        "function": "defn",
+        "title": "Defn creates callable var",
+        "source": "(defn f [x] (inc x))\n(f 2)",
+        "expected": "3",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface",
+          "namespace-state"
+        ]
+      }
+    ]
+  },
+  "run": {
+    "generatedAt": "2026-06-25T15:43:38.236Z",
+    "rasaRevision": "local",
+    "clojureVersion": "1.12.5",
+    "engine": "rasa-runtime-wasm",
+    "wasm": "/Users/jaju/github/rasa/target/wasm32-unknown-unknown/release/rasa_runtime_wasm.wasm"
+  },
+  "totals": {
+    "supported": 86,
+    "implemented": 72,
+    "deferred": 14,
+    "excluded": 14,
+    "pass": 39,
+    "fail": 0,
+    "expectedFailure": 1,
+    "structuralGap": 0,
+    "untested": 33
+  },
+  "functions": [
+    {
+      "name": "-",
+      "kind": "function",
+      "arglists": [
+        "(- x)",
+        "(- x y)",
+        "(- x y & more)"
+      ],
+      "classification": "IntentionalDivergence",
+      "status": "implemented-alpha",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/-",
+      "notes": [
+        "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+        "Alpha numeric semantics cover checked i64 and finite f64; full Clojure numeric tower parity is deferred."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/s-x2d.ras"
+      ],
+      "summary": "Returns x negated, or the difference of nums.",
+      "caseIds": [
+        "core/minus/variadic"
+      ],
+      "counts": {
+        "pass": 1,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 1,
+        "state": "tested"
+      },
+      "cases": [
+        {
+          "id": "core/minus/variadic",
+          "title": "Variadic subtraction",
+          "source": "(- 10 3 2)",
+          "outcome": "pass",
+          "expected": "5",
+          "observed": "5",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        }
+      ]
+    },
+    {
+      "name": "->",
+      "kind": "macro",
+      "arglists": [
+        "(-> x)",
+        "(-> x form)"
+      ],
+      "classification": "PortableEquivalent",
+      "status": "implemented-alpha",
+      "sequencePolicy": "none",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/-%3E",
+      "notes": [],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/macro/s-x2d-x3e.ras"
+      ],
+      "summary": "-> projected as PortableEquivalent with status implemented-alpha.",
+      "caseIds": [
+        "core/arrow/thread-first"
+      ],
+      "counts": {
+        "pass": 1,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 1,
+        "state": "tested"
+      },
+      "cases": [
+        {
+          "id": "core/arrow/thread-first",
+          "title": "Thread-first macro",
+          "source": "(-> 1 inc)",
+          "outcome": "pass",
+          "expected": "2",
+          "observed": "2",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        }
+      ]
+    },
+    {
+      "name": "*",
+      "kind": "function",
+      "arglists": [
+        "(*)",
+        "(* x)",
+        "(* x y)",
+        "(* x y & more)"
+      ],
+      "classification": "IntentionalDivergence",
+      "status": "implemented-alpha",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/*",
+      "notes": [
+        "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+        "Alpha numeric semantics cover checked i64 and finite f64; full Clojure numeric tower parity is deferred."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/s-x2a.ras"
+      ],
+      "summary": "Returns the product of nums.",
+      "caseIds": [
+        "core/multiply/integers"
+      ],
+      "counts": {
+        "pass": 1,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 1,
+        "state": "tested"
+      },
+      "cases": [
+        {
+          "id": "core/multiply/integers",
+          "title": "Integer multiplication",
+          "source": "(* 2 3 4)",
+          "outcome": "pass",
+          "expected": "24",
+          "observed": "24",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        }
+      ]
+    },
+    {
+      "name": "+",
+      "kind": "function",
+      "arglists": [
+        "(+)",
+        "(+ x)",
+        "(+ x y)",
+        "(+ x y & more)"
+      ],
+      "classification": "IntentionalDivergence",
+      "status": "implemented-alpha",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/+",
+      "notes": [
+        "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+        "Alpha numeric semantics cover checked i64 and finite f64; full Clojure numeric tower parity is deferred."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/s-x2b.ras"
+      ],
+      "summary": "Returns the sum of nums.",
+      "caseIds": [
+        "core/plus/integers"
+      ],
+      "counts": {
+        "pass": 1,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 1,
+        "state": "tested"
+      },
+      "cases": [
+        {
+          "id": "core/plus/integers",
+          "title": "Checked integer addition",
+          "source": "(+ 1 2 3)",
+          "outcome": "pass",
+          "expected": "6",
+          "observed": "6",
+          "axes": [
+            "semantic-surface",
+            "runtime-value-algebra"
+          ],
+          "log": ""
+        }
+      ]
+    },
+    {
+      "name": "<",
+      "kind": "function",
+      "arglists": [
+        "(< x y)",
+        "(< x y & more)"
+      ],
+      "classification": "IntentionalDivergence",
+      "status": "implemented-alpha",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/%3C",
+      "notes": [
+        "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+        "Alpha numeric semantics cover checked i64 and finite f64; full Clojure numeric tower parity is deferred."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/s-x3c.ras"
+      ],
+      "summary": "Returns true when nums are strictly increasing.",
+      "caseIds": [
+        "core/compare/ordered"
+      ],
+      "counts": {
+        "pass": 1,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 1,
+        "state": "tested"
+      },
+      "cases": [
+        {
+          "id": "core/compare/ordered",
+          "title": "Strict numeric ordering",
+          "source": "(< 1 2 3)",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        }
+      ]
+    },
+    {
+      "name": "<=",
+      "kind": "function",
+      "arglists": [
+        "(<= x y)",
+        "(<= x y & more)"
+      ],
+      "classification": "IntentionalDivergence",
+      "status": "implemented-alpha",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/%3C=",
+      "notes": [
+        "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+        "Alpha numeric semantics cover checked i64 and finite f64; full Clojure numeric tower parity is deferred."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/s-x3c-x3d.ras"
+      ],
+      "summary": "Returns true when nums are non-decreasing.",
+      "caseIds": [
+        "core/compare/non-decreasing"
+      ],
+      "counts": {
+        "pass": 1,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 1,
+        "state": "tested"
+      },
+      "cases": [
+        {
+          "id": "core/compare/non-decreasing",
+          "title": "Non-decreasing numeric ordering",
+          "source": "(<= 1 1 2)",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        }
+      ]
+    },
+    {
+      "name": "=",
+      "kind": "function",
+      "arglists": [
+        "(=)",
+        "(= x)",
+        "(= x y)",
+        "(= x y & more)"
+      ],
+      "classification": "IntentionalDivergence",
+      "status": "implemented-alpha",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/=",
+      "notes": [
+        "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+        "Alpha public-core semantics cover finite Rasa runtime values; full Clojure edge parity is deferred."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/s-x3d.ras"
+      ],
+      "summary": "Returns true when all supplied values are equal.",
+      "caseIds": [
+        "core/equality/sequential",
+        "core/equality/numeric-tower-gap"
+      ],
+      "counts": {
+        "pass": 1,
+        "fail": 0,
+        "expectedFailure": 1,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 2,
+        "state": "tested"
+      },
+      "cases": [
+        {
+          "id": "core/equality/sequential",
+          "title": "Sequential equality over admitted values",
+          "source": "(= [1 2] '(1 2))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface",
+            "runtime-value-algebra"
+          ],
+          "log": ""
+        },
+        {
+          "id": "core/equality/numeric-tower-gap",
+          "title": "Broader numeric tower equality",
+          "source": "(= 1 1N)",
+          "outcome": "expected-failure",
+          "expected": "true",
+          "observed": "linked global `1N` is not available",
+          "axes": [
+            "semantic-surface",
+            "runtime-value-algebra"
+          ],
+          "log": "Rasa alpha covers checked i64 and finite f64; BigInt/Ratio equality remains deferred.",
+          "pressure": {
+            "gap": "numeric-tower",
+            "why": "Rasa alpha covers checked i64 and finite f64; BigInt/Ratio equality remains deferred."
+          }
+        }
+      ]
+    },
+    {
+      "name": ">",
+      "kind": "function",
+      "arglists": [
+        "(> x y)",
+        "(> x y & more)"
+      ],
+      "classification": "IntentionalDivergence",
+      "status": "implemented-alpha",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/%3E",
+      "notes": [
+        "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+        "Alpha numeric semantics cover checked i64 and finite f64; full Clojure numeric tower parity is deferred."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/s-x3e.ras"
+      ],
+      "summary": "Returns true when nums are strictly decreasing.",
+      "caseIds": [
+        "core/compare/greater"
+      ],
+      "counts": {
+        "pass": 1,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 1,
+        "state": "tested"
+      },
+      "cases": [
+        {
+          "id": "core/compare/greater",
+          "title": "Strict descending ordering",
+          "source": "(> 3 2 1)",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        }
+      ]
+    },
+    {
+      "name": ">=",
+      "kind": "function",
+      "arglists": [
+        "(>= x y)",
+        "(>= x y & more)"
+      ],
+      "classification": "IntentionalDivergence",
+      "status": "implemented-alpha",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/%3E=",
+      "notes": [
+        "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+        "Alpha numeric semantics cover checked i64 and finite f64; full Clojure numeric tower parity is deferred."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/s-x3e-x3d.ras"
+      ],
+      "summary": "Returns true when nums are non-increasing.",
+      "caseIds": [
+        "core/compare/non-increasing"
+      ],
+      "counts": {
+        "pass": 1,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 1,
+        "state": "tested"
+      },
+      "cases": [
+        {
+          "id": "core/compare/non-increasing",
+          "title": "Non-increasing numeric ordering",
+          "source": "(>= 3 3 1)",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        }
+      ]
+    },
+    {
+      "name": "apply",
+      "kind": "function",
+      "arglists": [
+        "(apply ...)"
+      ],
+      "classification": "PortableEquivalent",
+      "status": "implemented-native",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/apply",
+      "notes": [
+        "Projected from the native pure core registry; compat descriptor is not yet generated."
+      ],
+      "provenance": [
+        "crates/rasa-eval/src/native/mod.rs"
+      ],
+      "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
+      "caseIds": [
+        "core/apply/plus"
+      ],
+      "counts": {
+        "pass": 1,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 1,
+        "state": "tested"
+      },
+      "cases": [
+        {
+          "id": "core/apply/plus",
+          "title": "Apply plus",
+          "source": "(apply + [1 2 3])",
+          "outcome": "pass",
+          "expected": "6",
+          "observed": "6",
+          "axes": [
+            "semantic-surface",
+            "eval-semantics"
+          ],
+          "log": ""
+        }
+      ]
+    },
+    {
+      "name": "assoc",
+      "kind": "function",
+      "arglists": [
+        "(assoc ...)"
+      ],
+      "classification": "PortableEquivalent",
+      "status": "implemented-native",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/assoc",
+      "notes": [
+        "Projected from the native pure core registry; compat descriptor is not yet generated."
+      ],
+      "provenance": [
+        "crates/rasa-eval/src/native/mod.rs"
+      ],
+      "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
+      "caseIds": [
+        "core/assoc/map"
+      ],
+      "counts": {
+        "pass": 1,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 1,
+        "state": "tested"
+      },
+      "cases": [
+        {
+          "id": "core/assoc/map",
+          "title": "Assoc map key",
+          "source": "(assoc {:a 1} :b 2)",
+          "outcome": "pass",
+          "expected": "{:a 1 :b 2}",
+          "observed": "{:a 1 :b 2}",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        }
+      ]
+    },
+    {
+      "name": "boolean?",
+      "kind": "function",
+      "arglists": [
+        "(boolean? x)"
+      ],
+      "classification": "IntentionalDivergence",
+      "status": "implemented-alpha",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/boolean?",
+      "notes": [
+        "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+        "Alpha public-core semantics cover finite Rasa runtime values; full Clojure edge parity is deferred."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/boolean-x3f.ras"
+      ],
+      "summary": "Returns true when x is a boolean.",
+      "caseIds": [
+        "core/predicates/scalars"
+      ],
+      "counts": {
+        "pass": 1,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 1,
+        "state": "tested"
+      },
+      "cases": [
+        {
+          "id": "core/predicates/scalars",
+          "title": "Scalar predicates",
+          "source": "[(nil? nil) (some? 1) (true? true) (false? false) (boolean? true) (integer? 1) (string? \"x\") (keyword? :x) (symbol? 'x) (char? \\a)]",
+          "outcome": "pass",
+          "expected": "[true true true true true true true true true true]",
+          "observed": "[true true true true true true true true true true]",
+          "axes": [
+            "semantic-surface",
+            "runtime-value-algebra"
+          ],
+          "log": ""
+        }
+      ]
+    },
+    {
+      "name": "char?",
+      "kind": "function",
+      "arglists": [
+        "(char? x)"
+      ],
+      "classification": "IntentionalDivergence",
+      "status": "implemented-alpha",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/char?",
+      "notes": [
+        "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+        "Alpha public-core semantics cover finite Rasa runtime values; full Clojure edge parity is deferred."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/char-x3f.ras"
+      ],
+      "summary": "Returns true when x is a character.",
+      "caseIds": [],
+      "counts": {
+        "pass": 0,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 0,
+        "state": "untested"
+      },
+      "cases": []
+    },
+    {
+      "name": "coll?",
+      "kind": "function",
+      "arglists": [
+        "(coll? x)"
+      ],
+      "classification": "IntentionalDivergence",
+      "status": "implemented-alpha",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/coll?",
+      "notes": [
+        "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+        "Alpha public-core semantics cover finite Rasa runtime values; full Clojure edge parity is deferred."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/coll-x3f.ras"
+      ],
+      "summary": "Returns true when x is a concrete collection, finite seq, or admitted lazy seq.",
+      "caseIds": [
+        "core/predicates/collections"
+      ],
+      "counts": {
+        "pass": 1,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 1,
+        "state": "tested"
+      },
+      "cases": [
+        {
+          "id": "core/predicates/collections",
+          "title": "Collection predicates",
+          "source": "[(coll? [1]) (list? '(1)) (vector? [1]) (map? {:a 1}) (set? #{:a})]",
+          "outcome": "pass",
+          "expected": "[true true true true true]",
+          "observed": "[true true true true true]",
+          "axes": [
+            "semantic-surface",
+            "runtime-value-algebra"
+          ],
+          "log": ""
+        }
+      ]
+    },
+    {
+      "name": "concat",
+      "kind": "function",
+      "arglists": [
+        "(concat ...)"
+      ],
+      "classification": "PortableEquivalent",
+      "status": "implemented-native",
+      "sequencePolicy": "eager-finite",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/concat",
+      "notes": [
+        "Projected from the native pure core registry; compat descriptor is not yet generated."
+      ],
+      "provenance": [
+        "crates/rasa-eval/src/native/mod.rs"
+      ],
+      "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
+      "caseIds": [],
+      "counts": {
+        "pass": 0,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 0,
+        "state": "untested"
+      },
+      "cases": []
+    },
+    {
+      "name": "conj",
+      "kind": "function",
+      "arglists": [
+        "(conj ...)"
+      ],
+      "classification": "PortableEquivalent",
+      "status": "implemented-native",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/conj",
+      "notes": [
+        "Projected from the native pure core registry; compat descriptor is not yet generated."
+      ],
+      "provenance": [
+        "crates/rasa-eval/src/native/mod.rs"
+      ],
+      "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
+      "caseIds": [
+        "core/conj/vector"
+      ],
+      "counts": {
+        "pass": 1,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 1,
+        "state": "tested"
+      },
+      "cases": [
+        {
+          "id": "core/conj/vector",
+          "title": "Conj onto vector",
+          "source": "(conj [:a] :b :c)",
+          "outcome": "pass",
+          "expected": "[:a :b :c]",
+          "observed": "[:a :b :c]",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        }
+      ]
+    },
+    {
+      "name": "cons",
+      "kind": "function",
+      "arglists": [
+        "(cons x coll)"
+      ],
+      "classification": "IntentionalDivergence",
+      "status": "implemented-eager",
+      "sequencePolicy": "eager-finite",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/cons",
+      "notes": [
+        "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+        "Rasa sequence operations are finite eager in alpha; Clojure LazySeq parity is deferred."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/cons.ras"
+      ],
+      "summary": "Returns a finite eager seq with x prepended to the finite seqable value.",
+      "caseIds": [
+        "core/cons/vector"
+      ],
+      "counts": {
+        "pass": 1,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 1,
+        "state": "tested"
+      },
+      "cases": [
+        {
+          "id": "core/cons/vector",
+          "title": "Cons onto vector",
+          "source": "(cons :a [:b :c])",
+          "outcome": "pass",
+          "expected": "(:a :b :c)",
+          "observed": "(:a :b :c)",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        }
+      ]
+    },
+    {
+      "name": "contains?",
+      "kind": "function",
+      "arglists": [
+        "(contains? target key)"
+      ],
+      "classification": "IntentionalDivergence",
+      "status": "implemented-alpha",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/contains?",
+      "notes": [
+        "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+        "Alpha public-core semantics cover finite Rasa runtime values; full Clojure edge parity is deferred."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/contains-x3f.ras"
+      ],
+      "summary": "Returns whether a map has a key, vector has an index, or set has a member.",
+      "caseIds": [
+        "core/contains/vector"
+      ],
+      "counts": {
+        "pass": 1,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 1,
+        "state": "tested"
+      },
+      "cases": [
+        {
+          "id": "core/contains/vector",
+          "title": "Vector index containment",
+          "source": "(contains? [:a :b] 1)",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        }
+      ]
+    },
+    {
+      "name": "count",
+      "kind": "function",
+      "arglists": [
+        "(count x)"
+      ],
+      "classification": "IntentionalDivergence",
+      "status": "implemented-alpha",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/count",
+      "notes": [
+        "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+        "Alpha public-core semantics cover finite Rasa runtime values; full Clojure edge parity is deferred."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/count.ras"
+      ],
+      "summary": "Returns the item count for nil, strings, concrete collections, and safely finite lazy seqs.",
+      "caseIds": [
+        "core/count/vector"
+      ],
+      "counts": {
+        "pass": 1,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 1,
+        "state": "tested"
+      },
+      "cases": [
+        {
+          "id": "core/count/vector",
+          "title": "Count vector",
+          "source": "(count [1 2 3])",
+          "outcome": "pass",
+          "expected": "3",
+          "observed": "3",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        }
+      ]
+    },
+    {
+      "name": "dec",
+      "kind": "function",
+      "arglists": [
+        "(dec x)"
+      ],
+      "classification": "IntentionalDivergence",
+      "status": "implemented-alpha",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/dec",
+      "notes": [
+        "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+        "Alpha numeric semantics cover checked i64 and finite f64; full Clojure numeric tower parity is deferred."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/dec.ras"
+      ],
+      "summary": "Returns x minus one.",
+      "caseIds": [
+        "core/dec/basic"
+      ],
+      "counts": {
+        "pass": 1,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 1,
+        "state": "tested"
+      },
+      "cases": [
+        {
+          "id": "core/dec/basic",
+          "title": "Decrement",
+          "source": "(dec 42)",
+          "outcome": "pass",
+          "expected": "41",
+          "observed": "41",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        }
+      ]
+    },
+    {
+      "name": "defn",
+      "kind": "macro",
+      "arglists": [],
+      "classification": "PortableEquivalent",
+      "status": "implemented-alpha",
+      "sequencePolicy": "none",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/defn",
+      "notes": [],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/macro/defn.ras"
+      ],
+      "summary": "defn projected as PortableEquivalent with status implemented-alpha.",
+      "caseIds": [
+        "core/defn/basic"
+      ],
+      "counts": {
+        "pass": 1,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 1,
+        "state": "tested"
+      },
+      "cases": [
+        {
+          "id": "core/defn/basic",
+          "title": "Defn creates callable var",
+          "source": "(defn f [x] (inc x))\n(f 2)",
+          "outcome": "pass",
+          "expected": "3",
+          "observed": "3",
+          "axes": [
+            "semantic-surface",
+            "namespace-state"
+          ],
+          "log": ""
+        }
+      ]
+    },
+    {
+      "name": "dissoc",
+      "kind": "function",
+      "arglists": [
+        "(dissoc ...)"
+      ],
+      "classification": "PortableEquivalent",
+      "status": "implemented-native",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/dissoc",
+      "notes": [
+        "Projected from the native pure core registry; compat descriptor is not yet generated."
+      ],
+      "provenance": [
+        "crates/rasa-eval/src/native/mod.rs"
+      ],
+      "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
+      "caseIds": [
+        "core/dissoc/map"
+      ],
+      "counts": {
+        "pass": 1,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 1,
+        "state": "tested"
+      },
+      "cases": [
+        {
+          "id": "core/dissoc/map",
+          "title": "Dissoc map key",
+          "source": "(dissoc {:a 1 :b 2} :a)",
+          "outcome": "pass",
+          "expected": "{:b 2}",
+          "observed": "{:b 2}",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        }
+      ]
+    },
+    {
+      "name": "drop",
+      "kind": "function",
+      "arglists": [
+        "(drop ...)"
+      ],
+      "classification": "PortableEquivalent",
+      "status": "implemented-native",
+      "sequencePolicy": "eager-finite",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/drop",
+      "notes": [
+        "Projected from the native pure core registry; compat descriptor is not yet generated."
+      ],
+      "provenance": [
+        "crates/rasa-eval/src/native/mod.rs"
+      ],
+      "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
+      "caseIds": [],
+      "counts": {
+        "pass": 0,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 0,
+        "state": "untested"
+      },
+      "cases": []
+    },
+    {
+      "name": "drop-while",
+      "kind": "function",
+      "arglists": [
+        "(drop-while ...)"
+      ],
+      "classification": "PortableEquivalent",
+      "status": "implemented-native",
+      "sequencePolicy": "eager-finite",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/drop-while",
+      "notes": [
+        "Projected from the native pure core registry; compat descriptor is not yet generated."
+      ],
+      "provenance": [
+        "crates/rasa-eval/src/native/mod.rs"
+      ],
+      "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
+      "caseIds": [],
+      "counts": {
+        "pass": 0,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 0,
+        "state": "untested"
+      },
+      "cases": []
+    },
+    {
+      "name": "empty?",
+      "kind": "function",
+      "arglists": [
+        "(empty? x)"
+      ],
+      "classification": "IntentionalDivergence",
+      "status": "implemented-alpha",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/empty?",
+      "notes": [
+        "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+        "Alpha public-core semantics cover finite Rasa runtime values; full Clojure edge parity is deferred."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/empty-x3f.ras"
+      ],
+      "summary": "Returns true when nil, a string, a concrete collection, or an admitted lazy seq has no items.",
+      "caseIds": [
+        "core/empty/nil"
+      ],
+      "counts": {
+        "pass": 1,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 1,
+        "state": "tested"
+      },
+      "cases": [
+        {
+          "id": "core/empty/nil",
+          "title": "Nil is empty",
+          "source": "(empty? nil)",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        }
+      ]
+    },
+    {
+      "name": "false?",
+      "kind": "function",
+      "arglists": [
+        "(false? x)"
+      ],
+      "classification": "IntentionalDivergence",
+      "status": "implemented-alpha",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/false?",
+      "notes": [
+        "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+        "Alpha public-core semantics cover finite Rasa runtime values; full Clojure edge parity is deferred."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/false-x3f.ras"
+      ],
+      "summary": "Returns true when x is false.",
+      "caseIds": [],
+      "counts": {
+        "pass": 0,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 0,
+        "state": "untested"
+      },
+      "cases": []
+    },
+    {
+      "name": "filter",
+      "kind": "function",
+      "arglists": [
+        "(filter ...)"
+      ],
+      "classification": "PortableEquivalent",
+      "status": "implemented-native",
+      "sequencePolicy": "eager-finite",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/filter",
+      "notes": [
+        "Projected from the native pure core registry; compat descriptor is not yet generated."
+      ],
+      "provenance": [
+        "crates/rasa-eval/src/native/mod.rs"
+      ],
+      "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
+      "caseIds": [
+        "core/filter/vector"
+      ],
+      "counts": {
+        "pass": 1,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 1,
+        "state": "tested"
+      },
+      "cases": [
+        {
+          "id": "core/filter/vector",
+          "title": "Filter over vector",
+          "source": "(filter pos? [-1 0 2 3])",
+          "outcome": "pass",
+          "expected": "(2 3)",
+          "observed": "(2 3)",
+          "axes": [
+            "semantic-surface",
+            "eval-semantics"
+          ],
+          "log": ""
+        }
+      ]
+    },
+    {
+      "name": "find",
+      "kind": "function",
+      "arglists": [
+        "(find map key)"
+      ],
+      "classification": "IntentionalDivergence",
+      "status": "implemented-alpha",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/find",
+      "notes": [
+        "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+        "Alpha public-core semantics cover finite Rasa runtime values; full Clojure edge parity is deferred."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/find.ras"
+      ],
+      "summary": "Returns a two-item vector of the canonical key and value when a map contains key, otherwise nil.",
+      "caseIds": [
+        "core/find/present-nil"
+      ],
+      "counts": {
+        "pass": 1,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 1,
+        "state": "tested"
+      },
+      "cases": [
+        {
+          "id": "core/find/present-nil",
+          "title": "Find preserves present nil",
+          "source": "(find {:a nil} :a)",
+          "outcome": "pass",
+          "expected": "[:a nil]",
+          "observed": "[:a nil]",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        }
+      ]
+    },
+    {
+      "name": "first",
+      "kind": "function",
+      "arglists": [
+        "(first coll)"
+      ],
+      "classification": "IntentionalDivergence",
+      "status": "implemented-eager",
+      "sequencePolicy": "eager-finite",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/first",
+      "notes": [
+        "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+        "Rasa sequence operations are finite eager in alpha; Clojure LazySeq parity is deferred."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/first.ras"
+      ],
+      "summary": "Returns the first item of a seqable value, or nil when none exists.",
+      "caseIds": [
+        "core/first/vector"
+      ],
+      "counts": {
+        "pass": 1,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 1,
+        "state": "tested"
+      },
+      "cases": [
+        {
+          "id": "core/first/vector",
+          "title": "First over vector",
+          "source": "(first [:a :b])",
+          "outcome": "pass",
+          "expected": ":a",
+          "observed": ":a",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        }
+      ]
+    },
+    {
+      "name": "fn?",
+      "kind": "function",
+      "arglists": [
+        "(fn? x)"
+      ],
+      "classification": "IntentionalDivergence",
+      "status": "implemented-alpha",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/fn?",
+      "notes": [
+        "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+        "Alpha public-core semantics cover finite Rasa runtime values; full Clojure edge parity is deferred."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/fn-x3f.ras"
+      ],
+      "summary": "Returns true when x is a function or native function value.",
+      "caseIds": [],
+      "counts": {
+        "pass": 0,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 0,
+        "state": "untested"
+      },
+      "cases": []
+    },
+    {
+      "name": "get",
+      "kind": "function",
+      "arglists": [
+        "(get target key)",
+        "(get target key default)"
+      ],
+      "classification": "IntentionalDivergence",
+      "status": "implemented-alpha",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/get",
+      "notes": [
+        "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+        "Alpha public-core semantics cover finite Rasa runtime values; full Clojure edge parity is deferred."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/get.ras"
+      ],
+      "summary": "Looks up a map key, vector index, or set member and returns nil or the supplied default when absent.",
+      "caseIds": [
+        "core/get/default"
+      ],
+      "counts": {
+        "pass": 1,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 1,
+        "state": "tested"
+      },
+      "cases": [
+        {
+          "id": "core/get/default",
+          "title": "Get default",
+          "source": "(get {:a 1} :b :none)",
+          "outcome": "pass",
+          "expected": ":none",
+          "observed": ":none",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        }
+      ]
+    },
+    {
+      "name": "hash-map",
+      "kind": "function",
+      "arglists": [
+        "(hash-map ...)"
+      ],
+      "classification": "PortableEquivalent",
+      "status": "implemented-native",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/hash-map",
+      "notes": [
+        "Projected from the native pure core registry; compat descriptor is not yet generated."
+      ],
+      "provenance": [
+        "crates/rasa-eval/src/native/mod.rs"
+      ],
+      "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
+      "caseIds": [],
+      "counts": {
+        "pass": 0,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 0,
+        "state": "untested"
+      },
+      "cases": []
+    },
+    {
+      "name": "hash-set",
+      "kind": "function",
+      "arglists": [
+        "(hash-set ...)"
+      ],
+      "classification": "PortableEquivalent",
+      "status": "implemented-native",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/hash-set",
+      "notes": [
+        "Projected from the native pure core registry; compat descriptor is not yet generated."
+      ],
+      "provenance": [
+        "crates/rasa-eval/src/native/mod.rs"
+      ],
+      "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
+      "caseIds": [],
+      "counts": {
+        "pass": 0,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 0,
+        "state": "untested"
+      },
+      "cases": []
+    },
+    {
+      "name": "inc",
+      "kind": "function",
+      "arglists": [
+        "(inc x)"
+      ],
+      "classification": "IntentionalDivergence",
+      "status": "implemented-alpha",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/inc",
+      "notes": [
+        "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+        "Alpha numeric semantics cover checked i64 and finite f64; full Clojure numeric tower parity is deferred."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/inc.ras"
+      ],
+      "summary": "Returns x plus one.",
+      "caseIds": [
+        "core/inc/basic"
+      ],
+      "counts": {
+        "pass": 1,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 1,
+        "state": "tested"
+      },
+      "cases": [
+        {
+          "id": "core/inc/basic",
+          "title": "Increment",
+          "source": "(inc 41)",
+          "outcome": "pass",
+          "expected": "42",
+          "observed": "42",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        }
+      ]
+    },
+    {
+      "name": "integer?",
+      "kind": "function",
+      "arglists": [
+        "(integer? x)"
+      ],
+      "classification": "IntentionalDivergence",
+      "status": "implemented-alpha",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/integer?",
+      "notes": [
+        "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+        "Alpha public-core semantics cover finite Rasa runtime values; full Clojure edge parity is deferred."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/integer-x3f.ras"
+      ],
+      "summary": "Returns true when x is an integer.",
+      "caseIds": [],
+      "counts": {
+        "pass": 0,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 0,
+        "state": "untested"
+      },
+      "cases": []
+    },
+    {
+      "name": "into",
+      "kind": "function",
+      "arglists": [
+        "(into ...)"
+      ],
+      "classification": "PortableEquivalent",
+      "status": "implemented-native",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/into",
+      "notes": [
+        "Projected from the native pure core registry; compat descriptor is not yet generated."
+      ],
+      "provenance": [
+        "crates/rasa-eval/src/native/mod.rs"
+      ],
+      "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
+      "caseIds": [
+        "core/into/vector"
+      ],
+      "counts": {
+        "pass": 1,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 1,
+        "state": "tested"
+      },
+      "cases": [
+        {
+          "id": "core/into/vector",
+          "title": "Into vector",
+          "source": "(into [:a] [:b :c])",
+          "outcome": "pass",
+          "expected": "[:a :b :c]",
+          "observed": "[:a :b :c]",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        }
+      ]
+    },
+    {
+      "name": "keep",
+      "kind": "function",
+      "arglists": [
+        "(keep ...)"
+      ],
+      "classification": "PortableEquivalent",
+      "status": "implemented-native",
+      "sequencePolicy": "eager-finite",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/keep",
+      "notes": [
+        "Projected from the native pure core registry; compat descriptor is not yet generated."
+      ],
+      "provenance": [
+        "crates/rasa-eval/src/native/mod.rs"
+      ],
+      "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
+      "caseIds": [
+        "core/keep/vector"
+      ],
+      "counts": {
+        "pass": 1,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 1,
+        "state": "tested"
+      },
+      "cases": [
+        {
+          "id": "core/keep/vector",
+          "title": "Keep non-nil results",
+          "source": "(keep (fn [x] (get {1 :one 3 :three} x)) [1 2 3])",
+          "outcome": "pass",
+          "expected": "(:one :three)",
+          "observed": "(:one :three)",
+          "axes": [
+            "semantic-surface",
+            "eval-semantics"
+          ],
+          "log": ""
+        }
+      ]
+    },
+    {
+      "name": "keys",
+      "kind": "function",
+      "arglists": [
+        "(keys map)"
+      ],
+      "classification": "IntentionalDivergence",
+      "status": "implemented-eager",
+      "sequencePolicy": "eager-finite",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/keys",
+      "notes": [
+        "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+        "Rasa sequence operations are finite eager in alpha; Clojure LazySeq parity is deferred."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/keys.ras"
+      ],
+      "summary": "Returns a finite eager seq of map keys, or nil for nil and empty maps.",
+      "caseIds": [
+        "core/keys/map"
+      ],
+      "counts": {
+        "pass": 1,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 1,
+        "state": "tested"
+      },
+      "cases": [
+        {
+          "id": "core/keys/map",
+          "title": "Map keys",
+          "source": "(keys {:a 1 :b 2})",
+          "outcome": "pass",
+          "expected": "(:a :b)",
+          "observed": "(:a :b)",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        }
+      ]
+    },
+    {
+      "name": "keyword?",
+      "kind": "function",
+      "arglists": [
+        "(keyword? x)"
+      ],
+      "classification": "IntentionalDivergence",
+      "status": "implemented-alpha",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/keyword?",
+      "notes": [
+        "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+        "Alpha public-core semantics cover finite Rasa runtime values; full Clojure edge parity is deferred."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/keyword-x3f.ras"
+      ],
+      "summary": "Returns true when x is a keyword.",
+      "caseIds": [],
+      "counts": {
+        "pass": 0,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 0,
+        "state": "untested"
+      },
+      "cases": []
+    },
+    {
+      "name": "list",
+      "kind": "function",
+      "arglists": [
+        "(list ...)"
+      ],
+      "classification": "PortableEquivalent",
+      "status": "implemented-native",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/list",
+      "notes": [
+        "Projected from the native pure core registry; compat descriptor is not yet generated."
+      ],
+      "provenance": [
+        "crates/rasa-eval/src/native/mod.rs"
+      ],
+      "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
+      "caseIds": [],
+      "counts": {
+        "pass": 0,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 0,
+        "state": "untested"
+      },
+      "cases": []
+    },
+    {
+      "name": "list?",
+      "kind": "function",
+      "arglists": [
+        "(list? x)"
+      ],
+      "classification": "IntentionalDivergence",
+      "status": "implemented-alpha",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/list?",
+      "notes": [
+        "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+        "Alpha public-core semantics cover finite Rasa runtime values; full Clojure edge parity is deferred."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/list-x3f.ras"
+      ],
+      "summary": "Returns true when x is a list.",
+      "caseIds": [],
+      "counts": {
+        "pass": 0,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 0,
+        "state": "untested"
+      },
+      "cases": []
+    },
+    {
+      "name": "map",
+      "kind": "function",
+      "arglists": [
+        "(map f coll)",
+        "(map f c1 c2)",
+        "(map f c1 c2 & colls)"
+      ],
+      "classification": "IntentionalDivergence",
+      "status": "implemented-eager",
+      "sequencePolicy": "eager-finite",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/map",
+      "notes": [
+        "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+        "Rasa sequence operations are finite eager in alpha; Clojure LazySeq parity is deferred."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/map.ras"
+      ],
+      "summary": "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+      "caseIds": [
+        "core/map/vector"
+      ],
+      "counts": {
+        "pass": 1,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 1,
+        "state": "tested"
+      },
+      "cases": [
+        {
+          "id": "core/map/vector",
+          "title": "Map over vector",
+          "source": "(map inc [1 2 3])",
+          "outcome": "pass",
+          "expected": "(2 3 4)",
+          "observed": "(2 3 4)",
+          "axes": [
+            "semantic-surface",
+            "eval-semantics"
+          ],
+          "log": ""
+        }
+      ]
+    },
+    {
+      "name": "map?",
+      "kind": "function",
+      "arglists": [
+        "(map? x)"
+      ],
+      "classification": "IntentionalDivergence",
+      "status": "implemented-alpha",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/map?",
+      "notes": [
+        "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+        "Alpha public-core semantics cover finite Rasa runtime values; full Clojure edge parity is deferred."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/map-x3f.ras"
+      ],
+      "summary": "Returns true when x is a map.",
+      "caseIds": [],
+      "counts": {
+        "pass": 0,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 0,
+        "state": "untested"
+      },
+      "cases": []
+    },
+    {
+      "name": "mapcat",
+      "kind": "function",
+      "arglists": [
+        "(mapcat ...)"
+      ],
+      "classification": "PortableEquivalent",
+      "status": "implemented-native",
+      "sequencePolicy": "eager-finite",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/mapcat",
+      "notes": [
+        "Projected from the native pure core registry; compat descriptor is not yet generated."
+      ],
+      "provenance": [
+        "crates/rasa-eval/src/native/mod.rs"
+      ],
+      "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
+      "caseIds": [],
+      "counts": {
+        "pass": 0,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 0,
+        "state": "untested"
+      },
+      "cases": []
+    },
+    {
+      "name": "max",
+      "kind": "function",
+      "arglists": [
+        "(max x)",
+        "(max x y)",
+        "(max x y & more)"
+      ],
+      "classification": "IntentionalDivergence",
+      "status": "implemented-alpha",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/max",
+      "notes": [
+        "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+        "Alpha numeric semantics cover checked i64 and finite f64; full Clojure numeric tower parity is deferred."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/max.ras"
+      ],
+      "summary": "Returns the greatest numeric argument.",
+      "caseIds": [
+        "core/max/basic"
+      ],
+      "counts": {
+        "pass": 1,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 1,
+        "state": "tested"
+      },
+      "cases": [
+        {
+          "id": "core/max/basic",
+          "title": "Maximum",
+          "source": "(max 9 2 7)",
+          "outcome": "pass",
+          "expected": "9",
+          "observed": "9",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        }
+      ]
+    },
+    {
+      "name": "min",
+      "kind": "function",
+      "arglists": [
+        "(min x)",
+        "(min x y)",
+        "(min x y & more)"
+      ],
+      "classification": "IntentionalDivergence",
+      "status": "implemented-alpha",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/min",
+      "notes": [
+        "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+        "Alpha numeric semantics cover checked i64 and finite f64; full Clojure numeric tower parity is deferred."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/min.ras"
+      ],
+      "summary": "Returns the least numeric argument.",
+      "caseIds": [
+        "core/min/basic"
+      ],
+      "counts": {
+        "pass": 1,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 1,
+        "state": "tested"
+      },
+      "cases": [
+        {
+          "id": "core/min/basic",
+          "title": "Minimum",
+          "source": "(min 9 2 7)",
+          "outcome": "pass",
+          "expected": "2",
+          "observed": "2",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        }
+      ]
+    },
+    {
+      "name": "neg?",
+      "kind": "function",
+      "arglists": [
+        "(neg? x)"
+      ],
+      "classification": "IntentionalDivergence",
+      "status": "implemented-alpha",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/neg?",
+      "notes": [
+        "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+        "Alpha numeric semantics cover checked i64 and finite f64; full Clojure numeric tower parity is deferred."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/neg-x3f.ras"
+      ],
+      "summary": "Returns true when x is negative.",
+      "caseIds": [],
+      "counts": {
+        "pass": 0,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 0,
+        "state": "untested"
+      },
+      "cases": []
+    },
+    {
+      "name": "next",
+      "kind": "function",
+      "arglists": [
+        "(next coll)"
+      ],
+      "classification": "IntentionalDivergence",
+      "status": "implemented-eager",
+      "sequencePolicy": "eager-finite",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/next",
+      "notes": [
+        "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+        "Rasa sequence operations are finite eager in alpha; Clojure LazySeq parity is deferred."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/next.ras"
+      ],
+      "summary": "Returns the non-empty remainder as a finite seq or lazy view, or nil when no non-empty remainder exists.",
+      "caseIds": [
+        "core/next/singleton"
+      ],
+      "counts": {
+        "pass": 1,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 1,
+        "state": "tested"
+      },
+      "cases": [
+        {
+          "id": "core/next/singleton",
+          "title": "Next over singleton",
+          "source": "(next [:a])",
+          "outcome": "pass",
+          "expected": "nil",
+          "observed": "nil",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        }
+      ]
+    },
+    {
+      "name": "nil?",
+      "kind": "function",
+      "arglists": [
+        "(nil? x)"
+      ],
+      "classification": "IntentionalDivergence",
+      "status": "implemented-alpha",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/nil?",
+      "notes": [
+        "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+        "Alpha public-core semantics cover finite Rasa runtime values; full Clojure edge parity is deferred."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/nil-x3f.ras"
+      ],
+      "summary": "Returns true when x is nil.",
+      "caseIds": [],
+      "counts": {
+        "pass": 0,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 0,
+        "state": "untested"
+      },
+      "cases": []
+    },
+    {
+      "name": "not",
+      "kind": "function",
+      "arglists": [
+        "(not x)"
+      ],
+      "classification": "IntentionalDivergence",
+      "status": "implemented-alpha",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/not",
+      "notes": [
+        "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+        "Alpha public-core semantics cover finite Rasa runtime values; full Clojure edge parity is deferred."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/not.ras"
+      ],
+      "summary": "Returns true when x is falsey.",
+      "caseIds": [],
+      "counts": {
+        "pass": 0,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 0,
+        "state": "untested"
+      },
+      "cases": []
+    },
+    {
+      "name": "not=",
+      "kind": "function",
+      "arglists": [
+        "(not=)",
+        "(not= x)",
+        "(not= x y)",
+        "(not= x y & more)"
+      ],
+      "classification": "IntentionalDivergence",
+      "status": "implemented-alpha",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/not=",
+      "notes": [
+        "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+        "Alpha public-core semantics cover finite Rasa runtime values; full Clojure edge parity is deferred."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/not-x3d.ras"
+      ],
+      "summary": "Returns true when supplied values are not all equal.",
+      "caseIds": [
+        "core/equality/not-equal"
+      ],
+      "counts": {
+        "pass": 1,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 1,
+        "state": "tested"
+      },
+      "cases": [
+        {
+          "id": "core/equality/not-equal",
+          "title": "Not equal",
+          "source": "(not= :a :b)",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        }
+      ]
+    },
+    {
+      "name": "nth",
+      "kind": "function",
+      "arglists": [
+        "(nth coll index)",
+        "(nth coll index default)"
+      ],
+      "classification": "IntentionalDivergence",
+      "status": "implemented-alpha",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/nth",
+      "notes": [
+        "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+        "Alpha public-core semantics cover finite Rasa runtime values; full Clojure edge parity is deferred."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/nth.ras"
+      ],
+      "summary": "Returns the indexed item from a vector, list, finite seq, lazy seq, or string; with a default, returns that value when out of range.",
+      "caseIds": [
+        "core/nth/vector"
+      ],
+      "counts": {
+        "pass": 1,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 1,
+        "state": "tested"
+      },
+      "cases": [
+        {
+          "id": "core/nth/vector",
+          "title": "Vector nth",
+          "source": "(nth [:a :b :c] 1)",
+          "outcome": "pass",
+          "expected": ":b",
+          "observed": ":b",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        }
+      ]
+    },
+    {
+      "name": "pos?",
+      "kind": "function",
+      "arglists": [
+        "(pos? x)"
+      ],
+      "classification": "IntentionalDivergence",
+      "status": "implemented-alpha",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/pos?",
+      "notes": [
+        "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+        "Alpha numeric semantics cover checked i64 and finite f64; full Clojure numeric tower parity is deferred."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/pos-x3f.ras"
+      ],
+      "summary": "Returns true when x is positive.",
+      "caseIds": [],
+      "counts": {
+        "pass": 0,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 0,
+        "state": "untested"
+      },
+      "cases": []
+    },
+    {
+      "name": "range",
+      "kind": "function",
+      "arglists": [
+        "(range ...)"
+      ],
+      "classification": "PortableEquivalent",
+      "status": "implemented-native",
+      "sequencePolicy": "eager-finite",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/range",
+      "notes": [
+        "Projected from the native pure core registry; compat descriptor is not yet generated."
+      ],
+      "provenance": [
+        "crates/rasa-eval/src/native/mod.rs"
+      ],
+      "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
+      "caseIds": [],
+      "counts": {
+        "pass": 0,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 0,
+        "state": "untested"
+      },
+      "cases": []
+    },
+    {
+      "name": "reduce",
+      "kind": "function",
+      "arglists": [
+        "(reduce ...)"
+      ],
+      "classification": "PortableEquivalent",
+      "status": "implemented-native",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/reduce",
+      "notes": [
+        "Projected from the native pure core registry; compat descriptor is not yet generated."
+      ],
+      "provenance": [
+        "crates/rasa-eval/src/native/mod.rs"
+      ],
+      "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
+      "caseIds": [
+        "core/reduce/sum"
+      ],
+      "counts": {
+        "pass": 1,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 1,
+        "state": "tested"
+      },
+      "cases": [
+        {
+          "id": "core/reduce/sum",
+          "title": "Reduce with initial value",
+          "source": "(reduce + 0 [1 2 3])",
+          "outcome": "pass",
+          "expected": "6",
+          "observed": "6",
+          "axes": [
+            "semantic-surface",
+            "eval-semantics"
+          ],
+          "log": ""
+        }
+      ]
+    },
+    {
+      "name": "remove",
+      "kind": "function",
+      "arglists": [
+        "(remove ...)"
+      ],
+      "classification": "PortableEquivalent",
+      "status": "implemented-native",
+      "sequencePolicy": "eager-finite",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/remove",
+      "notes": [
+        "Projected from the native pure core registry; compat descriptor is not yet generated."
+      ],
+      "provenance": [
+        "crates/rasa-eval/src/native/mod.rs"
+      ],
+      "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
+      "caseIds": [],
+      "counts": {
+        "pass": 0,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 0,
+        "state": "untested"
+      },
+      "cases": []
+    },
+    {
+      "name": "rest",
+      "kind": "function",
+      "arglists": [
+        "(rest coll)"
+      ],
+      "classification": "IntentionalDivergence",
+      "status": "implemented-eager",
+      "sequencePolicy": "eager-finite",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/rest",
+      "notes": [
+        "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+        "Rasa sequence operations are finite eager in alpha; Clojure LazySeq parity is deferred."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/rest.ras"
+      ],
+      "summary": "Returns all but the first item as a finite seq or lazy view, or an empty seq when no remaining items exist.",
+      "caseIds": [
+        "core/rest/vector"
+      ],
+      "counts": {
+        "pass": 1,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 1,
+        "state": "tested"
+      },
+      "cases": [
+        {
+          "id": "core/rest/vector",
+          "title": "Rest over vector",
+          "source": "(rest [:a :b :c])",
+          "outcome": "pass",
+          "expected": "(:b :c)",
+          "observed": "(:b :c)",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        }
+      ]
+    },
+    {
+      "name": "satisfies?",
+      "kind": "function",
+      "arglists": [
+        "(satisfies? ...)"
+      ],
+      "classification": "PortableEquivalent",
+      "status": "implemented-native",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/satisfies%3F",
+      "notes": [
+        "Projected from the native pure core registry; compat descriptor is not yet generated."
+      ],
+      "provenance": [
+        "crates/rasa-eval/src/native/mod.rs"
+      ],
+      "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
+      "caseIds": [],
+      "counts": {
+        "pass": 0,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 0,
+        "state": "untested"
+      },
+      "cases": []
+    },
+    {
+      "name": "seq",
+      "kind": "function",
+      "arglists": [
+        "(seq coll)"
+      ],
+      "classification": "IntentionalDivergence",
+      "status": "implemented-eager",
+      "sequencePolicy": "eager-finite",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/seq",
+      "notes": [
+        "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+        "Rasa sequence operations are finite eager in alpha; Clojure LazySeq parity is deferred."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/seq.ras"
+      ],
+      "summary": "Returns nil for nil or empty seqable values, otherwise returns a finite seq or admitted lazy seq.",
+      "caseIds": [
+        "core/seq/vector"
+      ],
+      "counts": {
+        "pass": 1,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 1,
+        "state": "tested"
+      },
+      "cases": [
+        {
+          "id": "core/seq/vector",
+          "title": "Vector seq",
+          "source": "(seq [1 2])",
+          "outcome": "pass",
+          "expected": "(1 2)",
+          "observed": "(1 2)",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        }
+      ]
+    },
+    {
+      "name": "set?",
+      "kind": "function",
+      "arglists": [
+        "(set? x)"
+      ],
+      "classification": "IntentionalDivergence",
+      "status": "implemented-alpha",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/set?",
+      "notes": [
+        "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+        "Alpha public-core semantics cover finite Rasa runtime values; full Clojure edge parity is deferred."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/set-x3f.ras"
+      ],
+      "summary": "Returns true when x is a set.",
+      "caseIds": [],
+      "counts": {
+        "pass": 0,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 0,
+        "state": "untested"
+      },
+      "cases": []
+    },
+    {
+      "name": "some?",
+      "kind": "function",
+      "arglists": [
+        "(some? x)"
+      ],
+      "classification": "IntentionalDivergence",
+      "status": "implemented-alpha",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/some?",
+      "notes": [
+        "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+        "Alpha public-core semantics cover finite Rasa runtime values; full Clojure edge parity is deferred."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/some-x3f.ras"
+      ],
+      "summary": "Returns true when x is not nil.",
+      "caseIds": [],
+      "counts": {
+        "pass": 0,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 0,
+        "state": "untested"
+      },
+      "cases": []
+    },
+    {
+      "name": "str",
+      "kind": "function",
+      "arglists": [
+        "(str ...)"
+      ],
+      "classification": "PortableEquivalent",
+      "status": "implemented-native",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/str",
+      "notes": [
+        "Projected from the native pure core registry; compat descriptor is not yet generated."
+      ],
+      "provenance": [
+        "crates/rasa-eval/src/native/mod.rs"
+      ],
+      "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
+      "caseIds": [],
+      "counts": {
+        "pass": 0,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 0,
+        "state": "untested"
+      },
+      "cases": []
+    },
+    {
+      "name": "string?",
+      "kind": "function",
+      "arglists": [
+        "(string? x)"
+      ],
+      "classification": "IntentionalDivergence",
+      "status": "implemented-alpha",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/string?",
+      "notes": [
+        "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+        "Alpha public-core semantics cover finite Rasa runtime values; full Clojure edge parity is deferred."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/string-x3f.ras"
+      ],
+      "summary": "Returns true when x is a string.",
+      "caseIds": [],
+      "counts": {
+        "pass": 0,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 0,
+        "state": "untested"
+      },
+      "cases": []
+    },
+    {
+      "name": "symbol?",
+      "kind": "function",
+      "arglists": [
+        "(symbol? x)"
+      ],
+      "classification": "IntentionalDivergence",
+      "status": "implemented-alpha",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/symbol?",
+      "notes": [
+        "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+        "Alpha public-core semantics cover finite Rasa runtime values; full Clojure edge parity is deferred."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/symbol-x3f.ras"
+      ],
+      "summary": "Returns true when x is a symbol.",
+      "caseIds": [],
+      "counts": {
+        "pass": 0,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 0,
+        "state": "untested"
+      },
+      "cases": []
+    },
+    {
+      "name": "take",
+      "kind": "function",
+      "arglists": [
+        "(take ...)"
+      ],
+      "classification": "PortableEquivalent",
+      "status": "implemented-native",
+      "sequencePolicy": "eager-finite",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/take",
+      "notes": [
+        "Projected from the native pure core registry; compat descriptor is not yet generated."
+      ],
+      "provenance": [
+        "crates/rasa-eval/src/native/mod.rs"
+      ],
+      "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
+      "caseIds": [],
+      "counts": {
+        "pass": 0,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 0,
+        "state": "untested"
+      },
+      "cases": []
+    },
+    {
+      "name": "take-while",
+      "kind": "function",
+      "arglists": [
+        "(take-while ...)"
+      ],
+      "classification": "PortableEquivalent",
+      "status": "implemented-native",
+      "sequencePolicy": "eager-finite",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/take-while",
+      "notes": [
+        "Projected from the native pure core registry; compat descriptor is not yet generated."
+      ],
+      "provenance": [
+        "crates/rasa-eval/src/native/mod.rs"
+      ],
+      "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
+      "caseIds": [],
+      "counts": {
+        "pass": 0,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 0,
+        "state": "untested"
+      },
+      "cases": []
+    },
+    {
+      "name": "true?",
+      "kind": "function",
+      "arglists": [
+        "(true? x)"
+      ],
+      "classification": "IntentionalDivergence",
+      "status": "implemented-alpha",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/true?",
+      "notes": [
+        "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+        "Alpha public-core semantics cover finite Rasa runtime values; full Clojure edge parity is deferred."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/true-x3f.ras"
+      ],
+      "summary": "Returns true when x is true.",
+      "caseIds": [],
+      "counts": {
+        "pass": 0,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 0,
+        "state": "untested"
+      },
+      "cases": []
+    },
+    {
+      "name": "vals",
+      "kind": "function",
+      "arglists": [
+        "(vals map)"
+      ],
+      "classification": "IntentionalDivergence",
+      "status": "implemented-eager",
+      "sequencePolicy": "eager-finite",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/vals",
+      "notes": [
+        "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+        "Rasa sequence operations are finite eager in alpha; Clojure LazySeq parity is deferred."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/vals.ras"
+      ],
+      "summary": "Returns a finite eager seq of map values, or nil for nil and empty maps.",
+      "caseIds": [
+        "core/vals/map"
+      ],
+      "counts": {
+        "pass": 1,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 1,
+        "state": "tested"
+      },
+      "cases": [
+        {
+          "id": "core/vals/map",
+          "title": "Map vals",
+          "source": "(vals {:a 1 :b 2})",
+          "outcome": "pass",
+          "expected": "(1 2)",
+          "observed": "(1 2)",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        }
+      ]
+    },
+    {
+      "name": "vector",
+      "kind": "function",
+      "arglists": [
+        "(vector ...)"
+      ],
+      "classification": "PortableEquivalent",
+      "status": "implemented-native",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/vector",
+      "notes": [
+        "Projected from the native pure core registry; compat descriptor is not yet generated."
+      ],
+      "provenance": [
+        "crates/rasa-eval/src/native/mod.rs"
+      ],
+      "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
+      "caseIds": [],
+      "counts": {
+        "pass": 0,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 0,
+        "state": "untested"
+      },
+      "cases": []
+    },
+    {
+      "name": "vector?",
+      "kind": "function",
+      "arglists": [
+        "(vector? x)"
+      ],
+      "classification": "IntentionalDivergence",
+      "status": "implemented-alpha",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/vector?",
+      "notes": [
+        "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+        "Alpha public-core semantics cover finite Rasa runtime values; full Clojure edge parity is deferred."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/vector-x3f.ras"
+      ],
+      "summary": "Returns true when x is a vector.",
+      "caseIds": [],
+      "counts": {
+        "pass": 0,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 0,
+        "state": "untested"
+      },
+      "cases": []
+    },
+    {
+      "name": "zero?",
+      "kind": "function",
+      "arglists": [
+        "(zero? x)"
+      ],
+      "classification": "IntentionalDivergence",
+      "status": "implemented-alpha",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/zero?",
+      "notes": [
+        "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+        "Alpha numeric semantics cover checked i64 and finite f64; full Clojure numeric tower parity is deferred."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/zero-x3f.ras"
+      ],
+      "summary": "Returns true when x is numeric zero.",
+      "caseIds": [],
+      "counts": {
+        "pass": 0,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 0,
+        "state": "untested"
+      },
+      "cases": []
+    },
+    {
+      "name": "zipmap",
+      "kind": "function",
+      "arglists": [
+        "(zipmap ...)"
+      ],
+      "classification": "PortableEquivalent",
+      "status": "implemented-native",
+      "sequencePolicy": "eager-finite",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/zipmap",
+      "notes": [
+        "Projected from the native pure core registry; compat descriptor is not yet generated."
+      ],
+      "provenance": [
+        "crates/rasa-eval/src/native/mod.rs"
+      ],
+      "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
+      "caseIds": [],
+      "counts": {
+        "pass": 0,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 0,
+        "state": "untested"
+      },
+      "cases": []
+    }
+  ],
+  "deferred": [
+    {
+      "name": "and",
+      "kind": "macro",
+      "classification": "Deferred",
+      "reason": "logical macro expansion surface is planned separately"
+    },
+    {
+      "name": "comp",
+      "kind": "function",
+      "classification": "Deferred",
+      "reason": "higher-order composition needs a stable function value and arity composition contract"
+    },
+    {
+      "name": "complement",
+      "kind": "function",
+      "classification": "Deferred",
+      "reason": "higher-order function wrapper semantics are not yet classified"
+    },
+    {
+      "name": "delay",
+      "kind": "macro",
+      "classification": "Deferred",
+      "reason": "deferred execution requires delayed value identity and forcing semantics"
+    },
+    {
+      "name": "every?",
+      "kind": "function",
+      "classification": "Deferred",
+      "reason": "finite predicate traversal is supportable but not yet projected into the public core surface"
+    },
+    {
+      "name": "force",
+      "kind": "function",
+      "classification": "Deferred",
+      "reason": "depends on delayed value representation"
+    },
+    {
+      "name": "lazy-seq",
+      "kind": "macro",
+      "classification": "Deferred",
+      "reason": "LazySeq object identity, forcing, caching, and realization timing are not yet admitted runtime values"
+    },
+    {
+      "name": "or",
+      "kind": "macro",
+      "classification": "Deferred",
+      "reason": "logical macro expansion surface is planned separately"
+    },
+    {
+      "name": "partial",
+      "kind": "function",
+      "classification": "Deferred",
+      "reason": "partial application needs a portable closure/value contract across runtime and Wasm"
+    },
+    {
+      "name": "reduced",
+      "kind": "function",
+      "classification": "Deferred",
+      "reason": "reduced wrapper value algebra is not yet represented"
+    },
+    {
+      "name": "reduced?",
+      "kind": "function",
+      "classification": "Deferred",
+      "reason": "depends on reduced wrapper value representation"
+    },
+    {
+      "name": "sequence",
+      "kind": "function",
+      "classification": "Deferred",
+      "reason": "depends on lazy sequence and transducer representation"
+    },
+    {
+      "name": "some",
+      "kind": "function",
+      "classification": "Deferred",
+      "reason": "finite predicate traversal is supportable but not yet projected into the public core surface"
+    },
+    {
+      "name": "transduce",
+      "kind": "function",
+      "classification": "Deferred",
+      "reason": "transducer arities and reduced short-circuit semantics are not yet admitted"
+    }
+  ],
+  "excluded": [
+    {
+      "name": "bean",
+      "reason": "JavaBean/JVM interop"
+    },
+    {
+      "name": "class",
+      "reason": "JVM class model"
+    },
+    {
+      "name": "compile",
+      "reason": "JVM compilation artifact"
+    },
+    {
+      "name": "future",
+      "reason": "host/threading semantics"
+    },
+    {
+      "name": "future-call",
+      "reason": "host/threading semantics"
+    },
+    {
+      "name": "gen-class",
+      "reason": "JVM bytecode generation"
+    },
+    {
+      "name": "import",
+      "reason": "JVM classpath and Java interop"
+    },
+    {
+      "name": "load-file",
+      "reason": "host filesystem and loader capability"
+    },
+    {
+      "name": "load-string",
+      "reason": "dynamic source loading is a capability boundary for Rasa"
+    },
+    {
+      "name": "promise",
+      "reason": "host concurrency primitive"
+    },
+    {
+      "name": "proxy",
+      "reason": "JVM object interop"
+    },
+    {
+      "name": "slurp",
+      "reason": "host filesystem or URL capability"
+    },
+    {
+      "name": "spit",
+      "reason": "host filesystem capability"
+    },
+    {
+      "name": "Thread",
+      "reason": "host/JVM thread type"
+    }
+  ]
+}

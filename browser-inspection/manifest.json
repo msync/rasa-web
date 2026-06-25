@@ -1,6 +1,6 @@
 {
   "schema": "rasa.browser-demo.static.v1",
-  "name": "Rasa Browser Demo",
+  "name": "Rasa Browser Inspection",
   "mode": "static-browser-wasm",
   "engine": "../assets/engine.wasm",
   "brand": {
