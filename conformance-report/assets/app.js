@@ -484,6 +484,82 @@ ${Ba}
   [coll]
   (into #{} coll))
 
+(defn some
+  "Returns the first truthy result of pred over coll, otherwise nil."
+  [pred coll]
+  (loop [s (seq coll)]
+    (if s
+      (let [value (pred (first s))]
+        (if value value (recur (next s))))
+      nil)))
+
+(defn every?
+  "Returns true when pred is truthy for every item in coll."
+  [pred coll]
+  (loop [s (seq coll)]
+    (if s
+      (if (pred (first s))
+        (recur (next s))
+        false)
+      true)))
+
+(defn not-any?
+  "Returns true when pred is falsey for every item in coll."
+  [pred coll]
+  (not (some pred coll)))
+
+(defn not-every?
+  "Returns true when pred is falsey for at least one item in coll."
+  [pred coll]
+  (not (every? pred coll)))
+
+(defn constantly
+  "Returns a function that ignores its arguments and returns x."
+  [x]
+  (fn [& _] x))
+
+(defn reverse
+  "Returns a list of the items in coll in reverse order."
+  [coll]
+  (reduce conj '() coll))
+
+(defn last
+  "Returns the last item of coll, or nil when coll is empty."
+  [coll]
+  (loop [s (seq coll)
+         value nil]
+    (if s
+      (recur (next s) (first s))
+      value)))
+
+(defn nthrest
+  "Returns the result of applying rest to coll n times."
+  [coll n]
+  (if (< n 1)
+    coll
+    (loop [s (seq coll)
+           i n]
+      (if s
+        (if (< i 1)
+          s
+          (recur (rest s) (dec i)))
+        '()))))
+
+(defn nthnext
+  "Returns the result of applying next to coll n times."
+  [coll n]
+  (if (nil? coll)
+    nil
+    (if (< n 1)
+      (seq coll)
+      (loop [s (seq coll)
+             i n]
+        (if s
+          (if (< i 1)
+            s
+            (recur (next s) (dec i)))
+          nil)))))
+
 (def ^{:doc "Returns the item count for nil, strings, concrete collections, and safely finite lazy seqs."
        :rasa.impl/backing rasa.prim/count}
   count
