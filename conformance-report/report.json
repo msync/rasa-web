@@ -33,18 +33,18 @@
       "import": {
         "upstreamFiles": 234,
         "upstreamCases": 5723,
-        "projectedFiles": 90,
-        "projectedCases": 2471,
-        "supportedFiles": 87,
-        "cases": 1328,
-        "importedCases": 1328,
-        "importerFilteredCases": 1143,
-        "unprojectedCases": 3237,
+        "projectedFiles": 94,
+        "projectedCases": 2612,
+        "supportedFiles": 91,
+        "cases": 1432,
+        "importedCases": 1432,
+        "importerFilteredCases": 1180,
+        "unprojectedCases": 3096,
         "unclassifiedCases": 11,
         "residualCases": 4,
-        "filtered": 1287,
-        "generatedAt": "2026-06-27T17:57:10.308Z",
-        "projectedFunctions": 110
+        "filtered": 1320,
+        "generatedAt": "2026-06-28T01:41:56.442Z",
+        "projectedFunctions": 114
       },
       "filtered": [
         {
@@ -2495,14 +2495,6 @@
           "upstream": {
             "source": "jank-lang/clojure-test-suite",
             "file": "test/clojure/core_test/format.cljc"
-          },
-          "reason": "not in Rasa projected supported set"
-        },
-        {
-          "function": "get-in",
-          "upstream": {
-            "source": "jank-lang/clojure-test-suite",
-            "file": "test/clojure/core_test/get_in.cljc"
           },
           "reason": "not in Rasa projected supported set"
         },
@@ -5442,7 +5434,143 @@
             "source": "jank-lang/clojure-test-suite",
             "file": "test/clojure/core_test/merge.cljc"
           },
-          "reason": "not in Rasa projected supported set"
+          "reason": "dialect/helper namespace",
+          "form": "(is (p/thrown? (merge {} [])))"
+        },
+        {
+          "function": "merge",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/merge.cljc"
+          },
+          "reason": "dialect/helper namespace",
+          "form": "(is (p/thrown? (merge {} [:foo])))"
+        },
+        {
+          "function": "merge",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/merge.cljc"
+          },
+          "reason": "dialect/helper namespace",
+          "form": "(is (p/thrown? (merge {} [:foo :bar :baz])))"
+        },
+        {
+          "function": "merge",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/merge.cljc"
+          },
+          "reason": "dialect/helper namespace",
+          "form": "(is (p/thrown? (merge {} [:foo :bar :baz :bar])))"
+        },
+        {
+          "function": "merge",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/merge.cljc"
+          },
+          "reason": "dialect/helper namespace",
+          "form": "(is (p/thrown? (merge {} 1)))"
+        },
+        {
+          "function": "merge",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/merge.cljc"
+          },
+          "reason": "dialect/helper namespace",
+          "form": "(is (p/thrown? (merge {} 1 2)))"
+        },
+        {
+          "function": "merge",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/merge.cljc"
+          },
+          "reason": "dialect/helper namespace",
+          "form": "(is (p/thrown? (merge {} :foo)))"
+        },
+        {
+          "function": "merge",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/merge.cljc"
+          },
+          "reason": "dialect/helper namespace",
+          "form": "(is (p/thrown? (merge {} \"str\")))"
+        },
+        {
+          "function": "merge",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/merge.cljc"
+          },
+          "reason": "operator 1 is not in supported set",
+          "form": "(is (any? (merge '(1 2 3) 1)))"
+        },
+        {
+          "function": "merge",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/merge.cljc"
+          },
+          "reason": "dialect/helper namespace",
+          "form": "(is (p/thrown? (merge :foo :bar)))"
+        },
+        {
+          "function": "merge",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/merge.cljc"
+          },
+          "reason": "dialect/helper namespace",
+          "form": "(is (p/thrown? (merge 100 :foo)))"
+        },
+        {
+          "function": "merge",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/merge.cljc"
+          },
+          "reason": "dialect/helper namespace",
+          "form": "(is (p/thrown? (merge \"str\" :foo)))"
+        },
+        {
+          "function": "merge",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/merge.cljc"
+          },
+          "reason": "dialect/helper namespace",
+          "form": "(is (p/thrown? (merge nil (range))))"
+        },
+        {
+          "function": "merge",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/merge.cljc"
+          },
+          "reason": "operator 1 is not in supported set",
+          "form": "(is (= {1 2} (merge {} '(1 2))))"
+        },
+        {
+          "function": "merge",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/merge.cljc"
+          },
+          "reason": "dialect/helper namespace",
+          "form": "(is (p/thrown? (merge {} '(1 2))))"
+        },
+        {
+          "function": "merge",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/merge.cljc"
+          },
+          "reason": "dialect/helper namespace",
+          "form": "(is (p/thrown? (merge {} 1 2)))"
         },
         {
           "function": "min",
@@ -8977,7 +9105,35 @@
             "source": "jank-lang/clojure-test-suite",
             "file": "test/clojure/core_test/select_keys.cljc"
           },
-          "reason": "not in Rasa projected supported set"
+          "reason": "unsupported helper",
+          "form": "(is (= {:a \"a\"} (select-keys (sorted-map :a \"a\" :b \"b\") [:a])))"
+        },
+        {
+          "function": "select-keys",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/select_keys.cljc"
+          },
+          "reason": "dialect/helper namespace",
+          "form": "(is (p/thrown? (select-keys \"\" [:a])))"
+        },
+        {
+          "function": "select-keys",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/select_keys.cljc"
+          },
+          "reason": "dialect/helper namespace",
+          "form": "(is (p/thrown? (select-keys 0 [:a])))"
+        },
+        {
+          "function": "select-keys",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/select_keys.cljc"
+          },
+          "reason": "dialect/helper namespace",
+          "form": "(is (p/thrown? (select-keys {} :a)))"
         },
         {
           "function": "seq",
@@ -10969,7 +11125,152 @@
             "source": "jank-lang/clojure-test-suite",
             "file": "test/clojure/core_test/update.cljc"
           },
-          "reason": "not in Rasa projected supported set"
+          "reason": "operator partial is not in supported set",
+          "form": "(= (apply update [{:k 5} :k (partial * 3)]) {:k 15})"
+        },
+        {
+          "function": "update",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/update.cljc"
+          },
+          "reason": "dialect/helper namespace",
+          "form": "(p/thrown? (apply update [[]        1 identity]))"
+        },
+        {
+          "function": "update",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/update.cljc"
+          },
+          "reason": "dialect/helper namespace",
+          "form": "(p/thrown? (apply update [[0 1] -1 identity]))"
+        },
+        {
+          "function": "update",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/update.cljc"
+          },
+          "reason": "dialect/helper namespace",
+          "form": "(p/thrown? (apply update [[1 2 3]  :k identity]))"
+        },
+        {
+          "function": "update",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/update.cljc"
+          },
+          "reason": "dialect/helper namespace",
+          "form": "(p/thrown? (apply update [[1 2 3]    :k identity]))"
+        },
+        {
+          "function": "update",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/update.cljc"
+          },
+          "reason": "dialect/helper namespace",
+          "form": "(p/thrown? (apply update [1          :k identity]))"
+        },
+        {
+          "function": "update",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/update.cljc"
+          },
+          "reason": "dialect/helper namespace",
+          "form": "(p/thrown? (apply update [\"hi\"       :k identity]))"
+        },
+        {
+          "function": "update",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/update.cljc"
+          },
+          "reason": "dialect/helper namespace",
+          "form": "(p/thrown? (apply update ['()        :k identity]))"
+        },
+        {
+          "function": "update",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/update.cljc"
+          },
+          "reason": "dialect/helper namespace",
+          "form": "(p/thrown? (apply update ['(1 2 3)   :k identity]))"
+        },
+        {
+          "function": "update",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/update.cljc"
+          },
+          "reason": "dialect/helper namespace",
+          "form": "(p/thrown? (apply update [{:k 5} :k 1]))"
+        },
+        {
+          "function": "update",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/update.cljc"
+          },
+          "reason": "dialect/helper namespace",
+          "form": "(p/thrown? (apply update [{:k 5} :k '()]))"
+        },
+        {
+          "function": "update",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/update.cljc"
+          },
+          "reason": "dialect/helper namespace",
+          "form": "(p/thrown? (apply update [{:k 5} :k '()]))"
+        },
+        {
+          "function": "update",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/update.cljc"
+          },
+          "reason": "dialect/helper namespace",
+          "form": "(p/thrown? (apply update [{:k 5} :k []]))"
+        },
+        {
+          "function": "update",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/update.cljc"
+          },
+          "reason": "dialect/helper namespace",
+          "form": "(p/thrown? (apply update [{:k 5} :k nil]))"
+        },
+        {
+          "function": "update",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/update.cljc"
+          },
+          "reason": "dialect/helper namespace",
+          "form": "(p/thrown? (apply update [{:k 5} :k \"\"]))"
+        },
+        {
+          "function": "update",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/update.cljc"
+          },
+          "reason": "dialect/helper namespace",
+          "form": "(p/thrown? (apply update [(repeat 1) :k identity]))"
+        },
+        {
+          "function": "update",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/update.cljc"
+          },
+          "reason": "dialect/helper namespace",
+          "form": "(p/thrown? (apply update [{:k 1} :k identity 1 2 3 4]))"
         },
         {
           "function": "uuid?",
@@ -12105,17 +12406,6 @@
           ]
         },
         {
-          "name": "get-in",
-          "kind": "function",
-          "classification": "Unclassified",
-          "status": "needs-triage",
-          "reason": "jank has upstream test rows, but Rasa has not yet classified this clojure.core symbol for portable support.",
-          "upstreamCases": 22,
-          "files": [
-            "test/clojure/core_test/get_in.cljc"
-          ]
-        },
-        {
           "name": "group-by",
           "kind": "function",
           "classification": "Unclassified",
@@ -12256,17 +12546,6 @@
           "upstreamCases": 1,
           "files": [
             "test/clojure/core_test/make_hierarchy.cljc"
-          ]
-        },
-        {
-          "name": "merge",
-          "kind": "function",
-          "classification": "Unclassified",
-          "status": "needs-triage",
-          "reason": "jank has upstream test rows, but Rasa has not yet classified this clojure.core symbol for portable support.",
-          "upstreamCases": 43,
-          "files": [
-            "test/clojure/core_test/merge.cljc"
           ]
         },
         {
@@ -12721,17 +13000,6 @@
           ]
         },
         {
-          "name": "select-keys",
-          "kind": "function",
-          "classification": "Unclassified",
-          "status": "needs-triage",
-          "reason": "jank has upstream test rows, but Rasa has not yet classified this clojure.core symbol for portable support.",
-          "upstreamCases": 13,
-          "files": [
-            "test/clojure/core_test/select_keys.cljc"
-          ]
-        },
-        {
           "name": "seq?",
           "kind": "function",
           "classification": "Unclassified",
@@ -12949,17 +13217,6 @@
           "upstreamCases": 3,
           "files": [
             "test/clojure/core_test/unsigned_bit_shift_right.cljc"
-          ]
-        },
-        {
-          "name": "update",
-          "kind": "function",
-          "classification": "Unclassified",
-          "status": "needs-triage",
-          "reason": "jank has upstream test rows, but Rasa has not yet classified this clojure.core symbol for portable support.",
-          "upstreamCases": 63,
-          "files": [
-            "test/clojure/core_test/update.cljc"
           ]
         },
         {
@@ -14652,6 +14909,49 @@
         ]
       },
       {
+        "name": "get-in",
+        "kind": "function",
+        "arglists": [
+          "(get-in m ks)",
+          "(get-in m ks not-found)"
+        ],
+        "classification": "IntentionalDivergence",
+        "status": "implemented-alpha",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/get-in",
+        "notes": [
+          "Public Rasa core function is defined in source over already-admitted core operations."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/get-x2din.ras"
+        ],
+        "summary": "Returns the value in a nested lookup structure, or not-found when supplied and a key is absent.",
+        "caseIds": [
+          "jank/clojure.core/get-in/0",
+          "jank/clojure.core/get-in/1",
+          "jank/clojure.core/get-in/2",
+          "jank/clojure.core/get-in/3",
+          "jank/clojure.core/get-in/4",
+          "jank/clojure.core/get-in/5",
+          "jank/clojure.core/get-in/6",
+          "jank/clojure.core/get-in/7",
+          "jank/clojure.core/get-in/8",
+          "jank/clojure.core/get-in/9",
+          "jank/clojure.core/get-in/10",
+          "jank/clojure.core/get-in/11",
+          "jank/clojure.core/get-in/12",
+          "jank/clojure.core/get-in/13",
+          "jank/clojure.core/get-in/14",
+          "jank/clojure.core/get-in/15",
+          "jank/clojure.core/get-in/16",
+          "jank/clojure.core/get-in/17",
+          "jank/clojure.core/get-in/18",
+          "jank/clojure.core/get-in/19",
+          "jank/clojure.core/get-in/20",
+          "jank/clojure.core/get-in/21"
+        ]
+      },
+      {
         "name": "hash-map",
         "kind": "function",
         "arglists": [
@@ -15222,6 +15522,54 @@
           "jank/clojure.core/max/13",
           "jank/clojure.core/max/14",
           "jank/clojure.core/max/15"
+        ]
+      },
+      {
+        "name": "merge",
+        "kind": "function",
+        "arglists": [
+          "(merge)",
+          "(merge & maps)"
+        ],
+        "classification": "IntentionalDivergence",
+        "status": "implemented-eager",
+        "sequencePolicy": "eager-finite",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/merge",
+        "notes": [
+          "Public Rasa core function is defined in source over already-admitted core operations."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/merge.ras"
+        ],
+        "summary": "Returns a map containing the mappings from the supplied maps, with later mappings winning.",
+        "caseIds": [
+          "jank/clojure.core/merge/0",
+          "jank/clojure.core/merge/1",
+          "jank/clojure.core/merge/2",
+          "jank/clojure.core/merge/3",
+          "jank/clojure.core/merge/4",
+          "jank/clojure.core/merge/5",
+          "jank/clojure.core/merge/6",
+          "jank/clojure.core/merge/7",
+          "jank/clojure.core/merge/8",
+          "jank/clojure.core/merge/9",
+          "jank/clojure.core/merge/10",
+          "jank/clojure.core/merge/11",
+          "jank/clojure.core/merge/12",
+          "jank/clojure.core/merge/13",
+          "jank/clojure.core/merge/14",
+          "jank/clojure.core/merge/15",
+          "jank/clojure.core/merge/16",
+          "jank/clojure.core/merge/19",
+          "jank/clojure.core/merge/20",
+          "jank/clojure.core/merge/21",
+          "jank/clojure.core/merge/23",
+          "jank/clojure.core/merge/24",
+          "jank/clojure.core/merge/31",
+          "jank/clojure.core/merge/32",
+          "jank/clojure.core/merge/33",
+          "jank/clojure.core/merge/34",
+          "jank/clojure.core/merge/35"
         ]
       },
       {
@@ -15940,6 +16288,35 @@
         ]
       },
       {
+        "name": "select-keys",
+        "kind": "function",
+        "arglists": [
+          "(select-keys m keyseq)"
+        ],
+        "classification": "IntentionalDivergence",
+        "status": "implemented-eager",
+        "sequencePolicy": "eager-finite",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/select-keys",
+        "notes": [
+          "Public Rasa core function is defined in source over already-admitted core operations."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/select-x2dkeys.ras"
+        ],
+        "summary": "Returns a map containing only entries in m whose keys are in keyseq.",
+        "caseIds": [
+          "jank/clojure.core/select-keys/0",
+          "jank/clojure.core/select-keys/1",
+          "jank/clojure.core/select-keys/2",
+          "jank/clojure.core/select-keys/3",
+          "jank/clojure.core/select-keys/4",
+          "jank/clojure.core/select-keys/5",
+          "jank/clojure.core/select-keys/6",
+          "jank/clojure.core/select-keys/7",
+          "jank/clojure.core/select-keys/9"
+        ]
+      },
+      {
         "name": "seq",
         "kind": "function",
         "arglists": [
@@ -16359,6 +16736,76 @@
           "jank/clojure.core/trueqmark/44",
           "jank/clojure.core/trueqmark/45",
           "jank/clojure.core/trueqmark/46"
+        ]
+      },
+      {
+        "name": "update",
+        "kind": "function",
+        "arglists": [
+          "(update m k f)",
+          "(update m k f x)",
+          "(update m k f x y)",
+          "(update m k f x y z)",
+          "(update m k f x y z & more)"
+        ],
+        "classification": "IntentionalDivergence",
+        "status": "implemented-alpha",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/update",
+        "notes": [
+          "Public Rasa core function is defined in source over already-admitted core operations."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/update.ras"
+        ],
+        "summary": "Updates the value at key k by applying f to the old value and args.",
+        "caseIds": [
+          "jank/clojure.core/update/0",
+          "jank/clojure.core/update/1",
+          "jank/clojure.core/update/3",
+          "jank/clojure.core/update/4",
+          "jank/clojure.core/update/5",
+          "jank/clojure.core/update/6",
+          "jank/clojure.core/update/7",
+          "jank/clojure.core/update/8",
+          "jank/clojure.core/update/9",
+          "jank/clojure.core/update/10",
+          "jank/clojure.core/update/11",
+          "jank/clojure.core/update/12",
+          "jank/clojure.core/update/13",
+          "jank/clojure.core/update/14",
+          "jank/clojure.core/update/15",
+          "jank/clojure.core/update/16",
+          "jank/clojure.core/update/17",
+          "jank/clojure.core/update/18",
+          "jank/clojure.core/update/19",
+          "jank/clojure.core/update/20",
+          "jank/clojure.core/update/21",
+          "jank/clojure.core/update/22",
+          "jank/clojure.core/update/23",
+          "jank/clojure.core/update/24",
+          "jank/clojure.core/update/25",
+          "jank/clojure.core/update/26",
+          "jank/clojure.core/update/27",
+          "jank/clojure.core/update/28",
+          "jank/clojure.core/update/29",
+          "jank/clojure.core/update/30",
+          "jank/clojure.core/update/31",
+          "jank/clojure.core/update/32",
+          "jank/clojure.core/update/33",
+          "jank/clojure.core/update/34",
+          "jank/clojure.core/update/35",
+          "jank/clojure.core/update/36",
+          "jank/clojure.core/update/37",
+          "jank/clojure.core/update/38",
+          "jank/clojure.core/update/39",
+          "jank/clojure.core/update/40",
+          "jank/clojure.core/update/41",
+          "jank/clojure.core/update/42",
+          "jank/clojure.core/update/43",
+          "jank/clojure.core/update/44",
+          "jank/clojure.core/update/45",
+          "jank/clojure.core/update/46"
         ]
       },
       {
@@ -23573,6 +24020,358 @@
         }
       },
       {
+        "id": "jank/clojure.core/get-in/0",
+        "function": "get-in",
+        "title": "get-in upstream assertion 1",
+        "source": "(= nil (get-in nil nil))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/get_in.cljc",
+          "form": "(is ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/get-in/1",
+        "function": "get-in",
+        "title": "get-in upstream assertion 2",
+        "source": "(= nil (get-in nil nil \"not found\"))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/get_in.cljc",
+          "form": "(is ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/get-in/2",
+        "function": "get-in",
+        "title": "get-in upstream assertion 3",
+        "source": "(= {} (get-in {} nil))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/get_in.cljc",
+          "form": "(is ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/get-in/3",
+        "function": "get-in",
+        "title": "get-in upstream assertion 4",
+        "source": "(= {} (get-in {} nil \"not found\"))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/get_in.cljc",
+          "form": "(is ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/get-in/4",
+        "function": "get-in",
+        "title": "get-in upstream assertion 5",
+        "source": "(= {} (get-in {} []))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/get_in.cljc",
+          "form": "(is ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/get-in/5",
+        "function": "get-in",
+        "title": "get-in upstream assertion 6",
+        "source": "(= {} (get-in {} [] \"not found\"))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/get_in.cljc",
+          "form": "(is ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/get-in/6",
+        "function": "get-in",
+        "title": "get-in upstream assertion 7",
+        "source": "(= \"not found\" (get-in {} [nil] \"not found\"))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/get_in.cljc",
+          "form": "(is ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/get-in/7",
+        "function": "get-in",
+        "title": "get-in upstream assertion 8",
+        "source": "(= \\space (get-in {} [:a] \\space))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/get_in.cljc",
+          "form": "(is ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/get-in/8",
+        "function": "get-in",
+        "title": "get-in upstream assertion 9",
+        "source": "(= 0 (get-in {} [\"a\"] 0))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/get_in.cljc",
+          "form": "(is ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/get-in/9",
+        "function": "get-in",
+        "title": "get-in upstream assertion 10",
+        "source": "(= 1 (get-in {:a 1} [:a]))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/get_in.cljc",
+          "form": "(is ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/get-in/10",
+        "function": "get-in",
+        "title": "get-in upstream assertion 11",
+        "source": "(= {:a 1} (get-in {:a 1} nil))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/get_in.cljc",
+          "form": "(is ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/get-in/11",
+        "function": "get-in",
+        "title": "get-in upstream assertion 12",
+        "source": "(= {:a 1} (get-in {:a 1} []))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/get_in.cljc",
+          "form": "(is ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/get-in/12",
+        "function": "get-in",
+        "title": "get-in upstream assertion 13",
+        "source": "(= {:a 1} (get-in {:a 1} '()))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/get_in.cljc",
+          "form": "(is ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/get-in/13",
+        "function": "get-in",
+        "title": "get-in upstream assertion 14",
+        "source": "(= {:b {:c :d}} (get-in {:a {:b {:c :d}}} [:a]))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/get_in.cljc",
+          "form": "(is ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/get-in/14",
+        "function": "get-in",
+        "title": "get-in upstream assertion 15",
+        "source": "(= {:c :d} (get-in {:a {:b {:c :d}}} [:a :b]))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/get_in.cljc",
+          "form": "(is ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/get-in/15",
+        "function": "get-in",
+        "title": "get-in upstream assertion 16",
+        "source": "(= :d (get-in {:a {:b {:c :d} :e (range)}} [:a :b :c]))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/get_in.cljc",
+          "form": "(is ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/get-in/16",
+        "function": "get-in",
+        "title": "get-in upstream assertion 17",
+        "source": "(= nil (get-in {:a {:b {:c :d}}} [:a :b :c :d]))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/get_in.cljc",
+          "form": "(is ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/get-in/17",
+        "function": "get-in",
+        "title": "get-in upstream assertion 18",
+        "source": "(= :d (get-in {:a {:b {:c :d} :e (range)}} [:a :b :c :d] :d))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/get_in.cljc",
+          "form": "(is ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/get-in/18",
+        "function": "get-in",
+        "title": "get-in upstream assertion 19",
+        "source": "(= 0 (get-in [[0 1 2]\n                        [3 4 5]\n                        [6 7 8]] [0 0]))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/get_in.cljc",
+          "form": "(is ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/get-in/19",
+        "function": "get-in",
+        "title": "get-in upstream assertion 20",
+        "source": "(= 4 (get-in [[0 1 2]\n                        [3 4 (range)]\n                        [6 7 8]] [1 1]))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/get_in.cljc",
+          "form": "(is ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/get-in/20",
+        "function": "get-in",
+        "title": "get-in upstream assertion 21",
+        "source": "(= 9 (get-in [[0 1 2]\n                        [3 4 5]\n                        [6 7 (range)]] [2 3] 9))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/get_in.cljc",
+          "form": "(is ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/get-in/21",
+        "function": "get-in",
+        "title": "get-in upstream assertion 22",
+        "source": "(= \"x\" (get-in {:id 1\n                          :matrix [[0 1 2]\n                                   [3 4 {:var \"x\"}]\n                                   [6 7 8]]}\n\n                         [:matrix 1 2 :var] \"y\"))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/get_in.cljc",
+          "form": "(is ...)"
+        }
+      },
+      {
         "id": "jank/clojure.core/gt/0",
         "function": ">",
         "title": "> upstream table row 1",
@@ -28741,6 +29540,438 @@
         }
       },
       {
+        "id": "jank/clojure.core/merge/0",
+        "function": "merge",
+        "title": "merge upstream assertion 1",
+        "source": "(nil? (merge))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/merge.cljc",
+          "form": "(is ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/merge/1",
+        "function": "merge",
+        "title": "merge upstream assertion 2",
+        "source": "(nil? (merge nil))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/merge.cljc",
+          "form": "(is ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/merge/2",
+        "function": "merge",
+        "title": "merge upstream assertion 3",
+        "source": "(nil? (merge nil nil))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/merge.cljc",
+          "form": "(is ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/merge/3",
+        "function": "merge",
+        "title": "merge upstream assertion 4",
+        "source": "(nil? (merge nil nil nil))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/merge.cljc",
+          "form": "(is ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/merge/4",
+        "function": "merge",
+        "title": "merge upstream assertion 5",
+        "source": "(= {} (merge {}))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/merge.cljc",
+          "form": "(is ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/merge/5",
+        "function": "merge",
+        "title": "merge upstream assertion 6",
+        "source": "(= {} (merge {} nil))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/merge.cljc",
+          "form": "(is ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/merge/6",
+        "function": "merge",
+        "title": "merge upstream assertion 7",
+        "source": "(= {} (merge nil {}))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/merge.cljc",
+          "form": "(is ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/merge/7",
+        "function": "merge",
+        "title": "merge upstream assertion 8",
+        "source": "(= {} (merge nil {} nil))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/merge.cljc",
+          "form": "(is ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/merge/8",
+        "function": "merge",
+        "title": "merge upstream assertion 9",
+        "source": "(= {[2 3] :foo} (merge {[2 3] :foo} nil {}))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/merge.cljc",
+          "form": "(is ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/merge/9",
+        "function": "merge",
+        "title": "merge upstream assertion 10",
+        "source": "(= {1 11} (merge {1 11} {} nil))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/merge.cljc",
+          "form": "(is ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/merge/10",
+        "function": "merge",
+        "title": "merge upstream assertion 11",
+        "source": "(= {:a \"aaaaa\"} (merge {:a \"a\"} {:a \"aaaaa\"}))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/merge.cljc",
+          "form": "(is ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/merge/11",
+        "function": "merge",
+        "title": "merge upstream assertion 12",
+        "source": "(= {:a \"a\" :b \"b\"} (merge {:a \"aaaa\"} {:a \"a\" :b \"b\"}))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/merge.cljc",
+          "form": "(is ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/merge/12",
+        "function": "merge",
+        "title": "merge upstream assertion 13",
+        "source": "(= {:a \"a\" :b \"b\"} (merge {:a \"aaaa\"}\n                                      {:a \"a\" :b \"bbbb\"}\n                                      {:a \"a\" :b \"b\"}))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/merge.cljc",
+          "form": "(is ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/merge/13",
+        "function": "merge",
+        "title": "merge upstream assertion 14",
+        "source": "(= {:a nil :b \"b\" :c \"c\"} (merge {:a \"aaaa\"}\n                                             {:a \"a\" :b \"bbbb\" :c \"c\"}\n                                             {:a nil :b \"b\"}))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/merge.cljc",
+          "form": "(is ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/merge/14",
+        "function": "merge",
+        "title": "merge upstream assertion 15",
+        "source": "(= {:x 1 :y 10 :z 100} (merge {:x 1 :y 5555}\n                                          {:y 10 :z 100}))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/merge.cljc",
+          "form": "(is ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/merge/15",
+        "function": "merge",
+        "title": "merge upstream assertion 16",
+        "source": "(= {:ceo {:name \"Alice\"},\n                :cto {:name \"Brenda\"}}\n               (merge {:ceo {:salary 1000000}} \n                      {:cto {:salary  500000}}\n                      {:ceo {:name \"Alice\"}}\n                      {:cto {:name \"Brenda\"}}))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/merge.cljc",
+          "form": "(is ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/merge/16",
+        "function": "merge",
+        "title": "merge upstream assertion 17",
+        "source": "(= {:a \"a\", :b \"b\"} (merge {:a nil}\n                                       (first {:a \"a\"})\n                                       {:b \"b\"}))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/merge.cljc",
+          "form": "(is ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/merge/19",
+        "function": "merge",
+        "title": "merge upstream assertion 20",
+        "source": "(= {:foo \"foo\"} (merge {} [:foo \"foo\"]))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/merge.cljc",
+          "form": "(is ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/merge/20",
+        "function": "merge",
+        "title": "merge upstream assertion 21",
+        "source": "(= {\"x\" 1} (merge {} [\"x\" 1]))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/merge.cljc",
+          "form": "(is ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/merge/21",
+        "function": "merge",
+        "title": "merge upstream assertion 22",
+        "source": "(= {'x 10, 'y 10} (merge {'x 10} ['y 10]))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/merge.cljc",
+          "form": "(is ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/merge/23",
+        "function": "merge",
+        "title": "merge upstream assertion 24",
+        "source": "(= {:foo \"foo\", :bar \"bar\"} (merge {} [:foo \"foo\"] [:bar \"bar\"]))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/merge.cljc",
+          "form": "(is ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/merge/24",
+        "function": "merge",
+        "title": "merge upstream assertion 25",
+        "source": "(= {'x 10, 'y 10, 'z 10} (merge {'x 10} ['y 10] ['z 10]))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/merge.cljc",
+          "form": "(is ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/merge/31",
+        "function": "merge",
+        "title": "merge upstream assertion 32",
+        "source": "(any? (merge [1 2] 3 4 5))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/merge.cljc",
+          "form": "(is ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/merge/32",
+        "function": "merge",
+        "title": "merge upstream assertion 33",
+        "source": "(any? (merge [] nil {} 1 {:a \"c\"}))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/merge.cljc",
+          "form": "(is ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/merge/33",
+        "function": "merge",
+        "title": "merge upstream assertion 34",
+        "source": "(any? (merge (first {:a \"a\"}) {:b \"b\"} {:c \"c\"}))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/merge.cljc",
+          "form": "(is ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/merge/34",
+        "function": "merge",
+        "title": "merge upstream assertion 35",
+        "source": "(= [:foo] (merge [:foo]))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/merge.cljc",
+          "form": "(is ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/merge/35",
+        "function": "merge",
+        "title": "merge upstream assertion 36",
+        "source": "(= :foo (merge :foo))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/merge.cljc",
+          "form": "(is ...)"
+        }
+      },
+      {
         "id": "jank/clojure.core/min/0",
         "function": "min",
         "title": "min upstream table row 1",
@@ -32757,6 +33988,150 @@
         }
       },
       {
+        "id": "jank/clojure.core/select-keys/0",
+        "function": "select-keys",
+        "title": "select-keys upstream assertion 1",
+        "source": "(= {} (select-keys nil nil))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/select_keys.cljc",
+          "form": "(is ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/select-keys/1",
+        "function": "select-keys",
+        "title": "select-keys upstream assertion 2",
+        "source": "(= {} (select-keys {} nil))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/select_keys.cljc",
+          "form": "(is ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/select-keys/2",
+        "function": "select-keys",
+        "title": "select-keys upstream assertion 3",
+        "source": "(= {} (select-keys {} {}))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/select_keys.cljc",
+          "form": "(is ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/select-keys/3",
+        "function": "select-keys",
+        "title": "select-keys upstream assertion 4",
+        "source": "(= {} (select-keys #{} {}))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/select_keys.cljc",
+          "form": "(is ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/select-keys/4",
+        "function": "select-keys",
+        "title": "select-keys upstream assertion 5",
+        "source": "(= {} (select-keys #{1} []))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/select_keys.cljc",
+          "form": "(is ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/select-keys/5",
+        "function": "select-keys",
+        "title": "select-keys upstream assertion 6",
+        "source": "(= {} (select-keys {:a \"a\" :b \"b\"} []))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/select_keys.cljc",
+          "form": "(is ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/select-keys/6",
+        "function": "select-keys",
+        "title": "select-keys upstream assertion 7",
+        "source": "(= {} (select-keys {:a \"a\" :b \"b\"} [:c]))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/select_keys.cljc",
+          "form": "(is ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/select-keys/7",
+        "function": "select-keys",
+        "title": "select-keys upstream assertion 8",
+        "source": "(= {:a \"a\"} (select-keys {:a \"a\" :b \"b\"} [:a]))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/select_keys.cljc",
+          "form": "(is ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/select-keys/9",
+        "function": "select-keys",
+        "title": "select-keys upstream assertion 10",
+        "source": "(= {:a \"a\"} (select-keys {:a \"a\" :b (range)} [:a]))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/select_keys.cljc",
+          "form": "(is ...)"
+        }
+      },
+      {
         "id": "jank/clojure.core/seq/2",
         "function": "seq",
         "title": "seq upstream table row 3",
@@ -36245,6 +37620,742 @@
         }
       },
       {
+        "id": "jank/clojure.core/update/0",
+        "function": "update",
+        "title": "update upstream table row 1",
+        "source": "(= (apply update [{:k 5} :k identity]) {:k 5})",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/update.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/update/1",
+        "function": "update",
+        "title": "update upstream table row 2",
+        "source": "(= (apply update [{:k 5} :k inc]) {:k 6})",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/update.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/update/3",
+        "function": "update",
+        "title": "update upstream table row 4",
+        "source": "(= (apply update [{:k 5} :k * 3]) {:k 15})",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/update.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/update/4",
+        "function": "update",
+        "title": "update upstream table row 5",
+        "source": "(= (apply update [{:k 5} :k * 3 4]) {:k 60})",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/update.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/update/5",
+        "function": "update",
+        "title": "update upstream table row 6",
+        "source": "(= (apply update [{:k 5} :k * 3 4 5]) {:k 300})",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/update.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/update/6",
+        "function": "update",
+        "title": "update upstream table row 7",
+        "source": "(= (apply update [{:k 5} :k * 3 4 5 6]) {:k 1800})",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/update.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/update/7",
+        "function": "update",
+        "title": "update upstream table row 8",
+        "source": "(= (apply update [{:k 5} :k * 3 4 5 6 7]) {:k 12600})",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/update.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/update/8",
+        "function": "update",
+        "title": "update upstream table row 9",
+        "source": "(= (apply update [{:k 5} :k - 3]) {:k 2})",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/update.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/update/9",
+        "function": "update",
+        "title": "update upstream table row 10",
+        "source": "(= (apply update [{:k 5} :k - 3 4]) {:k (- 5 3 4)})",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/update.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/update/10",
+        "function": "update",
+        "title": "update upstream table row 11",
+        "source": "(= (apply update [{:k 5} :k - 3 4 5]) {:k (- 5 3 4 5)})",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/update.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/update/11",
+        "function": "update",
+        "title": "update upstream table row 12",
+        "source": "(= (apply update [{:k 5} :k - 3 4 5 6]) {:k (- 5 3 4 5 6)})",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/update.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/update/12",
+        "function": "update",
+        "title": "update upstream table row 13",
+        "source": "(= (apply update [{:k 5} :k - 3 4 5 6 7]) {:k (- 5 3 4 5 6 7)})",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/update.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/update/13",
+        "function": "update",
+        "title": "update upstream table row 14",
+        "source": "(= (apply update [{:a 5} :k identity]) {:k nil,  :a 5})",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/update.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/update/14",
+        "function": "update",
+        "title": "update upstream table row 15",
+        "source": "(= (apply update [{:a 5} :k nil?]) {:k true, :a 5})",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/update.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/update/15",
+        "function": "update",
+        "title": "update upstream table row 16",
+        "source": "(= (apply update [{}     :k identity]) {:k nil})",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/update.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/update/16",
+        "function": "update",
+        "title": "update upstream table row 17",
+        "source": "(= (apply update [{}     :k nil?]) {:k true})",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/update.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/update/17",
+        "function": "update",
+        "title": "update upstream table row 18",
+        "source": "(= (apply update [nil    :k identity]) {:k nil})",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/update.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/update/18",
+        "function": "update",
+        "title": "update upstream table row 19",
+        "source": "(= (apply update [nil    :k nil?]) {:k true})",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/update.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/update/19",
+        "function": "update",
+        "title": "update upstream table row 20",
+        "source": "(= (apply update [{nil 1} nil inc]) {nil 2})",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/update.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/update/20",
+        "function": "update",
+        "title": "update upstream table row 21",
+        "source": "(= (apply update [{nil 1} nil inc]) {nil 2})",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/update.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/update/21",
+        "function": "update",
+        "title": "update upstream table row 22",
+        "source": "(= (apply update [{{} 1}  {}  inc]) {{} 2})",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/update.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/update/22",
+        "function": "update",
+        "title": "update upstream table row 23",
+        "source": "(= (apply update [{[] 1}  []  inc]) {[] 2})",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/update.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/update/23",
+        "function": "update",
+        "title": "update upstream table row 24",
+        "source": "(= (apply update [{dec 1} dec inc]) {dec 2})",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/update.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/update/24",
+        "function": "update",
+        "title": "update upstream table row 25",
+        "source": "(= (apply update [{\"\" 1}  \"\"  inc]) {\"\" 2})",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/update.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/update/25",
+        "function": "update",
+        "title": "update upstream table row 26",
+        "source": "(= (apply update [{0 1}   0   inc]) {0 2})",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/update.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/update/26",
+        "function": "update",
+        "title": "update upstream table row 27",
+        "source": "(= (apply update [{:k 5} :k :f]) {:k nil})",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/update.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/update/27",
+        "function": "update",
+        "title": "update upstream table row 28",
+        "source": "(= (apply update [{:k 5} :k #{}]) {:k nil})",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/update.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/update/28",
+        "function": "update",
+        "title": "update upstream table row 29",
+        "source": "(= (apply update [{:k 5} :k {}]) {:k nil})",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/update.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/update/29",
+        "function": "update",
+        "title": "update upstream table row 30",
+        "source": "(= (apply update [nil    :k :f]) {:k nil})",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/update.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/update/30",
+        "function": "update",
+        "title": "update upstream table row 31",
+        "source": "(= (apply update [nil    :k #{}]) {:k nil})",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/update.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/update/31",
+        "function": "update",
+        "title": "update upstream table row 32",
+        "source": "(= (apply update [nil    :k {}]) {:k nil})",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/update.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/update/32",
+        "function": "update",
+        "title": "update upstream table row 33",
+        "source": "(= (apply update [{:a [0 1 2], :b 4} :a conj 3]) {:a [0 1 2 3], :b 4})",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/update.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/update/33",
+        "function": "update",
+        "title": "update upstream table row 1",
+        "source": "(= (apply update [[0 1] 0 identity]) [0 1])",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/update.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/update/34",
+        "function": "update",
+        "title": "update upstream table row 2",
+        "source": "(= (apply update [[0 1] 0 inc]) [1 1])",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/update.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/update/35",
+        "function": "update",
+        "title": "update upstream table row 3",
+        "source": "(= (apply update [[0 1] 1 identity]) [0 1])",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/update.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/update/36",
+        "function": "update",
+        "title": "update upstream table row 4",
+        "source": "(= (apply update [[0 1] 1 inc]) [0 2])",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/update.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/update/37",
+        "function": "update",
+        "title": "update upstream table row 5",
+        "source": "(= (apply update [[0 1] 2 identity]) [0 1 nil])",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/update.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/update/38",
+        "function": "update",
+        "title": "update upstream table row 6",
+        "source": "(= (apply update [[0 1] 2 nil?]) [0 1 true])",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/update.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/update/39",
+        "function": "update",
+        "title": "update upstream table row 7",
+        "source": "(= (apply update [[1 3 9] 0 - 3]) [(- 1 3) 3 9])",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/update.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/update/40",
+        "function": "update",
+        "title": "update upstream table row 8",
+        "source": "(= (apply update [[1 3 9] 0 - 3 4]) [(- 1 3 4)       3 9])",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/update.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/update/41",
+        "function": "update",
+        "title": "update upstream table row 9",
+        "source": "(= (apply update [[1 3 9] 0 - 3 4 5]) [(- 1 3 4 5)     3 9])",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/update.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/update/42",
+        "function": "update",
+        "title": "update upstream table row 10",
+        "source": "(= (apply update [[1 3 9] 0 - 3 4 5 6]) [(- 1 3 4 5 6)   3 9])",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/update.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/update/43",
+        "function": "update",
+        "title": "update upstream table row 11",
+        "source": "(= (apply update [[1 3 9] 0 - 3 4 5 6 7]) [(- 1 3 4 5 6 7) 3 9])",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/update.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/update/44",
+        "function": "update",
+        "title": "update upstream table row 12",
+        "source": "(= (apply update [[] 0 #{}]) [nil])",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/update.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/update/45",
+        "function": "update",
+        "title": "update upstream table row 13",
+        "source": "(= (apply update [[] 0  {}]) [nil])",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/update.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/update/46",
+        "function": "update",
+        "title": "update upstream table row 14",
+        "source": "(= (apply update [[] 0  :f]) [nil])",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/update.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
         "id": "jank/clojure.core/vals/0",
         "function": "vals",
         "title": "vals upstream assertion 1",
@@ -38023,7 +40134,7 @@
     ]
   },
   "run": {
-    "generatedAt": "2026-06-27T17:57:18.017Z",
+    "generatedAt": "2026-06-28T01:42:05.922Z",
     "rasaRevision": "local",
     "clojureVersion": "1.12.5",
     "engine": "rasa-runtime-wasm",
@@ -38032,22 +40143,22 @@
   "totals": {
     "upstreamFiles": 234,
     "upstreamCases": 5723,
-    "supportedFiles": 87,
-    "projectedCases": 2471,
-    "projected": 122,
-    "supported": 122,
-    "implemented": 110,
+    "supportedFiles": 91,
+    "projectedCases": 2612,
+    "projected": 126,
+    "supported": 126,
+    "implemented": 114,
     "deferred": 12,
     "excluded": 14,
-    "importedCases": 1328,
-    "importerFilteredCases": 1143,
-    "upstreamPendingFunctions": 140,
-    "unprojectedCases": 3237,
+    "importedCases": 1432,
+    "importerFilteredCases": 1180,
+    "upstreamPendingFunctions": 136,
+    "unprojectedCases": 3096,
     "unclassifiedCases": 11,
     "residualCases": 4,
-    "filteredUpstream": 1287,
-    "pass": 1222,
-    "fail": 106,
+    "filteredUpstream": 1320,
+    "pass": 1325,
+    "fail": 107,
     "expectedFailure": 0,
     "structuralGap": 0,
     "untested": 23
@@ -48194,6 +50305,325 @@
       ]
     },
     {
+      "name": "get-in",
+      "kind": "function",
+      "arglists": [
+        "(get-in m ks)",
+        "(get-in m ks not-found)"
+      ],
+      "classification": "IntentionalDivergence",
+      "status": "implemented-alpha",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/get-in",
+      "notes": [
+        "Public Rasa core function is defined in source over already-admitted core operations."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/get-x2din.ras"
+      ],
+      "summary": "Returns the value in a nested lookup structure, or not-found when supplied and a key is absent.",
+      "caseIds": [
+        "jank/clojure.core/get-in/0",
+        "jank/clojure.core/get-in/1",
+        "jank/clojure.core/get-in/2",
+        "jank/clojure.core/get-in/3",
+        "jank/clojure.core/get-in/4",
+        "jank/clojure.core/get-in/5",
+        "jank/clojure.core/get-in/6",
+        "jank/clojure.core/get-in/7",
+        "jank/clojure.core/get-in/8",
+        "jank/clojure.core/get-in/9",
+        "jank/clojure.core/get-in/10",
+        "jank/clojure.core/get-in/11",
+        "jank/clojure.core/get-in/12",
+        "jank/clojure.core/get-in/13",
+        "jank/clojure.core/get-in/14",
+        "jank/clojure.core/get-in/15",
+        "jank/clojure.core/get-in/16",
+        "jank/clojure.core/get-in/17",
+        "jank/clojure.core/get-in/18",
+        "jank/clojure.core/get-in/19",
+        "jank/clojure.core/get-in/20",
+        "jank/clojure.core/get-in/21"
+      ],
+      "counts": {
+        "pass": 21,
+        "fail": 1,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 22,
+        "state": "tested"
+      },
+      "cases": [
+        {
+          "id": "jank/clojure.core/get-in/0",
+          "title": "get-in upstream assertion 1",
+          "source": "(= nil (get-in nil nil))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/get-in/1",
+          "title": "get-in upstream assertion 2",
+          "source": "(= nil (get-in nil nil \"not found\"))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/get-in/2",
+          "title": "get-in upstream assertion 3",
+          "source": "(= {} (get-in {} nil))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/get-in/3",
+          "title": "get-in upstream assertion 4",
+          "source": "(= {} (get-in {} nil \"not found\"))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/get-in/4",
+          "title": "get-in upstream assertion 5",
+          "source": "(= {} (get-in {} []))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/get-in/5",
+          "title": "get-in upstream assertion 6",
+          "source": "(= {} (get-in {} [] \"not found\"))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/get-in/6",
+          "title": "get-in upstream assertion 7",
+          "source": "(= \"not found\" (get-in {} [nil] \"not found\"))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/get-in/7",
+          "title": "get-in upstream assertion 8",
+          "source": "(= \\space (get-in {} [:a] \\space))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/get-in/8",
+          "title": "get-in upstream assertion 9",
+          "source": "(= 0 (get-in {} [\"a\"] 0))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/get-in/9",
+          "title": "get-in upstream assertion 10",
+          "source": "(= 1 (get-in {:a 1} [:a]))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/get-in/10",
+          "title": "get-in upstream assertion 11",
+          "source": "(= {:a 1} (get-in {:a 1} nil))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/get-in/11",
+          "title": "get-in upstream assertion 12",
+          "source": "(= {:a 1} (get-in {:a 1} []))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/get-in/12",
+          "title": "get-in upstream assertion 13",
+          "source": "(= {:a 1} (get-in {:a 1} '()))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/get-in/13",
+          "title": "get-in upstream assertion 14",
+          "source": "(= {:b {:c :d}} (get-in {:a {:b {:c :d}}} [:a]))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/get-in/14",
+          "title": "get-in upstream assertion 15",
+          "source": "(= {:c :d} (get-in {:a {:b {:c :d}}} [:a :b]))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/get-in/15",
+          "title": "get-in upstream assertion 16",
+          "source": "(= :d (get-in {:a {:b {:c :d} :e (range)}} [:a :b :c]))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/get-in/16",
+          "title": "get-in upstream assertion 17",
+          "source": "(= nil (get-in {:a {:b {:c :d}}} [:a :b :c :d]))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/get-in/17",
+          "title": "get-in upstream assertion 18",
+          "source": "(= :d (get-in {:a {:b {:c :d} :e (range)}} [:a :b :c :d] :d))",
+          "outcome": "fail",
+          "expected": "true",
+          "observed": "contains? requires rasa.protocol/lookup",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": "contains? requires rasa.protocol/lookup"
+        },
+        {
+          "id": "jank/clojure.core/get-in/18",
+          "title": "get-in upstream assertion 19",
+          "source": "(= 0 (get-in [[0 1 2]\n                        [3 4 5]\n                        [6 7 8]] [0 0]))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/get-in/19",
+          "title": "get-in upstream assertion 20",
+          "source": "(= 4 (get-in [[0 1 2]\n                        [3 4 (range)]\n                        [6 7 8]] [1 1]))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/get-in/20",
+          "title": "get-in upstream assertion 21",
+          "source": "(= 9 (get-in [[0 1 2]\n                        [3 4 5]\n                        [6 7 (range)]] [2 3] 9))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/get-in/21",
+          "title": "get-in upstream assertion 22",
+          "source": "(= \"x\" (get-in {:id 1\n                          :matrix [[0 1 2]\n                                   [3 4 {:var \"x\"}]\n                                   [6 7 8]]}\n\n                         [:matrix 1 2 :var] \"y\"))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        }
+      ]
+    },
+    {
       "name": "hash-map",
       "kind": "function",
       "arglists": [
@@ -51378,6 +53808,390 @@
       ]
     },
     {
+      "name": "merge",
+      "kind": "function",
+      "arglists": [
+        "(merge)",
+        "(merge & maps)"
+      ],
+      "classification": "IntentionalDivergence",
+      "status": "implemented-eager",
+      "sequencePolicy": "eager-finite",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/merge",
+      "notes": [
+        "Public Rasa core function is defined in source over already-admitted core operations."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/merge.ras"
+      ],
+      "summary": "Returns a map containing the mappings from the supplied maps, with later mappings winning.",
+      "caseIds": [
+        "jank/clojure.core/merge/0",
+        "jank/clojure.core/merge/1",
+        "jank/clojure.core/merge/2",
+        "jank/clojure.core/merge/3",
+        "jank/clojure.core/merge/4",
+        "jank/clojure.core/merge/5",
+        "jank/clojure.core/merge/6",
+        "jank/clojure.core/merge/7",
+        "jank/clojure.core/merge/8",
+        "jank/clojure.core/merge/9",
+        "jank/clojure.core/merge/10",
+        "jank/clojure.core/merge/11",
+        "jank/clojure.core/merge/12",
+        "jank/clojure.core/merge/13",
+        "jank/clojure.core/merge/14",
+        "jank/clojure.core/merge/15",
+        "jank/clojure.core/merge/16",
+        "jank/clojure.core/merge/19",
+        "jank/clojure.core/merge/20",
+        "jank/clojure.core/merge/21",
+        "jank/clojure.core/merge/23",
+        "jank/clojure.core/merge/24",
+        "jank/clojure.core/merge/31",
+        "jank/clojure.core/merge/32",
+        "jank/clojure.core/merge/33",
+        "jank/clojure.core/merge/34",
+        "jank/clojure.core/merge/35"
+      ],
+      "counts": {
+        "pass": 27,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 27,
+        "state": "tested"
+      },
+      "cases": [
+        {
+          "id": "jank/clojure.core/merge/0",
+          "title": "merge upstream assertion 1",
+          "source": "(nil? (merge))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/merge/1",
+          "title": "merge upstream assertion 2",
+          "source": "(nil? (merge nil))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/merge/2",
+          "title": "merge upstream assertion 3",
+          "source": "(nil? (merge nil nil))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/merge/3",
+          "title": "merge upstream assertion 4",
+          "source": "(nil? (merge nil nil nil))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/merge/4",
+          "title": "merge upstream assertion 5",
+          "source": "(= {} (merge {}))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/merge/5",
+          "title": "merge upstream assertion 6",
+          "source": "(= {} (merge {} nil))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/merge/6",
+          "title": "merge upstream assertion 7",
+          "source": "(= {} (merge nil {}))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/merge/7",
+          "title": "merge upstream assertion 8",
+          "source": "(= {} (merge nil {} nil))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/merge/8",
+          "title": "merge upstream assertion 9",
+          "source": "(= {[2 3] :foo} (merge {[2 3] :foo} nil {}))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/merge/9",
+          "title": "merge upstream assertion 10",
+          "source": "(= {1 11} (merge {1 11} {} nil))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/merge/10",
+          "title": "merge upstream assertion 11",
+          "source": "(= {:a \"aaaaa\"} (merge {:a \"a\"} {:a \"aaaaa\"}))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/merge/11",
+          "title": "merge upstream assertion 12",
+          "source": "(= {:a \"a\" :b \"b\"} (merge {:a \"aaaa\"} {:a \"a\" :b \"b\"}))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/merge/12",
+          "title": "merge upstream assertion 13",
+          "source": "(= {:a \"a\" :b \"b\"} (merge {:a \"aaaa\"}\n                                      {:a \"a\" :b \"bbbb\"}\n                                      {:a \"a\" :b \"b\"}))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/merge/13",
+          "title": "merge upstream assertion 14",
+          "source": "(= {:a nil :b \"b\" :c \"c\"} (merge {:a \"aaaa\"}\n                                             {:a \"a\" :b \"bbbb\" :c \"c\"}\n                                             {:a nil :b \"b\"}))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/merge/14",
+          "title": "merge upstream assertion 15",
+          "source": "(= {:x 1 :y 10 :z 100} (merge {:x 1 :y 5555}\n                                          {:y 10 :z 100}))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/merge/15",
+          "title": "merge upstream assertion 16",
+          "source": "(= {:ceo {:name \"Alice\"},\n                :cto {:name \"Brenda\"}}\n               (merge {:ceo {:salary 1000000}} \n                      {:cto {:salary  500000}}\n                      {:ceo {:name \"Alice\"}}\n                      {:cto {:name \"Brenda\"}}))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/merge/16",
+          "title": "merge upstream assertion 17",
+          "source": "(= {:a \"a\", :b \"b\"} (merge {:a nil}\n                                       (first {:a \"a\"})\n                                       {:b \"b\"}))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/merge/19",
+          "title": "merge upstream assertion 20",
+          "source": "(= {:foo \"foo\"} (merge {} [:foo \"foo\"]))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/merge/20",
+          "title": "merge upstream assertion 21",
+          "source": "(= {\"x\" 1} (merge {} [\"x\" 1]))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/merge/21",
+          "title": "merge upstream assertion 22",
+          "source": "(= {'x 10, 'y 10} (merge {'x 10} ['y 10]))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/merge/23",
+          "title": "merge upstream assertion 24",
+          "source": "(= {:foo \"foo\", :bar \"bar\"} (merge {} [:foo \"foo\"] [:bar \"bar\"]))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/merge/24",
+          "title": "merge upstream assertion 25",
+          "source": "(= {'x 10, 'y 10, 'z 10} (merge {'x 10} ['y 10] ['z 10]))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/merge/31",
+          "title": "merge upstream assertion 32",
+          "source": "(any? (merge [1 2] 3 4 5))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/merge/32",
+          "title": "merge upstream assertion 33",
+          "source": "(any? (merge [] nil {} 1 {:a \"c\"}))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/merge/33",
+          "title": "merge upstream assertion 34",
+          "source": "(any? (merge (first {:a \"a\"}) {:b \"b\"} {:c \"c\"}))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/merge/34",
+          "title": "merge upstream assertion 35",
+          "source": "(= [:foo] (merge [:foo]))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/merge/35",
+          "title": "merge upstream assertion 36",
+          "source": "(= :foo (merge :foo))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        }
+      ]
+    },
+    {
       "name": "min",
       "kind": "function",
       "arglists": [
@@ -54535,6 +57349,155 @@
       ]
     },
     {
+      "name": "select-keys",
+      "kind": "function",
+      "arglists": [
+        "(select-keys m keyseq)"
+      ],
+      "classification": "IntentionalDivergence",
+      "status": "implemented-eager",
+      "sequencePolicy": "eager-finite",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/select-keys",
+      "notes": [
+        "Public Rasa core function is defined in source over already-admitted core operations."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/select-x2dkeys.ras"
+      ],
+      "summary": "Returns a map containing only entries in m whose keys are in keyseq.",
+      "caseIds": [
+        "jank/clojure.core/select-keys/0",
+        "jank/clojure.core/select-keys/1",
+        "jank/clojure.core/select-keys/2",
+        "jank/clojure.core/select-keys/3",
+        "jank/clojure.core/select-keys/4",
+        "jank/clojure.core/select-keys/5",
+        "jank/clojure.core/select-keys/6",
+        "jank/clojure.core/select-keys/7",
+        "jank/clojure.core/select-keys/9"
+      ],
+      "counts": {
+        "pass": 9,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 9,
+        "state": "tested"
+      },
+      "cases": [
+        {
+          "id": "jank/clojure.core/select-keys/0",
+          "title": "select-keys upstream assertion 1",
+          "source": "(= {} (select-keys nil nil))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/select-keys/1",
+          "title": "select-keys upstream assertion 2",
+          "source": "(= {} (select-keys {} nil))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/select-keys/2",
+          "title": "select-keys upstream assertion 3",
+          "source": "(= {} (select-keys {} {}))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/select-keys/3",
+          "title": "select-keys upstream assertion 4",
+          "source": "(= {} (select-keys #{} {}))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/select-keys/4",
+          "title": "select-keys upstream assertion 5",
+          "source": "(= {} (select-keys #{1} []))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/select-keys/5",
+          "title": "select-keys upstream assertion 6",
+          "source": "(= {} (select-keys {:a \"a\" :b \"b\"} []))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/select-keys/6",
+          "title": "select-keys upstream assertion 7",
+          "source": "(= {} (select-keys {:a \"a\" :b \"b\"} [:c]))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/select-keys/7",
+          "title": "select-keys upstream assertion 8",
+          "source": "(= {:a \"a\"} (select-keys {:a \"a\" :b \"b\"} [:a]))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/select-keys/9",
+          "title": "select-keys upstream assertion 10",
+          "source": "(= {:a \"a\"} (select-keys {:a \"a\" :b (range)} [:a]))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        }
+      ]
+    },
+    {
       "name": "seq",
       "kind": "function",
       "arglists": [
@@ -57189,6 +60152,640 @@
       ]
     },
     {
+      "name": "update",
+      "kind": "function",
+      "arglists": [
+        "(update m k f)",
+        "(update m k f x)",
+        "(update m k f x y)",
+        "(update m k f x y z)",
+        "(update m k f x y z & more)"
+      ],
+      "classification": "IntentionalDivergence",
+      "status": "implemented-alpha",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/update",
+      "notes": [
+        "Public Rasa core function is defined in source over already-admitted core operations."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/update.ras"
+      ],
+      "summary": "Updates the value at key k by applying f to the old value and args.",
+      "caseIds": [
+        "jank/clojure.core/update/0",
+        "jank/clojure.core/update/1",
+        "jank/clojure.core/update/3",
+        "jank/clojure.core/update/4",
+        "jank/clojure.core/update/5",
+        "jank/clojure.core/update/6",
+        "jank/clojure.core/update/7",
+        "jank/clojure.core/update/8",
+        "jank/clojure.core/update/9",
+        "jank/clojure.core/update/10",
+        "jank/clojure.core/update/11",
+        "jank/clojure.core/update/12",
+        "jank/clojure.core/update/13",
+        "jank/clojure.core/update/14",
+        "jank/clojure.core/update/15",
+        "jank/clojure.core/update/16",
+        "jank/clojure.core/update/17",
+        "jank/clojure.core/update/18",
+        "jank/clojure.core/update/19",
+        "jank/clojure.core/update/20",
+        "jank/clojure.core/update/21",
+        "jank/clojure.core/update/22",
+        "jank/clojure.core/update/23",
+        "jank/clojure.core/update/24",
+        "jank/clojure.core/update/25",
+        "jank/clojure.core/update/26",
+        "jank/clojure.core/update/27",
+        "jank/clojure.core/update/28",
+        "jank/clojure.core/update/29",
+        "jank/clojure.core/update/30",
+        "jank/clojure.core/update/31",
+        "jank/clojure.core/update/32",
+        "jank/clojure.core/update/33",
+        "jank/clojure.core/update/34",
+        "jank/clojure.core/update/35",
+        "jank/clojure.core/update/36",
+        "jank/clojure.core/update/37",
+        "jank/clojure.core/update/38",
+        "jank/clojure.core/update/39",
+        "jank/clojure.core/update/40",
+        "jank/clojure.core/update/41",
+        "jank/clojure.core/update/42",
+        "jank/clojure.core/update/43",
+        "jank/clojure.core/update/44",
+        "jank/clojure.core/update/45",
+        "jank/clojure.core/update/46"
+      ],
+      "counts": {
+        "pass": 46,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 46,
+        "state": "tested"
+      },
+      "cases": [
+        {
+          "id": "jank/clojure.core/update/0",
+          "title": "update upstream table row 1",
+          "source": "(= (apply update [{:k 5} :k identity]) {:k 5})",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/update/1",
+          "title": "update upstream table row 2",
+          "source": "(= (apply update [{:k 5} :k inc]) {:k 6})",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/update/3",
+          "title": "update upstream table row 4",
+          "source": "(= (apply update [{:k 5} :k * 3]) {:k 15})",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/update/4",
+          "title": "update upstream table row 5",
+          "source": "(= (apply update [{:k 5} :k * 3 4]) {:k 60})",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/update/5",
+          "title": "update upstream table row 6",
+          "source": "(= (apply update [{:k 5} :k * 3 4 5]) {:k 300})",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/update/6",
+          "title": "update upstream table row 7",
+          "source": "(= (apply update [{:k 5} :k * 3 4 5 6]) {:k 1800})",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/update/7",
+          "title": "update upstream table row 8",
+          "source": "(= (apply update [{:k 5} :k * 3 4 5 6 7]) {:k 12600})",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/update/8",
+          "title": "update upstream table row 9",
+          "source": "(= (apply update [{:k 5} :k - 3]) {:k 2})",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/update/9",
+          "title": "update upstream table row 10",
+          "source": "(= (apply update [{:k 5} :k - 3 4]) {:k (- 5 3 4)})",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/update/10",
+          "title": "update upstream table row 11",
+          "source": "(= (apply update [{:k 5} :k - 3 4 5]) {:k (- 5 3 4 5)})",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/update/11",
+          "title": "update upstream table row 12",
+          "source": "(= (apply update [{:k 5} :k - 3 4 5 6]) {:k (- 5 3 4 5 6)})",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/update/12",
+          "title": "update upstream table row 13",
+          "source": "(= (apply update [{:k 5} :k - 3 4 5 6 7]) {:k (- 5 3 4 5 6 7)})",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/update/13",
+          "title": "update upstream table row 14",
+          "source": "(= (apply update [{:a 5} :k identity]) {:k nil,  :a 5})",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/update/14",
+          "title": "update upstream table row 15",
+          "source": "(= (apply update [{:a 5} :k nil?]) {:k true, :a 5})",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/update/15",
+          "title": "update upstream table row 16",
+          "source": "(= (apply update [{}     :k identity]) {:k nil})",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/update/16",
+          "title": "update upstream table row 17",
+          "source": "(= (apply update [{}     :k nil?]) {:k true})",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/update/17",
+          "title": "update upstream table row 18",
+          "source": "(= (apply update [nil    :k identity]) {:k nil})",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/update/18",
+          "title": "update upstream table row 19",
+          "source": "(= (apply update [nil    :k nil?]) {:k true})",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/update/19",
+          "title": "update upstream table row 20",
+          "source": "(= (apply update [{nil 1} nil inc]) {nil 2})",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/update/20",
+          "title": "update upstream table row 21",
+          "source": "(= (apply update [{nil 1} nil inc]) {nil 2})",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/update/21",
+          "title": "update upstream table row 22",
+          "source": "(= (apply update [{{} 1}  {}  inc]) {{} 2})",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/update/22",
+          "title": "update upstream table row 23",
+          "source": "(= (apply update [{[] 1}  []  inc]) {[] 2})",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/update/23",
+          "title": "update upstream table row 24",
+          "source": "(= (apply update [{dec 1} dec inc]) {dec 2})",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/update/24",
+          "title": "update upstream table row 25",
+          "source": "(= (apply update [{\"\" 1}  \"\"  inc]) {\"\" 2})",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/update/25",
+          "title": "update upstream table row 26",
+          "source": "(= (apply update [{0 1}   0   inc]) {0 2})",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/update/26",
+          "title": "update upstream table row 27",
+          "source": "(= (apply update [{:k 5} :k :f]) {:k nil})",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/update/27",
+          "title": "update upstream table row 28",
+          "source": "(= (apply update [{:k 5} :k #{}]) {:k nil})",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/update/28",
+          "title": "update upstream table row 29",
+          "source": "(= (apply update [{:k 5} :k {}]) {:k nil})",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/update/29",
+          "title": "update upstream table row 30",
+          "source": "(= (apply update [nil    :k :f]) {:k nil})",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/update/30",
+          "title": "update upstream table row 31",
+          "source": "(= (apply update [nil    :k #{}]) {:k nil})",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/update/31",
+          "title": "update upstream table row 32",
+          "source": "(= (apply update [nil    :k {}]) {:k nil})",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/update/32",
+          "title": "update upstream table row 33",
+          "source": "(= (apply update [{:a [0 1 2], :b 4} :a conj 3]) {:a [0 1 2 3], :b 4})",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/update/33",
+          "title": "update upstream table row 1",
+          "source": "(= (apply update [[0 1] 0 identity]) [0 1])",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/update/34",
+          "title": "update upstream table row 2",
+          "source": "(= (apply update [[0 1] 0 inc]) [1 1])",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/update/35",
+          "title": "update upstream table row 3",
+          "source": "(= (apply update [[0 1] 1 identity]) [0 1])",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/update/36",
+          "title": "update upstream table row 4",
+          "source": "(= (apply update [[0 1] 1 inc]) [0 2])",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/update/37",
+          "title": "update upstream table row 5",
+          "source": "(= (apply update [[0 1] 2 identity]) [0 1 nil])",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/update/38",
+          "title": "update upstream table row 6",
+          "source": "(= (apply update [[0 1] 2 nil?]) [0 1 true])",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/update/39",
+          "title": "update upstream table row 7",
+          "source": "(= (apply update [[1 3 9] 0 - 3]) [(- 1 3) 3 9])",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/update/40",
+          "title": "update upstream table row 8",
+          "source": "(= (apply update [[1 3 9] 0 - 3 4]) [(- 1 3 4)       3 9])",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/update/41",
+          "title": "update upstream table row 9",
+          "source": "(= (apply update [[1 3 9] 0 - 3 4 5]) [(- 1 3 4 5)     3 9])",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/update/42",
+          "title": "update upstream table row 10",
+          "source": "(= (apply update [[1 3 9] 0 - 3 4 5 6]) [(- 1 3 4 5 6)   3 9])",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/update/43",
+          "title": "update upstream table row 11",
+          "source": "(= (apply update [[1 3 9] 0 - 3 4 5 6 7]) [(- 1 3 4 5 6 7) 3 9])",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/update/44",
+          "title": "update upstream table row 12",
+          "source": "(= (apply update [[] 0 #{}]) [nil])",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/update/45",
+          "title": "update upstream table row 13",
+          "source": "(= (apply update [[] 0  {}]) [nil])",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/update/46",
+          "title": "update upstream table row 14",
+          "source": "(= (apply update [[] 0  :f]) [nil])",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        }
+      ]
+    },
+    {
       "name": "vals",
       "kind": "function",
       "arglists": [
@@ -59644,17 +63241,6 @@
       ]
     },
     {
-      "name": "get-in",
-      "kind": "function",
-      "classification": "Unclassified",
-      "status": "needs-triage",
-      "reason": "jank has upstream test rows, but Rasa has not yet classified this clojure.core symbol for portable support.",
-      "upstreamCases": 22,
-      "files": [
-        "test/clojure/core_test/get_in.cljc"
-      ]
-    },
-    {
       "name": "group-by",
       "kind": "function",
       "classification": "Unclassified",
@@ -59795,17 +63381,6 @@
       "upstreamCases": 1,
       "files": [
         "test/clojure/core_test/make_hierarchy.cljc"
-      ]
-    },
-    {
-      "name": "merge",
-      "kind": "function",
-      "classification": "Unclassified",
-      "status": "needs-triage",
-      "reason": "jank has upstream test rows, but Rasa has not yet classified this clojure.core symbol for portable support.",
-      "upstreamCases": 43,
-      "files": [
-        "test/clojure/core_test/merge.cljc"
       ]
     },
     {
@@ -60260,17 +63835,6 @@
       ]
     },
     {
-      "name": "select-keys",
-      "kind": "function",
-      "classification": "Unclassified",
-      "status": "needs-triage",
-      "reason": "jank has upstream test rows, but Rasa has not yet classified this clojure.core symbol for portable support.",
-      "upstreamCases": 13,
-      "files": [
-        "test/clojure/core_test/select_keys.cljc"
-      ]
-    },
-    {
       "name": "seq?",
       "kind": "function",
       "classification": "Unclassified",
@@ -60488,17 +64052,6 @@
       "upstreamCases": 3,
       "files": [
         "test/clojure/core_test/unsigned_bit_shift_right.cljc"
-      ]
-    },
-    {
-      "name": "update",
-      "kind": "function",
-      "classification": "Unclassified",
-      "status": "needs-triage",
-      "reason": "jank has upstream test rows, but Rasa has not yet classified this clojure.core symbol for portable support.",
-      "upstreamCases": 63,
-      "files": [
-        "test/clojure/core_test/update.cljc"
       ]
     },
     {
