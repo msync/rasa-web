@@ -29,4 +29,4 @@ Hi, looks like you are running TensorFlow.js in Node.js. To speed things up dram
         Got upper bound: ${this.widthUpper}.
         Got lower bound: ${this.widthLower}
       `);if(s)if(Du.has(s))this.interpolation=s;else throw new A(`Invalid interpolation parameter: ${s} is not implemented`)}getConfig(){const t={factor:this.factor,interpolation:this.interpolation},e=super.getConfig();return Object.assign(t,e),t}computeOutputShape(t){t=yt(t);const e=t[2];return[this.imgHeight,-1,e]}call(t,e){return L(()=>{const s=ct(t);this.imgHeight=s.shape[s.shape.length-3];const r=s.shape[s.shape.length-2];this.widthFactor=mr([1],1+this.widthLower,1+this.widthUpper,"float32",this.randomGenerator.next());let o=this.widthFactor.dataSync()[0]*r;o=Math.round(o);const i=[this.imgHeight,o];switch(this.interpolation){case"bilinear":return gn.resizeBilinear(t,i);case"nearest":return gn.resizeNearestNeighbor(t,i);default:throw new Error(`Interpolation is ${this.interpolation}
-          but only ${[...Du]} are supported`)}})}}ym.className="RandomWidth";H(ym);export{nw as _,bD as l};
+          but only ${[...Du]} are supported`)}})}}ym.className="RandomWidth";H(ym);export{bD as l};
