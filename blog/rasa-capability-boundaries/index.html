@@ -108,299 +108,6 @@
     }
   
       
-    
-    :root {
-      
-      color-scheme: dark;
-      --rasa-surface: #0d0f12;
-      --rasa-surface-lift: #111720;
-      --rasa-panel: #12161c;
-      --rasa-panel-soft: #0f141a;
-      --rasa-panel-raised: #151a22;
-      --rasa-line: #29313d;
-      --rasa-line-strong: #3a4656;
-      --rasa-text: #e8edf2;
-      --rasa-muted: #9aa6b6;
-      --rasa-dim: #6d7885;
-      --rasa-gold: #e8b84a;
-      --rasa-blue: #78a7ff;
-      --rasa-green: #83d7aa;
-      --rasa-violet: #b08cff;
-      --rasa-teal: #63c5c6;
-      --rasa-red: #ff8ca3;
-      --rasa-success: #83d7aa;
-      --rasa-danger: #ff8ca3;
-      --rasa-warning: #e8b84a;
-      --rasa-code-bg: #0e1319;
-      --rasa-button-text: #0d0f12;
-      --rasa-shadow: rgba(0, 0, 0, 0.18);
-      --rasa-backdrop: rgba(6, 10, 14, 0.45);
-      --rasa-radius: 8px;
-  
-      --rasa-reader: var(--rasa-gold);
-      --rasa-analysis: var(--rasa-blue);
-      --rasa-ir: var(--rasa-violet);
-      --rasa-facts: var(--rasa-green);
-      --rasa-plan: var(--rasa-teal);
-      --rasa-eval: var(--rasa-red);
-      font-family:
-        Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
-        "Segoe UI", sans-serif;
-    }
-
-    :root[data-theme="light"]) {
-      
-      color-scheme: light;
-      --rasa-surface: #f7f8f5;
-      --rasa-surface-lift: #ffffff;
-      --rasa-panel: #ffffff;
-      --rasa-panel-soft: #f1f4f0;
-      --rasa-panel-raised: #fbfcfa;
-      --rasa-line: #d8ddd5;
-      --rasa-line-strong: #b8c0b4;
-      --rasa-text: #17201a;
-      --rasa-muted: #5d6a62;
-      --rasa-dim: #879188;
-      --rasa-gold: #8a6418;
-      --rasa-blue: #315fa8;
-      --rasa-green: #24704a;
-      --rasa-violet: #6d4bab;
-      --rasa-teal: #237071;
-      --rasa-red: #a43b50;
-      --rasa-success: #24704a;
-      --rasa-danger: #a43b50;
-      --rasa-warning: #8a6418;
-      --rasa-code-bg: #f7faf6;
-      --rasa-button-text: #ffffff;
-      --rasa-shadow: rgba(28, 37, 31, 0.12);
-      --rasa-backdrop: rgba(30, 38, 32, 0.25);
-      --rasa-radius: 8px;
-  
-    }
-
-    :root[data-theme="dark"]) {
-      
-      color-scheme: dark;
-      --rasa-surface: #0d0f12;
-      --rasa-surface-lift: #111720;
-      --rasa-panel: #12161c;
-      --rasa-panel-soft: #0f141a;
-      --rasa-panel-raised: #151a22;
-      --rasa-line: #29313d;
-      --rasa-line-strong: #3a4656;
-      --rasa-text: #e8edf2;
-      --rasa-muted: #9aa6b6;
-      --rasa-dim: #6d7885;
-      --rasa-gold: #e8b84a;
-      --rasa-blue: #78a7ff;
-      --rasa-green: #83d7aa;
-      --rasa-violet: #b08cff;
-      --rasa-teal: #63c5c6;
-      --rasa-red: #ff8ca3;
-      --rasa-success: #83d7aa;
-      --rasa-danger: #ff8ca3;
-      --rasa-warning: #e8b84a;
-      --rasa-code-bg: #0e1319;
-      --rasa-button-text: #0d0f12;
-      --rasa-shadow: rgba(0, 0, 0, 0.18);
-      --rasa-backdrop: rgba(6, 10, 14, 0.45);
-      --rasa-radius: 8px;
-  
-    }
-  
-
-    /* Modern Glassmorphic Topbar */
-    .topbar {
-      align-items: center;
-      background: rgba(15, 23, 42, 0.4);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 20px;
-      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-      box-sizing: border-box;
-      display: flex;
-      gap: 24px;
-      justify-content: space-between;
-      min-height: 80px;
-      padding: 16px 24px;
-      margin-bottom: 24px;
-      position: sticky;
-      top: 16px;
-      z-index: 100;
-      transition: all 0.3s ease;
-    }
-
-    :root[data-rasa-theme="light"] .topbar {
-      background: rgba(255, 255, 255, 0.6);
-      border: 1px solid rgba(0, 0, 0, 0.05);
-      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
-    }
-
-    .brand {
-      align-items: center;
-      display: flex;
-      gap: 16px;
-      min-width: 0;
-    }
-
-    .brand-logo {
-      display: block;
-      flex: 0 0 auto;
-      height: 38px;
-      opacity: 0.95;
-      width: auto;
-      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .brand-logo:hover {
-      transform: scale(1.05) rotate(-2deg);
-    }
-
-    .brand-copy {
-      min-width: 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    .eyebrow {
-      color: #3b82f6; /* Modern Blue Accent */
-      display: block;
-      font-family: 'Outfit', sans-serif;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.05em;
-      line-height: 1;
-      margin-bottom: 6px;
-      text-transform: uppercase;
-    }
-
-    h1 {
-      color: var(--rasa-text);
-      font-family: 'Outfit', sans-serif;
-      font-size: 24px;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      line-height: 1.05;
-      margin: 0;
-    }
-
-    .topbar-subtitle {
-      color: var(--rasa-muted);
-      display: block;
-      font-size: 13px;
-      font-weight: 500;
-      margin-top: 4px;
-      opacity: 0.8;
-    }
-
-    .status {
-      align-items: center;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      justify-content: flex-end;
-    }
-
-    .theme-toggle {
-      align-items: center;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 99px;
-      color: var(--rasa-text);
-      cursor: pointer;
-      display: inline-flex;
-      font: inherit;
-      font-size: 13px;
-      font-weight: 600;
-      min-height: 36px;
-      padding: 0 16px;
-      white-space: nowrap;
-      transition: all 0.2s ease;
-    }
-
-    :root[data-rasa-theme="light"] .theme-toggle {
-      background: rgba(0, 0, 0, 0.03);
-      border-color: rgba(0, 0, 0, 0.08);
-    }
-
-    .theme-toggle:hover {
-      background: rgba(255, 255, 255, 0.1);
-      transform: translateY(-1px);
-    }
-
-    :root[data-rasa-theme="light"] .theme-toggle:hover {
-      background: rgba(0, 0, 0, 0.06);
-    }
-
-    .brand-mark {
-      height: 24px;
-      opacity: 0.5;
-      width: 24px;
-      transition: opacity 0.3s;
-    }
-
-    .status:hover .brand-mark {
-      opacity: 0.8;
-    }
-
-    /* Refined Pills */
-    .pill {
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      background: rgba(255, 255, 255, 0.03);
-      border-radius: 99px;
-      color: var(--rasa-muted);
-      display: inline-flex;
-      font-size: 12px;
-      font-weight: 600;
-      line-height: 1;
-      padding: 8px 12px;
-      white-space: nowrap;
-      transition: all 0.3s;
-    }
-
-    :root[data-rasa-theme="light"] .pill {
-      border-color: rgba(0, 0, 0, 0.08);
-      background: rgba(0, 0, 0, 0.02);
-    }
-
-    .pill.ok {
-      border-color: rgba(16, 185, 129, 0.3); /* Emerald Green */
-      background: rgba(16, 185, 129, 0.1);
-      color: #34d399;
-    }
-
-    :root[data-rasa-theme="light"] .pill.ok {
-      color: #059669;
-    }
-
-    .pill.warn {
-      border-color: rgba(245, 158, 11, 0.3); /* Amber */
-      background: rgba(245, 158, 11, 0.1);
-      color: #fbbf24;
-    }
-
-    :root[data-rasa-theme="light"] .pill.warn {
-      color: #d97706;
-    }
-
-    @media (max-width: 840px) {
-      .topbar {
-        align-items: flex-start;
-        flex-direction: column;
-        border-radius: 12px;
-        padding: 16px;
-        gap: 16px;
-      }
-
-      .status {
-        justify-content: flex-start;
-        width: 100%;
-      }
-    }
-  
-      
     * { box-sizing: border-box; }
     body {
       background:
@@ -414,10 +121,112 @@
     }
     main {
       display: grid;
-      gap: 18px;
+      gap: 20px;
       margin: 0 auto;
-      max-width: 1120px;
+      max-width: 1180px;
       padding: 24px;
+    }
+    .blog-topbar {
+      align-items: center;
+      background: color-mix(in srgb, var(--rasa-panel) 92%, transparent);
+      border: 1px solid var(--rasa-line);
+      border-radius: 8px;
+      box-shadow: 0 16px 60px var(--rasa-shadow);
+      display: grid;
+      gap: 18px;
+      grid-template-columns: auto minmax(260px, 1fr) auto auto;
+      min-height: 92px;
+      padding: 18px;
+    }
+    .blog-brand,
+    .blog-nav,
+    .blog-actions {
+      align-items: center;
+      display: flex;
+    }
+    .blog-brand {
+      border-radius: 8px;
+      min-width: 112px;
+      text-decoration: none;
+    }
+    .brand-logo {
+      display: block;
+      height: 38px;
+      width: auto;
+    }
+    .blog-topbar-copy {
+      display: grid;
+      gap: 4px;
+      min-width: 0;
+    }
+    .blog-eyebrow {
+      color: var(--rasa-blue);
+      font-size: 12px;
+      font-weight: 820;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+    .blog-topbar h1 {
+      font-size: clamp(24px, 3vw, 34px);
+      line-height: 1.02;
+      margin: 0;
+    }
+    .blog-topbar p {
+      color: var(--rasa-muted);
+      font-size: 14px;
+      line-height: 1.35;
+      margin: 0;
+      max-width: 660px;
+    }
+    .blog-nav {
+      gap: 6px;
+      justify-content: flex-end;
+    }
+    .blog-nav a,
+    .theme-toggle,
+    .blog-pill {
+      align-items: center;
+      border: 1px solid var(--rasa-line);
+      border-radius: 999px;
+      color: var(--rasa-text);
+      display: inline-flex;
+      font-size: 12px;
+      font-weight: 780;
+      min-height: 34px;
+      padding: 0 12px;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .blog-nav a:hover,
+    .blog-nav a:focus-visible,
+    .theme-toggle:hover,
+    .theme-toggle:focus-visible {
+      border-color: var(--rasa-line-strong);
+      outline: none;
+    }
+    .blog-actions {
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+    .brand-mark {
+      display: block;
+      height: 24px;
+      opacity: 0.72;
+      width: 24px;
+    }
+    .blog-pill {
+      color: var(--rasa-muted);
+    }
+    .blog-pill.ok {
+      color: var(--rasa-green);
+    }
+    .theme-toggle {
+      background: color-mix(in srgb, var(--rasa-line) 30%, transparent);
+      cursor: pointer;
+      font: inherit;
+      font-size: 12px;
+      font-weight: 780;
     }
     .blog-hero,
     .post,
@@ -443,9 +252,9 @@
     h1, h2, h3, p { margin: 0; }
     .blog-hero h2,
     .post-head h1 {
-      font-size: clamp(34px, 6vw, 72px);
+      font-size: clamp(36px, 5.4vw, 68px);
       letter-spacing: 0;
-      line-height: 0.94;
+      line-height: 0.98;
       max-width: 900px;
     }
     .blog-hero p,
@@ -581,13 +390,35 @@
       padding: 0;
       white-space: pre;
     }
+    .tok-comment { color: var(--rasa-dim); }
+    .tok-form { color: var(--rasa-blue); font-weight: 760; }
+    .tok-keyword { color: var(--rasa-gold); }
+    .tok-literal,
+    .tok-number { color: var(--rasa-violet); }
+    .tok-punct { color: var(--rasa-muted); }
+    .tok-string { color: var(--rasa-green); }
+    .tok-symbol { color: var(--rasa-text); }
     .post-body blockquote {
       border-left: 3px solid var(--rasa-gold);
       margin: 0;
       padding-left: 14px;
     }
+    @media (max-width: 1040px) {
+      .blog-topbar {
+        grid-template-columns: auto minmax(220px, 1fr);
+      }
+      .blog-nav,
+      .blog-actions {
+        grid-column: 1 / -1;
+        justify-content: flex-start;
+      }
+    }
     @media (max-width: 760px) {
       main { padding: 14px; }
+      .blog-topbar {
+        align-items: flex-start;
+        grid-template-columns: 1fr;
+      }
       .post-head,
       .post-body,
       .blog-hero {
@@ -601,19 +432,24 @@
     <main>
       
       
-    <header class="topbar">
-      <div class="brand">
-        <img class="brand-logo" src="./assets/brand/logo.svg" alt="Rasa" />
-        <div class="brand-copy">
-          <span class="eyebrow">Building Rasa</span>
-          <h1>Engineering Note</h1>
-          <span class="topbar-subtitle">The first Rasa technical note: why Rasa keeps source semantics pure while making host effects explicit, inspectable, and portable across native and Wasm execution.</span>
-        </div>
+    <header class="blog-topbar">
+      <a class="blog-brand" href="../../" aria-label="Rasa home">
+        <img class="brand-logo" src="../assets/brand/logo.svg" alt="Rasa" />
+      </a>
+      <div class="blog-topbar-copy">
+        <span class="blog-eyebrow">Building Rasa</span>
+        <h1>Rasa Blog</h1>
+        <p>Technical notes on language semantics, capabilities, and portable execution.</p>
       </div>
-      <div class="status">
-        <img class="brand-mark" src="./assets/brand/mark.svg" alt="" aria-hidden="true" />
-        <span class="pill ok">June 30, 2026</span><span class="pill">Part 1</span>
-        <button class="theme-toggle" type="button" data-role="theme-toggle" aria-label="Toggle color theme">Toggle Theme</button>
+      <nav class="blog-nav" aria-label="Rasa sections">
+        <a href="../">Blog</a>
+        <a href="../../roadmap/">Roadmap</a>
+        <a href="../../conformance/">Conformance</a>
+      </nav>
+      <div class="blog-actions">
+        <img class="brand-mark" src="../assets/brand/mark.svg" alt="" aria-hidden="true" />
+        <span class="blog-pill ok">June 30, 2026</span><span class="blog-pill">Part 1</span>
+        <button class="theme-toggle" type="button" data-role="theme-toggle" aria-label="Toggle color theme">Light</button>
       </div>
     </header>
   
@@ -651,77 +487,77 @@ human or tool view -&gt; projection</code></pre>
 <p>This matters for the IO example because <code>read-text</code> is not just a function call. It becomes a source callsite, a capability requirement, a policy decision, a provider confirmation, and then a runtime boundary call.</p>
 <h2>The Source Experience</h2>
 <p>Here is the whole user program:</p>
-<pre><code class="language-clojure">(ns examples.text.file-text-pipeline
-  (:require [rasa.io :as io]
-            [rasa.string :as str]))
+<pre><code class="language-clojure"><span class="tok-punct">(</span><span class="tok-form">ns</span> <span class="tok-symbol">examples.text.file-text-pipeline</span>
+  <span class="tok-punct">(</span><span class="tok-keyword">:require</span> <span class="tok-punct">[</span><span class="tok-symbol">rasa.io</span> <span class="tok-keyword">:as</span> <span class="tok-symbol">io</span><span class="tok-punct">]</span>
+            <span class="tok-punct">[</span><span class="tok-symbol">rasa.string</span> <span class="tok-keyword">:as</span> <span class="tok-symbol">str</span><span class="tok-punct">]</span><span class="tok-punct">)</span><span class="tok-punct">)</span>
 
-(def input-path
-  &quot;examples/text/input.txt&quot;)
+<span class="tok-punct">(</span><span class="tok-form">def</span> <span class="tok-symbol">input-path</span>
+  <span class="tok-string">&quot;examples/text/input.txt&quot;</span><span class="tok-punct">)</span>
 
-(def output-path
-  &quot;target/rasa-text-output.txt&quot;)
+<span class="tok-punct">(</span><span class="tok-form">def</span> <span class="tok-symbol">output-path</span>
+  <span class="tok-string">&quot;target/rasa-text-output.txt&quot;</span><span class="tok-punct">)</span>
 
-(def input
-  (io/read-text {:path input-path}))
+<span class="tok-punct">(</span><span class="tok-form">def</span> <span class="tok-symbol">input</span>
+  <span class="tok-punct">(</span><span class="tok-form">io/read-text</span> <span class="tok-punct">{</span><span class="tok-keyword">:path</span> <span class="tok-symbol">input-path</span><span class="tok-punct">}</span><span class="tok-punct">)</span><span class="tok-punct">)</span>
 
-(def normalized
-  (str/replace (str/upper-case input) &quot; &quot; &quot;-&quot;))
+<span class="tok-punct">(</span><span class="tok-form">def</span> <span class="tok-symbol">normalized</span>
+  <span class="tok-punct">(</span><span class="tok-form">str/replace</span> <span class="tok-punct">(</span><span class="tok-form">str/upper-case</span> <span class="tok-symbol">input</span><span class="tok-punct">)</span> <span class="tok-string">&quot; &quot;</span> <span class="tok-string">&quot;-&quot;</span><span class="tok-punct">)</span><span class="tok-punct">)</span>
 
-(def write-result
-  (io/write-text {:path output-path} normalized))
+<span class="tok-punct">(</span><span class="tok-form">def</span> <span class="tok-symbol">write-result</span>
+  <span class="tok-punct">(</span><span class="tok-form">io/write-text</span> <span class="tok-punct">{</span><span class="tok-keyword">:path</span> <span class="tok-symbol">output-path</span><span class="tok-punct">}</span> <span class="tok-symbol">normalized</span><span class="tok-punct">)</span><span class="tok-punct">)</span>
 
-(def written-back
-  (io/read-text {:path output-path}))
+<span class="tok-punct">(</span><span class="tok-form">def</span> <span class="tok-symbol">written-back</span>
+  <span class="tok-punct">(</span><span class="tok-form">io/read-text</span> <span class="tok-punct">{</span><span class="tok-keyword">:path</span> <span class="tok-symbol">output-path</span><span class="tok-punct">}</span><span class="tok-punct">)</span><span class="tok-punct">)</span>
 
-[:input input
- :normalized normalized
- :write-status (:status write-result)
- :output-path (:path write-result)
- :storage (:storage write-result)
- :chars (:chars write-result)
- :written-back written-back]</code></pre>
-<p>There is no <code>example.compute/package</code>. There is no user-visible <code>host/call</code>. There is no runtime conditional that says &quot;if native do this, if Wasm do that&quot;. The program asks for <code>rasa.io</code>.</p>
+<span class="tok-punct">[</span><span class="tok-keyword">:input</span> <span class="tok-symbol">input</span>
+ <span class="tok-keyword">:normalized</span> <span class="tok-symbol">normalized</span>
+ <span class="tok-keyword">:write-status</span> <span class="tok-punct">(</span><span class="tok-keyword">:status</span> <span class="tok-symbol">write-result</span><span class="tok-punct">)</span>
+ <span class="tok-keyword">:output-path</span> <span class="tok-punct">(</span><span class="tok-keyword">:path</span> <span class="tok-symbol">write-result</span><span class="tok-punct">)</span>
+ <span class="tok-keyword">:storage</span> <span class="tok-punct">(</span><span class="tok-keyword">:storage</span> <span class="tok-symbol">write-result</span><span class="tok-punct">)</span>
+ <span class="tok-keyword">:chars</span> <span class="tok-punct">(</span><span class="tok-keyword">:chars</span> <span class="tok-symbol">write-result</span><span class="tok-punct">)</span>
+ <span class="tok-keyword">:written-back</span> <span class="tok-symbol">written-back</span><span class="tok-punct">]</span></code></pre>
+<p>There is no user-visible <code>host/call</code>. There is no runtime conditional that says &quot;if native do this, if Wasm do that&quot;. The program asks for <code>rasa.io</code>, and Rasa owns the rest of the boundary explanation.</p>
 <p>The implementation of that source API is intentionally small:</p>
-<pre><code class="language-clojure">(ns rasa.io)
+<pre><code class="language-clojure"><span class="tok-punct">(</span><span class="tok-form">ns</span> <span class="tok-symbol">rasa.io</span><span class="tok-punct">)</span>
 
-(defn read-text
-  &quot;Reads eager finite text from an admitted source.&quot;
-  [source]
-  (host/call :rasa.io/read-text source))
+<span class="tok-punct">(</span><span class="tok-form">defn</span> <span class="tok-symbol">read-text</span>
+  <span class="tok-string">&quot;Reads eager finite text from an admitted source.&quot;</span>
+  <span class="tok-punct">[</span><span class="tok-symbol">source</span><span class="tok-punct">]</span>
+  <span class="tok-punct">(</span><span class="tok-form">host/call</span> <span class="tok-keyword">:rasa.io/read-text</span> <span class="tok-symbol">source</span><span class="tok-punct">)</span><span class="tok-punct">)</span>
 
-(defn write-text
-  &quot;Writes eager finite text to an admitted sink.&quot;
-  [sink text]
-  (host/call :rasa.io/write-text sink text))</code></pre>
+<span class="tok-punct">(</span><span class="tok-form">defn</span> <span class="tok-symbol">write-text</span>
+  <span class="tok-string">&quot;Writes eager finite text to an admitted sink.&quot;</span>
+  <span class="tok-punct">[</span><span class="tok-symbol">sink</span> <span class="tok-symbol">text</span><span class="tok-punct">]</span>
+  <span class="tok-punct">(</span><span class="tok-form">host/call</span> <span class="tok-keyword">:rasa.io/write-text</span> <span class="tok-symbol">sink</span> <span class="tok-symbol">text</span><span class="tok-punct">)</span><span class="tok-punct">)</span></code></pre>
 <p>The source namespace gives users ordinary functions. The <code>host/call</code> form is not the end-user programming model here; it is the narrow bridge used by the Rasa-owned IO namespace to cross into an admitted capability.</p>
 <h2>The Capability Contract</h2>
 <p>The public capability vocabulary lives under <code>capabilities/rasa.io</code>. The catalog says what the operations mean at the boundary:</p>
-<pre><code class="language-clojure">{:capabilities
- [{:id :rasa.io/read-text
-   :signature {:args [{:name :source :type :map}]
-               :returns :string}
-   :effects [:fs/read :may-suspend]
-   :boundary-mode :copy-value
-   :policy [:fs/read]
-   :targets {:native {:availability :available}
-             :wasm-host {:availability :available
-                         :requires [:wasi/filesystem]}
-             :wasm-browser {:availability :requires-adapter
-                            :adapter-kind :javascript
-                            :reason :browser-needs-admitted-file-or-buffer-adapter}}}
-  {:id :rasa.io/write-text
-   :signature {:args [{:name :sink :type :map}
-                      {:name :text :type :string}]
-               :returns :map}
-   :effects [:fs/write :may-suspend]
-   :boundary-mode :copy-value
-   :policy [:fs/write]
-   :targets {:native {:availability :available}
-             :wasm-host {:availability :available
-                         :requires [:wasi/filesystem]}
-             :wasm-browser {:availability :requires-adapter
-                            :adapter-kind :javascript
-                            :reason :browser-needs-admitted-file-or-buffer-adapter}}}]}</code></pre>
+<pre><code class="language-clojure"><span class="tok-punct">{</span><span class="tok-keyword">:capabilities</span>
+ <span class="tok-punct">[</span><span class="tok-punct">{</span><span class="tok-keyword">:id</span> <span class="tok-keyword">:rasa.io/read-text</span>
+   <span class="tok-keyword">:signature</span> <span class="tok-punct">{</span><span class="tok-keyword">:args</span> <span class="tok-punct">[</span><span class="tok-punct">{</span><span class="tok-keyword">:name</span> <span class="tok-keyword">:source</span> <span class="tok-keyword">:type</span> <span class="tok-keyword">:map</span><span class="tok-punct">}</span><span class="tok-punct">]</span>
+               <span class="tok-keyword">:returns</span> <span class="tok-keyword">:string</span><span class="tok-punct">}</span>
+   <span class="tok-keyword">:effects</span> <span class="tok-punct">[</span><span class="tok-keyword">:fs/read</span> <span class="tok-keyword">:may-suspend</span><span class="tok-punct">]</span>
+   <span class="tok-keyword">:boundary-mode</span> <span class="tok-keyword">:copy-value</span>
+   <span class="tok-keyword">:policy</span> <span class="tok-punct">[</span><span class="tok-keyword">:fs/read</span><span class="tok-punct">]</span>
+   <span class="tok-keyword">:targets</span> <span class="tok-punct">{</span><span class="tok-keyword">:native</span> <span class="tok-punct">{</span><span class="tok-keyword">:availability</span> <span class="tok-keyword">:available</span><span class="tok-punct">}</span>
+             <span class="tok-keyword">:wasm-host</span> <span class="tok-punct">{</span><span class="tok-keyword">:availability</span> <span class="tok-keyword">:available</span>
+                         <span class="tok-keyword">:requires</span> <span class="tok-punct">[</span><span class="tok-keyword">:wasi/filesystem</span><span class="tok-punct">]</span><span class="tok-punct">}</span>
+             <span class="tok-keyword">:wasm-browser</span> <span class="tok-punct">{</span><span class="tok-keyword">:availability</span> <span class="tok-keyword">:requires-adapter</span>
+                            <span class="tok-keyword">:adapter-kind</span> <span class="tok-keyword">:javascript</span>
+                            <span class="tok-keyword">:reason</span> <span class="tok-keyword">:browser-needs-admitted-file-or-buffer-adapter</span><span class="tok-punct">}</span><span class="tok-punct">}</span><span class="tok-punct">}</span>
+  <span class="tok-punct">{</span><span class="tok-keyword">:id</span> <span class="tok-keyword">:rasa.io/write-text</span>
+   <span class="tok-keyword">:signature</span> <span class="tok-punct">{</span><span class="tok-keyword">:args</span> <span class="tok-punct">[</span><span class="tok-punct">{</span><span class="tok-keyword">:name</span> <span class="tok-keyword">:sink</span> <span class="tok-keyword">:type</span> <span class="tok-keyword">:map</span><span class="tok-punct">}</span>
+                      <span class="tok-punct">{</span><span class="tok-keyword">:name</span> <span class="tok-keyword">:text</span> <span class="tok-keyword">:type</span> <span class="tok-keyword">:string</span><span class="tok-punct">}</span><span class="tok-punct">]</span>
+               <span class="tok-keyword">:returns</span> <span class="tok-keyword">:map</span><span class="tok-punct">}</span>
+   <span class="tok-keyword">:effects</span> <span class="tok-punct">[</span><span class="tok-keyword">:fs/write</span> <span class="tok-keyword">:may-suspend</span><span class="tok-punct">]</span>
+   <span class="tok-keyword">:boundary-mode</span> <span class="tok-keyword">:copy-value</span>
+   <span class="tok-keyword">:policy</span> <span class="tok-punct">[</span><span class="tok-keyword">:fs/write</span><span class="tok-punct">]</span>
+   <span class="tok-keyword">:targets</span> <span class="tok-punct">{</span><span class="tok-keyword">:native</span> <span class="tok-punct">{</span><span class="tok-keyword">:availability</span> <span class="tok-keyword">:available</span><span class="tok-punct">}</span>
+             <span class="tok-keyword">:wasm-host</span> <span class="tok-punct">{</span><span class="tok-keyword">:availability</span> <span class="tok-keyword">:available</span>
+                         <span class="tok-keyword">:requires</span> <span class="tok-punct">[</span><span class="tok-keyword">:wasi/filesystem</span><span class="tok-punct">]</span><span class="tok-punct">}</span>
+             <span class="tok-keyword">:wasm-browser</span> <span class="tok-punct">{</span><span class="tok-keyword">:availability</span> <span class="tok-keyword">:requires-adapter</span>
+                            <span class="tok-keyword">:adapter-kind</span> <span class="tok-keyword">:javascript</span>
+                            <span class="tok-keyword">:reason</span> <span class="tok-keyword">:browser-needs-admitted-file-or-buffer-adapter</span><span class="tok-punct">}</span><span class="tok-punct">}</span><span class="tok-punct">}</span><span class="tok-punct">]</span><span class="tok-punct">}</span></code></pre>
 <p>There are a few important choices in that data.</p>
 <p>The capability IDs are the source-facing identities: <code>:rasa.io/read-text</code> and <code>:rasa.io/write-text</code>. There is no parallel hidden vocabulary that users and tools need to translate.</p>
 <p>The effects are explicit. Reading text is <code>:fs/read</code>; writing text is <code>:fs/write</code>. Both may suspend in future async-capable lowerings, but Rasa does not make the user write async-colored source for this.</p>
@@ -729,26 +565,26 @@ human or tool view -&gt; projection</code></pre>
 <p>The target availability is explicit. Native and Wasm host are available. Browser is not lied about. Browser filesystem access requires a browser-specific adapter, and until that adapter exists the browser target must say why it is not available.</p>
 <h2>Provider Artifacts</h2>
 <p>The provider declaration connects capability identities to artifacts:</p>
-<pre><code class="language-clojure">{:package/id rasa.io
- :package/version &quot;0.1.0&quot;
- :abi :rasa-provider-abi-v1
- :codec :rasa-data-v1
- :capabilities [{:id :rasa.io/read-text
-                 :result-class :value
-                 :signature {:args [{:name :source :type :map}]
-                             :returns :string}}
-                {:id :rasa.io/write-text
-                 :result-class :value
-                 :signature {:args [{:name :sink :type :map}
-                                    {:name :text :type :string}]
-                             :returns :map}}]
- :artifacts {:native {:kind :native-dylib
-                      :path &quot;native/librasa_io_provider.dylib&quot;}
-             :wasm-host {:kind :wasm-component
-                         :path &quot;wasm-host/rasa_io_provider.wasm&quot;
-                         :wit {:package rasa:provider@0.1.0
-                               :world provider}
-                         :requires [:wasi/filesystem]}}}</code></pre>
+<pre><code class="language-clojure"><span class="tok-punct">{</span><span class="tok-keyword">:package/id</span> <span class="tok-symbol">rasa.io</span>
+ <span class="tok-keyword">:package/version</span> <span class="tok-string">&quot;0.1.0&quot;</span>
+ <span class="tok-keyword">:abi</span> <span class="tok-keyword">:rasa-provider-abi-v1</span>
+ <span class="tok-keyword">:codec</span> <span class="tok-keyword">:rasa-data-v1</span>
+ <span class="tok-keyword">:capabilities</span> <span class="tok-punct">[</span><span class="tok-punct">{</span><span class="tok-keyword">:id</span> <span class="tok-keyword">:rasa.io/read-text</span>
+                 <span class="tok-keyword">:result-class</span> <span class="tok-keyword">:value</span>
+                 <span class="tok-keyword">:signature</span> <span class="tok-punct">{</span><span class="tok-keyword">:args</span> <span class="tok-punct">[</span><span class="tok-punct">{</span><span class="tok-keyword">:name</span> <span class="tok-keyword">:source</span> <span class="tok-keyword">:type</span> <span class="tok-keyword">:map</span><span class="tok-punct">}</span><span class="tok-punct">]</span>
+                             <span class="tok-keyword">:returns</span> <span class="tok-keyword">:string</span><span class="tok-punct">}</span><span class="tok-punct">}</span>
+                <span class="tok-punct">{</span><span class="tok-keyword">:id</span> <span class="tok-keyword">:rasa.io/write-text</span>
+                 <span class="tok-keyword">:result-class</span> <span class="tok-keyword">:value</span>
+                 <span class="tok-keyword">:signature</span> <span class="tok-punct">{</span><span class="tok-keyword">:args</span> <span class="tok-punct">[</span><span class="tok-punct">{</span><span class="tok-keyword">:name</span> <span class="tok-keyword">:sink</span> <span class="tok-keyword">:type</span> <span class="tok-keyword">:map</span><span class="tok-punct">}</span>
+                                    <span class="tok-punct">{</span><span class="tok-keyword">:name</span> <span class="tok-keyword">:text</span> <span class="tok-keyword">:type</span> <span class="tok-keyword">:string</span><span class="tok-punct">}</span><span class="tok-punct">]</span>
+                             <span class="tok-keyword">:returns</span> <span class="tok-keyword">:map</span><span class="tok-punct">}</span><span class="tok-punct">}</span><span class="tok-punct">]</span>
+ <span class="tok-keyword">:artifacts</span> <span class="tok-punct">{</span><span class="tok-keyword">:native</span> <span class="tok-punct">{</span><span class="tok-keyword">:kind</span> <span class="tok-keyword">:native-dylib</span>
+                      <span class="tok-keyword">:path</span> <span class="tok-string">&quot;native/librasa_io_provider.dylib&quot;</span><span class="tok-punct">}</span>
+             <span class="tok-keyword">:wasm-host</span> <span class="tok-punct">{</span><span class="tok-keyword">:kind</span> <span class="tok-keyword">:wasm-component</span>
+                         <span class="tok-keyword">:path</span> <span class="tok-string">&quot;wasm-host/rasa_io_provider.wasm&quot;</span>
+                         <span class="tok-keyword">:wit</span> <span class="tok-punct">{</span><span class="tok-keyword">:package</span> <span class="tok-symbol">rasa:provider@0.1.0</span>
+                               <span class="tok-keyword">:world</span> <span class="tok-symbol">provider</span><span class="tok-punct">}</span>
+                         <span class="tok-keyword">:requires</span> <span class="tok-punct">[</span><span class="tok-keyword">:wasi/filesystem</span><span class="tok-punct">]</span><span class="tok-punct">}</span><span class="tok-punct">}</span><span class="tok-punct">}</span></code></pre>
 <p>The Rust source for this provider lives in <code>capabilities/rasa.io/provider-rust</code>. That name is deliberate. <code>providers/io.ras</code> is Rasa metadata; <code>provider-rust</code> is implementation source. The provider implements the admitted boundary, but it does not own the language-level meaning of IO.</p>
 <h2>Native Flow</h2>
 <p>When native <code>ras</code> runs the file pipeline, the flow is:</p>
@@ -759,13 +595,13 @@ rm -f target/rasa-text-output.txt
 target/release/ras run examples/text/file-text-pipeline.ras
 cat target/rasa-text-output.txt</code></pre>
 <p>The rendered result should include:</p>
-<pre><code class="language-clojure">[:input &quot;alpha beta rasa compiler\n&quot;
- :normalized &quot;ALPHA-BETA-RASA-COMPILER\n&quot;
- :write-status :written
- :output-path &quot;target/rasa-text-output.txt&quot;
- :storage :host-filesystem
- :chars 25
- :written-back &quot;ALPHA-BETA-RASA-COMPILER\n&quot;]</code></pre>
+<pre><code class="language-clojure"><span class="tok-punct">[</span><span class="tok-keyword">:input</span> <span class="tok-string">&quot;alpha beta rasa compiler\n&quot;</span>
+ <span class="tok-keyword">:normalized</span> <span class="tok-string">&quot;ALPHA-BETA-RASA-COMPILER\n&quot;</span>
+ <span class="tok-keyword">:write-status</span> <span class="tok-keyword">:written</span>
+ <span class="tok-keyword">:output-path</span> <span class="tok-string">&quot;target/rasa-text-output.txt&quot;</span>
+ <span class="tok-keyword">:storage</span> <span class="tok-keyword">:host-filesystem</span>
+ <span class="tok-keyword">:chars</span> <span class="tok-number">25</span>
+ <span class="tok-keyword">:written-back</span> <span class="tok-string">&quot;ALPHA-BETA-RASA-COMPILER\n&quot;</span><span class="tok-punct">]</span></code></pre>
 <p>And the host file should contain:</p>
 <pre><code class="language-text">ALPHA-BETA-RASA-COMPILER</code></pre>
 <p>Inspect the capability plan:</p>
@@ -793,13 +629,13 @@ cat target/rasa-text-output.txt</code></pre>
 <p>Confirm the provider:</p>
 <pre><code class="language-bash">target/release/ras-wasm run --phase confirm examples/text/file-text-pipeline.ras</code></pre>
 <p>The confirmation should identify the Wasm provider artifact:</p>
-<pre><code class="language-clojure">{:id :rasa.io/write-text
- :status :confirmed
- :result-class :value
- :artifact-kind :wasm-component
- :artifact-path &quot;.../target/rasa-capabilities/rasa.io/wasm-host/rasa_io_provider.wasm&quot;
- :codec :rasa-data-v1
- :abi :rasa-provider-abi-v1}</code></pre>
+<pre><code class="language-clojure"><span class="tok-punct">{</span><span class="tok-keyword">:id</span> <span class="tok-keyword">:rasa.io/write-text</span>
+ <span class="tok-keyword">:status</span> <span class="tok-keyword">:confirmed</span>
+ <span class="tok-keyword">:result-class</span> <span class="tok-keyword">:value</span>
+ <span class="tok-keyword">:artifact-kind</span> <span class="tok-keyword">:wasm-component</span>
+ <span class="tok-keyword">:artifact-path</span> <span class="tok-string">&quot;.../target/rasa-capabilities/rasa.io/wasm-host/rasa_io_provider.wasm&quot;</span>
+ <span class="tok-keyword">:codec</span> <span class="tok-keyword">:rasa-data-v1</span>
+ <span class="tok-keyword">:abi</span> <span class="tok-keyword">:rasa-provider-abi-v1</span><span class="tok-punct">}</span></code></pre>
 <p>The source did not change. The runtime product changed.</p>
 <h2>Policy Denial</h2>
 <p>The same plan can be denied:</p>
@@ -820,19 +656,19 @@ cat target/rasa-repl-native-output.txt</code></pre>
 <pre><code class="language-bash">cargo run --quiet -p rasa-wasm-host --example io_repl_checkpoint
 cat target/rasa-repl-wasm-output.txt</code></pre>
 <p>The checkpoint evaluates the same sequence of forms:</p>
-<pre><code class="language-clojure">(ns repl.io.checkpoint
-  (:require [rasa.io :as io]
-            [rasa.string :as str]))
+<pre><code class="language-clojure"><span class="tok-punct">(</span><span class="tok-form">ns</span> <span class="tok-symbol">repl.io.checkpoint</span>
+  <span class="tok-punct">(</span><span class="tok-keyword">:require</span> <span class="tok-punct">[</span><span class="tok-symbol">rasa.io</span> <span class="tok-keyword">:as</span> <span class="tok-symbol">io</span><span class="tok-punct">]</span>
+            <span class="tok-punct">[</span><span class="tok-symbol">rasa.string</span> <span class="tok-keyword">:as</span> <span class="tok-symbol">str</span><span class="tok-punct">]</span><span class="tok-punct">)</span><span class="tok-punct">)</span>
 
-(def input
-  (io/read-text {:path &quot;examples/text/input.txt&quot;}))
+<span class="tok-punct">(</span><span class="tok-form">def</span> <span class="tok-symbol">input</span>
+  <span class="tok-punct">(</span><span class="tok-form">io/read-text</span> <span class="tok-punct">{</span><span class="tok-keyword">:path</span> <span class="tok-string">&quot;examples/text/input.txt&quot;</span><span class="tok-punct">}</span><span class="tok-punct">)</span><span class="tok-punct">)</span>
 
-(def normalized
-  (str/replace (str/upper-case input) &quot; &quot; &quot;-&quot;))
+<span class="tok-punct">(</span><span class="tok-form">def</span> <span class="tok-symbol">normalized</span>
+  <span class="tok-punct">(</span><span class="tok-form">str/replace</span> <span class="tok-punct">(</span><span class="tok-form">str/upper-case</span> <span class="tok-symbol">input</span><span class="tok-punct">)</span> <span class="tok-string">&quot; &quot;</span> <span class="tok-string">&quot;-&quot;</span><span class="tok-punct">)</span><span class="tok-punct">)</span>
 
-(io/write-text {:path &quot;target/rasa-repl-wasm-output.txt&quot;} normalized)
+<span class="tok-punct">(</span><span class="tok-form">io/write-text</span> <span class="tok-punct">{</span><span class="tok-keyword">:path</span> <span class="tok-string">&quot;target/rasa-repl-wasm-output.txt&quot;</span><span class="tok-punct">}</span> <span class="tok-symbol">normalized</span><span class="tok-punct">)</span>
 
-(io/read-text {:path &quot;target/rasa-repl-wasm-output.txt&quot;})</code></pre>
+<span class="tok-punct">(</span><span class="tok-form">io/read-text</span> <span class="tok-punct">{</span><span class="tok-keyword">:path</span> <span class="tok-string">&quot;target/rasa-repl-wasm-output.txt&quot;</span><span class="tok-punct">}</span><span class="tok-punct">)</span></code></pre>
 <p>The important part is persistence. The <code>input</code> and <code>normalized</code> definitions are kept in the session, and the admitted capability call works later in that same session. Runtime-Wasm uses a guest session in <code>ras.wasm</code>; native uses the native REPL session. The source interaction remains the same.</p>
 <p>You can also try this manually:</p>
 <pre><code class="language-bash">target/release/ras repl</code></pre>
@@ -861,7 +697,7 @@ target/rasa-install-smoke/bin/ras-wasm run examples/text/file-text-pipeline.ras<
 <h2>Why This Matters</h2>
 <p>The IO example is intentionally modest. It is not a web framework, an actor runtime, a package manager, or a database client. It is a proof of the shape Rasa needs before those things become honest.</p>
 <p>The source is small:</p>
-<pre><code class="language-clojure">(io/read-text {:path &quot;examples/text/input.txt&quot;})</code></pre>
+<pre><code class="language-clojure"><span class="tok-punct">(</span><span class="tok-form">io/read-text</span> <span class="tok-punct">{</span><span class="tok-keyword">:path</span> <span class="tok-string">&quot;examples/text/input.txt&quot;</span><span class="tok-punct">}</span><span class="tok-punct">)</span></code></pre>
 <p>But the system can explain it:</p>
 <pre><code class="language-text">source function -&gt; capability identity -&gt; effect -&gt; policy -&gt; provider artifact
                 -&gt; boundary mode -&gt; runtime product -&gt; returned Rasa value</code></pre>
@@ -877,12 +713,16 @@ target/rasa-install-smoke/bin/ras-wasm run examples/text/file-text-pipeline.ras<
       const root = document.documentElement;
       const saved = localStorage.getItem(key);
       const theme = saved === "light" || saved === "dark" ? saved : "dark";
-      root.dataset.rasaTheme = theme;
-      root.dataset.theme = theme;
-      document.querySelector("[data-role='theme-toggle']")?.addEventListener("click", () => {
-        const next = root.dataset.rasaTheme === "light" ? "dark" : "light";
+      const toggle = document.querySelector("[data-role='theme-toggle']");
+      function setTheme(next) {
         root.dataset.rasaTheme = next;
         root.dataset.theme = next;
+        if (toggle) toggle.textContent = next === "light" ? "Dark" : "Light";
+      }
+      setTheme(theme);
+      toggle?.addEventListener("click", () => {
+        const next = root.dataset.rasaTheme === "light" ? "dark" : "light";
+        setTheme(next);
         localStorage.setItem(key, next);
       });
     </script>
