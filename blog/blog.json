@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "posts": [
+    {
+      "file": "2026-06-30-rasa-capability-boundaries.md",
+      "slug": "rasa-capability-boundaries",
+      "title": "Rasa, Capabilities, and Controlled Execution",
+      "date": "2026-06-30",
+      "description": "The first Rasa technical note: why Rasa keeps source semantics pure while making host effects explicit, inspectable, and portable across native and Wasm execution.",
+      "series": "Building Rasa",
+      "seriesOrder": 1,
+      "tags": [
+        "rasa",
+        "language-design",
+        "capabilities",
+        "wasm",
+        "clojure"
+      ]
+    }
+  ]
+}
