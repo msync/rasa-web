@@ -1,8 +1,8 @@
 {
   "schema": "rasa.browser-demo.static.v1",
   "name": "Rasa Browser Inspection",
-  "mode": "static-browser-wasm",
-  "engine": "../assets/engine.wasm",
+  "mode": "static-wasm-browser",
+  "runtime": "../assets/ras.wasm",
   "brand": {
     "logo": "./assets/brand/logo.svg",
     "mark": "./assets/brand/mark.svg"

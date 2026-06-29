@@ -39774,7 +39774,7 @@
     "rasaRevision": "local",
     "clojureVersion": "1.12.5",
     "engine": "rasa-runtime-wasm",
-    "wasm": "/Users/jaju/github/rasa/target/wasm32-unknown-unknown/release/rasa_runtime_wasm.wasm"
+    "wasm": "/Users/jaju/github/rasa/target/rasa-products/ras.wasm"
   },
   "totals": {
     "upstreamFiles": 234,
