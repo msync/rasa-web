@@ -10607,8 +10607,8 @@ h2 {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 11px 12px;
-  border-bottom: 1px solid var(--rasa-border);
+  padding: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .source-head {
@@ -10621,8 +10621,8 @@ h2 {
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  padding: 12px 14px;
-  border-bottom: 1px solid var(--rasa-border);
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .stage-badge {
@@ -10648,19 +10648,25 @@ h2 {
 }
 
 button {
-  min-height: 32px;
-  border: 1px solid var(--rasa-border-strong);
-  border-radius: 7px;
-  padding: 0 12px;
-  color: var(--rasa-surface);
-  background: var(--rasa-text);
-  font-weight: 760;
+  min-height: 34px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 99px;
+  padding: 0 16px;
+  color: var(--rasa-text);
+  background: rgba(255, 255, 255, 0.05);
+  font-weight: 600;
   cursor: pointer;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(8px);
+}
+
+button:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-1px);
 }
 
 button:disabled {
-  color: var(--rasa-dim);
-  background: var(--rasa-panel-raised);
+  opacity: 0.45;
   cursor: default;
 }
 
@@ -10668,30 +10674,38 @@ button:disabled {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 7px;
+  gap: 12px;
 }
 
 .command-shelf {
   min-width: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   align-items: stretch;
-  gap: 10px;
-  padding: 12px;
-  border-bottom: 1px solid var(--rasa-border);
-  background: var(--rasa-panel-soft);
+  gap: 16px;
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.02);
 }
 
 .example-card {
   min-width: 0;
   display: grid;
   grid-template-rows: minmax(46px, auto) auto;
-  gap: 8px;
-  padding: 10px;
-  border: 1px solid var(--rasa-border);
-  border-radius: 8px;
-  background: var(--rasa-surface-lift);
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.02);
   overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.example-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
 .example-card strong,
@@ -10707,8 +10721,10 @@ button:disabled {
 
 .example-card strong {
   color: var(--rasa-text);
-  font-size: 12px;
-  line-height: 1.15;
+  font-family: 'Outfit', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
 }
 
 .example-card span {
@@ -10732,15 +10748,17 @@ button:disabled {
   width: 100%;
   max-width: 100%;
   min-width: 0;
-  min-height: 24px;
+  min-height: 28px;
   justify-content: center;
-  padding: 0 6px;
+  padding: 0 12px;
   overflow: hidden;
   text-overflow: ellipsis;
   color: var(--rasa-analysis);
-  background: var(--rasa-surface-lift);
+  background: rgba(255, 255, 255, 0.03);
   font-size: 12px;
-  font-weight: 720;
+  font-weight: 600;
+  border-radius: 99px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .example-button-secondary {
@@ -10750,24 +10768,24 @@ button:disabled {
 .example-button:hover {
   color: var(--rasa-text);
   border-color: var(--rasa-analysis);
-  background: var(--rasa-panel-raised);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .stage-body {
   min-height: 0;
   display: grid;
   grid-template-rows: minmax(0, 1fr);
-  background: var(--rasa-code-bg);
+  background: transparent;
 }
 
 .phase-rail {
   min-width: 0;
   display: grid;
   grid-template-columns: repeat(8, minmax(0, 1fr));
-  gap: 1px;
-  padding: 0 12px 12px;
-  border-bottom: 1px solid var(--rasa-border);
-  background: var(--rasa-panel-soft);
+  gap: 8px;
+  padding: 12px 20px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  background: transparent;
 }
 
 .phase-node {
@@ -10775,13 +10793,20 @@ button:disabled {
   min-height: 48px;
   display: grid;
   align-content: center;
-  justify-items: start;
-  gap: 3px;
-  padding: 8px 9px;
-  border: 1px solid var(--rasa-border);
-  border-radius: 0;
-  background: var(--rasa-panel-soft);
+  justify-items: center;
+  gap: 4px;
+  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.02);
   color: var(--rasa-muted);
+  transition: all 0.2s ease;
+}
+
+.phase-node:hover {
+  background: rgba(255, 255, 255, 0.05);
+  transform: translateY(-2px);
+}
   cursor: default;
 }
 
