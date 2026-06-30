@@ -2,6 +2,22 @@
   "schema": 1,
   "posts": [
     {
+      "file": "2026-06-30-rasa-browser-component-runtime.md",
+      "slug": "rasa-browser-component-runtime",
+      "title": "Rasa in the Browser: The Same Runtime, A New Host",
+      "date": "2026-06-30",
+      "description": "How Rasa now runs in browser pages through the ras.wasm component, generated WIT adapter assets, and explicit browser capability providers.",
+      "series": "Building Rasa",
+      "seriesOrder": 2,
+      "tags": [
+        "rasa",
+        "browser",
+        "wasm",
+        "wit",
+        "capabilities"
+      ]
+    },
+    {
       "file": "2026-06-30-rasa-capability-boundaries.md",
       "slug": "rasa-capability-boundaries",
       "title": "Rasa, Capabilities, and Controlled Execution",
