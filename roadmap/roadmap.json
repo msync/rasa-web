@@ -1,10 +1,10 @@
 {
   "schema": 1,
   "title": "Rasa Roadmap",
-  "generatedAt": "2026-06-30T02:10:04.846Z",
+  "generatedAt": "2026-07-01T09:53:45.791Z",
   "source": {
     "kind": "repo-roadmap",
-    "milestoneCount": 5
+    "milestoneCount": 6
   },
   "note": "Planned roadmap view.",
   "milestones": [
@@ -80,6 +80,16 @@
     },
     {
       "order": 2,
+      "title": "Managed Lowering Performance",
+      "summary": "Run and measure a pure Rasa application kernel through planned managed-value lowerings.",
+      "pressure": "WasmGC, native-tier/Cranelift, bounded facts, plan authority, benchmark evidence",
+      "status": "planned",
+      "requiredCapabilities": [],
+      "storySequence": [],
+      "storyDetails": []
+    },
+    {
+      "order": 3,
       "title": "Browser Embedded Rasa",
       "summary": "Embed a Rasa evaluator in a browser page with controlled host callbacks.",
       "pressure": "Wasm session stability, sandboxed capabilities, UI diagnostics",
@@ -140,7 +150,7 @@
       ]
     },
     {
-      "order": 3,
+      "order": 4,
       "title": "HTTP JSON Client Script",
       "summary": "Fetch JSON, transform data, and emit JSON from Rasa.",
       "pressure": "JSON, bytes/text boundaries, HTTP client capability, colorless suspension",
@@ -209,7 +219,7 @@
       ]
     },
     {
-      "order": 4,
+      "order": 5,
       "title": "HTTP JSON Service",
       "summary": "Serve a small JSON endpoint from Rasa.",
       "pressure": "routing, request/response maps, lifecycle, concurrency, cancellation",
@@ -272,7 +282,7 @@
       ]
     },
     {
-      "order": 5,
+      "order": 6,
       "title": "Capability Model And Manifest Tooling",
       "summary": "Generate and validate capability models from provider/interface sources with small human policy overlays.",
       "pressure": "package loading, capability declarations, importer tooling, generated artifacts",
