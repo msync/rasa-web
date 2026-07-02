@@ -7,6 +7,9 @@
     "logo": "./assets/brand/logo.svg",
     "mark": "./assets/brand/mark.svg"
   },
-  "pages": ["./index.html", "./article.html"],
+  "pages": [
+    "./index.html",
+    "./article.html"
+  ],
   "examples": "./examples.json"
 }
