@@ -36,14 +36,14 @@
         "projectedFiles": 109,
         "projectedCases": 2802,
         "supportedFiles": 104,
-        "cases": 1516,
-        "importedCases": 1516,
-        "importerFilteredCases": 1286,
+        "cases": 1472,
+        "importedCases": 1472,
+        "importerFilteredCases": 1330,
         "unprojectedCases": 2906,
         "unclassifiedCases": 11,
         "residualCases": 4,
-        "filtered": 1411,
-        "generatedAt": "2026-07-01T09:30:14.440Z",
+        "filtered": 1455,
+        "generatedAt": "2026-07-02T02:02:00.278Z",
         "projectedFunctions": 147
       },
       "filtered": [
@@ -1132,17 +1132,8 @@
             "source": "jank-lang/clojure-test-suite",
             "file": "test/clojure/core_test/concat.cljc"
           },
-          "reason": "dialect/helper namespace",
-          "form": "(is (p/lazy-seq? s))"
-        },
-        {
-          "function": "concat",
-          "upstream": {
-            "source": "jank-lang/clojure-test-suite",
-            "file": "test/clojure/core_test/concat.cljc"
-          },
-          "reason": "unsupported helper",
-          "form": "(is (not (realized? s)))"
+          "reason": "unsupported fixture/local symbol s",
+          "form": "(is (empty? s))"
         },
         {
           "function": "concat",
@@ -1168,6 +1159,15 @@
             "source": "jank-lang/clojure-test-suite",
             "file": "test/clojure/core_test/concat.cljc"
           },
+          "reason": "unsupported fixture/local symbol s",
+          "form": "(is (= [1 2 3 4 5] s))"
+        },
+        {
+          "function": "concat",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/concat.cljc"
+          },
           "reason": "dialect/helper namespace",
           "form": "(is (p/lazy-seq? s))"
         },
@@ -1179,6 +1179,42 @@
           },
           "reason": "unsupported helper",
           "form": "(is (not (realized? s)))"
+        },
+        {
+          "function": "concat",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/concat.cljc"
+          },
+          "reason": "unsupported fixture/local symbol s",
+          "form": "(is (= [1 2 3 4 5 6 7 8 9 10] s))"
+        },
+        {
+          "function": "concat",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/concat.cljc"
+          },
+          "reason": "dialect/helper namespace",
+          "form": "(is (p/lazy-seq? s))"
+        },
+        {
+          "function": "concat",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/concat.cljc"
+          },
+          "reason": "unsupported helper",
+          "form": "(is (not (realized? s)))"
+        },
+        {
+          "function": "concat",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/concat.cljc"
+          },
+          "reason": "unsupported fixture/local symbol s",
+          "form": "(is (= [0 1 2 3 4 5 6 7 8 9 10 11 12 0 1 2] (take 16 s)))"
         },
         {
           "function": "conj",
@@ -1383,7 +1419,7 @@
             "source": "jank-lang/clojure-test-suite",
             "file": "test/clojure/core_test/constantly.cljc"
           },
-          "reason": "operator cycle is not in supported set",
+          "reason": "unsupported fixture/local symbol foo",
           "form": "(= (zipmap (take 100 (range))\n                (cycle ['foo 'bar 'baz 'qux])) ((constantly (zipmap (take 100 (range))\n                (cycle ['foo 'bar 'baz 'qux])))))"
         },
         {
@@ -1482,7 +1518,7 @@
             "source": "jank-lang/clojure-test-suite",
             "file": "test/clojure/core_test/constantly.cljc"
           },
-          "reason": "operator the-fn is not in supported set",
+          "reason": "unsupported fixture/local symbol even?",
           "form": "(is (= :foo (the-fn even?)))"
         },
         {
@@ -1491,7 +1527,7 @@
             "source": "jank-lang/clojure-test-suite",
             "file": "test/clojure/core_test/constantly.cljc"
           },
-          "reason": "operator the-fn is not in supported set",
+          "reason": "unsupported fixture/local symbol even?",
           "form": "(is (= :foo (the-fn (some-fn even? odd?))))"
         },
         {
@@ -1500,7 +1536,7 @@
             "source": "jank-lang/clojure-test-suite",
             "file": "test/clojure/core_test/constantly.cljc"
           },
-          "reason": "operator cycle is not in supported set",
+          "reason": "unsupported fixture/local symbol foo",
           "form": "(is (= :foo (apply the-fn (take 1000 (cycle ['foo \"bar\" :baz])))))"
         },
         {
@@ -1726,6 +1762,42 @@
             "source": "jank-lang/clojure-test-suite",
             "file": "test/clojure/core_test/dissoc.cljc"
           },
+          "reason": "unsupported fixture/local symbol r",
+          "form": "(= {:b 2 :c nil} (apply dissoc r [:a]))"
+        },
+        {
+          "function": "dissoc",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/dissoc.cljc"
+          },
+          "reason": "unsupported fixture/local symbol r",
+          "form": "(= {:b 2 :c nil} (apply dissoc r [:a :d]))"
+        },
+        {
+          "function": "dissoc",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/dissoc.cljc"
+          },
+          "reason": "unsupported fixture/local symbol r",
+          "form": "(= {} (apply dissoc r [:a :b :c]))"
+        },
+        {
+          "function": "dissoc",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/dissoc.cljc"
+          },
+          "reason": "unsupported fixture/local symbol r",
+          "form": "(= r (apply dissoc r [:d]))"
+        },
+        {
+          "function": "dissoc",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/dissoc.cljc"
+          },
           "reason": "dialect/helper namespace",
           "form": "(p/thrown? (apply dissoc 42 [4]))"
         },
@@ -1788,8 +1860,26 @@
             "source": "jank-lang/clojure-test-suite",
             "file": "test/clojure/core_test/distinct.cljc"
           },
-          "reason": "operator identical? is not in supported set",
+          "reason": "unsupported fixture/local symbol dupes-not-identical",
           "form": "(is (not (identical? (first dupes-not-identical) (second dupes-not-identical))))"
+        },
+        {
+          "function": "distinct",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/distinct.cljc"
+          },
+          "reason": "unsupported fixture/local symbol xform",
+          "form": "(is (fn? xform))"
+        },
+        {
+          "function": "distinct",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/distinct.cljc"
+          },
+          "reason": "unsupported fixture/local symbol s",
+          "form": "(is (= [1 2 3 4 5] s))"
         },
         {
           "function": "distinct",
@@ -1860,8 +1950,26 @@
             "source": "jank-lang/clojure-test-suite",
             "file": "test/clojure/core_test/distinct.cljc"
           },
+          "reason": "unsupported fixture/local symbol s",
+          "form": "(is (= [1 2 3 4 5] s))"
+        },
+        {
+          "function": "distinct",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/distinct.cljc"
+          },
           "reason": "metadata assertion",
           "form": "(is (= [{:k :v}] (distinct dupes-with-meta)))"
+        },
+        {
+          "function": "distinct",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/distinct.cljc"
+          },
+          "reason": "unsupported fixture/local symbol dupes-not-identical",
+          "form": "(is (= [#{:a :b :c}] (distinct dupes-not-identical)))"
         },
         {
           "function": "doseq",
@@ -2244,6 +2352,15 @@
             "source": "jank-lang/clojure-test-suite",
             "file": "test/clojure/core_test/eq.cljc"
           },
+          "reason": "unsupported fixture/local symbol r",
+          "form": "(is (let [r #\"my regex\"\n              r' r]\n          (eq r r')))"
+        },
+        {
+          "function": "=",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/eq.cljc"
+          },
           "reason": "anonymous function literal",
           "form": "(is (not (eq #(+ 2 %) #(+ 2 %))))"
         },
@@ -2586,6 +2703,15 @@
           "form": "(is (fn? #(str \"hello \" %)))"
         },
         {
+          "function": "fn?",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/fn_qmark.cljc"
+          },
+          "reason": "unsupported fixture/local symbol foo",
+          "form": "(is (fn? foo))"
+        },
+        {
           "function": "fnext",
           "upstream": {
             "source": "jank-lang/clojure-test-suite",
@@ -2783,6 +2909,78 @@
           "reason": "not in Rasa projected supported set"
         },
         {
+          "function": "get",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/get.cljc"
+          },
+          "reason": "unsupported fixture/local symbol arr",
+          "form": "(= 1 (get arr 0))"
+        },
+        {
+          "function": "get",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/get.cljc"
+          },
+          "reason": "unsupported fixture/local symbol arr",
+          "form": "(= nil (get arr 10))"
+        },
+        {
+          "function": "get",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/get.cljc"
+          },
+          "reason": "unsupported fixture/local symbol arr",
+          "form": "(= 1 (get arr 0 :not-found))"
+        },
+        {
+          "function": "get",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/get.cljc"
+          },
+          "reason": "unsupported fixture/local symbol arr",
+          "form": "(= :not-found (get arr 10 :not-found))"
+        },
+        {
+          "function": "group-by",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/group_by.cljc"
+          },
+          "reason": "unsupported fixture/local symbol odd?",
+          "form": "(is (= {false [0 2 4 6 8] true [1 3 5 7 9]} (group-by odd? (range 10))))"
+        },
+        {
+          "function": "group-by",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/group_by.cljc"
+          },
+          "reason": "unsupported fixture/local symbol odd?",
+          "form": "(is (= {} (group-by odd? '())))"
+        },
+        {
+          "function": "group-by",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/group_by.cljc"
+          },
+          "reason": "unsupported fixture/local symbol odd?",
+          "form": "(is (= {} (group-by odd? nil)))"
+        },
+        {
+          "function": "group-by",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/group_by.cljc"
+          },
+          "reason": "unsupported fixture/local symbol g",
+          "form": "(is (= {[1] [[[1] [2]] [[1] [3]]]} g))"
+        },
+        {
           "function": "group-by",
           "upstream": {
             "source": "jank-lang/clojure-test-suite",
@@ -2799,6 +2997,15 @@
           },
           "reason": "metadata assertion",
           "form": "(is (= {:bar true} (-> g (get [1]) second first meta)))"
+        },
+        {
+          "function": "group-by",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/group_by.cljc"
+          },
+          "reason": "unsupported fixture/local symbol s",
+          "form": "(is (= s {true [[] []] false [[1] [2]]}))"
         },
         {
           "function": "group-by",
@@ -3614,7 +3821,7 @@
             "source": "jank-lang/clojure-test-suite",
             "file": "test/clojure/core_test/identity.cljc"
           },
-          "reason": "operator identity-identical? is not in supported set",
+          "reason": "unsupported fixture/local symbol foo",
           "form": "(identity-identical? 'foo)"
         },
         {
@@ -3821,7 +4028,7 @@
             "source": "jank-lang/clojure-test-suite",
             "file": "test/clojure/core_test/ifn_qmark.cljc"
           },
-          "reason": "operator ifn? is not in supported set",
+          "reason": "unsupported fixture/local symbol foo",
           "form": "(is (ifn? foo))"
         },
         {
@@ -4387,6 +4594,15 @@
           },
           "reason": "operator ifn? is not in supported set",
           "form": "(is (ifn? (juxt (range))))"
+        },
+        {
+          "function": "juxt",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/juxt.cljc"
+          },
+          "reason": "unsupported fixture/local symbol name",
+          "form": "(is (= [:namespace/keyword \"keyword\" \"namespace\"]\n             ((juxt identity name namespace) :namespace/keyword)))"
         },
         {
           "function": "juxt",
@@ -5289,6 +5505,15 @@
             "source": "jank-lang/clojure-test-suite",
             "file": "test/clojure/core_test/map.cljc"
           },
+          "reason": "unsupported fixture/local symbol mfn",
+          "form": "(is (fn? mfn))"
+        },
+        {
+          "function": "map",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/map.cljc"
+          },
           "reason": "unsupported helper",
           "form": "(is (= [1 2 3 4 5] (transduce mfn conj (range 5))))"
         },
@@ -5318,6 +5543,15 @@
           },
           "reason": "unsupported helper",
           "form": "(is (not (realized? result)))"
+        },
+        {
+          "function": "map",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/map.cljc"
+          },
+          "reason": "unsupported fixture/local symbol result",
+          "form": "(is (= [1 2 3 4 5] result))"
         },
         {
           "function": "map",
@@ -5361,17 +5595,8 @@
             "source": "jank-lang/clojure-test-suite",
             "file": "test/clojure/core_test/map.cljc"
           },
-          "reason": "dialect/helper namespace",
-          "form": "(is (p/lazy-seq? s))"
-        },
-        {
-          "function": "map",
-          "upstream": {
-            "source": "jank-lang/clojure-test-suite",
-            "file": "test/clojure/core_test/map.cljc"
-          },
-          "reason": "unsupported helper",
-          "form": "(is (not (realized? s)))"
+          "reason": "unsupported fixture/local symbol s",
+          "form": "(is (= [0 1 2 3 4] (take 5 s)))"
         },
         {
           "function": "map",
@@ -5397,17 +5622,8 @@
             "source": "jank-lang/clojure-test-suite",
             "file": "test/clojure/core_test/map.cljc"
           },
-          "reason": "dialect/helper namespace",
-          "form": "(is (p/lazy-seq? s))"
-        },
-        {
-          "function": "map",
-          "upstream": {
-            "source": "jank-lang/clojure-test-suite",
-            "file": "test/clojure/core_test/map.cljc"
-          },
-          "reason": "unsupported helper",
-          "form": "(is (not (realized? s)))"
+          "reason": "unsupported fixture/local symbol s",
+          "form": "(is (= [0 2 4 6 8] s))"
         },
         {
           "function": "map",
@@ -5426,6 +5642,69 @@
           },
           "reason": "unsupported helper",
           "form": "(is (not (realized? s)))"
+        },
+        {
+          "function": "map",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/map.cljc"
+          },
+          "reason": "unsupported fixture/local symbol s",
+          "form": "(is (= [0 2 4 6 8] (take 5 s)))"
+        },
+        {
+          "function": "map",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/map.cljc"
+          },
+          "reason": "dialect/helper namespace",
+          "form": "(is (p/lazy-seq? s))"
+        },
+        {
+          "function": "map",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/map.cljc"
+          },
+          "reason": "unsupported helper",
+          "form": "(is (not (realized? s)))"
+        },
+        {
+          "function": "map",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/map.cljc"
+          },
+          "reason": "unsupported fixture/local symbol s",
+          "form": "(is (= [0 3 6 9 12] s))"
+        },
+        {
+          "function": "map",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/map.cljc"
+          },
+          "reason": "dialect/helper namespace",
+          "form": "(is (p/lazy-seq? s))"
+        },
+        {
+          "function": "map",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/map.cljc"
+          },
+          "reason": "unsupported helper",
+          "form": "(is (not (realized? s)))"
+        },
+        {
+          "function": "map",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/map.cljc"
+          },
+          "reason": "unsupported fixture/local symbol s",
+          "form": "(is (= [0 4 8 12 16] s))"
         },
         {
           "function": "map",
@@ -5586,7 +5865,7 @@
             "source": "jank-lang/clojure-test-suite",
             "file": "test/clojure/core_test/mapcat.cljc"
           },
-          "reason": "operator odd? is not in supported set",
+          "reason": "unsupported fixture/local symbol odd?",
           "form": "(is (= [2] (mapcat (fn [x] (if (odd? x) [] [x])) [1 2 3])))"
         },
         {
@@ -6299,6 +6578,24 @@
           },
           "reason": "non-finite numeric literal",
           "form": "(= ##-Inf (apply min-key identity [1 2 3 4 5 ##-Inf]))"
+        },
+        {
+          "function": "min-key",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/min_key.cljc"
+          },
+          "reason": "unsupported fixture/local symbol my-abs",
+          "form": "(= -1 (apply min-key my-abs [-3 -1 2]))"
+        },
+        {
+          "function": "min-key",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/min_key.cljc"
+          },
+          "reason": "unsupported fixture/local symbol my-sqr",
+          "form": "(= -1 (apply min-key my-sqr [-3 -1 2 4]))"
         },
         {
           "function": "min-key",
@@ -10028,8 +10325,44 @@
             "source": "jank-lang/clojure-test-suite",
             "file": "test/clojure/core_test/seq.cljc"
           },
+          "reason": "unsupported fixture/local symbol input",
+          "form": "(is (= input (into #{} (seq input))))"
+        },
+        {
+          "function": "seq",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/seq.cljc"
+          },
+          "reason": "unsupported fixture/local symbol input-hash",
+          "form": "(is (= input-hash (into (hash-set) (seq input))))"
+        },
+        {
+          "function": "seq",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/seq.cljc"
+          },
           "reason": "unsupported helper",
           "form": "(is (= input-sorted-map (into (sorted-map) (seq input-sorted-map))))"
+        },
+        {
+          "function": "seq",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/seq.cljc"
+          },
+          "reason": "unsupported fixture/local symbol input-hash-map",
+          "form": "(is (= input-hash-map (into (hash-map) (seq input-hash-map))))"
+        },
+        {
+          "function": "seq",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/seq.cljc"
+          },
+          "reason": "unsupported fixture/local symbol input-map",
+          "form": "(is (= input-map (into {} (seq input-map))))"
         },
         {
           "function": "seq",
@@ -10055,8 +10388,17 @@
             "source": "jank-lang/clojure-test-suite",
             "file": "test/clojure/core_test/seq.cljc"
           },
-          "reason": "operator seq? is not in supported set",
+          "reason": "unsupported fixture/local symbol infinite-seq",
           "form": "(is (seq? infinite-seq))"
+        },
+        {
+          "function": "seq",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/seq.cljc"
+          },
+          "reason": "unsupported fixture/local symbol infinite-seq",
+          "form": "(is (= (range 10000) (take 10000 infinite-seq)))"
         },
         {
           "function": "seq?",
@@ -10317,7 +10659,7 @@
             "source": "jank-lang/clojure-test-suite",
             "file": "test/clojure/core_test/some.cljc"
           },
-          "reason": "operator 1 is not in supported set",
+          "reason": "unsupported fixture/local symbol even?",
           "form": "(is (= true (some even? '(1 2 3 4))))"
         },
         {
@@ -10326,7 +10668,7 @@
             "source": "jank-lang/clojure-test-suite",
             "file": "test/clojure/core_test/some.cljc"
           },
-          "reason": "operator 1 is not in supported set",
+          "reason": "unsupported fixture/local symbol even?",
           "form": "(is (= nil (some even? '(1 3 5 7))))"
         },
         {
@@ -10335,7 +10677,43 @@
             "source": "jank-lang/clojure-test-suite",
             "file": "test/clojure/core_test/some.cljc"
           },
-          "reason": "operator int-array is not in supported set",
+          "reason": "unsupported fixture/local symbol even?",
+          "form": "(is (= nil (some even? '())))"
+        },
+        {
+          "function": "some",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/some.cljc"
+          },
+          "reason": "unsupported fixture/local symbol odd?",
+          "form": "(is (= true (some odd? #{1 2 3 4})))"
+        },
+        {
+          "function": "some",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/some.cljc"
+          },
+          "reason": "unsupported fixture/local symbol odd?",
+          "form": "(is (= nil (some odd? #{2 4 6 8})))"
+        },
+        {
+          "function": "some",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/some.cljc"
+          },
+          "reason": "unsupported fixture/local symbol odd?",
+          "form": "(is (= nil (some odd? #{})))"
+        },
+        {
+          "function": "some",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/some.cljc"
+          },
+          "reason": "unsupported fixture/local symbol even?",
           "form": "(is (= true (some even? (int-array [1 2 3 4]))))"
         },
         {
@@ -10344,7 +10722,7 @@
             "source": "jank-lang/clojure-test-suite",
             "file": "test/clojure/core_test/some.cljc"
           },
-          "reason": "operator long-array is not in supported set",
+          "reason": "unsupported fixture/local symbol even?",
           "form": "(is (= true (some even? (long-array [1 2 3 4]))))"
         },
         {
@@ -12190,6 +12568,24 @@
             "source": "jank-lang/clojure-test-suite",
             "file": "test/clojure/core_test/vec.cljc"
           },
+          "reason": "unsupported fixture/local symbol v",
+          "form": "(is (= [1 2 3] v))"
+        },
+        {
+          "function": "vec",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/vec.cljc"
+          },
+          "reason": "unsupported fixture/local symbol v",
+          "form": "(is (= [-1 2 3] v))"
+        },
+        {
+          "function": "vec",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/vec.cljc"
+          },
           "reason": "dialect/helper namespace",
           "form": "(p/thrown? (vec 42))"
         },
@@ -12334,7 +12730,7 @@
             "source": "jank-lang/clojure-test-suite",
             "file": "test/clojure/core_test/when.cljc"
           },
-          "reason": "operator swap! is not in supported set",
+          "reason": "unsupported fixture/local symbol foo",
           "form": "(is (= :bar (when true\n                      (swap! foo inc)\n                      (swap! foo inc)\n                      (swap! foo inc)\n                      :bar)))"
         },
         {
@@ -12359,7 +12755,7 @@
             "source": "jank-lang/clojure-test-suite",
             "file": "test/clojure/core_test/when_not.cljc"
           },
-          "reason": "operator swap! is not in supported set",
+          "reason": "unsupported fixture/local symbol foo",
           "form": "(is (= :bar (when-not false\n                      (swap! foo inc)\n                      (swap! foo inc)\n                      (swap! foo inc)\n                      :bar)))"
         },
         {
@@ -14359,7 +14755,6 @@
           "jank/clojure.core/eq/51",
           "jank/clojure.core/eq/52",
           "jank/clojure.core/eq/54",
-          "jank/clojure.core/eq/55",
           "jank/clojure.core/eq/58",
           "jank/clojure.core/eq/59",
           "jank/clojure.core/eq/61",
@@ -14917,13 +15312,9 @@
         ],
         "summary": "Public Rasa core facade is installed as eval-owned native semantics; core metadata is descriptive evidence only.",
         "caseIds": [
-          "jank/clojure.core/concat/2",
-          "jank/clojure.core/concat/5",
           "jank/clojure.core/concat/6",
-          "jank/clojure.core/concat/9",
           "jank/clojure.core/concat/10",
           "jank/clojure.core/concat/11",
-          "jank/clojure.core/concat/14",
           "jank/clojure.core/concat/15",
           "jank/clojure.core/concat/16",
           "jank/clojure.core/concat/17",
@@ -15071,7 +15462,7 @@
         "provenance": [
           "compat/generated/namespaces/clojure.core/function/contains-x3f.ras"
         ],
-        "summary": "Returns whether a map has a key, vector has an index, or set has a member.",
+        "summary": "Returns whether a map has a key, vector or string has an index, or set has a member.",
         "caseIds": [
           "jank/clojure.core/containsqmark/0",
           "jank/clojure.core/containsqmark/1",
@@ -15247,11 +15638,7 @@
           "jank/clojure.core/dissoc/7",
           "jank/clojure.core/dissoc/8",
           "jank/clojure.core/dissoc/9",
-          "jank/clojure.core/dissoc/10",
-          "jank/clojure.core/dissoc/13",
-          "jank/clojure.core/dissoc/14",
-          "jank/clojure.core/dissoc/15",
-          "jank/clojure.core/dissoc/16"
+          "jank/clojure.core/dissoc/10"
         ]
       },
       {
@@ -15272,10 +15659,6 @@
         ],
         "summary": "Returns a seq of the items in coll with duplicate values removed.",
         "caseIds": [
-          "jank/clojure.core/distinct/2",
-          "jank/clojure.core/distinct/3",
-          "jank/clojure.core/distinct/11",
-          "jank/clojure.core/distinct/13",
           "jank/clojure.core/distinct/14",
           "jank/clojure.core/distinct/15",
           "jank/clojure.core/distinct/16"
@@ -15731,7 +16114,6 @@
           "jank/clojure.core/fnqmark/1",
           "jank/clojure.core/fnqmark/2",
           "jank/clojure.core/fnqmark/4",
-          "jank/clojure.core/fnqmark/5",
           "jank/clojure.core/fnqmark/6",
           "jank/clojure.core/fnqmark/7",
           "jank/clojure.core/fnqmark/8",
@@ -15837,7 +16219,7 @@
         "provenance": [
           "compat/generated/namespaces/clojure.core/function/get.ras"
         ],
-        "summary": "Looks up a map key, vector index, or set member and returns nil or the supplied default when absent.",
+        "summary": "Looks up a map key, vector or string index, or set member and returns nil or the supplied default when absent.",
         "caseIds": [
           "jank/clojure.core/get/0",
           "jank/clojure.core/get/1",
@@ -15853,8 +16235,6 @@
           "jank/clojure.core/get/11",
           "jank/clojure.core/get/12",
           "jank/clojure.core/get/13",
-          "jank/clojure.core/get/14",
-          "jank/clojure.core/get/15",
           "jank/clojure.core/get/16",
           "jank/clojure.core/get/17",
           "jank/clojure.core/get/18",
@@ -15867,9 +16247,7 @@
           "jank/clojure.core/get/25",
           "jank/clojure.core/get/26",
           "jank/clojure.core/get/27",
-          "jank/clojure.core/get/28",
-          "jank/clojure.core/get/29",
-          "jank/clojure.core/get/30"
+          "jank/clojure.core/get/28"
         ]
       },
       {
@@ -15933,12 +16311,7 @@
         ],
         "summary": "Returns a map from (f item) to a vector of matching items.",
         "caseIds": [
-          "jank/clojure.core/group-by/0",
-          "jank/clojure.core/group-by/1",
-          "jank/clojure.core/group-by/2",
-          "jank/clojure.core/group-by/3",
-          "jank/clojure.core/group-by/4",
-          "jank/clojure.core/group-by/7"
+          "jank/clojure.core/group-by/1"
         ]
       },
       {
@@ -16231,7 +16604,6 @@
           "jank/clojure.core/juxt/4",
           "jank/clojure.core/juxt/5",
           "jank/clojure.core/juxt/6",
-          "jank/clojure.core/juxt/7",
           "jank/clojure.core/juxt/8",
           "jank/clojure.core/juxt/9"
         ]
@@ -16440,16 +16812,11 @@
         ],
         "summary": "Public Rasa core facade is installed as eval-owned native semantics; core metadata is descriptive evidence only.",
         "caseIds": [
-          "jank/clojure.core/map/0",
-          "jank/clojure.core/map/5",
-          "jank/clojure.core/map/10",
           "jank/clojure.core/map/11",
           "jank/clojure.core/map/12",
           "jank/clojure.core/map/13",
-          "jank/clojure.core/map/16",
           "jank/clojure.core/map/17",
           "jank/clojure.core/map/18",
-          "jank/clojure.core/map/21",
           "jank/clojure.core/map/22",
           "jank/clojure.core/map/23",
           "jank/clojure.core/map/24",
@@ -16460,7 +16827,6 @@
           "jank/clojure.core/map/29",
           "jank/clojure.core/map/30",
           "jank/clojure.core/map/31",
-          "jank/clojure.core/map/34",
           "jank/clojure.core/map/35",
           "jank/clojure.core/map/36",
           "jank/clojure.core/map/37",
@@ -16471,7 +16837,6 @@
           "jank/clojure.core/map/42",
           "jank/clojure.core/map/43",
           "jank/clojure.core/map/44",
-          "jank/clojure.core/map/47",
           "jank/clojure.core/map/48",
           "jank/clojure.core/map/49",
           "jank/clojure.core/map/50",
@@ -16786,8 +17151,6 @@
           "jank/clojure.core/min-key/29",
           "jank/clojure.core/min-key/30",
           "jank/clojure.core/min-key/31",
-          "jank/clojure.core/min-key/33",
-          "jank/clojure.core/min-key/34",
           "jank/clojure.core/min-key/35",
           "jank/clojure.core/min-key/36",
           "jank/clojure.core/min-key/38"
@@ -17644,12 +18007,7 @@
         "caseIds": [
           "jank/clojure.core/seq/2",
           "jank/clojure.core/seq/3",
-          "jank/clojure.core/seq/4",
-          "jank/clojure.core/seq/8",
-          "jank/clojure.core/seq/9",
-          "jank/clojure.core/seq/11",
-          "jank/clojure.core/seq/12",
-          "jank/clojure.core/seq/16"
+          "jank/clojure.core/seq/4"
         ]
       },
       {
@@ -17769,10 +18127,6 @@
         ],
         "summary": "Returns the first truthy result of pred over coll, otherwise nil.",
         "caseIds": [
-          "jank/clojure.core/some/2",
-          "jank/clojure.core/some/3",
-          "jank/clojure.core/some/4",
-          "jank/clojure.core/some/5",
           "jank/clojure.core/some/6",
           "jank/clojure.core/some/7",
           "jank/clojure.core/some/8",
@@ -18302,9 +18656,7 @@
           "jank/clojure.core/vec/8",
           "jank/clojure.core/vec/10",
           "jank/clojure.core/vec/11",
-          "jank/clojure.core/vec/12",
-          "jank/clojure.core/vec/13",
-          "jank/clojure.core/vec/14"
+          "jank/clojure.core/vec/12"
         ]
       },
       {
@@ -21121,58 +21473,10 @@
         }
       },
       {
-        "id": "jank/clojure.core/concat/2",
-        "function": "concat",
-        "title": "concat upstream assertion 3",
-        "source": "(empty? s)",
-        "expected": "true",
-        "expectation": "must-pass",
-        "axes": [
-          "semantic-surface"
-        ],
-        "upstream": {
-          "source": "jank-lang/clojure-test-suite",
-          "file": "test/clojure/core_test/concat.cljc",
-          "form": "(is ...)"
-        }
-      },
-      {
-        "id": "jank/clojure.core/concat/5",
-        "function": "concat",
-        "title": "concat upstream assertion 6",
-        "source": "(= [1 2 3 4 5] s)",
-        "expected": "true",
-        "expectation": "must-pass",
-        "axes": [
-          "semantic-surface"
-        ],
-        "upstream": {
-          "source": "jank-lang/clojure-test-suite",
-          "file": "test/clojure/core_test/concat.cljc",
-          "form": "(is ...)"
-        }
-      },
-      {
         "id": "jank/clojure.core/concat/6",
         "function": "concat",
         "title": "concat upstream assertion 7",
         "source": "(= [0 1 2 3 4] (take 5 (concat (range))))",
-        "expected": "true",
-        "expectation": "must-pass",
-        "axes": [
-          "semantic-surface"
-        ],
-        "upstream": {
-          "source": "jank-lang/clojure-test-suite",
-          "file": "test/clojure/core_test/concat.cljc",
-          "form": "(is ...)"
-        }
-      },
-      {
-        "id": "jank/clojure.core/concat/9",
-        "function": "concat",
-        "title": "concat upstream assertion 10",
-        "source": "(= [1 2 3 4 5 6 7 8 9 10] s)",
         "expected": "true",
         "expectation": "must-pass",
         "axes": [
@@ -21205,22 +21509,6 @@
         "function": "concat",
         "title": "concat upstream assertion 12",
         "source": "(= [0 1 2 3 4] (take 5 (concat (range) [:a :b :c])))",
-        "expected": "true",
-        "expectation": "must-pass",
-        "axes": [
-          "semantic-surface"
-        ],
-        "upstream": {
-          "source": "jank-lang/clojure-test-suite",
-          "file": "test/clojure/core_test/concat.cljc",
-          "form": "(is ...)"
-        }
-      },
-      {
-        "id": "jank/clojure.core/concat/14",
-        "function": "concat",
-        "title": "concat upstream assertion 15",
-        "source": "(= [0 1 2 3 4 5 6 7 8 9 10 11 12 0 1 2] (take 16 s))",
         "expected": "true",
         "expectation": "must-pass",
         "axes": [
@@ -22657,134 +22945,6 @@
         }
       },
       {
-        "id": "jank/clojure.core/dissoc/13",
-        "function": "dissoc",
-        "title": "dissoc upstream table row 1",
-        "source": "(= {:b 2 :c nil} (apply dissoc r [:a]))",
-        "expected": "true",
-        "expectation": "must-pass",
-        "axes": [
-          "semantic-surface"
-        ],
-        "upstream": {
-          "source": "jank-lang/clojure-test-suite",
-          "file": "test/clojure/core_test/dissoc.cljc",
-          "form": "(are ...)"
-        }
-      },
-      {
-        "id": "jank/clojure.core/dissoc/14",
-        "function": "dissoc",
-        "title": "dissoc upstream table row 2",
-        "source": "(= {:b 2 :c nil} (apply dissoc r [:a :d]))",
-        "expected": "true",
-        "expectation": "must-pass",
-        "axes": [
-          "semantic-surface"
-        ],
-        "upstream": {
-          "source": "jank-lang/clojure-test-suite",
-          "file": "test/clojure/core_test/dissoc.cljc",
-          "form": "(are ...)"
-        }
-      },
-      {
-        "id": "jank/clojure.core/dissoc/15",
-        "function": "dissoc",
-        "title": "dissoc upstream table row 3",
-        "source": "(= {} (apply dissoc r [:a :b :c]))",
-        "expected": "true",
-        "expectation": "must-pass",
-        "axes": [
-          "semantic-surface"
-        ],
-        "upstream": {
-          "source": "jank-lang/clojure-test-suite",
-          "file": "test/clojure/core_test/dissoc.cljc",
-          "form": "(are ...)"
-        }
-      },
-      {
-        "id": "jank/clojure.core/dissoc/16",
-        "function": "dissoc",
-        "title": "dissoc upstream table row 4",
-        "source": "(= r (apply dissoc r [:d]))",
-        "expected": "true",
-        "expectation": "must-pass",
-        "axes": [
-          "semantic-surface"
-        ],
-        "upstream": {
-          "source": "jank-lang/clojure-test-suite",
-          "file": "test/clojure/core_test/dissoc.cljc",
-          "form": "(are ...)"
-        }
-      },
-      {
-        "id": "jank/clojure.core/distinct/2",
-        "function": "distinct",
-        "title": "distinct upstream assertion 3",
-        "source": "(fn? xform)",
-        "expected": "true",
-        "expectation": "must-pass",
-        "axes": [
-          "semantic-surface"
-        ],
-        "upstream": {
-          "source": "jank-lang/clojure-test-suite",
-          "file": "test/clojure/core_test/distinct.cljc",
-          "form": "(is ...)"
-        }
-      },
-      {
-        "id": "jank/clojure.core/distinct/3",
-        "function": "distinct",
-        "title": "distinct upstream assertion 4",
-        "source": "(= [1 2 3 4 5] s)",
-        "expected": "true",
-        "expectation": "must-pass",
-        "axes": [
-          "semantic-surface"
-        ],
-        "upstream": {
-          "source": "jank-lang/clojure-test-suite",
-          "file": "test/clojure/core_test/distinct.cljc",
-          "form": "(is ...)"
-        }
-      },
-      {
-        "id": "jank/clojure.core/distinct/11",
-        "function": "distinct",
-        "title": "distinct upstream assertion 12",
-        "source": "(= [1 2 3 4 5] s)",
-        "expected": "true",
-        "expectation": "must-pass",
-        "axes": [
-          "semantic-surface"
-        ],
-        "upstream": {
-          "source": "jank-lang/clojure-test-suite",
-          "file": "test/clojure/core_test/distinct.cljc",
-          "form": "(is ...)"
-        }
-      },
-      {
-        "id": "jank/clojure.core/distinct/13",
-        "function": "distinct",
-        "title": "distinct upstream assertion 14",
-        "source": "(= [#{:a :b :c}] (distinct dupes-not-identical))",
-        "expected": "true",
-        "expectation": "must-pass",
-        "axes": [
-          "semantic-surface"
-        ],
-        "upstream": {
-          "source": "jank-lang/clojure-test-suite",
-          "file": "test/clojure/core_test/distinct.cljc",
-          "form": "(is ...)"
-        }
-      },
-      {
         "id": "jank/clojure.core/distinct/14",
         "function": "distinct",
         "title": "distinct upstream assertion 15",
@@ -24001,22 +24161,6 @@
         }
       },
       {
-        "id": "jank/clojure.core/eq/55",
-        "function": "=",
-        "title": "= upstream assertion 56",
-        "source": "(let [r #\"my regex\"\n              r' r]\n          (= r r'))",
-        "expected": "true",
-        "expectation": "must-pass",
-        "axes": [
-          "semantic-surface"
-        ],
-        "upstream": {
-          "source": "jank-lang/clojure-test-suite",
-          "file": "test/clojure/core_test/eq.cljc",
-          "form": "(is ...)"
-        }
-      },
-      {
         "id": "jank/clojure.core/eq/58",
         "function": "=",
         "title": "= upstream assertion 59",
@@ -25025,22 +25169,6 @@
         }
       },
       {
-        "id": "jank/clojure.core/fnqmark/5",
-        "function": "fn?",
-        "title": "fn? upstream assertion 6",
-        "source": "(fn? foo)",
-        "expected": "true",
-        "expectation": "must-pass",
-        "axes": [
-          "semantic-surface"
-        ],
-        "upstream": {
-          "source": "jank-lang/clojure-test-suite",
-          "file": "test/clojure/core_test/fn_qmark.cljc",
-          "form": "(is ...)"
-        }
-      },
-      {
         "id": "jank/clojure.core/fnqmark/6",
         "function": "fn?",
         "title": "fn? upstream assertion 7",
@@ -25665,42 +25793,10 @@
         }
       },
       {
-        "id": "jank/clojure.core/get/14",
-        "function": "get",
-        "title": "get upstream table row 15",
-        "source": "(= 1 (get arr 0))",
-        "expected": "true",
-        "expectation": "must-pass",
-        "axes": [
-          "semantic-surface"
-        ],
-        "upstream": {
-          "source": "jank-lang/clojure-test-suite",
-          "file": "test/clojure/core_test/get.cljc",
-          "form": "(are ...)"
-        }
-      },
-      {
-        "id": "jank/clojure.core/get/15",
-        "function": "get",
-        "title": "get upstream table row 16",
-        "source": "(= nil (get arr 10))",
-        "expected": "true",
-        "expectation": "must-pass",
-        "axes": [
-          "semantic-surface"
-        ],
-        "upstream": {
-          "source": "jank-lang/clojure-test-suite",
-          "file": "test/clojure/core_test/get.cljc",
-          "form": "(are ...)"
-        }
-      },
-      {
         "id": "jank/clojure.core/get/16",
         "function": "get",
         "title": "get upstream table row 1",
-        "source": "(= ::not-found (get nil :a :not-found))",
+        "source": "(= :not-found (get nil :a :not-found))",
         "expected": "true",
         "expectation": "must-pass",
         "axes": [
@@ -25716,7 +25812,7 @@
         "id": "jank/clojure.core/get/17",
         "function": "get",
         "title": "get upstream table row 2",
-        "source": "(= ::not-found (get {} :a :not-found))",
+        "source": "(= :not-found (get {} :a :not-found))",
         "expected": "true",
         "expectation": "must-pass",
         "axes": [
@@ -25732,7 +25828,7 @@
         "id": "jank/clojure.core/get/18",
         "function": "get",
         "title": "get upstream table row 3",
-        "source": "(= ::not-found (get #{} :a :not-found))",
+        "source": "(= :not-found (get #{} :a :not-found))",
         "expected": "true",
         "expectation": "must-pass",
         "axes": [
@@ -25748,7 +25844,7 @@
         "id": "jank/clojure.core/get/19",
         "function": "get",
         "title": "get upstream table row 4",
-        "source": "(= ::not-found (get [] 1 :not-found))",
+        "source": "(= :not-found (get [] 1 :not-found))",
         "expected": "true",
         "expectation": "must-pass",
         "axes": [
@@ -25764,7 +25860,7 @@
         "id": "jank/clojure.core/get/20",
         "function": "get",
         "title": "get upstream table row 5",
-        "source": "(= ::not-found (get \"\" 1 :not-found))",
+        "source": "(= :not-found (get \"\" 1 :not-found))",
         "expected": "true",
         "expectation": "must-pass",
         "axes": [
@@ -25796,7 +25892,7 @@
         "id": "jank/clojure.core/get/22",
         "function": "get",
         "title": "get upstream table row 7",
-        "source": "(= ::not-found (get {:a 1 :b 2} :z :not-found))",
+        "source": "(= :not-found (get {:a 1 :b 2} :z :not-found))",
         "expected": "true",
         "expectation": "must-pass",
         "axes": [
@@ -25828,7 +25924,7 @@
         "id": "jank/clojure.core/get/24",
         "function": "get",
         "title": "get upstream table row 9",
-        "source": "(= ::not-found (get #{:a :b} :z :not-found))",
+        "source": "(= :not-found (get #{:a :b} :z :not-found))",
         "expected": "true",
         "expectation": "must-pass",
         "axes": [
@@ -25860,7 +25956,7 @@
         "id": "jank/clojure.core/get/26",
         "function": "get",
         "title": "get upstream table row 11",
-        "source": "(= ::not-found (get [:a :b] 10 :not-found))",
+        "source": "(= :not-found (get [:a :b] 10 :not-found))",
         "expected": "true",
         "expectation": "must-pass",
         "axes": [
@@ -25892,39 +25988,7 @@
         "id": "jank/clojure.core/get/28",
         "function": "get",
         "title": "get upstream table row 13",
-        "source": "(= ::not-found (get \"ab\" 10 :not-found))",
-        "expected": "true",
-        "expectation": "must-pass",
-        "axes": [
-          "semantic-surface"
-        ],
-        "upstream": {
-          "source": "jank-lang/clojure-test-suite",
-          "file": "test/clojure/core_test/get.cljc",
-          "form": "(are ...)"
-        }
-      },
-      {
-        "id": "jank/clojure.core/get/29",
-        "function": "get",
-        "title": "get upstream table row 14",
-        "source": "(= 1 (get arr 0 :not-found))",
-        "expected": "true",
-        "expectation": "must-pass",
-        "axes": [
-          "semantic-surface"
-        ],
-        "upstream": {
-          "source": "jank-lang/clojure-test-suite",
-          "file": "test/clojure/core_test/get.cljc",
-          "form": "(are ...)"
-        }
-      },
-      {
-        "id": "jank/clojure.core/get/30",
-        "function": "get",
-        "title": "get upstream table row 15",
-        "source": "(= ::not-found (get arr 10 :not-found))",
+        "source": "(= :not-found (get \"ab\" 10 :not-found))",
         "expected": "true",
         "expectation": "must-pass",
         "axes": [
@@ -26289,90 +26353,10 @@
         }
       },
       {
-        "id": "jank/clojure.core/group-by/0",
-        "function": "group-by",
-        "title": "group-by upstream assertion 1",
-        "source": "(= {false [0 2 4 6 8] true [1 3 5 7 9]} (group-by odd? (range 10)))",
-        "expected": "true",
-        "expectation": "must-pass",
-        "axes": [
-          "semantic-surface"
-        ],
-        "upstream": {
-          "source": "jank-lang/clojure-test-suite",
-          "file": "test/clojure/core_test/group_by.cljc",
-          "form": "(is ...)"
-        }
-      },
-      {
         "id": "jank/clojure.core/group-by/1",
         "function": "group-by",
         "title": "group-by upstream assertion 2",
         "source": "(= {0 [0], 1 [1], 2 [2], 3 [3], 4 [4], 5 [5], 6 [6], 7 [7], 8 [8], 9 [9]}\n             (group-by identity (range 10)))",
-        "expected": "true",
-        "expectation": "must-pass",
-        "axes": [
-          "semantic-surface"
-        ],
-        "upstream": {
-          "source": "jank-lang/clojure-test-suite",
-          "file": "test/clojure/core_test/group_by.cljc",
-          "form": "(is ...)"
-        }
-      },
-      {
-        "id": "jank/clojure.core/group-by/2",
-        "function": "group-by",
-        "title": "group-by upstream assertion 3",
-        "source": "(= {} (group-by odd? '()))",
-        "expected": "true",
-        "expectation": "must-pass",
-        "axes": [
-          "semantic-surface"
-        ],
-        "upstream": {
-          "source": "jank-lang/clojure-test-suite",
-          "file": "test/clojure/core_test/group_by.cljc",
-          "form": "(is ...)"
-        }
-      },
-      {
-        "id": "jank/clojure.core/group-by/3",
-        "function": "group-by",
-        "title": "group-by upstream assertion 4",
-        "source": "(= {} (group-by odd? nil))",
-        "expected": "true",
-        "expectation": "must-pass",
-        "axes": [
-          "semantic-surface"
-        ],
-        "upstream": {
-          "source": "jank-lang/clojure-test-suite",
-          "file": "test/clojure/core_test/group_by.cljc",
-          "form": "(is ...)"
-        }
-      },
-      {
-        "id": "jank/clojure.core/group-by/4",
-        "function": "group-by",
-        "title": "group-by upstream assertion 5",
-        "source": "(= {[1] [[[1] [2]] [[1] [3]]]} g)",
-        "expected": "true",
-        "expectation": "must-pass",
-        "axes": [
-          "semantic-surface"
-        ],
-        "upstream": {
-          "source": "jank-lang/clojure-test-suite",
-          "file": "test/clojure/core_test/group_by.cljc",
-          "form": "(is ...)"
-        }
-      },
-      {
-        "id": "jank/clojure.core/group-by/7",
-        "function": "group-by",
-        "title": "group-by upstream assertion 8",
-        "source": "(= s {true [[] []] false [[1] [2]]})",
         "expected": "true",
         "expectation": "must-pass",
         "axes": [
@@ -28785,22 +28769,6 @@
         }
       },
       {
-        "id": "jank/clojure.core/juxt/7",
-        "function": "juxt",
-        "title": "juxt upstream assertion 8",
-        "source": "(= [:namespace/keyword \"keyword\" \"namespace\"]\n             ((juxt identity name namespace) :namespace/keyword))",
-        "expected": "true",
-        "expectation": "must-pass",
-        "axes": [
-          "semantic-surface"
-        ],
-        "upstream": {
-          "source": "jank-lang/clojure-test-suite",
-          "file": "test/clojure/core_test/juxt.cljc",
-          "form": "(is ...)"
-        }
-      },
-      {
         "id": "jank/clojure.core/juxt/8",
         "function": "juxt",
         "title": "juxt upstream assertion 9",
@@ -30481,54 +30449,6 @@
         }
       },
       {
-        "id": "jank/clojure.core/map/0",
-        "function": "map",
-        "title": "map upstream assertion 1",
-        "source": "(fn? mfn)",
-        "expected": "true",
-        "expectation": "must-pass",
-        "axes": [
-          "semantic-surface"
-        ],
-        "upstream": {
-          "source": "jank-lang/clojure-test-suite",
-          "file": "test/clojure/core_test/map.cljc",
-          "form": "(is ...)"
-        }
-      },
-      {
-        "id": "jank/clojure.core/map/5",
-        "function": "map",
-        "title": "map upstream assertion 6",
-        "source": "(= [1 2 3 4 5] result)",
-        "expected": "true",
-        "expectation": "must-pass",
-        "axes": [
-          "semantic-surface"
-        ],
-        "upstream": {
-          "source": "jank-lang/clojure-test-suite",
-          "file": "test/clojure/core_test/map.cljc",
-          "form": "(is ...)"
-        }
-      },
-      {
-        "id": "jank/clojure.core/map/10",
-        "function": "map",
-        "title": "map upstream assertion 11",
-        "source": "(= [0 1 2 3 4] (take 5 s))",
-        "expected": "true",
-        "expectation": "must-pass",
-        "axes": [
-          "semantic-surface"
-        ],
-        "upstream": {
-          "source": "jank-lang/clojure-test-suite",
-          "file": "test/clojure/core_test/map.cljc",
-          "form": "(is ...)"
-        }
-      },
-      {
         "id": "jank/clojure.core/map/11",
         "function": "map",
         "title": "map upstream assertion 12",
@@ -30577,22 +30497,6 @@
         }
       },
       {
-        "id": "jank/clojure.core/map/16",
-        "function": "map",
-        "title": "map upstream assertion 17",
-        "source": "(= [0 2 4 6 8] s)",
-        "expected": "true",
-        "expectation": "must-pass",
-        "axes": [
-          "semantic-surface"
-        ],
-        "upstream": {
-          "source": "jank-lang/clojure-test-suite",
-          "file": "test/clojure/core_test/map.cljc",
-          "form": "(is ...)"
-        }
-      },
-      {
         "id": "jank/clojure.core/map/17",
         "function": "map",
         "title": "map upstream assertion 18",
@@ -30613,22 +30517,6 @@
         "function": "map",
         "title": "map upstream assertion 19",
         "source": "(= [0 2 4 6] (map + (range 4) (range 5)))",
-        "expected": "true",
-        "expectation": "must-pass",
-        "axes": [
-          "semantic-surface"
-        ],
-        "upstream": {
-          "source": "jank-lang/clojure-test-suite",
-          "file": "test/clojure/core_test/map.cljc",
-          "form": "(is ...)"
-        }
-      },
-      {
-        "id": "jank/clojure.core/map/21",
-        "function": "map",
-        "title": "map upstream assertion 22",
-        "source": "(= [0 2 4 6 8] (take 5 s))",
         "expected": "true",
         "expectation": "must-pass",
         "axes": [
@@ -30801,22 +30689,6 @@
         }
       },
       {
-        "id": "jank/clojure.core/map/34",
-        "function": "map",
-        "title": "map upstream assertion 35",
-        "source": "(= [0 3 6 9 12] s)",
-        "expected": "true",
-        "expectation": "must-pass",
-        "axes": [
-          "semantic-surface"
-        ],
-        "upstream": {
-          "source": "jank-lang/clojure-test-suite",
-          "file": "test/clojure/core_test/map.cljc",
-          "form": "(is ...)"
-        }
-      },
-      {
         "id": "jank/clojure.core/map/35",
         "function": "map",
         "title": "map upstream assertion 36",
@@ -30965,22 +30837,6 @@
         "function": "map",
         "title": "map upstream assertion 45",
         "source": "(empty? (map + '() (range 5) (range)))",
-        "expected": "true",
-        "expectation": "must-pass",
-        "axes": [
-          "semantic-surface"
-        ],
-        "upstream": {
-          "source": "jank-lang/clojure-test-suite",
-          "file": "test/clojure/core_test/map.cljc",
-          "form": "(is ...)"
-        }
-      },
-      {
-        "id": "jank/clojure.core/map/47",
-        "function": "map",
-        "title": "map upstream assertion 48",
-        "source": "(= [0 4 8 12 16] s)",
         "expected": "true",
         "expectation": "must-pass",
         "axes": [
@@ -32565,38 +32421,6 @@
         "function": "min-key",
         "title": "min-key upstream table row 4",
         "source": "(= 1 (apply min-key identity [1 2 3 4 1]))",
-        "expected": "true",
-        "expectation": "must-pass",
-        "axes": [
-          "semantic-surface"
-        ],
-        "upstream": {
-          "source": "jank-lang/clojure-test-suite",
-          "file": "test/clojure/core_test/min_key.cljc",
-          "form": "(are ...)"
-        }
-      },
-      {
-        "id": "jank/clojure.core/min-key/33",
-        "function": "min-key",
-        "title": "min-key upstream table row 6",
-        "source": "(= -1 (apply min-key my-abs [-3 -1 2]))",
-        "expected": "true",
-        "expectation": "must-pass",
-        "axes": [
-          "semantic-surface"
-        ],
-        "upstream": {
-          "source": "jank-lang/clojure-test-suite",
-          "file": "test/clojure/core_test/min_key.cljc",
-          "form": "(are ...)"
-        }
-      },
-      {
-        "id": "jank/clojure.core/min-key/34",
-        "function": "min-key",
-        "title": "min-key upstream table row 7",
-        "source": "(= -1 (apply min-key my-sqr [-3 -1 2 4]))",
         "expected": "true",
         "expectation": "must-pass",
         "axes": [
@@ -36913,86 +36737,6 @@
         }
       },
       {
-        "id": "jank/clojure.core/seq/8",
-        "function": "seq",
-        "title": "seq upstream assertion 9",
-        "source": "(= input (into #{} (seq input)))",
-        "expected": "true",
-        "expectation": "must-pass",
-        "axes": [
-          "semantic-surface"
-        ],
-        "upstream": {
-          "source": "jank-lang/clojure-test-suite",
-          "file": "test/clojure/core_test/seq.cljc",
-          "form": "(is ...)"
-        }
-      },
-      {
-        "id": "jank/clojure.core/seq/9",
-        "function": "seq",
-        "title": "seq upstream assertion 10",
-        "source": "(= input-hash (into (hash-set) (seq input)))",
-        "expected": "true",
-        "expectation": "must-pass",
-        "axes": [
-          "semantic-surface"
-        ],
-        "upstream": {
-          "source": "jank-lang/clojure-test-suite",
-          "file": "test/clojure/core_test/seq.cljc",
-          "form": "(is ...)"
-        }
-      },
-      {
-        "id": "jank/clojure.core/seq/11",
-        "function": "seq",
-        "title": "seq upstream assertion 12",
-        "source": "(= input-hash-map (into (hash-map) (seq input-hash-map)))",
-        "expected": "true",
-        "expectation": "must-pass",
-        "axes": [
-          "semantic-surface"
-        ],
-        "upstream": {
-          "source": "jank-lang/clojure-test-suite",
-          "file": "test/clojure/core_test/seq.cljc",
-          "form": "(is ...)"
-        }
-      },
-      {
-        "id": "jank/clojure.core/seq/12",
-        "function": "seq",
-        "title": "seq upstream assertion 13",
-        "source": "(= input-map (into {} (seq input-map)))",
-        "expected": "true",
-        "expectation": "must-pass",
-        "axes": [
-          "semantic-surface"
-        ],
-        "upstream": {
-          "source": "jank-lang/clojure-test-suite",
-          "file": "test/clojure/core_test/seq.cljc",
-          "form": "(is ...)"
-        }
-      },
-      {
-        "id": "jank/clojure.core/seq/16",
-        "function": "seq",
-        "title": "seq upstream assertion 17",
-        "source": "(= (range 10000) (take 10000 infinite-seq))",
-        "expected": "true",
-        "expectation": "must-pass",
-        "axes": [
-          "semantic-surface"
-        ],
-        "upstream": {
-          "source": "jank-lang/clojure-test-suite",
-          "file": "test/clojure/core_test/seq.cljc",
-          "form": "(is ...)"
-        }
-      },
-      {
         "id": "jank/clojure.core/seqableqmark/0",
         "function": "seqable?",
         "title": "seqable? upstream table row 1",
@@ -37598,70 +37342,6 @@
           "source": "jank-lang/clojure-test-suite",
           "file": "test/clojure/core_test/set_qmark.cljc",
           "form": "(are ...)"
-        }
-      },
-      {
-        "id": "jank/clojure.core/some/2",
-        "function": "some",
-        "title": "some upstream assertion 3",
-        "source": "(= nil (some even? '()))",
-        "expected": "true",
-        "expectation": "must-pass",
-        "axes": [
-          "semantic-surface"
-        ],
-        "upstream": {
-          "source": "jank-lang/clojure-test-suite",
-          "file": "test/clojure/core_test/some.cljc",
-          "form": "(is ...)"
-        }
-      },
-      {
-        "id": "jank/clojure.core/some/3",
-        "function": "some",
-        "title": "some upstream assertion 4",
-        "source": "(= true (some odd? #{1 2 3 4}))",
-        "expected": "true",
-        "expectation": "must-pass",
-        "axes": [
-          "semantic-surface"
-        ],
-        "upstream": {
-          "source": "jank-lang/clojure-test-suite",
-          "file": "test/clojure/core_test/some.cljc",
-          "form": "(is ...)"
-        }
-      },
-      {
-        "id": "jank/clojure.core/some/4",
-        "function": "some",
-        "title": "some upstream assertion 5",
-        "source": "(= nil (some odd? #{2 4 6 8}))",
-        "expected": "true",
-        "expectation": "must-pass",
-        "axes": [
-          "semantic-surface"
-        ],
-        "upstream": {
-          "source": "jank-lang/clojure-test-suite",
-          "file": "test/clojure/core_test/some.cljc",
-          "form": "(is ...)"
-        }
-      },
-      {
-        "id": "jank/clojure.core/some/5",
-        "function": "some",
-        "title": "some upstream assertion 6",
-        "source": "(= nil (some odd? #{}))",
-        "expected": "true",
-        "expectation": "must-pass",
-        "axes": [
-          "semantic-surface"
-        ],
-        "upstream": {
-          "source": "jank-lang/clojure-test-suite",
-          "file": "test/clojure/core_test/some.cljc",
-          "form": "(is ...)"
         }
       },
       {
@@ -41441,38 +41121,6 @@
         }
       },
       {
-        "id": "jank/clojure.core/vec/13",
-        "function": "vec",
-        "title": "vec upstream assertion 14",
-        "source": "(= [1 2 3] v)",
-        "expected": "true",
-        "expectation": "must-pass",
-        "axes": [
-          "semantic-surface"
-        ],
-        "upstream": {
-          "source": "jank-lang/clojure-test-suite",
-          "file": "test/clojure/core_test/vec.cljc",
-          "form": "(is ...)"
-        }
-      },
-      {
-        "id": "jank/clojure.core/vec/14",
-        "function": "vec",
-        "title": "vec upstream assertion 15",
-        "source": "(= [-1 2 3] v)",
-        "expected": "true",
-        "expectation": "must-pass",
-        "axes": [
-          "semantic-surface"
-        ],
-        "upstream": {
-          "source": "jank-lang/clojure-test-suite",
-          "file": "test/clojure/core_test/vec.cljc",
-          "form": "(is ...)"
-        }
-      },
-      {
         "id": "jank/clojure.core/vector/0",
         "function": "vector",
         "title": "vector upstream assertion 1",
@@ -42915,7 +42563,7 @@
     ]
   },
   "run": {
-    "generatedAt": "2026-07-01T09:30:18.566Z",
+    "generatedAt": "2026-07-02T02:08:15.339Z",
     "rasaRevision": "local",
     "clojureVersion": "1.12.5",
     "engine": "rasa-runtime-wasm",
@@ -42931,15 +42579,15 @@
     "implemented": 147,
     "deferred": 12,
     "excluded": 14,
-    "importedCases": 1516,
-    "importerFilteredCases": 1286,
+    "importedCases": 1472,
+    "importerFilteredCases": 1330,
     "upstreamPendingFunctions": 121,
     "unprojectedCases": 2906,
     "unclassifiedCases": 11,
     "residualCases": 4,
-    "filteredUpstream": 1411,
-    "pass": 1395,
-    "fail": 121,
+    "filteredUpstream": 1455,
+    "pass": 1404,
+    "fail": 68,
     "expectedFailure": 0,
     "structuralGap": 0,
     "untested": 43
@@ -45565,7 +45213,6 @@
         "jank/clojure.core/eq/51",
         "jank/clojure.core/eq/52",
         "jank/clojure.core/eq/54",
-        "jank/clojure.core/eq/55",
         "jank/clojure.core/eq/58",
         "jank/clojure.core/eq/59",
         "jank/clojure.core/eq/61",
@@ -45574,12 +45221,12 @@
       ],
       "counts": {
         "pass": 45,
-        "fail": 2,
+        "fail": 1,
         "expectedFailure": 0,
         "structuralGap": 0
       },
       "coverage": {
-        "cases": 47,
+        "cases": 46,
         "state": "tested"
       },
       "cases": [
@@ -46074,18 +45721,6 @@
             "semantic-surface"
           ],
           "log": "Expected true, observed false."
-        },
-        {
-          "id": "jank/clojure.core/eq/55",
-          "title": "= upstream assertion 56",
-          "source": "(let [r #\"my regex\"\n              r' r]\n          (= r r'))",
-          "outcome": "fail",
-          "expected": "true",
-          "observed": "reader macro `#\"my regex\"` is not in Reader Core Alpha; skipped unsupported syntax",
-          "axes": [
-            "semantic-surface"
-          ],
-          "log": "reader macro `#\"my regex\"` is not in Reader Core Alpha; skipped unsupported syntax"
         },
         {
           "id": "jank/clojure.core/eq/58",
@@ -49467,13 +49102,9 @@
       ],
       "summary": "Public Rasa core facade is installed as eval-owned native semantics; core metadata is descriptive evidence only.",
       "caseIds": [
-        "jank/clojure.core/concat/2",
-        "jank/clojure.core/concat/5",
         "jank/clojure.core/concat/6",
-        "jank/clojure.core/concat/9",
         "jank/clojure.core/concat/10",
         "jank/clojure.core/concat/11",
-        "jank/clojure.core/concat/14",
         "jank/clojure.core/concat/15",
         "jank/clojure.core/concat/16",
         "jank/clojure.core/concat/17",
@@ -49482,39 +49113,15 @@
       ],
       "counts": {
         "pass": 8,
-        "fail": 4,
+        "fail": 0,
         "expectedFailure": 0,
         "structuralGap": 0
       },
       "coverage": {
-        "cases": 12,
+        "cases": 8,
         "state": "tested"
       },
       "cases": [
-        {
-          "id": "jank/clojure.core/concat/2",
-          "title": "concat upstream assertion 3",
-          "source": "(empty? s)",
-          "outcome": "fail",
-          "expected": "true",
-          "observed": "linked global `s` is not available",
-          "axes": [
-            "semantic-surface"
-          ],
-          "log": "linked global `s` is not available"
-        },
-        {
-          "id": "jank/clojure.core/concat/5",
-          "title": "concat upstream assertion 6",
-          "source": "(= [1 2 3 4 5] s)",
-          "outcome": "fail",
-          "expected": "true",
-          "observed": "linked global `s` is not available",
-          "axes": [
-            "semantic-surface"
-          ],
-          "log": "linked global `s` is not available"
-        },
         {
           "id": "jank/clojure.core/concat/6",
           "title": "concat upstream assertion 7",
@@ -49526,18 +49133,6 @@
             "semantic-surface"
           ],
           "log": ""
-        },
-        {
-          "id": "jank/clojure.core/concat/9",
-          "title": "concat upstream assertion 10",
-          "source": "(= [1 2 3 4 5 6 7 8 9 10] s)",
-          "outcome": "fail",
-          "expected": "true",
-          "observed": "linked global `s` is not available",
-          "axes": [
-            "semantic-surface"
-          ],
-          "log": "linked global `s` is not available"
         },
         {
           "id": "jank/clojure.core/concat/10",
@@ -49562,18 +49157,6 @@
             "semantic-surface"
           ],
           "log": ""
-        },
-        {
-          "id": "jank/clojure.core/concat/14",
-          "title": "concat upstream assertion 15",
-          "source": "(= [0 1 2 3 4 5 6 7 8 9 10 11 12 0 1 2] (take 16 s))",
-          "outcome": "fail",
-          "expected": "true",
-          "observed": "linked global `s` is not available",
-          "axes": [
-            "semantic-surface"
-          ],
-          "log": "linked global `s` is not available"
         },
         {
           "id": "jank/clojure.core/concat/15",
@@ -50316,7 +49899,7 @@
       "provenance": [
         "compat/generated/namespaces/clojure.core/function/contains-x3f.ras"
       ],
-      "summary": "Returns whether a map has a key, vector has an index, or set has a member.",
+      "summary": "Returns whether a map has a key, vector or string has an index, or set has a member.",
       "caseIds": [
         "jank/clojure.core/containsqmark/0",
         "jank/clojure.core/containsqmark/1",
@@ -50956,20 +50539,16 @@
         "jank/clojure.core/dissoc/7",
         "jank/clojure.core/dissoc/8",
         "jank/clojure.core/dissoc/9",
-        "jank/clojure.core/dissoc/10",
-        "jank/clojure.core/dissoc/13",
-        "jank/clojure.core/dissoc/14",
-        "jank/clojure.core/dissoc/15",
-        "jank/clojure.core/dissoc/16"
+        "jank/clojure.core/dissoc/10"
       ],
       "counts": {
         "pass": 11,
-        "fail": 4,
+        "fail": 0,
         "expectedFailure": 0,
         "structuralGap": 0
       },
       "coverage": {
-        "cases": 15,
+        "cases": 11,
         "state": "tested"
       },
       "cases": [
@@ -51104,54 +50683,6 @@
             "semantic-surface"
           ],
           "log": ""
-        },
-        {
-          "id": "jank/clojure.core/dissoc/13",
-          "title": "dissoc upstream table row 1",
-          "source": "(= {:b 2 :c nil} (apply dissoc r [:a]))",
-          "outcome": "fail",
-          "expected": "true",
-          "observed": "linked global `r` is not available",
-          "axes": [
-            "semantic-surface"
-          ],
-          "log": "linked global `r` is not available"
-        },
-        {
-          "id": "jank/clojure.core/dissoc/14",
-          "title": "dissoc upstream table row 2",
-          "source": "(= {:b 2 :c nil} (apply dissoc r [:a :d]))",
-          "outcome": "fail",
-          "expected": "true",
-          "observed": "linked global `r` is not available",
-          "axes": [
-            "semantic-surface"
-          ],
-          "log": "linked global `r` is not available"
-        },
-        {
-          "id": "jank/clojure.core/dissoc/15",
-          "title": "dissoc upstream table row 3",
-          "source": "(= {} (apply dissoc r [:a :b :c]))",
-          "outcome": "fail",
-          "expected": "true",
-          "observed": "linked global `r` is not available",
-          "axes": [
-            "semantic-surface"
-          ],
-          "log": "linked global `r` is not available"
-        },
-        {
-          "id": "jank/clojure.core/dissoc/16",
-          "title": "dissoc upstream table row 4",
-          "source": "(= r (apply dissoc r [:d]))",
-          "outcome": "fail",
-          "expected": "true",
-          "observed": "linked global `r` is not available",
-          "axes": [
-            "semantic-surface"
-          ],
-          "log": "linked global `r` is not available"
         }
       ]
     },
@@ -51173,73 +50704,21 @@
       ],
       "summary": "Returns a seq of the items in coll with duplicate values removed.",
       "caseIds": [
-        "jank/clojure.core/distinct/2",
-        "jank/clojure.core/distinct/3",
-        "jank/clojure.core/distinct/11",
-        "jank/clojure.core/distinct/13",
         "jank/clojure.core/distinct/14",
         "jank/clojure.core/distinct/15",
         "jank/clojure.core/distinct/16"
       ],
       "counts": {
         "pass": 3,
-        "fail": 4,
+        "fail": 0,
         "expectedFailure": 0,
         "structuralGap": 0
       },
       "coverage": {
-        "cases": 7,
+        "cases": 3,
         "state": "tested"
       },
       "cases": [
-        {
-          "id": "jank/clojure.core/distinct/2",
-          "title": "distinct upstream assertion 3",
-          "source": "(fn? xform)",
-          "outcome": "fail",
-          "expected": "true",
-          "observed": "linked global `xform` is not available",
-          "axes": [
-            "semantic-surface"
-          ],
-          "log": "linked global `xform` is not available"
-        },
-        {
-          "id": "jank/clojure.core/distinct/3",
-          "title": "distinct upstream assertion 4",
-          "source": "(= [1 2 3 4 5] s)",
-          "outcome": "fail",
-          "expected": "true",
-          "observed": "linked global `s` is not available",
-          "axes": [
-            "semantic-surface"
-          ],
-          "log": "linked global `s` is not available"
-        },
-        {
-          "id": "jank/clojure.core/distinct/11",
-          "title": "distinct upstream assertion 12",
-          "source": "(= [1 2 3 4 5] s)",
-          "outcome": "fail",
-          "expected": "true",
-          "observed": "linked global `s` is not available",
-          "axes": [
-            "semantic-surface"
-          ],
-          "log": "linked global `s` is not available"
-        },
-        {
-          "id": "jank/clojure.core/distinct/13",
-          "title": "distinct upstream assertion 14",
-          "source": "(= [#{:a :b :c}] (distinct dupes-not-identical))",
-          "outcome": "fail",
-          "expected": "true",
-          "observed": "linked global `dupes-not-identical` is not available",
-          "axes": [
-            "semantic-surface"
-          ],
-          "log": "linked global `dupes-not-identical` is not available"
-        },
         {
           "id": "jank/clojure.core/distinct/14",
           "title": "distinct upstream assertion 15",
@@ -52956,7 +52435,6 @@
         "jank/clojure.core/fnqmark/1",
         "jank/clojure.core/fnqmark/2",
         "jank/clojure.core/fnqmark/4",
-        "jank/clojure.core/fnqmark/5",
         "jank/clojure.core/fnqmark/6",
         "jank/clojure.core/fnqmark/7",
         "jank/clojure.core/fnqmark/8",
@@ -52969,12 +52447,12 @@
       ],
       "counts": {
         "pass": 12,
-        "fail": 2,
+        "fail": 1,
         "expectedFailure": 0,
         "structuralGap": 0
       },
       "coverage": {
-        "cases": 14,
+        "cases": 13,
         "state": "tested"
       },
       "cases": [
@@ -53025,18 +52503,6 @@
             "semantic-surface"
           ],
           "log": ""
-        },
-        {
-          "id": "jank/clojure.core/fnqmark/5",
-          "title": "fn? upstream assertion 6",
-          "source": "(fn? foo)",
-          "outcome": "fail",
-          "expected": "true",
-          "observed": "linked global `foo` is not available",
-          "axes": [
-            "semantic-surface"
-          ],
-          "log": "linked global `foo` is not available"
         },
         {
           "id": "jank/clojure.core/fnqmark/6",
@@ -53468,7 +52934,7 @@
       "provenance": [
         "compat/generated/namespaces/clojure.core/function/get.ras"
       ],
-      "summary": "Looks up a map key, vector index, or set member and returns nil or the supplied default when absent.",
+      "summary": "Looks up a map key, vector or string index, or set member and returns nil or the supplied default when absent.",
       "caseIds": [
         "jank/clojure.core/get/0",
         "jank/clojure.core/get/1",
@@ -53484,8 +52950,6 @@
         "jank/clojure.core/get/11",
         "jank/clojure.core/get/12",
         "jank/clojure.core/get/13",
-        "jank/clojure.core/get/14",
-        "jank/clojure.core/get/15",
         "jank/clojure.core/get/16",
         "jank/clojure.core/get/17",
         "jank/clojure.core/get/18",
@@ -53498,18 +52962,16 @@
         "jank/clojure.core/get/25",
         "jank/clojure.core/get/26",
         "jank/clojure.core/get/27",
-        "jank/clojure.core/get/28",
-        "jank/clojure.core/get/29",
-        "jank/clojure.core/get/30"
+        "jank/clojure.core/get/28"
       ],
       "counts": {
-        "pass": 16,
-        "fail": 15,
+        "pass": 25,
+        "fail": 2,
         "expectedFailure": 0,
         "structuralGap": 0
       },
       "coverage": {
-        "cases": 31,
+        "cases": 27,
         "state": "tested"
       },
       "cases": [
@@ -53682,88 +53144,64 @@
           "log": ""
         },
         {
-          "id": "jank/clojure.core/get/14",
-          "title": "get upstream table row 15",
-          "source": "(= 1 (get arr 0))",
-          "outcome": "fail",
-          "expected": "true",
-          "observed": "linked global `arr` is not available",
-          "axes": [
-            "semantic-surface"
-          ],
-          "log": "linked global `arr` is not available"
-        },
-        {
-          "id": "jank/clojure.core/get/15",
-          "title": "get upstream table row 16",
-          "source": "(= nil (get arr 10))",
-          "outcome": "fail",
-          "expected": "true",
-          "observed": "linked global `arr` is not available",
-          "axes": [
-            "semantic-surface"
-          ],
-          "log": "linked global `arr` is not available"
-        },
-        {
           "id": "jank/clojure.core/get/16",
           "title": "get upstream table row 1",
-          "source": "(= ::not-found (get nil :a :not-found))",
-          "outcome": "fail",
+          "source": "(= :not-found (get nil :a :not-found))",
+          "outcome": "pass",
           "expected": "true",
-          "observed": "false",
+          "observed": "true",
           "axes": [
             "semantic-surface"
           ],
-          "log": "Expected true, observed false."
+          "log": ""
         },
         {
           "id": "jank/clojure.core/get/17",
           "title": "get upstream table row 2",
-          "source": "(= ::not-found (get {} :a :not-found))",
-          "outcome": "fail",
+          "source": "(= :not-found (get {} :a :not-found))",
+          "outcome": "pass",
           "expected": "true",
-          "observed": "false",
+          "observed": "true",
           "axes": [
             "semantic-surface"
           ],
-          "log": "Expected true, observed false."
+          "log": ""
         },
         {
           "id": "jank/clojure.core/get/18",
           "title": "get upstream table row 3",
-          "source": "(= ::not-found (get #{} :a :not-found))",
-          "outcome": "fail",
+          "source": "(= :not-found (get #{} :a :not-found))",
+          "outcome": "pass",
           "expected": "true",
-          "observed": "false",
+          "observed": "true",
           "axes": [
             "semantic-surface"
           ],
-          "log": "Expected true, observed false."
+          "log": ""
         },
         {
           "id": "jank/clojure.core/get/19",
           "title": "get upstream table row 4",
-          "source": "(= ::not-found (get [] 1 :not-found))",
-          "outcome": "fail",
+          "source": "(= :not-found (get [] 1 :not-found))",
+          "outcome": "pass",
           "expected": "true",
-          "observed": "false",
+          "observed": "true",
           "axes": [
             "semantic-surface"
           ],
-          "log": "Expected true, observed false."
+          "log": ""
         },
         {
           "id": "jank/clojure.core/get/20",
           "title": "get upstream table row 5",
-          "source": "(= ::not-found (get \"\" 1 :not-found))",
-          "outcome": "fail",
+          "source": "(= :not-found (get \"\" 1 :not-found))",
+          "outcome": "pass",
           "expected": "true",
-          "observed": "false",
+          "observed": "true",
           "axes": [
             "semantic-surface"
           ],
-          "log": "Expected true, observed false."
+          "log": ""
         },
         {
           "id": "jank/clojure.core/get/21",
@@ -53780,14 +53218,14 @@
         {
           "id": "jank/clojure.core/get/22",
           "title": "get upstream table row 7",
-          "source": "(= ::not-found (get {:a 1 :b 2} :z :not-found))",
-          "outcome": "fail",
+          "source": "(= :not-found (get {:a 1 :b 2} :z :not-found))",
+          "outcome": "pass",
           "expected": "true",
-          "observed": "false",
+          "observed": "true",
           "axes": [
             "semantic-surface"
           ],
-          "log": "Expected true, observed false."
+          "log": ""
         },
         {
           "id": "jank/clojure.core/get/23",
@@ -53804,14 +53242,14 @@
         {
           "id": "jank/clojure.core/get/24",
           "title": "get upstream table row 9",
-          "source": "(= ::not-found (get #{:a :b} :z :not-found))",
-          "outcome": "fail",
+          "source": "(= :not-found (get #{:a :b} :z :not-found))",
+          "outcome": "pass",
           "expected": "true",
-          "observed": "false",
+          "observed": "true",
           "axes": [
             "semantic-surface"
           ],
-          "log": "Expected true, observed false."
+          "log": ""
         },
         {
           "id": "jank/clojure.core/get/25",
@@ -53828,14 +53266,14 @@
         {
           "id": "jank/clojure.core/get/26",
           "title": "get upstream table row 11",
-          "source": "(= ::not-found (get [:a :b] 10 :not-found))",
-          "outcome": "fail",
+          "source": "(= :not-found (get [:a :b] 10 :not-found))",
+          "outcome": "pass",
           "expected": "true",
-          "observed": "false",
+          "observed": "true",
           "axes": [
             "semantic-surface"
           ],
-          "log": "Expected true, observed false."
+          "log": ""
         },
         {
           "id": "jank/clojure.core/get/27",
@@ -53852,38 +53290,14 @@
         {
           "id": "jank/clojure.core/get/28",
           "title": "get upstream table row 13",
-          "source": "(= ::not-found (get \"ab\" 10 :not-found))",
-          "outcome": "fail",
+          "source": "(= :not-found (get \"ab\" 10 :not-found))",
+          "outcome": "pass",
           "expected": "true",
-          "observed": "false",
+          "observed": "true",
           "axes": [
             "semantic-surface"
           ],
-          "log": "Expected true, observed false."
-        },
-        {
-          "id": "jank/clojure.core/get/29",
-          "title": "get upstream table row 14",
-          "source": "(= 1 (get arr 0 :not-found))",
-          "outcome": "fail",
-          "expected": "true",
-          "observed": "linked global `arr` is not available",
-          "axes": [
-            "semantic-surface"
-          ],
-          "log": "linked global `arr` is not available"
-        },
-        {
-          "id": "jank/clojure.core/get/30",
-          "title": "get upstream table row 15",
-          "source": "(= ::not-found (get arr 10 :not-found))",
-          "outcome": "fail",
-          "expected": "true",
-          "observed": "linked global `arr` is not available",
-          "axes": [
-            "semantic-surface"
-          ],
-          "log": "linked global `arr` is not available"
+          "log": ""
         }
       ]
     },
@@ -54224,36 +53638,19 @@
       ],
       "summary": "Returns a map from (f item) to a vector of matching items.",
       "caseIds": [
-        "jank/clojure.core/group-by/0",
-        "jank/clojure.core/group-by/1",
-        "jank/clojure.core/group-by/2",
-        "jank/clojure.core/group-by/3",
-        "jank/clojure.core/group-by/4",
-        "jank/clojure.core/group-by/7"
+        "jank/clojure.core/group-by/1"
       ],
       "counts": {
         "pass": 1,
-        "fail": 5,
+        "fail": 0,
         "expectedFailure": 0,
         "structuralGap": 0
       },
       "coverage": {
-        "cases": 6,
+        "cases": 1,
         "state": "tested"
       },
       "cases": [
-        {
-          "id": "jank/clojure.core/group-by/0",
-          "title": "group-by upstream assertion 1",
-          "source": "(= {false [0 2 4 6 8] true [1 3 5 7 9]} (group-by odd? (range 10)))",
-          "outcome": "fail",
-          "expected": "true",
-          "observed": "linked global `odd?` is not available",
-          "axes": [
-            "semantic-surface"
-          ],
-          "log": "linked global `odd?` is not available"
-        },
         {
           "id": "jank/clojure.core/group-by/1",
           "title": "group-by upstream assertion 2",
@@ -54265,54 +53662,6 @@
             "semantic-surface"
           ],
           "log": ""
-        },
-        {
-          "id": "jank/clojure.core/group-by/2",
-          "title": "group-by upstream assertion 3",
-          "source": "(= {} (group-by odd? '()))",
-          "outcome": "fail",
-          "expected": "true",
-          "observed": "linked global `odd?` is not available",
-          "axes": [
-            "semantic-surface"
-          ],
-          "log": "linked global `odd?` is not available"
-        },
-        {
-          "id": "jank/clojure.core/group-by/3",
-          "title": "group-by upstream assertion 4",
-          "source": "(= {} (group-by odd? nil))",
-          "outcome": "fail",
-          "expected": "true",
-          "observed": "linked global `odd?` is not available",
-          "axes": [
-            "semantic-surface"
-          ],
-          "log": "linked global `odd?` is not available"
-        },
-        {
-          "id": "jank/clojure.core/group-by/4",
-          "title": "group-by upstream assertion 5",
-          "source": "(= {[1] [[[1] [2]] [[1] [3]]]} g)",
-          "outcome": "fail",
-          "expected": "true",
-          "observed": "linked global `g` is not available",
-          "axes": [
-            "semantic-surface"
-          ],
-          "log": "linked global `g` is not available"
-        },
-        {
-          "id": "jank/clojure.core/group-by/7",
-          "title": "group-by upstream assertion 8",
-          "source": "(= s {true [[] []] false [[1] [2]]})",
-          "outcome": "fail",
-          "expected": "true",
-          "observed": "linked global `s` is not available",
-          "axes": [
-            "semantic-surface"
-          ],
-          "log": "linked global `s` is not available"
         }
       ]
     },
@@ -55719,18 +55068,17 @@
         "jank/clojure.core/juxt/4",
         "jank/clojure.core/juxt/5",
         "jank/clojure.core/juxt/6",
-        "jank/clojure.core/juxt/7",
         "jank/clojure.core/juxt/8",
         "jank/clojure.core/juxt/9"
       ],
       "counts": {
         "pass": 6,
-        "fail": 1,
+        "fail": 0,
         "expectedFailure": 0,
         "structuralGap": 0
       },
       "coverage": {
-        "cases": 7,
+        "cases": 6,
         "state": "tested"
       },
       "cases": [
@@ -55781,18 +55129,6 @@
             "semantic-surface"
           ],
           "log": ""
-        },
-        {
-          "id": "jank/clojure.core/juxt/7",
-          "title": "juxt upstream assertion 8",
-          "source": "(= [:namespace/keyword \"keyword\" \"namespace\"]\n             ((juxt identity name namespace) :namespace/keyword))",
-          "outcome": "fail",
-          "expected": "true",
-          "observed": "linked global `name` is not available",
-          "axes": [
-            "semantic-surface"
-          ],
-          "log": "linked global `name` is not available"
         },
         {
           "id": "jank/clojure.core/juxt/8",
@@ -56609,16 +55945,11 @@
       ],
       "summary": "Public Rasa core facade is installed as eval-owned native semantics; core metadata is descriptive evidence only.",
       "caseIds": [
-        "jank/clojure.core/map/0",
-        "jank/clojure.core/map/5",
-        "jank/clojure.core/map/10",
         "jank/clojure.core/map/11",
         "jank/clojure.core/map/12",
         "jank/clojure.core/map/13",
-        "jank/clojure.core/map/16",
         "jank/clojure.core/map/17",
         "jank/clojure.core/map/18",
-        "jank/clojure.core/map/21",
         "jank/clojure.core/map/22",
         "jank/clojure.core/map/23",
         "jank/clojure.core/map/24",
@@ -56629,7 +55960,6 @@
         "jank/clojure.core/map/29",
         "jank/clojure.core/map/30",
         "jank/clojure.core/map/31",
-        "jank/clojure.core/map/34",
         "jank/clojure.core/map/35",
         "jank/clojure.core/map/36",
         "jank/clojure.core/map/37",
@@ -56640,7 +55970,6 @@
         "jank/clojure.core/map/42",
         "jank/clojure.core/map/43",
         "jank/clojure.core/map/44",
-        "jank/clojure.core/map/47",
         "jank/clojure.core/map/48",
         "jank/clojure.core/map/49",
         "jank/clojure.core/map/50",
@@ -56660,51 +55989,15 @@
       ],
       "counts": {
         "pass": 41,
-        "fail": 7,
+        "fail": 0,
         "expectedFailure": 0,
         "structuralGap": 0
       },
       "coverage": {
-        "cases": 48,
+        "cases": 41,
         "state": "tested"
       },
       "cases": [
-        {
-          "id": "jank/clojure.core/map/0",
-          "title": "map upstream assertion 1",
-          "source": "(fn? mfn)",
-          "outcome": "fail",
-          "expected": "true",
-          "observed": "linked global `mfn` is not available",
-          "axes": [
-            "semantic-surface"
-          ],
-          "log": "linked global `mfn` is not available"
-        },
-        {
-          "id": "jank/clojure.core/map/5",
-          "title": "map upstream assertion 6",
-          "source": "(= [1 2 3 4 5] result)",
-          "outcome": "fail",
-          "expected": "true",
-          "observed": "linked global `result` is not available",
-          "axes": [
-            "semantic-surface"
-          ],
-          "log": "linked global `result` is not available"
-        },
-        {
-          "id": "jank/clojure.core/map/10",
-          "title": "map upstream assertion 11",
-          "source": "(= [0 1 2 3 4] (take 5 s))",
-          "outcome": "fail",
-          "expected": "true",
-          "observed": "linked global `s` is not available",
-          "axes": [
-            "semantic-surface"
-          ],
-          "log": "linked global `s` is not available"
-        },
         {
           "id": "jank/clojure.core/map/11",
           "title": "map upstream assertion 12",
@@ -56742,18 +56035,6 @@
           "log": ""
         },
         {
-          "id": "jank/clojure.core/map/16",
-          "title": "map upstream assertion 17",
-          "source": "(= [0 2 4 6 8] s)",
-          "outcome": "fail",
-          "expected": "true",
-          "observed": "linked global `s` is not available",
-          "axes": [
-            "semantic-surface"
-          ],
-          "log": "linked global `s` is not available"
-        },
-        {
           "id": "jank/clojure.core/map/17",
           "title": "map upstream assertion 18",
           "source": "(= [0 2 4 6] (map + (range 5) (range 4)))",
@@ -56776,18 +56057,6 @@
             "semantic-surface"
           ],
           "log": ""
-        },
-        {
-          "id": "jank/clojure.core/map/21",
-          "title": "map upstream assertion 22",
-          "source": "(= [0 2 4 6 8] (take 5 s))",
-          "outcome": "fail",
-          "expected": "true",
-          "observed": "linked global `s` is not available",
-          "axes": [
-            "semantic-surface"
-          ],
-          "log": "linked global `s` is not available"
         },
         {
           "id": "jank/clojure.core/map/22",
@@ -56910,18 +56179,6 @@
           "log": ""
         },
         {
-          "id": "jank/clojure.core/map/34",
-          "title": "map upstream assertion 35",
-          "source": "(= [0 3 6 9 12] s)",
-          "outcome": "fail",
-          "expected": "true",
-          "observed": "linked global `s` is not available",
-          "axes": [
-            "semantic-surface"
-          ],
-          "log": "linked global `s` is not available"
-        },
-        {
           "id": "jank/clojure.core/map/35",
           "title": "map upstream assertion 36",
           "source": "(= [0 3 6 9] (map + (range 5) (range 5) (range 4)))",
@@ -57040,18 +56297,6 @@
             "semantic-surface"
           ],
           "log": ""
-        },
-        {
-          "id": "jank/clojure.core/map/47",
-          "title": "map upstream assertion 48",
-          "source": "(= [0 4 8 12 16] s)",
-          "outcome": "fail",
-          "expected": "true",
-          "observed": "linked global `s` is not available",
-          "axes": [
-            "semantic-surface"
-          ],
-          "log": "linked global `s` is not available"
         },
         {
           "id": "jank/clojure.core/map/48",
@@ -58487,20 +57732,18 @@
         "jank/clojure.core/min-key/29",
         "jank/clojure.core/min-key/30",
         "jank/clojure.core/min-key/31",
-        "jank/clojure.core/min-key/33",
-        "jank/clojure.core/min-key/34",
         "jank/clojure.core/min-key/35",
         "jank/clojure.core/min-key/36",
         "jank/clojure.core/min-key/38"
       ],
       "counts": {
         "pass": 16,
-        "fail": 2,
+        "fail": 0,
         "expectedFailure": 0,
         "structuralGap": 0
       },
       "coverage": {
-        "cases": 18,
+        "cases": 16,
         "state": "tested"
       },
       "cases": [
@@ -58659,30 +57902,6 @@
             "semantic-surface"
           ],
           "log": ""
-        },
-        {
-          "id": "jank/clojure.core/min-key/33",
-          "title": "min-key upstream table row 6",
-          "source": "(= -1 (apply min-key my-abs [-3 -1 2]))",
-          "outcome": "fail",
-          "expected": "true",
-          "observed": "linked global `my-abs` is not available",
-          "axes": [
-            "semantic-surface"
-          ],
-          "log": "linked global `my-abs` is not available"
-        },
-        {
-          "id": "jank/clojure.core/min-key/34",
-          "title": "min-key upstream table row 7",
-          "source": "(= -1 (apply min-key my-sqr [-3 -1 2 4]))",
-          "outcome": "fail",
-          "expected": "true",
-          "observed": "linked global `my-sqr` is not available",
-          "axes": [
-            "semantic-surface"
-          ],
-          "log": "linked global `my-sqr` is not available"
         },
         {
           "id": "jank/clojure.core/min-key/35",
@@ -62218,21 +61437,16 @@
       "caseIds": [
         "jank/clojure.core/seq/2",
         "jank/clojure.core/seq/3",
-        "jank/clojure.core/seq/4",
-        "jank/clojure.core/seq/8",
-        "jank/clojure.core/seq/9",
-        "jank/clojure.core/seq/11",
-        "jank/clojure.core/seq/12",
-        "jank/clojure.core/seq/16"
+        "jank/clojure.core/seq/4"
       ],
       "counts": {
         "pass": 3,
-        "fail": 5,
+        "fail": 0,
         "expectedFailure": 0,
         "structuralGap": 0
       },
       "coverage": {
-        "cases": 8,
+        "cases": 3,
         "state": "tested"
       },
       "cases": [
@@ -62271,66 +61485,6 @@
             "semantic-surface"
           ],
           "log": ""
-        },
-        {
-          "id": "jank/clojure.core/seq/8",
-          "title": "seq upstream assertion 9",
-          "source": "(= input (into #{} (seq input)))",
-          "outcome": "fail",
-          "expected": "true",
-          "observed": "linked global `input` is not available",
-          "axes": [
-            "semantic-surface"
-          ],
-          "log": "linked global `input` is not available"
-        },
-        {
-          "id": "jank/clojure.core/seq/9",
-          "title": "seq upstream assertion 10",
-          "source": "(= input-hash (into (hash-set) (seq input)))",
-          "outcome": "fail",
-          "expected": "true",
-          "observed": "linked global `input-hash` is not available",
-          "axes": [
-            "semantic-surface"
-          ],
-          "log": "linked global `input-hash` is not available"
-        },
-        {
-          "id": "jank/clojure.core/seq/11",
-          "title": "seq upstream assertion 12",
-          "source": "(= input-hash-map (into (hash-map) (seq input-hash-map)))",
-          "outcome": "fail",
-          "expected": "true",
-          "observed": "linked global `input-hash-map` is not available",
-          "axes": [
-            "semantic-surface"
-          ],
-          "log": "linked global `input-hash-map` is not available"
-        },
-        {
-          "id": "jank/clojure.core/seq/12",
-          "title": "seq upstream assertion 13",
-          "source": "(= input-map (into {} (seq input-map)))",
-          "outcome": "fail",
-          "expected": "true",
-          "observed": "linked global `input-map` is not available",
-          "axes": [
-            "semantic-surface"
-          ],
-          "log": "linked global `input-map` is not available"
-        },
-        {
-          "id": "jank/clojure.core/seq/16",
-          "title": "seq upstream assertion 17",
-          "source": "(= (range 10000) (take 10000 infinite-seq))",
-          "outcome": "fail",
-          "expected": "true",
-          "observed": "linked global `infinite-seq` is not available",
-          "axes": [
-            "semantic-surface"
-          ],
-          "log": "linked global `infinite-seq` is not available"
         }
       ]
     },
@@ -62943,10 +62097,6 @@
       ],
       "summary": "Returns the first truthy result of pred over coll, otherwise nil.",
       "caseIds": [
-        "jank/clojure.core/some/2",
-        "jank/clojure.core/some/3",
-        "jank/clojure.core/some/4",
-        "jank/clojure.core/some/5",
         "jank/clojure.core/some/6",
         "jank/clojure.core/some/7",
         "jank/clojure.core/some/8",
@@ -62969,63 +62119,15 @@
       ],
       "counts": {
         "pass": 19,
-        "fail": 4,
+        "fail": 0,
         "expectedFailure": 0,
         "structuralGap": 0
       },
       "coverage": {
-        "cases": 23,
+        "cases": 19,
         "state": "tested"
       },
       "cases": [
-        {
-          "id": "jank/clojure.core/some/2",
-          "title": "some upstream assertion 3",
-          "source": "(= nil (some even? '()))",
-          "outcome": "fail",
-          "expected": "true",
-          "observed": "linked global `even?` is not available",
-          "axes": [
-            "semantic-surface"
-          ],
-          "log": "linked global `even?` is not available"
-        },
-        {
-          "id": "jank/clojure.core/some/3",
-          "title": "some upstream assertion 4",
-          "source": "(= true (some odd? #{1 2 3 4}))",
-          "outcome": "fail",
-          "expected": "true",
-          "observed": "linked global `odd?` is not available",
-          "axes": [
-            "semantic-surface"
-          ],
-          "log": "linked global `odd?` is not available"
-        },
-        {
-          "id": "jank/clojure.core/some/4",
-          "title": "some upstream assertion 5",
-          "source": "(= nil (some odd? #{2 4 6 8}))",
-          "outcome": "fail",
-          "expected": "true",
-          "observed": "linked global `odd?` is not available",
-          "axes": [
-            "semantic-surface"
-          ],
-          "log": "linked global `odd?` is not available"
-        },
-        {
-          "id": "jank/clojure.core/some/5",
-          "title": "some upstream assertion 6",
-          "source": "(= nil (some odd? #{}))",
-          "outcome": "fail",
-          "expected": "true",
-          "observed": "linked global `odd?` is not available",
-          "axes": [
-            "semantic-surface"
-          ],
-          "log": "linked global `odd?` is not available"
-        },
         {
           "id": "jank/clojure.core/some/6",
           "title": "some upstream assertion 7",
@@ -65895,18 +64997,16 @@
         "jank/clojure.core/vec/8",
         "jank/clojure.core/vec/10",
         "jank/clojure.core/vec/11",
-        "jank/clojure.core/vec/12",
-        "jank/clojure.core/vec/13",
-        "jank/clojure.core/vec/14"
+        "jank/clojure.core/vec/12"
       ],
       "counts": {
         "pass": 10,
-        "fail": 2,
+        "fail": 0,
         "expectedFailure": 0,
         "structuralGap": 0
       },
       "coverage": {
-        "cases": 12,
+        "cases": 10,
         "state": "tested"
       },
       "cases": [
@@ -66029,30 +65129,6 @@
             "semantic-surface"
           ],
           "log": ""
-        },
-        {
-          "id": "jank/clojure.core/vec/13",
-          "title": "vec upstream assertion 14",
-          "source": "(= [1 2 3] v)",
-          "outcome": "fail",
-          "expected": "true",
-          "observed": "linked global `v` is not available",
-          "axes": [
-            "semantic-surface"
-          ],
-          "log": "linked global `v` is not available"
-        },
-        {
-          "id": "jank/clojure.core/vec/14",
-          "title": "vec upstream assertion 15",
-          "source": "(= [-1 2 3] v)",
-          "outcome": "fail",
-          "expected": "true",
-          "observed": "linked global `v` is not available",
-          "axes": [
-            "semantic-surface"
-          ],
-          "log": "linked global `v` is not available"
         }
       ]
     },

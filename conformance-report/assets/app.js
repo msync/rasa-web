@@ -899,12 +899,12 @@ ${Xa}
   empty?
   rasa.prim/empty?)
 
-(def ^{:doc "Looks up a map key, vector index, or set member and returns nil or the supplied default when absent."
+(def ^{:doc "Looks up a map key, vector or string index, or set member and returns nil or the supplied default when absent."
        :rasa.impl/backing rasa.prim/get}
   get
   rasa.prim/get)
 
-(def ^{:doc "Returns whether a map has a key, vector has an index, or set has a member."
+(def ^{:doc "Returns whether a map has a key, vector or string has an index, or set has a member."
        :rasa.impl/backing rasa.prim/contains?}
   contains?
   rasa.prim/contains?)
