@@ -1,57 +1,65 @@
 [
   {
-    "label": "Data pipeline",
-    "description": "Read shaped data, transform records lazily, and project a compact result.",
+    "label": "Data Pipeline",
+    "story": "Reader, analyzer, facts, plan, eval",
+    "description": "Nested maps, sets-as-functions, scalar hints, sequence filters, zipmap, and a compact business result.",
     "phases": [
       "reader",
+      "analyzer",
       "facts",
       "plan",
       "eval"
     ],
-    "source": "(def orders\n  [{:id ^i64 1 :kind :book :qty ^i64 2 :unit ^i64 30}\n   {:id ^i64 2 :kind :tool :qty ^i64 1 :unit ^i64 70}\n   {:id ^i64 3 :kind :book :qty ^i64 3 :unit ^i64 30}\n   {:id ^i64 4 :kind :demo :qty ^i64 1 :unit ^i64 0}])\n\n(def billable #{:book :tool})\n\n(def enriched\n  (map\n    (fn [order]\n      (let [total (* (:qty order) (:unit order))]\n        (assoc\n          (assoc order :total total)\n          :billable (some? (billable (:kind order))))))\n    orders))\n\n{:billable-kinds (into [] (map :kind (filter :billable enriched)))\n :billable-total (reduce + 0 (map :total (filter :billable enriched)))\n :by-id (zipmap (map :id enriched) enriched)}"
+    "source": "(def orders\n  [{:id ^i64 101 :kind :book :region :west :qty ^i64 2 :unit ^i64 30}\n   {:id ^i64 102 :kind :tool :region :east :qty ^i64 1 :unit ^i64 70}\n   {:id ^i64 103 :kind :book :region :west :qty ^i64 3 :unit ^i64 30}\n   {:id ^i64 104 :kind :demo :region :north :qty ^i64 1 :unit ^i64 0}])\n\n(def billable #{:book :tool})\n\n(def enriched\n  (map\n    (fn [order]\n      (let [total (* (:qty order) (:unit order))]\n        (assoc\n          (assoc order :total total)\n          :billable (some? (billable (:kind order))))))\n    orders))\n\n{:billable-kinds (into [] (map :kind (filter :billable enriched)))\n :billable-total (reduce + ^i64 0 (map :total (filter :billable enriched)))\n :by-id (zipmap (map :id enriched) enriched)}"
   },
   {
-    "label": "Portable map access",
-    "description": "Exercise lookup, predicates, scalar hints, and checked result evidence.",
+    "label": "Shape And Metadata",
+    "story": "Hints are evidence, not magic",
+    "description": "Metadata and type hints flow into evidence while ordinary map/set operations stay Clojure-shaped.",
     "phases": [
       "reader",
+      "types",
+      "facts",
       "checks",
-      "facts",
-      "eval"
-    ],
-    "source": "(def sample ^map {:lane :browser :status :ready :score ^i64 9})\n\n{:status (:status sample)\n :score (:score sample)\n :passed (< ^i64 5 (:score sample))}"
-  },
-  {
-    "label": "Order shaping",
-    "description": "Use maps, sets, higher-order sequence operations, and indexed lookup pressure.",
-    "phases": [
-      "analyzer",
-      "ir",
-      "facts",
       "plan"
     ],
-    "source": "(def orders\n  [{:id ^i64 1 :kind :book :qty ^i64 2 :unit ^i64 30}\n   {:id ^i64 2 :kind :tool :qty ^i64 1 :unit ^i64 70}\n   {:id ^i64 3 :kind :book :qty ^i64 3 :unit ^i64 30}\n   {:id ^i64 4 :kind :demo :qty ^i64 1 :unit ^i64 0}])\n\n(def billable #{:book :tool})\n\n(def enriched\n  (map\n    (fn [order]\n      (let [total (* (:qty order) (:unit order))]\n        (assoc\n          (assoc order :total total)\n          :billable (some? (billable (:kind order))))))\n    orders))\n\n{:billable-kinds (into [] (map :kind (filter :billable enriched)))\n :billable-total (reduce + 0 (map :total (filter :billable enriched)))\n :by-id (zipmap (map :id enriched) enriched)}"
+    "source": "(def profile\n  ^{:entity :account :source :browser-preview}\n  {:id ^i64 7\n   :name \"Ada\"\n   :roles #{:admin :author}\n   :daily ^i64 100\n   :monthly ^i64 1000})\n\n(def next-profile\n  (assoc\n    (assoc profile :daily (+ (:daily profile) ^i64 20))\n    :active true))\n\n{:id (:id next-profile)\n :name (:name next-profile)\n :active (:active next-profile)\n :role-count (count (:roles next-profile))\n :daily-limit (:daily next-profile)\n :author? (some? ((:roles next-profile) :author))}"
   },
   {
-    "label": "Lazy sequence window",
-    "description": "Pressure lazy range, drop/take boundaries, filters, and bounded realization.",
+    "label": "Lazy Telemetry Window",
+    "story": "Bounded views over unbounded source",
+    "description": "Map, drop-while, take-while, keep, and bounded realization create useful finite projections.",
     "phases": [
       "ir",
       "facts",
       "plan",
       "eval"
     ],
-    "source": "(def readings\n  (map\n    (fn [tick]\n      {:tick tick :load (+ ^i64 20 (* tick ^i64 5))})\n    (range)))\n\n(def warm\n  (drop-while\n    (fn [reading] (< (:load reading) ^i64 45))\n    readings))\n\n(def steady\n  (take-while\n    (fn [reading] (< (:load reading) ^i64 80))\n    warm))\n\n(def alerts\n  (remove\n    (fn [reading] (< (:load reading) ^i64 60))\n    steady))\n\n{:warmup-start (first warm)\n :steady-window (into [] steady)\n :alert-loads (into [] (map :load alerts))\n :tick->load (zipmap (map :tick alerts) (map :load alerts))}"
+    "source": "(def readings\n  (map\n    (fn [tick]\n      {:tick tick\n       :load (+ ^i64 18 (* tick ^i64 7))\n       :bucket (if (< tick ^i64 4) :warmup :steady)})\n    [0 1 2 3 4 5 6 7 8 9]))\n\n(def steady\n  (take-while\n    (fn [reading] (< (:load reading) ^i64 92))\n    (drop-while\n      (fn [reading] (< (:load reading) ^i64 39))\n      readings)))\n\n(def alert-loads\n  (keep\n    (fn [reading]\n      (if (< (:load reading) ^i64 65) nil (:load reading)))\n    steady))\n\n{:window (into [] steady)\n :alerts (into [] alert-loads)\n :tick->load (zipmap (map :tick steady) (map :load steady))}"
   },
   {
-    "label": "Planner edge",
-    "description": "Mix mapcat, keep, higher-order data callables, and lane evidence.",
+    "label": "Planner Pressure",
+    "story": "Higher-order data without host reach",
+    "description": "Mapcat, keep, filter, reduce, and indexed lookup create more plan and evidence surface.",
     "phases": [
       "expand",
       "facts",
       "plan",
-      "explain"
+      "eval"
     ],
-    "source": "(def events\n  (mapcat\n    (fn [batch]\n      [{:batch batch :id (+ (* batch ^i64 10) ^i64 1) :kind :edge :cost (+ batch ^i64 5)}\n       {:batch batch :id (+ (* batch ^i64 10) ^i64 2) :kind :core :cost (+ batch ^i64 20)}\n       {:batch batch :id (+ (* batch ^i64 10) ^i64 3) :kind :drop :cost ^i64 0}])\n    (range ^i64 1 ^i64 5)))\n\n(def shaped\n  (keep\n    (fn [event]\n      (if (= :drop (:kind event))\n        nil\n        (assoc event :weight (+ (:cost event) (:batch event)))))\n    events))\n\n(def window\n  (take\n    ^i64 5\n    (filter\n      (fn [event] (#{:edge :core} (:kind event)))\n      shaped)))\n\n(def by-id (zipmap (map :id window) window))\n\n{:window (into [] window)\n :heavy (into [] (drop-while (fn [event] (< (:weight event) ^i64 24)) window))\n :lookup (by-id ^i64 32)\n :max-weight (reduce max ^i64 0 (map :weight window))\n :ids (into [] (map :id window))}"
+    "source": "(def events\n  (mapcat\n    (fn [batch]\n      [{:batch batch :id (+ (* batch ^i64 10) ^i64 1) :kind :edge :cost (+ batch ^i64 5)}\n       {:batch batch :id (+ (* batch ^i64 10) ^i64 2) :kind :core :cost (+ batch ^i64 20)}\n       {:batch batch :id (+ (* batch ^i64 10) ^i64 3) :kind :drop :cost ^i64 0}])\n    [1 2 3 4]))\n\n(def shaped\n  (keep\n    (fn [event]\n      (if (= :drop (:kind event))\n        nil\n        (assoc event :weight (+ (:cost event) (:batch event)))))\n    events))\n\n(def window\n  (take\n    ^i64 5\n    (filter\n      (fn [event] (#{:edge :core} (:kind event)))\n      shaped)))\n\n(def by-id (zipmap (map :id window) window))\n\n{:window (into [] window)\n :heavy (into [] (drop-while (fn [event] (< (:weight event) ^i64 24)) window))\n :lookup (by-id ^i64 32)\n :total-weight (reduce + ^i64 0 (map :weight window))\n :ids (into [] (map :id window))}"
+  },
+  {
+    "label": "Checks And Diagnostics",
+    "story": "Conservative evidence stays visible",
+    "description": "A deliberate missing global keeps diagnostics and planning honesty visible without faking host support.",
+    "phases": [
+      "reader",
+      "analyzer",
+      "checks",
+      "plan",
+      "diagnostics"
+    ],
+    "source": "(def scores [^i64 12 ^i64 25 ^i64 40])\n\n(def boosted\n  (map inc scores))\n\n{:count (count boosted)\n :total (reduce + ^i64 0 boosted)\n :average (/ (reduce + ^i64 0 boosted) (count boosted))\n :unavailable (range ^i64 1 ^i64 4)}"
   }
 ]
