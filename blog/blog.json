@@ -2,6 +2,22 @@
   "schema": 1,
   "posts": [
     {
+      "file": "2026-07-02-rasa-data-scripts-checkpoint.md",
+      "slug": "rasa-data-scripts-checkpoint",
+      "title": "Rasa Data Scripts: A Practical Checkpoint",
+      "date": "2026-07-02",
+      "description": "A small Data Scripts checkpoint showing file IO, JSON, EDN, HTTP, process input, runtime-Wasm parity, and browser fetch through admitted capabilities.",
+      "series": "Building Rasa",
+      "seriesOrder": 3,
+      "tags": [
+        "rasa",
+        "data-scripts",
+        "capabilities",
+        "browser",
+        "wasm"
+      ]
+    },
+    {
       "file": "2026-06-30-rasa-browser-component-runtime.md",
       "slug": "rasa-browser-component-runtime",
       "title": "Rasa in the Browser: The Same Runtime, A New Host",

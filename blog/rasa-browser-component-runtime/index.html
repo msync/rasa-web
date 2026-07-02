@@ -535,8 +535,8 @@ Browser UI owns presentation and host resources.</code></pre>
 <pre><code class="language-javascript">const engine = await RasaWasmEngine.load(&quot;./ras.wasm&quot;, { host });
 const session = engine.createSession();
 
-engine.evaluateSession(session, &quot;(def x 41)&quot;, { phases: &quot;all&quot; });
-engine.evaluateSession(session, &quot;(+ x 1)&quot;, { phases: &quot;all&quot; });</code></pre>
+await engine.evaluateSessionAsync(session, &quot;(def x 41)&quot;, { phases: &quot;all&quot; });
+await engine.evaluateSessionAsync(session, &quot;(+ x 1)&quot;, { phases: &quot;all&quot; });</code></pre>
 <p>The second evaluation sees the <code>x</code> defined by the first one. This is not a stateless request-response evaluator hidden behind a button. It is a stateful Rasa session inside the browser host.</p>
 <p>The same facade powers syntax highlighting:</p>
 <pre><code class="language-javascript">const tokens = engine.syntaxTokens(&quot;(+ 1 2 3)&quot;);</code></pre>
@@ -582,11 +582,13 @@ engine.evaluateSession(session, &quot;(+ x 1)&quot;, { phases: &quot;all&quot; }
  <span class="tok-keyword">:value</span> <span class="tok-number">42</span><span class="tok-punct">}</span></code></pre>
 <p>The runtime report can include admitted-host-call traces. That gives the page a way to explain what happened: source evaluation, host boundary, provider dispatch, returned value.</p>
 <p>This is not just a security mechanism. It is a usability mechanism. When a program crosses into browser power, users should be able to see where and why.</p>
-<h2>Synchronous Today, Colorless Later</h2>
-<p>The current browser <code>host.call</code> import is synchronous:</p>
+<h2>Browser Suspension Without Source Async</h2>
+<p>The browser <code>host.call</code> WIT shape remains ordinary:</p>
 <pre><code class="language-wit">call: func(request: list&lt;u8&gt;) -&gt; result&lt;list&lt;u8&gt;, string&gt;;</code></pre>
-<p>That means browser providers must return synchronously once they are called. The model explorer respects that contract. TensorFlow.js asset fetching happens outside the host call path. If a model is not prepared, the first evaluation reports a recoverable boundary condition, the UI prepares the model assets, and then the same Rasa form is evaluated again.</p>
-<p>That is not the final async story. Rasa's direction is colorless async: source should not pay syntax tax just because an admitted host operation may suspend. Future WASI 0.3 and component async work can deepen this boundary. But the important part is already present: suspension belongs to the capability and runtime contract, not to ad hoc user code conventions.</p>
+<p>The generated browser component adapter lowers that import through JSPI for the stateful session exports. A browser provider can return a JavaScript promise, the shared session facade awaits it, and Rasa source still looks ordinary:</p>
+<pre><code class="language-clojure"><span class="tok-punct">(</span><span class="tok-form">net/request</span> <span class="tok-punct">{</span><span class="tok-keyword">:method</span> <span class="tok-keyword">:get</span>
+              <span class="tok-keyword">:url</span> <span class="tok-string">&quot;https://example.com/data.json&quot;</span><span class="tok-punct">}</span><span class="tok-punct">)</span></code></pre>
+<p>That is still intentionally narrow. It is a browser/session boundary, not a new source-visible async API. Rasa's direction remains colorless async: source should not pay syntax tax just because an admitted host operation may suspend. Future WASI 0.3 and component async work can deepen this boundary. The important part is the ownership: suspension belongs to the capability and runtime contract, not to ad hoc user code conventions.</p>
 <h2>What The Browser Page Can Show</h2>
 <p>Because the runtime is real, the website can become more than documentation.</p>
 <p>A page can show:</p>

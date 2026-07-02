@@ -7,5 +7,6 @@ export function sessionNew(): number;
 export function sessionFree(session: number): void;
 export function sessionLoadPackage(session: number, packageBytes: Uint8Array): string;
 export function sessionEval(session: number, source: Uint8Array, phaseFlags: number): string;
+export function sessionReplEval(session: number, source: Uint8Array, phaseFlags: number): string;
 export function inspectSource(source: Uint8Array, options: number): string;
 export function syntaxTokens(source: Uint8Array): string;

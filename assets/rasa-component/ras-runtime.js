@@ -4576,7 +4576,7 @@ let gen = (function* _initGenerator () {
   let realloc0;
   let realloc0Async;
   
-  const _trampoline13 = function(arg0, arg1, arg2) {
+  const _trampoline13 = async function(arg0, arg1, arg2) {
     var ptr0 = arg0;
     var len0 = arg1;
     var result0 = new Uint8Array(memory0.buffer.slice(ptr0, ptr0 + len0 * 1));
@@ -4622,11 +4622,20 @@ let gen = (function* _initGenerator () {
       }
     }
     
-    const started = task.enterSync();
+    
+    const started = await task.enter({ isHost: hostProvided });
+    if (!started) {
+      _debugLog('[Instruction::CallInterface] failed to enter task', {
+        taskID: task.id(),
+        subtaskID: task.getParentSubtask()?.id(),
+      });
+      throw new Error("failed to enter task");
+    }
+    
     
     let ret;
     try {
-      ret = { tag: 'ok', val: _withGlobalCurrentTaskMeta({
+      ret = { tag: 'ok', val: await  _withGlobalCurrentTaskMetaAsync({
         componentIdx: task.componentIdx(),
         taskID: task.id(),
         fn: () => call(result0),
@@ -4696,6 +4705,7 @@ let gen = (function* _initGenerator () {
   task.exit();
 }
 _trampoline13.fnName = 'rasa:runtime/host@0.1.0#call';
+_trampoline13.manuallyAsync = true;
 
 const _trampoline14 = function(arg0) {
   _debugLog('[iface="wasi:random/insecure-seed@0.3.0-rc-2026-03-15", function="get-insecure-seed"] [Instruction::CallInterface] (sync, @ enter)');
@@ -6173,7 +6183,7 @@ function sessionFree(arg0) {
 }
 let session010SessionLoadPackage;
 
-function sessionLoadPackage(arg0, arg1) {
+async function sessionLoadPackage(arg0, arg1) {
   var val0 = arg1;
   var len0 = Array.isArray(val0) ? val0.length : val0.byteLength;
   var ptr0 = realloc0(0, 0, 1, len0 * 1);
@@ -6207,7 +6217,7 @@ function sessionLoadPackage(arg0, arg1) {
   const [task, _wasm_call_currentTaskID] = createNewCurrentTask({
     componentIdx: 0,
     isAsync: false,
-    isManualAsync: false,
+    isManualAsync: true,
     entryFnName: 'session010SessionLoadPackage',
     getCallbackFn: () => null,
     callbackFnName: null,
@@ -6215,7 +6225,16 @@ function sessionLoadPackage(arg0, arg1) {
     callingWasmExport: true,
   });
   
-  const started = task.enterSync();
+  
+  const started = await task.enter();
+  if (!started) {
+    _debugLog('[Instruction::AsyncTaskReturn] failed to enter task', {
+      taskID: task.id(),
+      subtaskID: task.currentSubtask()?.id(),
+    });
+    throw new Error("failed to enter task");
+  }
+  
   
   if (0!== null) {
     task.setReturnMemoryIdx(0);
@@ -6226,21 +6245,21 @@ function sessionLoadPackage(arg0, arg1) {
   let ret;
   
   try {
-    ret =   _withGlobalCurrentTaskMeta({
+    ret =  await  _withGlobalCurrentTaskMetaAsync({
       taskID: task.id(),
       componentIdx: task.componentIdx(),
       fn: () => session010SessionLoadPackage(toUint32(arg0), ptr0, len0),
     });
   } catch (err) {
     
-    _debugLog('[Instruction::CallWasm] error during sync call', {
+    _debugLog('[Instruction::CallWasm] error during async call', {
       taskID: task.id(),
       err,
     });
     task.setErrored(err);
     task.reject(err);
     task.exit();
-    throw err;
+    return task.completionPromise();
     
   }
   
@@ -6266,7 +6285,7 @@ function sessionLoadPackage(arg0, arg1) {
 }
 let session010SessionEval;
 
-function sessionEval(arg0, arg1, arg2) {
+async function sessionEval(arg0, arg1, arg2) {
   var val0 = arg1;
   var len0 = Array.isArray(val0) ? val0.length : val0.byteLength;
   var ptr0 = realloc0(0, 0, 1, len0 * 1);
@@ -6300,7 +6319,7 @@ function sessionEval(arg0, arg1, arg2) {
   const [task, _wasm_call_currentTaskID] = createNewCurrentTask({
     componentIdx: 0,
     isAsync: false,
-    isManualAsync: false,
+    isManualAsync: true,
     entryFnName: 'session010SessionEval',
     getCallbackFn: () => null,
     callbackFnName: null,
@@ -6308,7 +6327,16 @@ function sessionEval(arg0, arg1, arg2) {
     callingWasmExport: true,
   });
   
-  const started = task.enterSync();
+  
+  const started = await task.enter();
+  if (!started) {
+    _debugLog('[Instruction::AsyncTaskReturn] failed to enter task', {
+      taskID: task.id(),
+      subtaskID: task.currentSubtask()?.id(),
+    });
+    throw new Error("failed to enter task");
+  }
+  
   
   if (0!== null) {
     task.setReturnMemoryIdx(0);
@@ -6319,21 +6347,21 @@ function sessionEval(arg0, arg1, arg2) {
   let ret;
   
   try {
-    ret =   _withGlobalCurrentTaskMeta({
+    ret =  await  _withGlobalCurrentTaskMetaAsync({
       taskID: task.id(),
       componentIdx: task.componentIdx(),
       fn: () => session010SessionEval(toUint32(arg0), ptr0, len0, toUint32(arg2)),
     });
   } catch (err) {
     
-    _debugLog('[Instruction::CallWasm] error during sync call', {
+    _debugLog('[Instruction::CallWasm] error during async call', {
       taskID: task.id(),
       err,
     });
     task.setErrored(err);
     task.reject(err);
     task.exit();
-    throw err;
+    return task.completionPromise();
     
   }
   
@@ -6342,6 +6370,108 @@ function sessionEval(arg0, arg1, arg2) {
   var result1 = TEXT_DECODER_UTF8.decode(new Uint8Array(memory0.buffer, ptr1, len1));
   _debugLog('[iface="rasa:runtime/session@0.1.0", function="session-eval"][Instruction::Return]', {
     funcName: 'session-eval',
+    paramCount: 1,
+    async: false,
+    postReturn: true
+  });
+  task.resolve([result1]);
+  const retCopy = result1;
+  
+  let cstate = getOrCreateAsyncState(0);
+  cstate.mayLeave = false;
+  postReturn0(ret);
+  cstate.mayLeave = true;
+  task.exit();
+  return retCopy;
+  
+}
+let session010SessionReplEval;
+
+async function sessionReplEval(arg0, arg1, arg2) {
+  var val0 = arg1;
+  var len0 = Array.isArray(val0) ? val0.length : val0.byteLength;
+  var ptr0 = realloc0(0, 0, 1, len0 * 1);
+  
+  let valData0;
+  const valLenBytes0 = len0 * 1;
+  if (Array.isArray(val0)) {
+    // Regular array likely containing numbers, write values to memory
+    let offset = 0;
+    const dv0 = new DataView(memory0.buffer);
+    for (const v of val0) {
+      _requireValidNumericPrimitive.bind(null, 'u8')(v);
+      dv0.setUint8(ptr0+ offset, v, true);
+      offset += 1;
+    }
+  } else {
+    // TypedArray / ArrayBuffer-like, direct copy
+    valData0 = new Uint8Array(val0.buffer || val0, val0.byteOffset, valLenBytes0);
+    const out0 = new Uint8Array(memory0.buffer, ptr0, valLenBytes0);
+    out0.set(valData0);
+  }
+  
+  _debugLog('[iface="rasa:runtime/session@0.1.0", function="session-repl-eval"][Instruction::CallWasm] enter', {
+    funcName: 'session-repl-eval',
+    paramCount: 4,
+    async: false,
+    postReturn: true,
+  });
+  const hostProvided = false;
+  
+  const [task, _wasm_call_currentTaskID] = createNewCurrentTask({
+    componentIdx: 0,
+    isAsync: false,
+    isManualAsync: true,
+    entryFnName: 'session010SessionReplEval',
+    getCallbackFn: () => null,
+    callbackFnName: null,
+    errHandling: 'none',
+    callingWasmExport: true,
+  });
+  
+  
+  const started = await task.enter();
+  if (!started) {
+    _debugLog('[Instruction::AsyncTaskReturn] failed to enter task', {
+      taskID: task.id(),
+      subtaskID: task.currentSubtask()?.id(),
+    });
+    throw new Error("failed to enter task");
+  }
+  
+  
+  if (0!== null) {
+    task.setReturnMemoryIdx(0);
+    task.setReturnMemory(() => memory0());
+  }
+  
+  
+  let ret;
+  
+  try {
+    ret =  await  _withGlobalCurrentTaskMetaAsync({
+      taskID: task.id(),
+      componentIdx: task.componentIdx(),
+      fn: () => session010SessionReplEval(toUint32(arg0), ptr0, len0, toUint32(arg2)),
+    });
+  } catch (err) {
+    
+    _debugLog('[Instruction::CallWasm] error during async call', {
+      taskID: task.id(),
+      err,
+    });
+    task.setErrored(err);
+    task.reject(err);
+    task.exit();
+    return task.completionPromise();
+    
+  }
+  
+  var ptr1 = dataView(memory0).getUint32(ret + 0, true);
+  var len1 = dataView(memory0).getUint32(ret + 4, true);
+  var result1 = TEXT_DECODER_UTF8.decode(new Uint8Array(memory0.buffer, ptr1, len1));
+  _debugLog('[iface="rasa:runtime/session@0.1.0", function="session-repl-eval"][Instruction::Return]', {
+    funcName: 'session-repl-eval',
     paramCount: 1,
     async: false,
     postReturn: true
@@ -8027,8 +8157,9 @@ session010EvalSource = exports1['rasa:runtime/session@0.1.0#eval-source'];
 session010EvalPackageSource = exports1['rasa:runtime/session@0.1.0#eval-package-source'];
 session010SessionNew = exports1['rasa:runtime/session@0.1.0#session-new'];
 session010SessionFree = exports1['rasa:runtime/session@0.1.0#session-free'];
-session010SessionLoadPackage = exports1['rasa:runtime/session@0.1.0#session-load-package'];
-session010SessionEval = exports1['rasa:runtime/session@0.1.0#session-eval'];
+session010SessionLoadPackage = WebAssembly.promising(exports1['rasa:runtime/session@0.1.0#session-load-package']);
+session010SessionEval = WebAssembly.promising(exports1['rasa:runtime/session@0.1.0#session-eval']);
+session010SessionReplEval = WebAssembly.promising(exports1['rasa:runtime/session@0.1.0#session-repl-eval']);
 session010InspectSource = exports1['rasa:runtime/session@0.1.0#inspect-source'];
 session010SyntaxTokens = exports1['rasa:runtime/session@0.1.0#syntax-tokens'];
 const session010 = {
@@ -8040,6 +8171,7 @@ const session010 = {
   sessionFree: sessionFree,
   sessionLoadPackage: sessionLoadPackage,
   sessionNew: sessionNew,
+  sessionReplEval: sessionReplEval,
   status: status,
   syntaxTokens: syntaxTokens,
   

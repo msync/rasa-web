@@ -1,0 +1,25 @@
+{
+  "runtime": "./ras.wasm",
+  "sourceLibraries": [
+    "./assets/rasa-libs/core.ras"
+  ],
+  "capabilityCatalogs": [
+    {
+      "package": "rasa.net",
+      "url": "./assets/capabilities/rasa.net/catalog.ras"
+    }
+  ],
+  "providers": [
+    {
+      "package": "rasa.net",
+      "target": "wasm-browser",
+      "kind": "browser-module",
+      "module": "./providers/rasa-net-browser.js"
+    }
+  ],
+  "policy": {
+    "allow": [
+      "rasa.net/request"
+    ]
+  }
+}

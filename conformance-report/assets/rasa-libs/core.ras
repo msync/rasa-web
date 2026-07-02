@@ -1,0 +1,703 @@
+(ns rasa.core)
+
+(def ^{:doc "Returns the sum of nums."
+       :rasa.impl/backing rasa.prim/add}
+  +
+  rasa.prim/add)
+
+(def ^{:doc "Returns x negated, or the difference of nums."
+       :rasa.impl/backing rasa.prim/sub}
+  -
+  rasa.prim/sub)
+
+(def ^{:doc "Returns the product of nums."
+       :rasa.impl/backing rasa.prim/mul}
+  *
+  rasa.prim/mul)
+
+(def ^{:doc "Returns true when nums are strictly increasing."
+       :rasa.impl/backing rasa.prim/lt}
+  <
+  rasa.prim/lt)
+
+(def ^{:doc "Returns true when nums are non-decreasing."
+       :rasa.impl/backing rasa.prim/lte}
+  <=
+  rasa.prim/lte)
+
+(def ^{:doc "Returns true when nums are strictly decreasing."
+       :rasa.impl/backing rasa.prim/gt}
+  >
+  rasa.prim/gt)
+
+(def ^{:doc "Returns true when nums are non-increasing."
+       :rasa.impl/backing rasa.prim/gte}
+  >=
+  rasa.prim/gte)
+
+(def ^{:doc "Returns x plus one."
+       :rasa.impl/backing rasa.prim/inc}
+  inc
+  rasa.prim/inc)
+
+(def ^{:doc "Returns x minus one."
+       :rasa.impl/backing rasa.prim/dec}
+  dec
+  rasa.prim/dec)
+
+(def ^{:doc "Returns true when x is numeric zero."
+       :rasa.impl/backing rasa.prim/zero?}
+  zero?
+  rasa.prim/zero?)
+
+(def ^{:doc "Returns true when x is positive."
+       :rasa.impl/backing rasa.prim/pos?}
+  pos?
+  rasa.prim/pos?)
+
+(def ^{:doc "Returns true when x is negative."
+       :rasa.impl/backing rasa.prim/neg?}
+  neg?
+  rasa.prim/neg?)
+
+(def ^{:doc "Returns the least numeric argument."
+       :rasa.impl/backing rasa.prim/min}
+  min
+  rasa.prim/min)
+
+(def ^{:doc "Returns the greatest numeric argument."
+       :rasa.impl/backing rasa.prim/max}
+  max
+  rasa.prim/max)
+
+(def ^{:doc "Returns nil for nil or empty seqable values, otherwise returns a finite seq or admitted lazy seq."
+       :rasa.impl/backing rasa.prim/seq}
+  seq
+  rasa.prim/seq)
+
+(def ^{:doc "Returns the first item of a seqable value, or nil when none exists."
+       :rasa.impl/backing rasa.prim/first}
+  first
+  rasa.prim/first)
+
+(def ^{:doc "Returns all but the first item as a finite seq or lazy view, or an empty seq when no remaining items exist."
+       :rasa.impl/backing rasa.prim/rest}
+  rest
+  rasa.prim/rest)
+
+(def ^{:doc "Returns the non-empty remainder as a finite seq or lazy view, or nil when no non-empty remainder exists."
+       :rasa.impl/backing rasa.prim/next}
+  next
+  rasa.prim/next)
+
+(def ^{:doc "Returns a finite eager seq with x prepended to the finite seqable value."
+       :rasa.impl/backing rasa.prim/cons}
+  cons
+  rasa.prim/cons)
+
+(def ^{:doc "Returns the indexed item from a vector, list, finite seq, lazy seq, or string; with a default, returns that value when out of range."
+       :rasa.impl/backing rasa.prim/nth}
+  nth
+  rasa.prim/nth)
+
+(def ^{:doc "Returns a two-item vector of the canonical key and value when a map contains key, otherwise nil."
+       :rasa.impl/backing rasa.prim/find}
+  find
+  rasa.prim/find)
+
+(def ^{:doc "Returns a finite eager seq of map keys, or nil for nil and empty maps."
+       :rasa.impl/backing rasa.prim/keys}
+  keys
+  rasa.prim/keys)
+
+(def ^{:doc "Returns a finite eager seq of map values, or nil for nil and empty maps."
+       :rasa.impl/backing rasa.prim/vals}
+  vals
+  rasa.prim/vals)
+
+(def ^{:doc "Returns true when all supplied values are equal."
+       :rasa.impl/backing rasa.prim/=}
+  =
+  rasa.prim/=)
+
+(def ^{:doc "Returns true when supplied values are not all equal."
+       :rasa.impl/backing rasa.prim/not=}
+  not=
+  rasa.prim/not=)
+
+(def ^{:doc "Returns true when x is falsey."
+       :rasa.impl/backing rasa.prim/not}
+  not
+  rasa.prim/not)
+
+(def ^{:doc "Returns true when x is nil."
+       :rasa.impl/backing rasa.prim/nil?}
+  nil?
+  rasa.prim/nil?)
+
+(def ^{:doc "Returns true when x is not nil."
+       :rasa.impl/backing rasa.prim/some?}
+  some?
+  rasa.prim/some?)
+
+(def ^{:doc "Returns true when x is true."
+       :rasa.impl/backing rasa.prim/true?}
+  true?
+  rasa.prim/true?)
+
+(def ^{:doc "Returns true when x is false."
+       :rasa.impl/backing rasa.prim/false?}
+  false?
+  rasa.prim/false?)
+
+(def ^{:doc "Returns true when x is a boolean."
+       :rasa.impl/backing rasa.prim/boolean?}
+  boolean?
+  rasa.prim/boolean?)
+
+(def ^{:doc "Returns true when x is an integer."
+       :rasa.impl/backing rasa.prim/integer?}
+  integer?
+  rasa.prim/integer?)
+
+(def ^{:doc "Returns true when x is a string."
+       :rasa.impl/backing rasa.prim/string?}
+  string?
+  rasa.prim/string?)
+
+(def ^{:doc "Returns true when x is a keyword."
+       :rasa.impl/backing rasa.prim/keyword?}
+  keyword?
+  rasa.prim/keyword?)
+
+(def ^{:doc "Returns true when x is a symbol."
+       :rasa.impl/backing rasa.prim/symbol?}
+  symbol?
+  rasa.prim/symbol?)
+
+(def ^{:doc "Returns true when x is a character."
+       :rasa.impl/backing rasa.prim/char?}
+  char?
+  rasa.prim/char?)
+
+(def ^{:doc "Returns true when x is a concrete collection, finite seq, or admitted lazy seq."
+       :rasa.impl/backing rasa.prim/coll?}
+  coll?
+  rasa.prim/coll?)
+
+(def ^{:doc "Returns true when x is a list."
+       :rasa.impl/backing rasa.prim/list?}
+  list?
+  rasa.prim/list?)
+
+(def ^{:doc "Returns true when x is a vector."
+       :rasa.impl/backing rasa.prim/vector?}
+  vector?
+  rasa.prim/vector?)
+
+(def ^{:doc "Returns true when x is a map."
+       :rasa.impl/backing rasa.prim/map?}
+  map?
+  rasa.prim/map?)
+
+(def ^{:doc "Returns true when x is a set."
+       :rasa.impl/backing rasa.prim/set?}
+  set?
+  rasa.prim/set?)
+
+(def ^{:doc "Returns true when x is a function or native function value."
+       :rasa.impl/backing rasa.prim/fn?}
+  fn?
+  rasa.prim/fn?)
+
+(defn identity
+  "Returns x unchanged."
+  [x]
+  x)
+
+(defn boolean
+  "Returns true when x is truthy, otherwise false."
+  [x]
+  (if x true false))
+
+(defn any?
+  "Returns true for any value."
+  [x]
+  true)
+
+(defn int?
+  "Returns true when x is an integer."
+  [x]
+  (integer? x))
+
+(defn pos-int?
+  "Returns true when x is a positive integer."
+  [x]
+  (if (integer? x) (pos? x) false))
+
+(defn neg-int?
+  "Returns true when x is a negative integer."
+  [x]
+  (if (integer? x) (neg? x) false))
+
+(defn seqable?
+  "Returns true when x can produce a sequence."
+  [x]
+  (if (nil? x) true (if (string? x) true (coll? x))))
+
+(defn not-empty
+  "Returns x when it is not empty, otherwise nil."
+  [x]
+  (if (empty? x) nil x))
+
+(defn second
+  "Returns the second item of a seqable value, or nil."
+  [x]
+  (first (next x)))
+
+(defn ffirst
+  "Returns the first item of the first item of x."
+  [x]
+  (first (first x)))
+
+(defn fnext
+  "Returns the first item of the next item of x."
+  [x]
+  (first (next x)))
+
+(defn nfirst
+  "Returns the next item of the first item of x."
+  [x]
+  (next (first x)))
+
+(defn nnext
+  "Returns the next item of the next item of x."
+  [x]
+  (next (next x)))
+
+(defn vec
+  "Returns a vector containing the items of coll."
+  [coll]
+  (into [] coll))
+
+(defn set
+  "Returns a set containing the items of coll."
+  [coll]
+  (into #{} coll))
+
+(defn empty
+  "Returns an empty collection of the same broad kind as coll, or nil."
+  [coll]
+  (if (nil? coll)
+    nil
+    (if (string? coll)
+      ""
+      (if (vector? coll)
+        []
+        (if (map? coll)
+          {}
+          (if (set? coll)
+            #{}
+            (if (list? coll)
+              '()
+              (if (seqable? coll) '() nil))))))))
+
+(defn peek
+  "Returns the next stack item from a vector or list, or nil for nil and empty stacks."
+  [coll]
+  (if (nil? coll)
+    nil
+    (if (vector? coll)
+      (if (empty? coll) nil (nth coll (dec (count coll))))
+      (if (list? coll)
+        (first coll)
+        (nth [] 0)))))
+
+(defn pop
+  "Returns a vector or list stack without its next item, or nil for nil."
+  [coll]
+  (if (nil? coll)
+    nil
+    (if (vector? coll)
+      (if (empty? coll) (nth [] 0) (vec (butlast coll)))
+      (if (list? coll)
+        (if (empty? coll) (nth [] 0) (rest coll))
+        (nth [] 0)))))
+
+(defn some
+  "Returns the first truthy result of pred over coll, otherwise nil."
+  [pred coll]
+  (loop [s (seq coll)]
+    (if s
+      (let [value (pred (first s))]
+        (if value value (recur (next s))))
+      nil)))
+
+(defn every?
+  "Returns true when pred is truthy for every item in coll."
+  [pred coll]
+  (loop [s (seq coll)]
+    (if s
+      (if (pred (first s))
+        (recur (next s))
+        false)
+      true)))
+
+(defn not-any?
+  "Returns true when pred is falsey for every item in coll."
+  [pred coll]
+  (not (some pred coll)))
+
+(defn not-every?
+  "Returns true when pred is falsey for at least one item in coll."
+  [pred coll]
+  (not (every? pred coll)))
+
+(defn constantly
+  "Returns a function that ignores its arguments and returns x."
+  [x]
+  (fn [& _] x))
+
+(defn juxt
+  "Returns a function that returns a vector of applying each supplied function to its arguments."
+  ([f]
+   (fn [& args]
+     [(apply f args)]))
+  ([f g]
+   (fn [& args]
+     [(apply f args) (apply g args)]))
+  ([f g h]
+   (fn [& args]
+     [(apply f args) (apply g args) (apply h args)]))
+  ([f g h & fs]
+   (let [fns (cons f (cons g (cons h fs)))]
+     (fn [& args]
+       (vec (map (fn [next-f] (apply next-f args)) fns))))))
+
+(defn fnil
+  "Returns a function that substitutes supplied defaults for nil arguments before applying f."
+  ([f x]
+   (fn
+     ([a] (f (if (nil? a) x a)))
+     ([a b] (f (if (nil? a) x a) b))
+     ([a b c] (f (if (nil? a) x a) b c))
+     ([a b c & ds] (apply f (if (nil? a) x a) b c ds))))
+  ([f x y]
+   (fn
+     ([a b] (f (if (nil? a) x a) (if (nil? b) y b)))
+     ([a b c] (f (if (nil? a) x a) (if (nil? b) y b) c))
+     ([a b c & ds] (apply f (if (nil? a) x a) (if (nil? b) y b) c ds))))
+  ([f x y z]
+   (fn
+     ([a b c] (f (if (nil? a) x a) (if (nil? b) y b) (if (nil? c) z c)))
+     ([a b c & ds] (apply f (if (nil? a) x a) (if (nil? b) y b) (if (nil? c) z c) ds)))))
+
+(defn comp
+  "Returns a function that composes supplied functions right-to-left."
+  ([] identity)
+  ([f] f)
+  ([f & fs]
+   (let [fns (reverse (cons f fs))]
+     (fn [& args]
+       (loop [ret (apply (first fns) args)
+              remaining (next fns)]
+         (if remaining
+           (recur ((first remaining) ret) (next remaining))
+           ret))))))
+
+(defn complement
+  "Returns a function that returns the logical not of applying f."
+  [f]
+  (fn [& args]
+    (not (apply f args))))
+
+(defn partial
+  "Returns a function that calls f with args prepended to later arguments."
+  [f & args]
+  (fn [& more]
+    (apply f (concat args more))))
+
+(defn reverse
+  "Returns a list of the items in coll in reverse order."
+  [coll]
+  (reduce conj '() coll))
+
+(defn last
+  "Returns the last item of coll, or nil when coll is empty."
+  [coll]
+  (loop [s (seq coll)
+         value nil]
+    (if s
+      (recur (next s) (first s))
+      value)))
+
+(defn butlast
+  "Returns a seq of all but the last item of coll, or nil."
+  [coll]
+  (seq (reverse (rest (reverse coll)))))
+
+(defn distinct
+  "Returns a seq of the items in coll with duplicate values removed."
+  [coll]
+  (loop [s (seq coll)
+         seen #{}
+         ret '()]
+    (if s
+      (let [value (first s)]
+        (if (contains? seen value)
+          (recur (next s) seen ret)
+          (recur (next s) (conj seen value) (conj ret value))))
+      (reverse ret))))
+
+(defn dedupe
+  "Returns a seq of the items in coll with consecutive duplicate values removed."
+  [coll]
+  (loop [s (seq coll)
+         prior nil
+         started false
+         ret '()]
+    (if s
+      (let [value (first s)]
+        (if (if started (= prior value) false)
+          (recur (next s) prior started ret)
+          (recur (next s) value true (conj ret value))))
+      (reverse ret))))
+
+(defn nthrest
+  "Returns the result of applying rest to coll n times."
+  [coll n]
+  (if (< n 1)
+    coll
+    (loop [s (seq coll)
+           i n]
+      (if s
+        (if (< i 1)
+          s
+          (recur (rest s) (dec i)))
+        '()))))
+
+(defn nthnext
+  "Returns the result of applying next to coll n times."
+  [coll n]
+  (if (nil? coll)
+    nil
+    (if (< n 1)
+      (seq coll)
+      (loop [s (seq coll)
+             i n]
+        (if s
+          (if (< i 1)
+            s
+            (recur (next s) (dec i)))
+          nil)))))
+
+(defn take-last
+  "Returns a seq of the last n items in coll."
+  [n coll]
+  (drop (- (count coll) n) coll))
+
+(defn drop-last
+  "Returns a seq of coll without the last n items, or the last item for the one-argument form."
+  ([coll] (drop-last 1 coll))
+  ([n coll] (take (- (count coll) n) coll)))
+
+(defn split-at
+  "Returns a vector of [(take n coll) (drop n coll)]."
+  [n coll]
+  [(take n coll) (drop n coll)])
+
+(defn split-with
+  "Returns a vector of [(take-while pred coll) (drop-while pred coll)]."
+  [pred coll]
+  [(take-while pred coll) (drop-while pred coll)])
+
+(defn map-indexed
+  "Returns a seq of (f index item) for each item in coll."
+  [f coll]
+  (loop [i 0
+         s (seq coll)
+         ret '()]
+    (if s
+      (recur (inc i) (next s) (conj ret (f i (first s))))
+      (reverse ret))))
+
+(defn keep-indexed
+  "Returns a seq of non-nil (f index item) results for each item in coll."
+  [f coll]
+  (loop [i 0
+         s (seq coll)
+         ret '()]
+    (if s
+      (let [value (f i (first s))]
+        (recur (inc i) (next s) (if (nil? value) ret (conj ret value))))
+      (reverse ret))))
+
+(defn mapv
+  "Returns a vector of applying f to items from one or more colls."
+  ([f coll] (vec (map f coll)))
+  ([f c1 c2] (vec (map f c1 c2)))
+  ([f c1 c2 c3] (vec (map f c1 c2 c3)))
+  ([f c1 c2 c3 & colls] (vec (apply map f c1 c2 c3 colls))))
+
+(defn filterv
+  "Returns a vector of the items in coll whose predicate result is truthy."
+  [pred coll]
+  (vec (filter pred coll)))
+
+(defn interpose
+  "Returns a seq of the items in coll separated by sep."
+  [sep coll]
+  (let [s (seq coll)]
+    (if s
+      (loop [ret (list (first s))
+             items (next s)]
+        (if items
+          (recur (conj (conj ret sep) (first items)) (next items))
+          (reverse ret)))
+      '())))
+
+(defn frequencies
+  "Returns a map from each distinct item in coll to the number of times it appears."
+  [coll]
+  (reduce
+    (fn [ret value]
+      (assoc ret value (inc (get ret value 0))))
+    {}
+    coll))
+
+(defn group-by
+  "Returns a map from (f item) to a vector of matching items."
+  [f coll]
+  (reduce
+    (fn [ret value]
+      (let [key (f value)]
+        (assoc ret key (conj (get ret key []) value))))
+    {}
+    coll))
+
+(defn min-key
+  "Returns the argument with the least value according to k."
+  ([k x] x)
+  ([k x y] (if (< (k x) (k y)) x y))
+  ([k x y & more]
+   (reduce
+     (fn [best item] (min-key k best item))
+     (min-key k x y)
+     more)))
+
+(defn max-key
+  "Returns the argument with the greatest value according to k."
+  ([k x] x)
+  ([k x y] (if (> (k x) (k y)) x y))
+  ([k x y & more]
+   (reduce
+     (fn [best item] (max-key k best item))
+     (max-key k x y)
+     more)))
+
+(defn select-keys
+  "Returns a map containing only entries in m whose keys are in keyseq."
+  [m keyseq]
+  (loop [ret {}
+         ks (seq keyseq)]
+    (if ks
+      (let [entry (find m (first ks))]
+        (recur (if entry (conj ret entry) ret) (next ks)))
+      ret)))
+
+(defn get-in
+  "Returns the value in a nested lookup structure, or not-found when supplied and a key is absent."
+  ([m ks]
+   (loop [value m
+          keys (seq ks)]
+     (if keys
+       (recur (get value (first keys)) (next keys))
+       value)))
+  ([m ks not-found]
+   (loop [value m
+          keys (seq ks)]
+     (if keys
+       (let [key (first keys)]
+         (if (contains? value key)
+           (recur (get value key) (next keys))
+           not-found))
+       value))))
+
+(defn update
+  "Updates the value at key k by applying f to the old value and args."
+  [m k f & args]
+  (assoc m k (apply f (get m k) args)))
+
+(defn assoc-in
+  "Associates v in a nested lookup structure at key path ks."
+  [m ks v]
+  (let [key (first ks)
+        more (next ks)]
+    (if more
+      (assoc m key (assoc-in (get m key) more v))
+      (assoc m key v))))
+
+(defn update-in
+  "Updates a nested value at key path ks by applying f to the old value and args."
+  [m ks f & args]
+  (let [key (first ks)
+        more (next ks)]
+    (if more
+      (assoc m key (update-in (get m key) more (fn [old] (apply f old args))))
+      (assoc m key (apply f (get m key) args)))))
+
+(defn merge
+  "Returns a map containing the mappings from the supplied maps, with later mappings winning."
+  [& maps]
+  (if (some identity maps)
+    (reduce
+      (fn [acc m]
+        (let [ret (if acc acc {})]
+          (if m
+            (if (map? m)
+              (into ret m)
+              (conj ret m))
+            ret)))
+      maps)
+    nil))
+
+(defn merge-with
+  "Returns a map containing the mappings from supplied maps, combining duplicate values with f."
+  [f & maps]
+  (if (some identity maps)
+    (reduce
+      (fn [ret m]
+        (if m
+          (reduce
+            (fn [next-ret entry]
+              (let [key (first entry)
+                    value (second entry)]
+                (if (contains? next-ret key)
+                  (assoc next-ret key (f (get next-ret key) value))
+                  (assoc next-ret key value))))
+            (if ret ret {})
+            m)
+          ret))
+      {}
+      maps)
+    nil))
+
+(def ^{:doc "Returns the item count for nil, strings, concrete collections, and safely finite lazy seqs."
+       :rasa.impl/backing rasa.prim/count}
+  count
+  rasa.prim/count)
+
+(def ^{:doc "Returns true when nil, a string, a concrete collection, or an admitted lazy seq has no items."
+       :rasa.impl/backing rasa.prim/empty?}
+  empty?
+  rasa.prim/empty?)
+
+(def ^{:doc "Looks up a map key, vector or string index, or set member and returns nil or the supplied default when absent."
+       :rasa.impl/backing rasa.prim/get}
+  get
+  rasa.prim/get)
+
+(def ^{:doc "Returns whether a map has a key, vector or string has an index, or set has a member."
+       :rasa.impl/backing rasa.prim/contains?}
+  contains?
+  rasa.prim/contains?)
