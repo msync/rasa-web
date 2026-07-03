@@ -70,6 +70,11 @@
   max
   rasa.prim/max)
 
+(def ^{:doc "Returns the bitwise and of integer arguments."
+       :rasa.impl/backing rasa.prim/bit-and}
+  bit-and
+  rasa.prim/bit-and)
+
 (def ^{:doc "Returns nil for nil or empty seqable values, otherwise returns a finite seq or admitted lazy seq."
        :rasa.impl/backing rasa.prim/seq}
   seq
