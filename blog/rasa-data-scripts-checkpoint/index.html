@@ -36,12 +36,12 @@
       --rasa-backdrop: rgba(6, 10, 14, 0.45);
       --rasa-radius: 8px;
   
-      --rasa-reader: var(--rasa-gold);
-      --rasa-analysis: var(--rasa-blue);
-      --rasa-ir: var(--rasa-violet);
-      --rasa-facts: var(--rasa-green);
-      --rasa-plan: var(--rasa-teal);
-      --rasa-eval: var(--rasa-red);
+      --phase-reader: var(--rasa-gold);
+      --phase-analysis: var(--rasa-blue);
+      --phase-ir: var(--rasa-violet);
+      --phase-facts: var(--rasa-green);
+      --phase-plan: var(--rasa-teal);
+      --phase-eval: var(--rasa-red);
       font-family:
         Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
         "Segoe UI", sans-serif;
@@ -466,18 +466,18 @@
         <div class="post-body">
           <p>Rasa now has a compact Data Scripts checkpoint. It is intentionally ordinary: read a file, parse data, call HTTP, read process input, write output, and run the same source shape through native and runtime-Wasm products.</p>
 <p>The point is not that this is a large application. The point is that it puts pressure on the useful parts of the language at once:</p>
-<ul><li>pure JSON and EDN helpers;</li><li>explicit file, network, and process capabilities;</li><li>capability reports before execution;</li><li>native <code>ras</code> and Wasmtime-backed <code>ras-wasm</code> execution;</li><li>browser exploration through dynamically configured provider modules.</li></ul>
+<ul><li>pure JSON and EDN helpers;</li><li>explicit file, network, and process capabilities;</li><li>capability reports before execution;</li><li>native <code>ras</code> and Wasmtime-backed <code>ras-wasmtime</code> execution;</li><li>browser exploration through dynamically configured provider modules.</li></ul>
 <h2>The Source Shape</h2>
 <p>The canonical source lives at <code>examples/data/script.ras</code>.</p>
 <pre><code class="language-clojure"><span class="tok-punct">(</span><span class="tok-form">ns</span> <span class="tok-symbol">examples.data.script</span>
   <span class="tok-punct">(</span><span class="tok-keyword">:require</span> <span class="tok-punct">[</span><span class="tok-symbol">rasa.edn</span> <span class="tok-keyword">:as</span> <span class="tok-symbol">edn</span><span class="tok-punct">]</span>
             <span class="tok-punct">[</span><span class="tok-symbol">rasa.io</span> <span class="tok-keyword">:as</span> <span class="tok-symbol">io</span><span class="tok-punct">]</span>
             <span class="tok-punct">[</span><span class="tok-symbol">rasa.json</span> <span class="tok-keyword">:as</span> <span class="tok-symbol">json</span><span class="tok-punct">]</span>
-            <span class="tok-punct">[</span><span class="tok-symbol">rasa.net</span> <span class="tok-keyword">:as</span> <span class="tok-symbol">net</span><span class="tok-punct">]</span>
+            <span class="tok-punct">[</span><span class="tok-symbol">rasa.http</span> <span class="tok-keyword">:as</span> <span class="tok-symbol">http</span><span class="tok-punct">]</span>
             <span class="tok-punct">[</span><span class="tok-symbol">rasa.process</span> <span class="tok-keyword">:as</span> <span class="tok-symbol">process</span><span class="tok-punct">]</span><span class="tok-punct">)</span><span class="tok-punct">)</span></code></pre>
-<p>The script reads <code>examples/data/input.json</code>, calls a local HTTP fixture through <code>rasa.net/request</code>, parses the response as JSON, reads args and environment, writes output JSON, and reads the written file back.</p>
+<p>The script reads <code>examples/data/input.json</code>, calls a local HTTP fixture through <code>rasa.http/request</code>, parses the response as JSON, reads args and environment, writes output JSON, and reads the written file back.</p>
 <p>The source API is Rasa-shaped. The user code does not choose a Rust HTTP client, a Wasm provider, or browser fetch. It asks for the same capability contract:</p>
-<pre><code class="language-clojure"><span class="tok-punct">(</span><span class="tok-form">net/request</span> <span class="tok-punct">{</span><span class="tok-keyword">:method</span> <span class="tok-keyword">:get</span>
+<pre><code class="language-clojure"><span class="tok-punct">(</span><span class="tok-form">http/request</span> <span class="tok-punct">{</span><span class="tok-keyword">:method</span> <span class="tok-keyword">:get</span>
               <span class="tok-keyword">:url</span> <span class="tok-string">&quot;http://127.0.0.1:48731/users.json&quot;</span>
               <span class="tok-keyword">:headers</span> <span class="tok-punct">{</span><span class="tok-string">&quot;accept&quot;</span> <span class="tok-string">&quot;application/json&quot;</span><span class="tok-punct">}</span><span class="tok-punct">}</span><span class="tok-punct">)</span></code></pre>
 <p>Target-specific providers implement that admitted request.</p>
@@ -494,31 +494,31 @@
  <span class="tok-keyword">:mode</span> <span class="tok-string">&quot;native-or-wasm&quot;</span>
  <span class="tok-keyword">:missing</span> <span class="tok-literal">nil</span>
  <span class="tok-keyword">:write-status</span> <span class="tok-keyword">:written</span><span class="tok-punct">}</span></code></pre>
-<p>The browser-supported checkpoint builds the conformance report assets, loads the dynamic browser manifest, registers the <code>rasa.net</code> browser provider, and executes <code>rasa.net/request</code> through browser-style fetch.</p>
+<p>The browser-supported checkpoint builds the conformance report assets, loads the dynamic browser manifest, registers the <code>rasa.http</code> browser provider, and executes <code>rasa.http/request</code> through browser-style fetch.</p>
 <pre><code class="language-bash">just data-scripts-browser</code></pre>
 <p>Expected checkpoint output:</p>
 <pre><code class="language-text">browser data scripts checkpoint ok
-completed rasa.net/request</code></pre>
+completed rasa.http/request</code></pre>
 <h2>Capability Report</h2>
 <p>Before execution, Rasa can report what a script needs and whether the selected target admits it.</p>
 <pre><code class="language-text">Capability plan: ok (native)
 Capabilities:
 - rasa.io/read-text available calls=1 effects=fs/read,may-suspend policy=fs/read boundary=copy-value
 - rasa.io/write-text available calls=1 effects=fs/write,may-suspend policy=fs/write boundary=copy-value
-- rasa.net/request available calls=1 effects=net/request,may-suspend policy=net/request boundary=copy-value
+- rasa.http/request available calls=1 effects=http/client,may-suspend policy=http/client boundary=copy-value
 - rasa.process/args available calls=1 effects=env/read policy=env/read boundary=copy-value
 - rasa.process/env available calls=1 effects=env/read policy=env/read boundary=copy-value</code></pre>
 <p>That is the important boundary. Source semantics stay stable. The selected runtime product decides which provider artifacts or browser modules are available and admitted.</p>
 <h2>Browser Scope</h2>
 <p>The browser checkpoint intentionally proves the browser-supported subset:</p>
-<pre><code class="language-clojure"><span class="tok-punct">(</span><span class="tok-form">require</span> <span class="tok-symbol">'</span><span class="tok-punct">[</span><span class="tok-symbol">rasa.json</span> <span class="tok-keyword">:as</span> <span class="tok-symbol">json</span><span class="tok-punct">]</span> <span class="tok-symbol">'</span><span class="tok-punct">[</span><span class="tok-symbol">rasa.net</span> <span class="tok-keyword">:as</span> <span class="tok-symbol">net</span><span class="tok-punct">]</span><span class="tok-punct">)</span>
+<pre><code class="language-clojure"><span class="tok-punct">(</span><span class="tok-form">require</span> <span class="tok-symbol">'</span><span class="tok-punct">[</span><span class="tok-symbol">rasa.json</span> <span class="tok-keyword">:as</span> <span class="tok-symbol">json</span><span class="tok-punct">]</span> <span class="tok-symbol">'</span><span class="tok-punct">[</span><span class="tok-symbol">rasa.http</span> <span class="tok-keyword">:as</span> <span class="tok-symbol">http</span><span class="tok-punct">]</span><span class="tok-punct">)</span>
 
 <span class="tok-punct">(</span><span class="tok-form">select-keys</span>
-  <span class="tok-punct">(</span><span class="tok-form">net/request</span> <span class="tok-punct">{</span><span class="tok-keyword">:method</span> <span class="tok-keyword">:get</span>
+  <span class="tok-punct">(</span><span class="tok-form">http/request</span> <span class="tok-punct">{</span><span class="tok-keyword">:method</span> <span class="tok-keyword">:get</span>
                 <span class="tok-keyword">:url</span> <span class="tok-string">&quot;https://example.test/data.json&quot;</span>
                 <span class="tok-keyword">:headers</span> <span class="tok-punct">{</span><span class="tok-string">&quot;accept&quot;</span> <span class="tok-string">&quot;application/json&quot;</span><span class="tok-punct">}</span><span class="tok-punct">}</span><span class="tok-punct">)</span>
   <span class="tok-punct">[</span><span class="tok-keyword">:status</span> <span class="tok-keyword">:body</span><span class="tok-punct">]</span><span class="tok-punct">)</span></code></pre>
-<p>Browser HTTP uses browser fetch. Native and wasm-host HTTP use the provider stack selected for those targets. Rasa source code sees the same <code>rasa.net/request</code> contract either way.</p>
+<p>Browser HTTP uses browser fetch. Native and wasmtime HTTP use the provider stack selected for those targets. Rasa source code sees the same <code>rasa.http/request</code> contract either way.</p>
 <p>This checkpoint does not claim browser filesystem access or browser process environment access. Those would need their own browser capability adapters and policy decisions.</p>
 <h2>What This Proves</h2>
 <p>Data Scripts proves a practical use path without weakening the boundary model:</p>

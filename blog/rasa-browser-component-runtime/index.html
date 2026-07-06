@@ -36,12 +36,12 @@
       --rasa-backdrop: rgba(6, 10, 14, 0.45);
       --rasa-radius: 8px;
   
-      --rasa-reader: var(--rasa-gold);
-      --rasa-analysis: var(--rasa-blue);
-      --rasa-ir: var(--rasa-violet);
-      --rasa-facts: var(--rasa-green);
-      --rasa-plan: var(--rasa-teal);
-      --rasa-eval: var(--rasa-red);
+      --phase-reader: var(--rasa-gold);
+      --phase-analysis: var(--rasa-blue);
+      --phase-ir: var(--rasa-violet);
+      --phase-facts: var(--rasa-green);
+      --phase-plan: var(--rasa-teal);
+      --phase-eval: var(--rasa-red);
       font-family:
         Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
         "Segoe UI", sans-serif;
@@ -471,7 +471,7 @@
 <h2>The Product Shape</h2>
 <p>There are three runtime product names worth knowing:</p>
 <pre><code class="language-text">ras       native Rasa executable
-ras-wasm  native Wasmtime launcher for the Rasa Wasm runtime product
+ras-wasmtime  native Wasmtime launcher for the Rasa Wasm runtime product
 ras.wasm  Rasa runtime Wasm component</code></pre>
 <p>The browser consumes <code>ras.wasm</code>. That matters.</p>
 <p>Rasa does not ask the website to maintain a JavaScript implementation of the language. The browser page loads a Wasm component produced from the Rasa runtime product and talks to it through a typed component interface. The JavaScript code around it is a host and UI adapter, not the semantic owner of the language.</p>
@@ -586,7 +586,7 @@ await engine.evaluateSessionAsync(session, &quot;(+ x 1)&quot;, { phases: &quot;
 <p>The browser <code>host.call</code> WIT shape remains ordinary:</p>
 <pre><code class="language-wit">call: func(request: list&lt;u8&gt;) -&gt; result&lt;list&lt;u8&gt;, string&gt;;</code></pre>
 <p>The generated browser component adapter lowers that import through JSPI for the stateful session exports. A browser provider can return a JavaScript promise, the shared session facade awaits it, and Rasa source still looks ordinary:</p>
-<pre><code class="language-clojure"><span class="tok-punct">(</span><span class="tok-form">net/request</span> <span class="tok-punct">{</span><span class="tok-keyword">:method</span> <span class="tok-keyword">:get</span>
+<pre><code class="language-clojure"><span class="tok-punct">(</span><span class="tok-form">http/request</span> <span class="tok-punct">{</span><span class="tok-keyword">:method</span> <span class="tok-keyword">:get</span>
               <span class="tok-keyword">:url</span> <span class="tok-string">&quot;https://example.com/data.json&quot;</span><span class="tok-punct">}</span><span class="tok-punct">)</span></code></pre>
 <p>That is still intentionally narrow. It is a browser/session boundary, not a new source-visible async API. Rasa's direction remains colorless async: source should not pay syntax tax just because an admitted host operation may suspend. Future WASI 0.3 and component async work can deepen this boundary. The important part is the ownership: suspension belongs to the capability and runtime contract, not to ad hoc user code conventions.</p>
 <h2>What The Browser Page Can Show</h2>

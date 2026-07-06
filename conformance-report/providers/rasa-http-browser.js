@@ -1,5 +1,5 @@
 export function register(registry, context = {}) {
-  registry.register("rasa.net", "request", ([request]) =>
+  registry.register("rasa.http", "request", ([request]) =>
     requestViaFetch(request, {
       fetch: context.fetch,
     }),
@@ -9,11 +9,11 @@ export function register(registry, context = {}) {
 export async function requestViaFetch(request, options = {}) {
   const fetchImpl = options.fetch || globalThis.fetch?.bind(globalThis);
   if (typeof fetchImpl !== "function") {
-    throw new Error("browser fetch is not available for rasa.net/request");
+    throw new Error("browser fetch is not available for rasa.http/request");
   }
   const url = stringField(request?.url, "url");
   if (!url.startsWith("http://") && !url.startsWith("https://")) {
-    throw new Error("rasa.net/request supports `http://` and `https://` URLs");
+    throw new Error("rasa.http/request supports `http://` and `https://` URLs");
   }
   const init = {
     method: methodField(request.method),
@@ -37,7 +37,7 @@ export async function requestViaFetch(request, options = {}) {
 
 function stringField(value, name) {
   if (typeof value !== "string" || value.length === 0) {
-    throw new Error(`rasa.net/request requires string :${name}`);
+    throw new Error(`rasa.http/request requires string :${name}`);
   }
   return value;
 }
@@ -54,7 +54,7 @@ function headersField(value) {
     return {};
   }
   if (typeof value !== "object" || Array.isArray(value)) {
-    throw new Error("rasa.net/request :headers must be a map");
+    throw new Error("rasa.http/request :headers must be a map");
   }
   return Object.fromEntries(
     Object.entries(value).map(([name, headerValue]) => [name, String(headerValue)]),

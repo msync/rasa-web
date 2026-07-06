@@ -33,18 +33,18 @@
       "import": {
         "upstreamFiles": 234,
         "upstreamCases": 5723,
-        "projectedFiles": 109,
-        "projectedCases": 2802,
-        "supportedFiles": 104,
-        "cases": 1472,
-        "importedCases": 1472,
-        "importerFilteredCases": 1330,
-        "unprojectedCases": 2906,
+        "projectedFiles": 110,
+        "projectedCases": 2813,
+        "supportedFiles": 105,
+        "cases": 1474,
+        "importedCases": 1474,
+        "importerFilteredCases": 1339,
+        "unprojectedCases": 2895,
         "unclassifiedCases": 11,
         "residualCases": 4,
-        "filtered": 1455,
-        "generatedAt": "2026-07-02T02:02:00.278Z",
-        "projectedFunctions": 147
+        "filtered": 1463,
+        "generatedAt": "2026-07-05T11:21:35.733Z",
+        "projectedFunctions": 152
       },
       "filtered": [
         {
@@ -439,7 +439,80 @@
             "source": "jank-lang/clojure-test-suite",
             "file": "test/clojure/core_test/bit_and.cljc"
           },
-          "reason": "not in Rasa projected supported set"
+          "reason": "dialect/helper namespace",
+          "form": "(is (p/thrown? (bit-and nil 1)))"
+        },
+        {
+          "function": "bit-and",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/bit_and.cljc"
+          },
+          "reason": "dialect/helper namespace",
+          "form": "(is (p/thrown? (bit-and 1 nil)))"
+        },
+        {
+          "function": "bit-and",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/bit_and.cljc"
+          },
+          "reason": "dialect/helper namespace",
+          "form": "(= 0 (bit-and r/all-ones-int 0))"
+        },
+        {
+          "function": "bit-and",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/bit_and.cljc"
+          },
+          "reason": "dialect/helper namespace",
+          "form": "(= 0 (bit-and 0 r/all-ones-int))"
+        },
+        {
+          "function": "bit-and",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/bit_and.cljc"
+          },
+          "reason": "dialect/helper namespace",
+          "form": "(= r/all-ones-int (bit-and r/all-ones-int r/all-ones-int))"
+        },
+        {
+          "function": "bit-and",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/bit_and.cljc"
+          },
+          "reason": "dialect/helper namespace",
+          "form": "(= 0 (bit-and r/full-width-checker-pos 0))"
+        },
+        {
+          "function": "bit-and",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/bit_and.cljc"
+          },
+          "reason": "dialect/helper namespace",
+          "form": "(= r/full-width-checker-pos (bit-and r/full-width-checker-pos r/full-width-checker-pos))"
+        },
+        {
+          "function": "bit-and",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/bit_and.cljc"
+          },
+          "reason": "dialect/helper namespace",
+          "form": "(= r/full-width-checker-pos (bit-and r/full-width-checker-pos r/all-ones-int))"
+        },
+        {
+          "function": "bit-and",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/bit_and.cljc"
+          },
+          "reason": "dialect/helper namespace",
+          "form": "(= 0 (bit-and r/full-width-checker-pos r/full-width-checker-neg))"
         },
         {
           "function": "bit-and-not",
@@ -13174,17 +13247,6 @@
           ]
         },
         {
-          "name": "bit-and",
-          "kind": "function",
-          "classification": "Unclassified",
-          "status": "needs-triage",
-          "reason": "jank has upstream test rows, but Rasa has not yet classified this clojure.core symbol for portable support.",
-          "upstreamCases": 11,
-          "files": [
-            "test/clojure/core_test/bit_and.cljc"
-          ]
-        },
-        {
           "name": "bit-and-not",
           "kind": "function",
           "classification": "Unclassified",
@@ -15058,6 +15120,30 @@
         "caseIds": []
       },
       {
+        "name": "bit-and",
+        "kind": "function",
+        "arglists": [
+          "(bit-and x y)",
+          "(bit-and x y & more)"
+        ],
+        "classification": "IntentionalDivergence",
+        "status": "implemented-alpha",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html",
+        "notes": [
+          "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+          "Alpha numeric semantics cover checked i64 and finite f64; full Clojure numeric tower parity is deferred."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/bit-x2dand.ras"
+        ],
+        "summary": "Returns the bitwise and of integer arguments.",
+        "caseIds": [
+          "jank/clojure.core/bit-and/2",
+          "jank/clojure.core/bit-and/3"
+        ]
+      },
+      {
         "name": "boolean",
         "kind": "function",
         "arglists": [
@@ -15817,6 +15903,83 @@
           "compat/generated/namespaces/clojure.core/function/every-x3f.ras"
         ],
         "summary": "Returns true when pred is truthy for every item in coll.",
+        "caseIds": []
+      },
+      {
+        "name": "ex-cause",
+        "kind": "function",
+        "arglists": [
+          "(ex-cause ex)"
+        ],
+        "classification": "IntentionalDivergence",
+        "status": "implemented-alpha",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/ex-cause",
+        "notes": [
+          "Public Rasa core function is defined in source over already-admitted core operations."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/ex-x2dcause.ras"
+        ],
+        "summary": "Returns the cause carried by a portable Rasa error value.",
+        "caseIds": []
+      },
+      {
+        "name": "ex-data",
+        "kind": "function",
+        "arglists": [
+          "(ex-data ex)"
+        ],
+        "classification": "IntentionalDivergence",
+        "status": "implemented-alpha",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/ex-data",
+        "notes": [
+          "Public Rasa core function is defined in source over already-admitted core operations."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/ex-x2ddata.ras"
+        ],
+        "summary": "Returns the data map carried by a portable Rasa error value.",
+        "caseIds": []
+      },
+      {
+        "name": "ex-info",
+        "kind": "function",
+        "arglists": [
+          "(ex-info message data)",
+          "(ex-info message data cause)"
+        ],
+        "classification": "IntentionalDivergence",
+        "status": "implemented-alpha",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/ex-info",
+        "notes": [
+          "Public Rasa core function is defined in source over already-admitted core operations."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/ex-x2dinfo.ras"
+        ],
+        "summary": "Returns a portable Rasa error value with message, data, and optional cause.",
+        "caseIds": []
+      },
+      {
+        "name": "ex-message",
+        "kind": "function",
+        "arglists": [
+          "(ex-message ex)"
+        ],
+        "classification": "IntentionalDivergence",
+        "status": "implemented-alpha",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/ex-message",
+        "notes": [
+          "Public Rasa core function is defined in source over already-admitted core operations."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/ex-x2dmessage.ras"
+        ],
+        "summary": "Returns the message carried by a portable Rasa error value.",
         "caseIds": []
       },
       {
@@ -20045,6 +20208,38 @@
         "upstream": {
           "source": "jank-lang/clojure-test-suite",
           "file": "test/clojure/core_test/assoc.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/bit-and/2",
+        "function": "bit-and",
+        "title": "bit-and upstream table row 1",
+        "source": "(= 8 (bit-and 12 9))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/bit_and.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/bit-and/3",
+        "function": "bit-and",
+        "title": "bit-and upstream table row 2",
+        "source": "(= 8 (bit-and 8 0xff))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/bit_and.cljc",
           "form": "(are ...)"
         }
       },
@@ -42563,7 +42758,7 @@
     ]
   },
   "run": {
-    "generatedAt": "2026-07-02T02:08:15.339Z",
+    "generatedAt": "2026-07-05T11:21:42.576Z",
     "rasaRevision": "local",
     "clojureVersion": "1.12.5",
     "engine": "rasa-runtime-wasm",
@@ -42572,25 +42767,25 @@
   "totals": {
     "upstreamFiles": 234,
     "upstreamCases": 5723,
-    "supportedFiles": 104,
-    "projectedCases": 2802,
-    "projected": 159,
-    "supported": 159,
-    "implemented": 147,
+    "supportedFiles": 105,
+    "projectedCases": 2813,
+    "projected": 164,
+    "supported": 164,
+    "implemented": 152,
     "deferred": 12,
     "excluded": 14,
-    "importedCases": 1472,
-    "importerFilteredCases": 1330,
-    "upstreamPendingFunctions": 121,
-    "unprojectedCases": 2906,
+    "importedCases": 1474,
+    "importerFilteredCases": 1339,
+    "upstreamPendingFunctions": 120,
+    "unprojectedCases": 2895,
     "unclassifiedCases": 11,
     "residualCases": 4,
-    "filteredUpstream": 1455,
-    "pass": 1404,
-    "fail": 68,
+    "filteredUpstream": 1463,
+    "pass": 1425,
+    "fail": 49,
     "expectedFailure": 0,
     "structuralGap": 0,
-    "untested": 43
+    "untested": 47
   },
   "functions": [
     {
@@ -47698,6 +47893,66 @@
       "cases": []
     },
     {
+      "name": "bit-and",
+      "kind": "function",
+      "arglists": [
+        "(bit-and x y)",
+        "(bit-and x y & more)"
+      ],
+      "classification": "IntentionalDivergence",
+      "status": "implemented-alpha",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html",
+      "notes": [
+        "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+        "Alpha numeric semantics cover checked i64 and finite f64; full Clojure numeric tower parity is deferred."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/bit-x2dand.ras"
+      ],
+      "summary": "Returns the bitwise and of integer arguments.",
+      "caseIds": [
+        "jank/clojure.core/bit-and/2",
+        "jank/clojure.core/bit-and/3"
+      ],
+      "counts": {
+        "pass": 1,
+        "fail": 1,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 2,
+        "state": "tested"
+      },
+      "cases": [
+        {
+          "id": "jank/clojure.core/bit-and/2",
+          "title": "bit-and upstream table row 1",
+          "source": "(= 8 (bit-and 12 9))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/bit-and/3",
+          "title": "bit-and upstream table row 2",
+          "source": "(= 8 (bit-and 8 0xff))",
+          "outcome": "fail",
+          "expected": "true",
+          "observed": "linked global `0xff` is not available",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": "linked global `0xff` is not available"
+        }
+      ]
+    },
+    {
       "name": "boolean",
       "kind": "function",
       "arglists": [
@@ -49288,8 +49543,8 @@
         "jank/clojure.core/conj/25"
       ],
       "counts": {
-        "pass": 10,
-        "fail": 6,
+        "pass": 15,
+        "fail": 1,
         "expectedFailure": 0,
         "structuralGap": 0
       },
@@ -49302,13 +49557,13 @@
           "id": "jank/clojure.core/conj/0",
           "title": "conj upstream assertion 1",
           "source": "(= [] (conj))",
-          "outcome": "fail",
+          "outcome": "pass",
           "expected": "true",
-          "observed": "conj expects at least 1 argument(s), received 0",
+          "observed": "true",
           "axes": [
             "semantic-surface"
           ],
-          "log": "conj expects at least 1 argument(s), received 0"
+          "log": ""
         },
         {
           "id": "jank/clojure.core/conj/1",
@@ -49410,13 +49665,13 @@
           "id": "jank/clojure.core/conj/13",
           "title": "conj upstream assertion 14",
           "source": "(= {:a 0 :b 1} (conj {:a 0} {:b 1}))",
-          "outcome": "fail",
+          "outcome": "pass",
           "expected": "true",
-          "observed": "conj map argument must be a vector pair, got {:b 1}",
+          "observed": "true",
           "axes": [
             "semantic-surface"
           ],
-          "log": "conj map argument must be a vector pair, got {:b 1}"
+          "log": ""
         },
         {
           "id": "jank/clojure.core/conj/14",
@@ -49434,25 +49689,25 @@
           "id": "jank/clojure.core/conj/15",
           "title": "conj upstream assertion 16",
           "source": "(= {:a 1} (conj {:a 0} {:a 1}))",
-          "outcome": "fail",
+          "outcome": "pass",
           "expected": "true",
-          "observed": "conj map argument must be a vector pair, got {:a 1}",
+          "observed": "true",
           "axes": [
             "semantic-surface"
           ],
-          "log": "conj map argument must be a vector pair, got {:a 1}"
+          "log": ""
         },
         {
           "id": "jank/clojure.core/conj/16",
           "title": "conj upstream assertion 17",
           "source": "(= {:a 2} (conj {:a 0} {:a 1} {:a 2}))",
-          "outcome": "fail",
+          "outcome": "pass",
           "expected": "true",
-          "observed": "conj map argument must be a vector pair, got {:a 1}",
+          "observed": "true",
           "axes": [
             "semantic-surface"
           ],
-          "log": "conj map argument must be a vector pair, got {:a 1}"
+          "log": ""
         },
         {
           "id": "jank/clojure.core/conj/17",
@@ -49472,23 +49727,23 @@
           "source": "(= {:a 0 :b 1} (conj {:a 0} '(:b 1)))",
           "outcome": "fail",
           "expected": "true",
-          "observed": "conj map argument must be a vector pair, got (:b 1)",
+          "observed": "conj map argument must be a map or vector pair, got (:b 1)",
           "axes": [
             "semantic-surface"
           ],
-          "log": "conj map argument must be a vector pair, got (:b 1)"
+          "log": "conj map argument must be a map or vector pair, got (:b 1)"
         },
         {
           "id": "jank/clojure.core/conj/25",
           "title": "conj upstream assertion 26",
           "source": "(= -1 (first (conj (range) -1)))",
-          "outcome": "fail",
+          "outcome": "pass",
           "expected": "true",
-          "observed": "conj does not support #<lazy-seq>",
+          "observed": "true",
           "axes": [
             "semantic-surface"
           ],
-          "log": "conj does not support #<lazy-seq>"
+          "log": ""
         }
       ]
     },
@@ -49914,8 +50169,8 @@
         "jank/clojure.core/containsqmark/11"
       ],
       "counts": {
-        "pass": 8,
-        "fail": 3,
+        "pass": 11,
+        "fail": 0,
         "expectedFailure": 0,
         "structuralGap": 0
       },
@@ -49988,37 +50243,37 @@
           "id": "jank/clojure.core/containsqmark/6",
           "title": "contains? upstream assertion 7",
           "source": "(= true (contains? \"abc\" 0))",
-          "outcome": "fail",
+          "outcome": "pass",
           "expected": "true",
-          "observed": "contains? requires rasa.protocol/lookup",
+          "observed": "true",
           "axes": [
             "semantic-surface"
           ],
-          "log": "contains? requires rasa.protocol/lookup"
+          "log": ""
         },
         {
           "id": "jank/clojure.core/containsqmark/7",
           "title": "contains? upstream assertion 8",
           "source": "(= true (contains? \"abc\" 2))",
-          "outcome": "fail",
+          "outcome": "pass",
           "expected": "true",
-          "observed": "contains? requires rasa.protocol/lookup",
+          "observed": "true",
           "axes": [
             "semantic-surface"
           ],
-          "log": "contains? requires rasa.protocol/lookup"
+          "log": ""
         },
         {
           "id": "jank/clojure.core/containsqmark/8",
           "title": "contains? upstream assertion 9",
           "source": "(= false (contains? \"abc\" 3))",
-          "outcome": "fail",
+          "outcome": "pass",
           "expected": "true",
-          "observed": "contains? requires rasa.protocol/lookup",
+          "observed": "true",
           "axes": [
             "semantic-surface"
           ],
-          "log": "contains? requires rasa.protocol/lookup"
+          "log": ""
         },
         {
           "id": "jank/clojure.core/containsqmark/9",
@@ -51368,6 +51623,127 @@
       "cases": []
     },
     {
+      "name": "ex-cause",
+      "kind": "function",
+      "arglists": [
+        "(ex-cause ex)"
+      ],
+      "classification": "IntentionalDivergence",
+      "status": "implemented-alpha",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/ex-cause",
+      "notes": [
+        "Public Rasa core function is defined in source over already-admitted core operations."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/ex-x2dcause.ras"
+      ],
+      "summary": "Returns the cause carried by a portable Rasa error value.",
+      "caseIds": [],
+      "counts": {
+        "pass": 0,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 0,
+        "state": "untested"
+      },
+      "cases": []
+    },
+    {
+      "name": "ex-data",
+      "kind": "function",
+      "arglists": [
+        "(ex-data ex)"
+      ],
+      "classification": "IntentionalDivergence",
+      "status": "implemented-alpha",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/ex-data",
+      "notes": [
+        "Public Rasa core function is defined in source over already-admitted core operations."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/ex-x2ddata.ras"
+      ],
+      "summary": "Returns the data map carried by a portable Rasa error value.",
+      "caseIds": [],
+      "counts": {
+        "pass": 0,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 0,
+        "state": "untested"
+      },
+      "cases": []
+    },
+    {
+      "name": "ex-info",
+      "kind": "function",
+      "arglists": [
+        "(ex-info message data)",
+        "(ex-info message data cause)"
+      ],
+      "classification": "IntentionalDivergence",
+      "status": "implemented-alpha",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/ex-info",
+      "notes": [
+        "Public Rasa core function is defined in source over already-admitted core operations."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/ex-x2dinfo.ras"
+      ],
+      "summary": "Returns a portable Rasa error value with message, data, and optional cause.",
+      "caseIds": [],
+      "counts": {
+        "pass": 0,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 0,
+        "state": "untested"
+      },
+      "cases": []
+    },
+    {
+      "name": "ex-message",
+      "kind": "function",
+      "arglists": [
+        "(ex-message ex)"
+      ],
+      "classification": "IntentionalDivergence",
+      "status": "implemented-alpha",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/ex-message",
+      "notes": [
+        "Public Rasa core function is defined in source over already-admitted core operations."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/ex-x2dmessage.ras"
+      ],
+      "summary": "Returns the message carried by a portable Rasa error value.",
+      "caseIds": [],
+      "counts": {
+        "pass": 0,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 0,
+        "state": "untested"
+      },
+      "cases": []
+    },
+    {
       "name": "extend",
       "kind": "function",
       "arglists": [
@@ -52192,8 +52568,8 @@
         "jank/clojure.core/find/6"
       ],
       "counts": {
-        "pass": 6,
-        "fail": 1,
+        "pass": 7,
+        "fail": 0,
         "expectedFailure": 0,
         "structuralGap": 0
       },
@@ -52230,13 +52606,13 @@
           "id": "jank/clojure.core/find/2",
           "title": "find upstream assertion 3",
           "source": "(= nil (find [] nil))",
-          "outcome": "fail",
+          "outcome": "pass",
           "expected": "true",
-          "observed": "find expected a map or nil, got []",
+          "observed": "true",
           "axes": [
             "semantic-surface"
           ],
-          "log": "find expected a map or nil, got []"
+          "log": ""
         },
         {
           "id": "jank/clojure.core/find/3",
@@ -52965,8 +53341,8 @@
         "jank/clojure.core/get/28"
       ],
       "counts": {
-        "pass": 25,
-        "fail": 2,
+        "pass": 27,
+        "fail": 0,
         "expectedFailure": 0,
         "structuralGap": 0
       },
@@ -53123,13 +53499,13 @@
           "id": "jank/clojure.core/get/12",
           "title": "get upstream table row 13",
           "source": "(= \\a (get \"ab\" 0))",
-          "outcome": "fail",
+          "outcome": "pass",
           "expected": "true",
-          "observed": "false",
+          "observed": "true",
           "axes": [
             "semantic-surface"
           ],
-          "log": "Expected true, observed false."
+          "log": ""
         },
         {
           "id": "jank/clojure.core/get/13",
@@ -53279,13 +53655,13 @@
           "id": "jank/clojure.core/get/27",
           "title": "get upstream table row 12",
           "source": "(= \\a (get \"ab\" 0 :not-found))",
-          "outcome": "fail",
+          "outcome": "pass",
           "expected": "true",
-          "observed": "false",
+          "observed": "true",
           "axes": [
             "semantic-surface"
           ],
-          "log": "Expected true, observed false."
+          "log": ""
         },
         {
           "id": "jank/clojure.core/get/28",
@@ -55248,8 +55624,8 @@
         "jank/clojure.core/keys/11"
       ],
       "counts": {
-        "pass": 6,
-        "fail": 4,
+        "pass": 10,
+        "fail": 0,
         "expectedFailure": 0,
         "structuralGap": 0
       },
@@ -55286,49 +55662,49 @@
           "id": "jank/clojure.core/keys/2",
           "title": "keys upstream assertion 3",
           "source": "(= nil (keys []))",
-          "outcome": "fail",
+          "outcome": "pass",
           "expected": "true",
-          "observed": "keys expected a map or nil, got []",
+          "observed": "true",
           "axes": [
             "semantic-surface"
           ],
-          "log": "keys expected a map or nil, got []"
+          "log": ""
         },
         {
           "id": "jank/clojure.core/keys/3",
           "title": "keys upstream assertion 4",
           "source": "(= nil (keys '()))",
-          "outcome": "fail",
+          "outcome": "pass",
           "expected": "true",
-          "observed": "keys expected a map or nil, got ()",
+          "observed": "true",
           "axes": [
             "semantic-surface"
           ],
-          "log": "keys expected a map or nil, got ()"
+          "log": ""
         },
         {
           "id": "jank/clojure.core/keys/4",
           "title": "keys upstream assertion 5",
           "source": "(= nil (keys #{}))",
-          "outcome": "fail",
+          "outcome": "pass",
           "expected": "true",
-          "observed": "keys expected a map or nil, got #{}",
+          "observed": "true",
           "axes": [
             "semantic-surface"
           ],
-          "log": "keys expected a map or nil, got #{}"
+          "log": ""
         },
         {
           "id": "jank/clojure.core/keys/5",
           "title": "keys upstream assertion 6",
           "source": "(= nil (keys \"\"))",
-          "outcome": "fail",
+          "outcome": "pass",
           "expected": "true",
-          "observed": "keys expected a map or nil, got \"\"",
+          "observed": "true",
           "axes": [
             "semantic-surface"
           ],
-          "log": "keys expected a map or nil, got \"\""
+          "log": ""
         },
         {
           "id": "jank/clojure.core/keys/7",
@@ -59249,8 +59625,8 @@
         "jank/clojure.core/nth/12"
       ],
       "counts": {
-        "pass": 7,
-        "fail": 2,
+        "pass": 9,
+        "fail": 0,
         "expectedFailure": 0,
         "structuralGap": 0
       },
@@ -59311,25 +59687,25 @@
           "id": "jank/clojure.core/nth/4",
           "title": "nth upstream assertion 5",
           "source": "(nil? (nth nil 10))",
-          "outcome": "fail",
+          "outcome": "pass",
           "expected": "true",
-          "observed": "nth expected a vector, list, finite seq, string, or lazy seq, got nil",
+          "observed": "true",
           "axes": [
             "semantic-surface"
           ],
-          "log": "nth expected a vector, list, finite seq, string, or lazy seq, got nil"
+          "log": ""
         },
         {
           "id": "jank/clojure.core/nth/9",
           "title": "nth upstream assertion 10",
           "source": "(= :default (nth nil 0 :default))",
-          "outcome": "fail",
+          "outcome": "pass",
           "expected": "true",
-          "observed": "nth expected a vector, list, finite seq, string, or lazy seq, got nil",
+          "observed": "true",
           "axes": [
             "semantic-surface"
           ],
-          "log": "nth expected a vector, list, finite seq, string, or lazy seq, got nil"
+          "log": ""
         },
         {
           "id": "jank/clojure.core/nth/10",
@@ -64850,8 +65226,8 @@
         "jank/clojure.core/vals/10"
       ],
       "counts": {
-        "pass": 6,
-        "fail": 3,
+        "pass": 9,
+        "fail": 0,
         "expectedFailure": 0,
         "structuralGap": 0
       },
@@ -64888,37 +65264,37 @@
           "id": "jank/clojure.core/vals/2",
           "title": "vals upstream assertion 3",
           "source": "(= nil (vals []))",
-          "outcome": "fail",
+          "outcome": "pass",
           "expected": "true",
-          "observed": "vals expected a map or nil, got []",
+          "observed": "true",
           "axes": [
             "semantic-surface"
           ],
-          "log": "vals expected a map or nil, got []"
+          "log": ""
         },
         {
           "id": "jank/clojure.core/vals/3",
           "title": "vals upstream assertion 4",
           "source": "(= nil (vals '()))",
-          "outcome": "fail",
+          "outcome": "pass",
           "expected": "true",
-          "observed": "vals expected a map or nil, got ()",
+          "observed": "true",
           "axes": [
             "semantic-surface"
           ],
-          "log": "vals expected a map or nil, got ()"
+          "log": ""
         },
         {
           "id": "jank/clojure.core/vals/4",
           "title": "vals upstream assertion 5",
           "source": "(= nil (vals #{}))",
-          "outcome": "fail",
+          "outcome": "pass",
           "expected": "true",
-          "observed": "vals expected a map or nil, got #{}",
+          "observed": "true",
           "axes": [
             "semantic-surface"
           ],
-          "log": "vals expected a map or nil, got #{}"
+          "log": ""
         },
         {
           "id": "jank/clojure.core/vals/6",
@@ -66785,17 +67161,6 @@
       "upstreamCases": 20,
       "files": [
         "test/clojure/core_test/binding.cljc"
-      ]
-    },
-    {
-      "name": "bit-and",
-      "kind": "function",
-      "classification": "Unclassified",
-      "status": "needs-triage",
-      "reason": "jank has upstream test rows, but Rasa has not yet classified this clojure.core symbol for portable support.",
-      "upstreamCases": 11,
-      "files": [
-        "test/clojure/core_test/bit_and.cljc"
       ]
     },
     {

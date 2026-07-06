@@ -1981,6 +1981,13 @@ export function instantiate(getCoreModule, imports, instantiateCore = WebAssembl
   let dv = new DataView(new ArrayBuffer());
   const dataView = mem => dv.buffer === mem.buffer ? dv : dv = new DataView(mem.buffer);
   
+  function toInt64(val) {
+    const converted = BigInt(val)
+    
+    return BigInt.asIntN(64, converted);
+  }
+  
+  
   function toUint64(val) {
     const converted = BigInt(val)
     
@@ -1993,6 +2000,7 @@ export function instantiate(getCoreModule, imports, instantiateCore = WebAssembl
     return val >>> 0;
   }
   
+  const utf16Decoder = new TextDecoder('utf-16');
   const TEXT_DECODER_UTF8 = new TextDecoder();
   const TEXT_ENCODER_UTF8 = new TextEncoder();
   
@@ -2387,6 +2395,31 @@ export function instantiate(getCoreModule, imports, instantiateCore = WebAssembl
     }
     
     
+    function _liftFlatS64(ctx) {
+      _debugLog('[_liftFlatS64()] args', { ctx });
+      let val;
+      
+      if (ctx.useDirectParams) {
+        if (ctx.params.length === 0) { throw new Error('expected at least one single i64 argument'); }
+        if (typeof ctx.params[0] !== 'bigint') { throw new Error('expected bigint'); }
+        val = ctx.params[0];
+        ctx.params = ctx.params.slice(1);
+        return [val, ctx];
+      }
+      
+      
+      if (ctx.storageLen !== undefined && ctx.storageLen < 8) {
+        throw new Error(`insufficient storage ([${ctx.storageLen}] bytes) for lift (s64 requires 8 bytes)`);
+      }
+      
+      val = new DataView(ctx.memory.buffer).getBigInt64(ctx.storagePtr, true);
+      ctx.storagePtr += 8;
+      if (ctx.storageLen !== undefined) { ctx.storageLen -= 8; }
+      
+      return [val, ctx];
+    }
+    
+    
     function _liftFlatU64(ctx) {
       _debugLog('[_liftFlatU64()] args', { ctx });
       let val;
@@ -2442,6 +2475,74 @@ export function instantiate(getCoreModule, imports, instantiateCore = WebAssembl
       return [val, ctx];
     }
     
+    
+    function _liftFlatStringAny(ctx) {
+      switch (ctx.stringEncoding) {
+        case 'utf8':
+        return _liftFlatStringUTF8(ctx);
+        case 'utf16':
+        return _liftFlatStringUTF16(ctx);
+        default:
+        throw new Error(`missing/unrecognized/unsupported string encoding [${ctx.stringEncoding}]`);
+      }
+    }
+    
+    function _liftFlatStringUTF8(ctx) {
+      _debugLog('[_liftFlatStringUTF8()] args', { ctx });
+      let val;
+      
+      if (ctx.useDirectParams) {
+        if (ctx.params.length < 2) { throw new Error('expected at least two u32 arguments'); }
+        let offset = ctx.params[0];
+        if (typeof offset === 'bigint') { offset = Number(offset); }
+        if (!Number.isSafeInteger(offset)) { throw new Error('invalid offset'); }
+        const len = ctx.params[1];
+        if (!Number.isSafeInteger(len)) {  throw new Error('invalid len'); }
+        val = TEXT_DECODER_UTF8.decode(new DataView(ctx.memory.buffer, offset, len));
+        ctx.params = ctx.params.slice(2);
+        return [val, ctx];
+      }
+      
+      const rem = ctx.storagePtr % 4;
+      if (rem !== 0) { ctx.storagePtr += (4 - rem); }
+      
+      const dv = new DataView(ctx.memory.buffer);
+      const start = dv.getUint32(ctx.storagePtr, true);
+      const codeUnits = dv.getUint32(ctx.storagePtr + 4, true);
+      
+      val = TEXT_DECODER_UTF8.decode(new Uint8Array(ctx.memory.buffer, start, codeUnits));
+      
+      ctx.storagePtr += 8;
+      if (ctx.storageLen !== undefined) { ctx.storagelen -= 8; }
+      
+      return [val, ctx];
+    }
+    
+    function _liftFlatStringUTF16(ctx) {
+      _debugLog('[_liftFlatStringUTF16()] args', { ctx });
+      let val;
+      
+      if (ctx.useDirectParams) {
+        if (ctx.params.length < 2) { throw new Error('expected at least two u32 arguments'); }
+        let offset = ctx.params[0];
+        if (typeof offset === 'bigint') { offset = Number(offset); }
+        if (!Number.isSafeInteger(offset)) {  throw new Error('invalid offset'); }
+        const len = ctx.params[1];
+        if (!Number.isSafeInteger(len)) {  throw new Error('invalid len'); }
+        val = utf16Decoder.decode(new DataView(ctx.memory.buffer, offset, len));
+        ctx.params = ctx.params.slice(2);
+        return [val, ctx];
+      }
+      
+      const data = new DataView(ctx.memory.buffer)
+      const start = data.getUint32(ctx.storagePtr, vals[0], true);
+      const codeUnits = data.getUint32(ctx.storagePtr, vals[0] + 4, true);
+      val = utf16Decoder.decode(new Uint16Array(ctx.memory.buffer, start, codeUnits));
+      ctx.storagePtr = ctx.storagePtr + 2 * codeUnits;
+      if (ctx.storageLen !== undefined) { ctx.storageLen = ctx.storageLen - 2 * codeUnits }
+      
+      return [val, ctx];
+    }
     
     function _liftFlatVariant(meta) {
       const {
@@ -2648,6 +2749,20 @@ function _liftFlatBorrow(componentTableIdx, size, memory, vals, storagePtr, stor
 }
 
 
+function _lowerFlatBool(ctx) {
+  _debugLog('[_lowerFlatBool()] args', { ctx });
+  
+  if (!ctx.memory) { throw new Error("missing memory for lower"); }
+  if (ctx.vals.length !== 1) {
+    throw new Error(`unexpected number [${ctx.vals.length}] of vals (expected 1)`);
+  }
+  
+  _requireValidNumericPrimitive.bind('bool', ctx.vals[0]);
+  new DataView(ctx.memory.buffer).setUint32(ctx.storagePtr, ctx.vals[0], true);
+  
+  ctx.storagePtr += 1;
+}
+
 function _lowerFlatU8(ctx) {
   _debugLog('[_lowerFlatU8()] args', ctx);
   
@@ -2694,6 +2809,21 @@ function _lowerFlatU32(ctx) {
   new DataView(ctx.memory.buffer).setUint32(ctx.storagePtr, ctx.vals[0], true);
   
   ctx.storagePtr += 4;
+}
+
+function _lowerFlatS64(ctx) {
+  _debugLog('[_lowerFlatS64()] args', { ctx });
+  
+  if (ctx.vals.length !== 1) { throw new Error('unexpected number of vals'); }
+  
+  const rem = ctx.storagePtr % 8;
+  if (rem !== 0) { ctx.storagePtr += (8 - rem); }
+  
+  _requireValidNumericPrimitive.bind('s64', ctx.vals[0]);
+  new DataView(ctx.memory.buffer).setBigInt64(ctx.storagePtr, ctx.vals[0], true);
+  
+  
+  ctx.storagePtr += 8;
 }
 
 function _lowerFlatU64(ctx) {
@@ -2756,6 +2886,33 @@ function _lowerFlatStringUTF16(ctx) {
   new Uint16Array(ctx.memory.buffer, ctx.storagePtr).set(bytes);
   
   ctx.storagePtr += len;
+}
+
+function _lowerFlatRecord(meta) {
+  const { fieldMetas, size32: recordSize32, align32: recordAlign32 } = meta;
+  return function _lowerFlatRecordInner(ctx) {
+    _debugLog('[_lowerFlatRecord()] args', { ctx });
+    
+    const originalPtr = ctx.storagePtr;
+    const r = ctx.vals[0];
+    for (const [tag, lowerFn, size32, align32 ] of fieldMetas) {
+      const rem = ctx.storagePtr % align32;
+      if (rem !== 0) { ctx.storagePtr += align32 - rem; }
+      
+      const fieldPtr = ctx.storagePtr;
+      ctx.vals = [r[tag]];
+      lowerFn(ctx);
+      
+      ctx.storagePtr = Math.max(ctx.storagePtr, fieldPtr + size32);
+    }
+    
+    ctx.storagePtr = Math.max(ctx.storagePtr, originalPtr + recordSize32);
+    
+    const rem = ctx.storagePtr % recordAlign32;
+    if (rem !== 0) {
+      ctx.storagePtr += recordAlign32 - rem;
+    }
+  }
 }
 
 function _lowerFlatVariant(meta) {
@@ -3745,6 +3902,29 @@ if (call=== undefined) {
   throw err;
 }
 
+const { canCall, tryCall } = imports['rasa:runtime/optimizer'];
+
+if (canCall=== undefined) {
+  const err = new Error("unexpectedly undefined instance import 'canCall', was 'canCall' available at instantiation?");
+  console.error("ERROR:", err.toString());
+  throw err;
+}
+
+
+if (tryCall=== undefined) {
+  const err = new Error("unexpectedly undefined instance import 'tryCall', was 'tryCall' available at instantiation?");
+  console.error("ERROR:", err.toString());
+  throw err;
+}
+
+const { loadRunnerSources } = imports['rasa:runtime/source-loader'];
+
+if (loadRunnerSources=== undefined) {
+  const err = new Error("unexpectedly undefined instance import 'loadRunnerSources', was 'loadRunnerSources' available at instantiation?");
+  console.error("ERROR:", err.toString());
+  throw err;
+}
+
 const { getEnvironment } = imports['wasi:cli/environment'];
 
 if (getEnvironment=== undefined) {
@@ -4576,7 +4756,296 @@ let gen = (function* _initGenerator () {
   let realloc0;
   let realloc0Async;
   
-  const _trampoline13 = async function(arg0, arg1, arg2) {
+  const _trampoline13 = function(arg0, arg1, arg2) {
+    var ptr0 = arg0;
+    var len0 = arg1;
+    var result0 = TEXT_DECODER_UTF8.decode(new Uint8Array(memory0.buffer, ptr0, len0));
+    _debugLog('[iface="rasa:runtime/optimizer@0.1.0", function="can-call"] [Instruction::CallInterface] (sync, @ enter)');
+    const hostProvided = true;
+    
+    let parentTask;
+    let task;
+    let subtask;
+    
+    const createTask = () => {
+      const results = createNewCurrentTask({
+        componentIdx: -1,
+        isAsync: false,
+        entryFnName: 'canCall',
+        getCallbackFn: () => null,
+        callbackFnName: null,
+        errHandling: 'none',
+        callingWasmExport: false,
+      });
+      task = results[0];
+    };
+    
+    taskCreation: {
+      parentTask = getCurrentTask(
+      0,
+      _getGlobalCurrentTaskMeta(0)?.taskID,
+      )?.task;
+      
+      if (!parentTask) {
+        createTask();
+        break taskCreation;
+      }
+      
+      createTask();
+      
+      if (hostProvided) {
+        subtask = parentTask.getLatestSubtask();
+        if (!subtask) {
+          throw new Error(`Missing subtask (in parent task [${parentTask.id()}]) for host import, has the import been lowered? (ensure asyncImports are set properly)`);
+        }
+        task.setParentSubtask(subtask);
+      }
+    }
+    
+    const started = task.enterSync();
+    
+    let ret;
+    
+    try {
+      ret = _withGlobalCurrentTaskMeta({
+        componentIdx: task.componentIdx(),
+        taskID: task.id(),
+        fn: () => canCall(result0, arg2 >>> 0),
+      })
+      ;
+    } catch (err) {
+      
+      _debugLog('[Instruction::CallInterface] error during sync call', {
+        taskID: task.id(),
+        subtaskID: task.getParentSubtask()?.id(),
+        err,
+      });
+      task.setErrored(err);
+      task.reject(err);
+      task.exit();
+      throw err;
+      
+    }
+    
+    _debugLog('[iface="rasa:runtime/optimizer@0.1.0", function="can-call"][Instruction::Return]', {
+      funcName: 'can-call',
+      paramCount: 1,
+      async: false,
+      postReturn: false
+    });
+    task.resolve([ret ? 1 : 0]);
+    task.exit();
+    return ret ? 1 : 0;
+  }
+  _trampoline13.fnName = 'rasa:runtime/optimizer@0.1.0#canCall';
+  
+  const _trampoline14 = function(arg0, arg1, arg2, arg3, arg4, arg5) {
+    var ptr0 = arg0;
+    var len0 = arg1;
+    var result0 = TEXT_DECODER_UTF8.decode(new Uint8Array(memory0.buffer, ptr0, len0));
+    var len3 = arg4;
+    var base3 = arg3;
+    var result3 = [];
+    for (let i = 0; i < len3; i++) {
+      const base = base3 + i * 16;
+      let variant2;
+      switch (dataView(memory0).getUint8(base + 0, true)) {
+        case 0: {
+          variant2= {
+            tag: 'int64',
+            val: dataView(memory0).getBigInt64(base + 8, true)
+          };
+          break;
+        }
+        case 1: {
+          var ptr1 = dataView(memory0).getUint32(base + 8, true);
+          var len1 = dataView(memory0).getUint32(base + 12, true);
+          var result1 = new Uint8Array(memory0.buffer.slice(ptr1, ptr1 + len1 * 1));
+          variant2= {
+            tag: 'utf8-string',
+            val: result1
+          };
+          break;
+        }
+        default: {
+          throw new TypeError('invalid variant discriminant for CallArg');
+        }
+      }
+      result3.push(variant2);
+    }
+    _debugLog('[iface="rasa:runtime/optimizer@0.1.0", function="try-call"] [Instruction::CallInterface] (sync, @ enter)');
+    const hostProvided = true;
+    
+    let parentTask;
+    let task;
+    let subtask;
+    
+    const createTask = () => {
+      const results = createNewCurrentTask({
+        componentIdx: -1,
+        isAsync: false,
+        entryFnName: 'tryCall',
+        getCallbackFn: () => null,
+        callbackFnName: null,
+        errHandling: 'none',
+        callingWasmExport: false,
+      });
+      task = results[0];
+    };
+    
+    taskCreation: {
+      parentTask = getCurrentTask(
+      0,
+      _getGlobalCurrentTaskMeta(0)?.taskID,
+      )?.task;
+      
+      if (!parentTask) {
+        createTask();
+        break taskCreation;
+      }
+      
+      createTask();
+      
+      if (hostProvided) {
+        subtask = parentTask.getLatestSubtask();
+        if (!subtask) {
+          throw new Error(`Missing subtask (in parent task [${parentTask.id()}]) for host import, has the import been lowered? (ensure asyncImports are set properly)`);
+        }
+        task.setParentSubtask(subtask);
+      }
+    }
+    
+    const started = task.enterSync();
+    
+    let ret;
+    
+    try {
+      ret = _withGlobalCurrentTaskMeta({
+        componentIdx: task.componentIdx(),
+        taskID: task.id(),
+        fn: () => tryCall(result0, arg2 >>> 0, result3),
+      })
+      ;
+    } catch (err) {
+      
+      _debugLog('[Instruction::CallInterface] error during sync call', {
+        taskID: task.id(),
+        subtaskID: task.getParentSubtask()?.id(),
+        err,
+      });
+      task.setErrored(err);
+      task.reject(err);
+      task.exit();
+      throw err;
+      
+    }
+    
+    var variant12 = ret;
+    switch (variant12.tag) {
+      case 'executed': {
+        const e = variant12.val;
+        dataView(memory0).setInt8(arg5 + 0, 0, true);
+        var variant8 = e;
+        switch (variant8.tag) {
+          case 'int64': {
+            const e = variant8.val;
+            dataView(memory0).setInt8(arg5 + 8, 0, true);
+            dataView(memory0).setBigInt64(arg5 + 16, toInt64(e), true);
+            break;
+          }
+          case 'i64-vector': {
+            const e = variant8.val;
+            dataView(memory0).setInt8(arg5 + 8, 1, true);
+            var val4 = e;
+            var len4 = val4.length;
+            var ptr4 = realloc0(0, 0, 8, len4 * 8);
+            
+            let valData4;
+            const valLenBytes4 = len4 * 8;
+            if (Array.isArray(val4)) {
+              // Regular array likely containing numbers, write values to memory
+              let offset = 0;
+              const dv4 = new DataView(memory0.buffer);
+              for (const v of val4) {
+                _requireValidNumericPrimitive.bind(null, 's64')(v);
+                dv4.setBigInt64(ptr4+ offset, v, true);
+                offset += 8;
+              }
+            } else {
+              // TypedArray / ArrayBuffer-like, direct copy
+              valData4 = new Uint8Array(val4.buffer || val4, val4.byteOffset, valLenBytes4);
+              const out4 = new Uint8Array(memory0.buffer, ptr4, valLenBytes4);
+              out4.set(valData4);
+            }
+            
+            dataView(memory0).setUint32(arg5 + 20, len4, true);
+            dataView(memory0).setUint32(arg5 + 16, ptr4, true);
+            break;
+          }
+          case 'i64-map': {
+            const e = variant8.val;
+            dataView(memory0).setInt8(arg5 + 8, 2, true);
+            var vec7 = e;
+            var len7 = vec7.length;
+            var result7 = realloc0(0, 0, 8, len7 * 16);
+            for (let i = 0; i < vec7.length; i++) {
+              const e = vec7[i];
+              const base = result7 + i * 16;var {key: v5_0, value: v5_1 } = e;
+              
+              var encodeRes = _utf8AllocateAndEncode(v5_0, realloc0, memory0);
+              var ptr6= encodeRes.ptr;
+              var len6 = encodeRes.len;
+              
+              dataView(memory0).setUint32(base + 4, len6, true);
+              dataView(memory0).setUint32(base + 0, ptr6, true);
+              dataView(memory0).setBigInt64(base + 8, toInt64(v5_1), true);
+            }
+            dataView(memory0).setUint32(arg5 + 20, len7, true);
+            dataView(memory0).setUint32(arg5 + 16, result7, true);
+            break;
+          }
+          default: {
+            throw new TypeError(`invalid variant tag value \`${JSON.stringify(variant8.tag)}\` (received \`${variant8}\`) specified for \`CallValue\``);
+          }
+        }
+        break;
+      }
+      case 'refused': {
+        const e = variant12.val;
+        dataView(memory0).setInt8(arg5 + 0, 1, true);
+        var {reason: v9_0, fallback: v9_1 } = e;
+        
+        var encodeRes = _utf8AllocateAndEncode(v9_0, realloc0, memory0);
+        var ptr10= encodeRes.ptr;
+        var len10 = encodeRes.len;
+        
+        dataView(memory0).setUint32(arg5 + 12, len10, true);
+        dataView(memory0).setUint32(arg5 + 8, ptr10, true);
+        
+        var encodeRes = _utf8AllocateAndEncode(v9_1, realloc0, memory0);
+        var ptr11= encodeRes.ptr;
+        var len11 = encodeRes.len;
+        
+        dataView(memory0).setUint32(arg5 + 20, len11, true);
+        dataView(memory0).setUint32(arg5 + 16, ptr11, true);
+        break;
+      }
+      default: {
+        throw new TypeError(`invalid variant tag value \`${JSON.stringify(variant12.tag)}\` (received \`${variant12}\`) specified for \`CallResult\``);
+      }
+    }
+    _debugLog('[iface="rasa:runtime/optimizer@0.1.0", function="try-call"][Instruction::Return]', {
+      funcName: 'try-call',
+      paramCount: 0,
+      async: false,
+      postReturn: false
+    });
+    task.resolve([ret]);
+    task.exit();
+  }
+  _trampoline14.fnName = 'rasa:runtime/optimizer@0.1.0#tryCall';
+  
+  const _trampoline15 = async function(arg0, arg1, arg2) {
     var ptr0 = arg0;
     var len0 = arg1;
     var result0 = new Uint8Array(memory0.buffer.slice(ptr0, ptr0 + len0 * 1));
@@ -4704,10 +5173,180 @@ let gen = (function* _initGenerator () {
   task.resolve([ret]);
   task.exit();
 }
-_trampoline13.fnName = 'rasa:runtime/host@0.1.0#call';
-_trampoline13.manuallyAsync = true;
+_trampoline15.fnName = 'rasa:runtime/host@0.1.0#call';
+_trampoline15.manuallyAsync = true;
 
-const _trampoline14 = function(arg0) {
+const _trampoline16 = function(arg0, arg1, arg2, arg3, arg4) {
+  var len1 = arg1;
+  var base1 = arg0;
+  var result1 = [];
+  for (let i = 0; i < len1; i++) {
+    const base = base1 + i * 8;
+    var ptr0 = dataView(memory0).getUint32(base + 0, true);
+    var len0 = dataView(memory0).getUint32(base + 4, true);
+    var result0 = TEXT_DECODER_UTF8.decode(new Uint8Array(memory0.buffer, ptr0, len0));
+    result1.push(result0);
+  }
+  var len3 = arg3;
+  var base3 = arg2;
+  var result3 = [];
+  for (let i = 0; i < len3; i++) {
+    const base = base3 + i * 8;
+    var ptr2 = dataView(memory0).getUint32(base + 0, true);
+    var len2 = dataView(memory0).getUint32(base + 4, true);
+    var result2 = TEXT_DECODER_UTF8.decode(new Uint8Array(memory0.buffer, ptr2, len2));
+    result3.push(result2);
+  }
+  _debugLog('[iface="rasa:runtime/source-loader@0.1.0", function="load-runner-sources"] [Instruction::CallInterface] (sync, @ enter)');
+  const hostProvided = true;
+  
+  let parentTask;
+  let task;
+  let subtask;
+  
+  const createTask = () => {
+    const results = createNewCurrentTask({
+      componentIdx: -1,
+      isAsync: false,
+      entryFnName: 'loadRunnerSources',
+      getCallbackFn: () => null,
+      callbackFnName: null,
+      errHandling: 'result-catch-handler',
+      callingWasmExport: false,
+    });
+    task = results[0];
+  };
+  
+  taskCreation: {
+    parentTask = getCurrentTask(
+    0,
+    _getGlobalCurrentTaskMeta(0)?.taskID,
+    )?.task;
+    
+    if (!parentTask) {
+      createTask();
+      break taskCreation;
+    }
+    
+    createTask();
+    
+    if (hostProvided) {
+      subtask = parentTask.getLatestSubtask();
+      if (!subtask) {
+        throw new Error(`Missing subtask (in parent task [${parentTask.id()}]) for host import, has the import been lowered? (ensure asyncImports are set properly)`);
+      }
+      task.setParentSubtask(subtask);
+    }
+  }
+  
+  const started = task.enterSync();
+  
+  let ret;
+  try {
+    ret = { tag: 'ok', val: _withGlobalCurrentTaskMeta({
+      componentIdx: task.componentIdx(),
+      taskID: task.id(),
+      fn: () => loadRunnerSources(result1, result3),
+    })
+  };
+} catch (e) {
+  ret = { tag: 'err', val: getErrorPayload(e) };
+}
+
+var variant12 = ret;
+switch (variant12.tag) {
+  case 'ok': {
+    const e = variant12.val;
+    dataView(memory0).setInt8(arg4 + 0, 0, true);
+    var {sources: v4_0, namespaces: v4_1 } = e;
+    var vec8 = v4_0;
+    var len8 = vec8.length;
+    var result8 = realloc0(0, 0, 4, len8 * 16);
+    for (let i = 0; i < vec8.length; i++) {
+      const e = vec8[i];
+      const base = result8 + i * 16;var {sourceId: v5_0, source: v5_1 } = e;
+      
+      var encodeRes = _utf8AllocateAndEncode(v5_0, realloc0, memory0);
+      var ptr6= encodeRes.ptr;
+      var len6 = encodeRes.len;
+      
+      dataView(memory0).setUint32(base + 4, len6, true);
+      dataView(memory0).setUint32(base + 0, ptr6, true);
+      var val7 = v5_1;
+      var len7 = Array.isArray(val7) ? val7.length : val7.byteLength;
+      var ptr7 = realloc0(0, 0, 1, len7 * 1);
+      
+      let valData7;
+      const valLenBytes7 = len7 * 1;
+      if (Array.isArray(val7)) {
+        // Regular array likely containing numbers, write values to memory
+        let offset = 0;
+        const dv7 = new DataView(memory0.buffer);
+        for (const v of val7) {
+          _requireValidNumericPrimitive.bind(null, 'u8')(v);
+          dv7.setUint8(ptr7+ offset, v, true);
+          offset += 1;
+        }
+      } else {
+        // TypedArray / ArrayBuffer-like, direct copy
+        valData7 = new Uint8Array(val7.buffer || val7, val7.byteOffset, valLenBytes7);
+        const out7 = new Uint8Array(memory0.buffer, ptr7, valLenBytes7);
+        out7.set(valData7);
+      }
+      
+      dataView(memory0).setUint32(base + 12, len7, true);
+      dataView(memory0).setUint32(base + 8, ptr7, true);
+    }
+    dataView(memory0).setUint32(arg4 + 8, len8, true);
+    dataView(memory0).setUint32(arg4 + 4, result8, true);
+    var vec10 = v4_1;
+    var len10 = vec10.length;
+    var result10 = realloc0(0, 0, 4, len10 * 8);
+    for (let i = 0; i < vec10.length; i++) {
+      const e = vec10[i];
+      const base = result10 + i * 8;
+      var encodeRes = _utf8AllocateAndEncode(e, realloc0, memory0);
+      var ptr9= encodeRes.ptr;
+      var len9 = encodeRes.len;
+      
+      dataView(memory0).setUint32(base + 4, len9, true);
+      dataView(memory0).setUint32(base + 0, ptr9, true);
+    }
+    dataView(memory0).setUint32(arg4 + 16, len10, true);
+    dataView(memory0).setUint32(arg4 + 12, result10, true);
+    
+    break;
+  }
+  case 'err': {
+    const e = variant12.val;
+    dataView(memory0).setInt8(arg4 + 0, 1, true);
+    
+    var encodeRes = _utf8AllocateAndEncode(e, realloc0, memory0);
+    var ptr11= encodeRes.ptr;
+    var len11 = encodeRes.len;
+    
+    dataView(memory0).setUint32(arg4 + 8, len11, true);
+    dataView(memory0).setUint32(arg4 + 4, ptr11, true);
+    
+    break;
+  }
+  default: {
+    _debugLog("ERROR: invalid value (expected result as object with 'tag' member)", { value: variant12, valueType: typeof variant12});
+    throw new TypeError('invalid variant specified for result');
+  }
+}
+_debugLog('[iface="rasa:runtime/source-loader@0.1.0", function="load-runner-sources"][Instruction::Return]', {
+  funcName: 'load-runner-sources',
+  paramCount: 0,
+  async: false,
+  postReturn: false
+});
+task.resolve([ret]);
+task.exit();
+}
+_trampoline16.fnName = 'rasa:runtime/source-loader@0.1.0#loadRunnerSources';
+
+const _trampoline17 = function(arg0) {
   _debugLog('[iface="wasi:random/insecure-seed@0.3.0-rc-2026-03-15", function="get-insecure-seed"] [Instruction::CallInterface] (sync, @ enter)');
   const hostProvided = true;
   
@@ -4787,9 +5426,9 @@ const _trampoline14 = function(arg0) {
   task.resolve([ret]);
   task.exit();
 }
-_trampoline14.fnName = 'wasi:random/insecure-seed@0.3.0-rc-2026-03-15#getInsecureSeed';
+_trampoline17.fnName = 'wasi:random/insecure-seed@0.3.0-rc-2026-03-15#getInsecureSeed';
 
-const _trampoline15 = function(arg0, arg1, arg2) {
+const _trampoline18 = function(arg0, arg1, arg2) {
   var len3 = arg1;
   var base3 = arg0;
   var result3 = [];
@@ -4912,7 +5551,7 @@ const _trampoline15 = function(arg0, arg1, arg2) {
   task.resolve([ret]);
   task.exit();
 }
-_trampoline15.fnName = 'wasi:io/poll@0.2.6#poll';
+_trampoline18.fnName = 'wasi:io/poll@0.2.6#poll';
 
 const handleTable0 = [T_FLAG, 0];
 handleTable0._createdReps = new Set();
@@ -4923,7 +5562,7 @@ let captureCnt0= 0;
 
 HANDLE_TABLES[0] = handleTable0;
 
-const _trampoline16 = function(arg0, arg1) {
+const _trampoline19 = function(arg0, arg1) {
   var handle1 = arg0;
   
   var rep2 = handleTable3[(handle1 << 1) + 1] & ~T_FLAG;
@@ -5051,9 +5690,9 @@ _debugLog('[iface="wasi:io/streams@0.2.6", function="[method]output-stream.check
 task.resolve([ret]);
 task.exit();
 }
-_trampoline16.fnName = 'wasi:io/streams@0.2.6#checkWrite';
+_trampoline19.fnName = 'wasi:io/streams@0.2.6#checkWrite';
 
-const _trampoline17 = function(arg0, arg1, arg2, arg3) {
+const _trampoline20 = function(arg0, arg1, arg2, arg3) {
   var handle1 = arg0;
   
   var rep2 = handleTable3[(handle1 << 1) + 1] & ~T_FLAG;
@@ -5183,9 +5822,9 @@ _debugLog('[iface="wasi:io/streams@0.2.6", function="[method]output-stream.write
 task.resolve([ret]);
 task.exit();
 }
-_trampoline17.fnName = 'wasi:io/streams@0.2.6#write';
+_trampoline20.fnName = 'wasi:io/streams@0.2.6#write';
 
-const _trampoline18 = function(arg0, arg1) {
+const _trampoline21 = function(arg0, arg1) {
   var handle1 = arg0;
   
   var rep2 = handleTable3[(handle1 << 1) + 1] & ~T_FLAG;
@@ -5312,9 +5951,9 @@ _debugLog('[iface="wasi:io/streams@0.2.6", function="[method]output-stream.block
 task.resolve([ret]);
 task.exit();
 }
-_trampoline18.fnName = 'wasi:io/streams@0.2.6#blockingFlush';
+_trampoline21.fnName = 'wasi:io/streams@0.2.6#blockingFlush';
 
-const _trampoline19 = function(arg0) {
+const _trampoline22 = function(arg0) {
   _debugLog('[iface="wasi:cli/environment@0.2.6", function="get-environment"] [Instruction::CallInterface] (sync, @ enter)');
   const hostProvided = true;
   
@@ -5414,7 +6053,7 @@ const _trampoline19 = function(arg0) {
   task.resolve([ret]);
   task.exit();
 }
-_trampoline19.fnName = 'wasi:cli/environment@0.2.6#getEnvironment';
+_trampoline22.fnName = 'wasi:cli/environment@0.2.6#getEnvironment';
 
 const handleTable4 = [T_FLAG, 0];
 handleTable4._createdReps = new Set();
@@ -5425,7 +6064,7 @@ let captureCnt4= 0;
 
 HANDLE_TABLES[4] = handleTable4;
 
-const _trampoline20 = function(arg0) {
+const _trampoline23 = function(arg0) {
   _debugLog('[iface="wasi:cli/terminal-stdin@0.2.6", function="get-terminal-stdin"] [Instruction::CallInterface] (sync, @ enter)');
   const hostProvided = true;
   
@@ -5521,7 +6160,7 @@ const _trampoline20 = function(arg0) {
   task.resolve([ret]);
   task.exit();
 }
-_trampoline20.fnName = 'wasi:cli/terminal-stdin@0.2.6#getTerminalStdin';
+_trampoline23.fnName = 'wasi:cli/terminal-stdin@0.2.6#getTerminalStdin';
 
 const handleTable5 = [T_FLAG, 0];
 handleTable5._createdReps = new Set();
@@ -5532,7 +6171,7 @@ let captureCnt5= 0;
 
 HANDLE_TABLES[5] = handleTable5;
 
-const _trampoline21 = function(arg0) {
+const _trampoline24 = function(arg0) {
   _debugLog('[iface="wasi:cli/terminal-stdout@0.2.6", function="get-terminal-stdout"] [Instruction::CallInterface] (sync, @ enter)');
   const hostProvided = true;
   
@@ -5628,9 +6267,9 @@ const _trampoline21 = function(arg0) {
   task.resolve([ret]);
   task.exit();
 }
-_trampoline21.fnName = 'wasi:cli/terminal-stdout@0.2.6#getTerminalStdout';
+_trampoline24.fnName = 'wasi:cli/terminal-stdout@0.2.6#getTerminalStdout';
 
-const _trampoline22 = function(arg0) {
+const _trampoline25 = function(arg0) {
   _debugLog('[iface="wasi:cli/terminal-stderr@0.2.6", function="get-terminal-stderr"] [Instruction::CallInterface] (sync, @ enter)');
   const hostProvided = true;
   
@@ -5726,7 +6365,7 @@ const _trampoline22 = function(arg0) {
   task.resolve([ret]);
   task.exit();
 }
-_trampoline22.fnName = 'wasi:cli/terminal-stderr@0.2.6#getTerminalStderr';
+_trampoline25.fnName = 'wasi:cli/terminal-stderr@0.2.6#getTerminalStderr';
 let exports2;
 let postReturn0;
 let postReturn0Async;
@@ -5945,6 +6584,104 @@ function evalSource(arg0, arg1) {
   return retCopy;
   
 }
+let session010EvalSourceWithId;
+
+function evalSourceWithId(arg0, arg1, arg2) {
+  
+  var encodeRes = _utf8AllocateAndEncode(arg0, realloc0, memory0);
+  var ptr0= encodeRes.ptr;
+  var len0 = encodeRes.len;
+  
+  var val1 = arg1;
+  var len1 = Array.isArray(val1) ? val1.length : val1.byteLength;
+  var ptr1 = realloc0(0, 0, 1, len1 * 1);
+  
+  let valData1;
+  const valLenBytes1 = len1 * 1;
+  if (Array.isArray(val1)) {
+    // Regular array likely containing numbers, write values to memory
+    let offset = 0;
+    const dv1 = new DataView(memory0.buffer);
+    for (const v of val1) {
+      _requireValidNumericPrimitive.bind(null, 'u8')(v);
+      dv1.setUint8(ptr1+ offset, v, true);
+      offset += 1;
+    }
+  } else {
+    // TypedArray / ArrayBuffer-like, direct copy
+    valData1 = new Uint8Array(val1.buffer || val1, val1.byteOffset, valLenBytes1);
+    const out1 = new Uint8Array(memory0.buffer, ptr1, valLenBytes1);
+    out1.set(valData1);
+  }
+  
+  _debugLog('[iface="rasa:runtime/session@0.1.0", function="eval-source-with-id"][Instruction::CallWasm] enter', {
+    funcName: 'eval-source-with-id',
+    paramCount: 5,
+    async: false,
+    postReturn: true,
+  });
+  const hostProvided = false;
+  
+  const [task, _wasm_call_currentTaskID] = createNewCurrentTask({
+    componentIdx: 0,
+    isAsync: false,
+    isManualAsync: false,
+    entryFnName: 'session010EvalSourceWithId',
+    getCallbackFn: () => null,
+    callbackFnName: null,
+    errHandling: 'none',
+    callingWasmExport: true,
+  });
+  
+  const started = task.enterSync();
+  
+  if (0!== null) {
+    task.setReturnMemoryIdx(0);
+    task.setReturnMemory(() => memory0());
+  }
+  
+  
+  let ret;
+  
+  try {
+    ret =   _withGlobalCurrentTaskMeta({
+      taskID: task.id(),
+      componentIdx: task.componentIdx(),
+      fn: () => session010EvalSourceWithId(ptr0, len0, ptr1, len1, toUint32(arg2)),
+    });
+  } catch (err) {
+    
+    _debugLog('[Instruction::CallWasm] error during sync call', {
+      taskID: task.id(),
+      err,
+    });
+    task.setErrored(err);
+    task.reject(err);
+    task.exit();
+    throw err;
+    
+  }
+  
+  var ptr2 = dataView(memory0).getUint32(ret + 0, true);
+  var len2 = dataView(memory0).getUint32(ret + 4, true);
+  var result2 = TEXT_DECODER_UTF8.decode(new Uint8Array(memory0.buffer, ptr2, len2));
+  _debugLog('[iface="rasa:runtime/session@0.1.0", function="eval-source-with-id"][Instruction::Return]', {
+    funcName: 'eval-source-with-id',
+    paramCount: 1,
+    async: false,
+    postReturn: true
+  });
+  task.resolve([result2]);
+  const retCopy = result2;
+  
+  let cstate = getOrCreateAsyncState(0);
+  cstate.mayLeave = false;
+  postReturn0(ret);
+  cstate.mayLeave = true;
+  task.exit();
+  return retCopy;
+  
+}
 let session010EvalPackageSource;
 
 function evalPackageSource(arg0, arg1, arg2) {
@@ -6051,6 +6788,126 @@ function evalPackageSource(arg0, arg1, arg2) {
   });
   task.resolve([result2]);
   const retCopy = result2;
+  
+  let cstate = getOrCreateAsyncState(0);
+  cstate.mayLeave = false;
+  postReturn0(ret);
+  cstate.mayLeave = true;
+  task.exit();
+  return retCopy;
+  
+}
+let session010EvalPackageSourceWithId;
+
+function evalPackageSourceWithId(arg0, arg1, arg2, arg3) {
+  
+  var encodeRes = _utf8AllocateAndEncode(arg0, realloc0, memory0);
+  var ptr0= encodeRes.ptr;
+  var len0 = encodeRes.len;
+  
+  var val1 = arg1;
+  var len1 = Array.isArray(val1) ? val1.length : val1.byteLength;
+  var ptr1 = realloc0(0, 0, 1, len1 * 1);
+  
+  let valData1;
+  const valLenBytes1 = len1 * 1;
+  if (Array.isArray(val1)) {
+    // Regular array likely containing numbers, write values to memory
+    let offset = 0;
+    const dv1 = new DataView(memory0.buffer);
+    for (const v of val1) {
+      _requireValidNumericPrimitive.bind(null, 'u8')(v);
+      dv1.setUint8(ptr1+ offset, v, true);
+      offset += 1;
+    }
+  } else {
+    // TypedArray / ArrayBuffer-like, direct copy
+    valData1 = new Uint8Array(val1.buffer || val1, val1.byteOffset, valLenBytes1);
+    const out1 = new Uint8Array(memory0.buffer, ptr1, valLenBytes1);
+    out1.set(valData1);
+  }
+  
+  var val2 = arg2;
+  var len2 = Array.isArray(val2) ? val2.length : val2.byteLength;
+  var ptr2 = realloc0(0, 0, 1, len2 * 1);
+  
+  let valData2;
+  const valLenBytes2 = len2 * 1;
+  if (Array.isArray(val2)) {
+    // Regular array likely containing numbers, write values to memory
+    let offset = 0;
+    const dv2 = new DataView(memory0.buffer);
+    for (const v of val2) {
+      _requireValidNumericPrimitive.bind(null, 'u8')(v);
+      dv2.setUint8(ptr2+ offset, v, true);
+      offset += 1;
+    }
+  } else {
+    // TypedArray / ArrayBuffer-like, direct copy
+    valData2 = new Uint8Array(val2.buffer || val2, val2.byteOffset, valLenBytes2);
+    const out2 = new Uint8Array(memory0.buffer, ptr2, valLenBytes2);
+    out2.set(valData2);
+  }
+  
+  _debugLog('[iface="rasa:runtime/session@0.1.0", function="eval-package-source-with-id"][Instruction::CallWasm] enter', {
+    funcName: 'eval-package-source-with-id',
+    paramCount: 7,
+    async: false,
+    postReturn: true,
+  });
+  const hostProvided = false;
+  
+  const [task, _wasm_call_currentTaskID] = createNewCurrentTask({
+    componentIdx: 0,
+    isAsync: false,
+    isManualAsync: false,
+    entryFnName: 'session010EvalPackageSourceWithId',
+    getCallbackFn: () => null,
+    callbackFnName: null,
+    errHandling: 'none',
+    callingWasmExport: true,
+  });
+  
+  const started = task.enterSync();
+  
+  if (0!== null) {
+    task.setReturnMemoryIdx(0);
+    task.setReturnMemory(() => memory0());
+  }
+  
+  
+  let ret;
+  
+  try {
+    ret =   _withGlobalCurrentTaskMeta({
+      taskID: task.id(),
+      componentIdx: task.componentIdx(),
+      fn: () => session010EvalPackageSourceWithId(ptr0, len0, ptr1, len1, ptr2, len2, toUint32(arg3)),
+    });
+  } catch (err) {
+    
+    _debugLog('[Instruction::CallWasm] error during sync call', {
+      taskID: task.id(),
+      err,
+    });
+    task.setErrored(err);
+    task.reject(err);
+    task.exit();
+    throw err;
+    
+  }
+  
+  var ptr3 = dataView(memory0).getUint32(ret + 0, true);
+  var len3 = dataView(memory0).getUint32(ret + 4, true);
+  var result3 = TEXT_DECODER_UTF8.decode(new Uint8Array(memory0.buffer, ptr3, len3));
+  _debugLog('[iface="rasa:runtime/session@0.1.0", function="eval-package-source-with-id"][Instruction::Return]', {
+    funcName: 'eval-package-source-with-id',
+    paramCount: 1,
+    async: false,
+    postReturn: true
+  });
+  task.resolve([result3]);
+  const retCopy = result3;
   
   let cstate = getOrCreateAsyncState(0);
   cstate.mayLeave = false;
@@ -6174,6 +7031,66 @@ function sessionFree(arg0) {
   
   _debugLog('[iface="rasa:runtime/session@0.1.0", function="session-free"][Instruction::Return]', {
     funcName: 'session-free',
+    paramCount: 0,
+    async: false,
+    postReturn: false
+  });
+  task.resolve([ret]);
+  task.exit();
+}
+let session010SessionSetOptimizerEnabled;
+
+function sessionSetOptimizerEnabled(arg0, arg1) {
+  _debugLog('[iface="rasa:runtime/session@0.1.0", function="session-set-optimizer-enabled"][Instruction::CallWasm] enter', {
+    funcName: 'session-set-optimizer-enabled',
+    paramCount: 2,
+    async: false,
+    postReturn: false,
+  });
+  const hostProvided = false;
+  
+  const [task, _wasm_call_currentTaskID] = createNewCurrentTask({
+    componentIdx: 0,
+    isAsync: false,
+    isManualAsync: false,
+    entryFnName: 'session010SessionSetOptimizerEnabled',
+    getCallbackFn: () => null,
+    callbackFnName: null,
+    errHandling: 'none',
+    callingWasmExport: true,
+  });
+  
+  const started = task.enterSync();
+  
+  if (null!== null) {
+    task.setReturnMemoryIdx(null);
+    task.setReturnMemory(() => null());
+  }
+  
+  
+  let ret;
+  
+  try {
+    _withGlobalCurrentTaskMeta({
+      taskID: task.id(),
+      componentIdx: task.componentIdx(),
+      fn: () => session010SessionSetOptimizerEnabled(toUint32(arg0), arg1 ? 1 : 0),
+    });
+  } catch (err) {
+    
+    _debugLog('[Instruction::CallWasm] error during sync call', {
+      taskID: task.id(),
+      err,
+    });
+    task.setErrored(err);
+    task.reject(err);
+    task.exit();
+    throw err;
+    
+  }
+  
+  _debugLog('[iface="rasa:runtime/session@0.1.0", function="session-set-optimizer-enabled"][Instruction::Return]', {
+    funcName: 'session-set-optimizer-enabled',
     paramCount: 0,
     async: false,
     postReturn: false
@@ -6376,6 +7293,104 @@ async function sessionEval(arg0, arg1, arg2) {
   });
   task.resolve([result1]);
   const retCopy = result1;
+  
+  let cstate = getOrCreateAsyncState(0);
+  cstate.mayLeave = false;
+  postReturn0(ret);
+  cstate.mayLeave = true;
+  task.exit();
+  return retCopy;
+  
+}
+let session010SessionEvalWithId;
+
+function sessionEvalWithId(arg0, arg1, arg2, arg3) {
+  
+  var encodeRes = _utf8AllocateAndEncode(arg1, realloc0, memory0);
+  var ptr0= encodeRes.ptr;
+  var len0 = encodeRes.len;
+  
+  var val1 = arg2;
+  var len1 = Array.isArray(val1) ? val1.length : val1.byteLength;
+  var ptr1 = realloc0(0, 0, 1, len1 * 1);
+  
+  let valData1;
+  const valLenBytes1 = len1 * 1;
+  if (Array.isArray(val1)) {
+    // Regular array likely containing numbers, write values to memory
+    let offset = 0;
+    const dv1 = new DataView(memory0.buffer);
+    for (const v of val1) {
+      _requireValidNumericPrimitive.bind(null, 'u8')(v);
+      dv1.setUint8(ptr1+ offset, v, true);
+      offset += 1;
+    }
+  } else {
+    // TypedArray / ArrayBuffer-like, direct copy
+    valData1 = new Uint8Array(val1.buffer || val1, val1.byteOffset, valLenBytes1);
+    const out1 = new Uint8Array(memory0.buffer, ptr1, valLenBytes1);
+    out1.set(valData1);
+  }
+  
+  _debugLog('[iface="rasa:runtime/session@0.1.0", function="session-eval-with-id"][Instruction::CallWasm] enter', {
+    funcName: 'session-eval-with-id',
+    paramCount: 6,
+    async: false,
+    postReturn: true,
+  });
+  const hostProvided = false;
+  
+  const [task, _wasm_call_currentTaskID] = createNewCurrentTask({
+    componentIdx: 0,
+    isAsync: false,
+    isManualAsync: false,
+    entryFnName: 'session010SessionEvalWithId',
+    getCallbackFn: () => null,
+    callbackFnName: null,
+    errHandling: 'none',
+    callingWasmExport: true,
+  });
+  
+  const started = task.enterSync();
+  
+  if (0!== null) {
+    task.setReturnMemoryIdx(0);
+    task.setReturnMemory(() => memory0());
+  }
+  
+  
+  let ret;
+  
+  try {
+    ret =   _withGlobalCurrentTaskMeta({
+      taskID: task.id(),
+      componentIdx: task.componentIdx(),
+      fn: () => session010SessionEvalWithId(toUint32(arg0), ptr0, len0, ptr1, len1, toUint32(arg3)),
+    });
+  } catch (err) {
+    
+    _debugLog('[Instruction::CallWasm] error during sync call', {
+      taskID: task.id(),
+      err,
+    });
+    task.setErrored(err);
+    task.reject(err);
+    task.exit();
+    throw err;
+    
+  }
+  
+  var ptr2 = dataView(memory0).getUint32(ret + 0, true);
+  var len2 = dataView(memory0).getUint32(ret + 4, true);
+  var result2 = TEXT_DECODER_UTF8.decode(new Uint8Array(memory0.buffer, ptr2, len2));
+  _debugLog('[iface="rasa:runtime/session@0.1.0", function="session-eval-with-id"][Instruction::Return]', {
+    funcName: 'session-eval-with-id',
+    paramCount: 1,
+    async: false,
+    postReturn: true
+  });
+  task.resolve([result2]);
+  const retCopy = result2;
   
   let cstate = getOrCreateAsyncState(0);
   cstate.mayLeave = false;
@@ -7221,29 +8236,9 @@ null,
   componentIdx: 0,
   isAsync: false,
   isManualAsync: _trampoline13.manuallyAsync,
-  paramLiftFns: [_liftFlatList({
-    elemLiftFn: _liftFlatU8,
-    elemAlign32: 1,
-    elemSize32: 1,
-    typedArray: Uint8Array,
-  })],
-  resultLowerFns: [
-  _lowerFlatResult({
-    caseMetas: [
-    [ 'ok', _lowerFlatList({
-      elemLowerFn: _lowerFlatU8,
-      elemSize32: 1,
-      elemAlign32: 1,
-    }), 12, 4, 4 ],
-    [ 'err', _lowerFlatStringAny, 12, 4, 4 ],
-    ],
-    variantSize32: 12,
-    variantAlign32: 4,
-    variantPayloadOffset32: 4,
-    variantFlatCount: 3,
-  })
-  ],
-  hasResultPointer: true,
+  paramLiftFns: [_liftFlatStringAny,_liftFlatU32],
+  resultLowerFns: [_lowerFlatBool],
+  hasResultPointer: false,
   funcTypeIsAsync: false,
   getCallbackFn: () => null,
   getPostReturnFn: () => null,
@@ -7251,7 +8246,7 @@ null,
   memoryIdx: 0,
   stringEncoding: 'utf8',
   getMemoryFn: () => memory0,
-  getReallocFn: () => realloc0,
+  getReallocFn: undefined,
   importFn: _trampoline13,
 },
 )) : _lowerImportBackwardsCompat.bind(
@@ -7261,29 +8256,9 @@ null,
   componentIdx: 0,
   isAsync: false,
   isManualAsync: _trampoline13.manuallyAsync,
-  paramLiftFns: [_liftFlatList({
-    elemLiftFn: _liftFlatU8,
-    elemAlign32: 1,
-    elemSize32: 1,
-    typedArray: Uint8Array,
-  })],
-  resultLowerFns: [
-  _lowerFlatResult({
-    caseMetas: [
-    [ 'ok', _lowerFlatList({
-      elemLowerFn: _lowerFlatU8,
-      elemSize32: 1,
-      elemAlign32: 1,
-    }), 12, 4, 4 ],
-    [ 'err', _lowerFlatStringAny, 12, 4, 4 ],
-    ],
-    variantSize32: 12,
-    variantAlign32: 4,
-    variantPayloadOffset32: 4,
-    variantFlatCount: 3,
-  })
-  ],
-  hasResultPointer: true,
+  paramLiftFns: [_liftFlatStringAny,_liftFlatU32],
+  resultLowerFns: [_lowerFlatBool],
+  hasResultPointer: false,
   funcTypeIsAsync: false,
   getCallbackFn: () => null,
   getPostReturnFn: () => null,
@@ -7291,7 +8266,7 @@ null,
   memoryIdx: 0,
   stringEncoding: 'utf8',
   getMemoryFn: () => memory0,
-  getReallocFn: () => realloc0,
+  getReallocFn: undefined,
   importFn: _trampoline13,
 },
 );
@@ -7302,8 +8277,44 @@ null,
   componentIdx: 0,
   isAsync: false,
   isManualAsync: _trampoline14.manuallyAsync,
-  paramLiftFns: [],
-  resultLowerFns: [_lowerFlatTuple({ elemLowerMetas: [[_lowerFlatU64, 8, 8],[_lowerFlatU64, 8, 8],], size32: 16, align32: 8 })],
+  paramLiftFns: [_liftFlatStringAny,_liftFlatU32,_liftFlatList({
+    elemLiftFn: _liftFlatVariant({
+      caseMetas: [['int64', _liftFlatS64, 8, 8, 1],['utf8-string', _liftFlatList({
+        elemLiftFn: _liftFlatU8,
+        elemAlign32: 1,
+        elemSize32: 1,
+        typedArray: Uint8Array,
+      }), 8, 4, 2],],
+      variantSize32: 16,
+      variantAlign32: 8,
+      variantPayloadOffset32: 8,
+      variantFlatCount: 3,
+    } ),
+    elemAlign32: 8,
+    elemSize32: 16,
+    typedArray: undefined,
+  })],
+  resultLowerFns: [_lowerFlatVariant({
+    caseMetas: [[ 'executed', _lowerFlatVariant({
+      caseMetas: [[ 'int64', _lowerFlatS64, 8, 8, 1 ],[ 'i64-vector', _lowerFlatList({
+        elemLowerFn: _lowerFlatS64,
+        elemSize32: 8,
+        elemAlign32: 8,
+      }), 8, 4, 2 ],[ 'i64-map', _lowerFlatList({
+        elemLowerFn: _lowerFlatRecord({ fieldMetas: [['key', _lowerFlatStringAny, 8, 4 ],['value', _lowerFlatS64, 8, 8 ],], size32: 16, align32: 8 }),
+        elemSize32: 16,
+        elemAlign32: 8,
+      }), 8, 4, 2 ],],
+      variantSize32: 16,
+      variantAlign32: 8,
+      variantPayloadOffset32: 8,
+      variantFlatCount: 3,
+    } ), 16, 8, 3 ],[ 'refused', _lowerFlatRecord({ fieldMetas: [['reason', _lowerFlatStringAny, 8, 4 ],['fallback', _lowerFlatStringAny, 8, 4 ],], size32: 16, align32: 4 }), 16, 4, 4 ],],
+    variantSize32: 24,
+    variantAlign32: 8,
+    variantPayloadOffset32: 8,
+    variantFlatCount: 5,
+  } )],
   hasResultPointer: true,
   funcTypeIsAsync: false,
   getCallbackFn: () => null,
@@ -7312,7 +8323,7 @@ null,
   memoryIdx: 0,
   stringEncoding: 'utf8',
   getMemoryFn: () => memory0,
-  getReallocFn: undefined,
+  getReallocFn: () => realloc0,
   importFn: _trampoline14,
 },
 )) : _lowerImportBackwardsCompat.bind(
@@ -7322,8 +8333,44 @@ null,
   componentIdx: 0,
   isAsync: false,
   isManualAsync: _trampoline14.manuallyAsync,
-  paramLiftFns: [],
-  resultLowerFns: [_lowerFlatTuple({ elemLowerMetas: [[_lowerFlatU64, 8, 8],[_lowerFlatU64, 8, 8],], size32: 16, align32: 8 })],
+  paramLiftFns: [_liftFlatStringAny,_liftFlatU32,_liftFlatList({
+    elemLiftFn: _liftFlatVariant({
+      caseMetas: [['int64', _liftFlatS64, 8, 8, 1],['utf8-string', _liftFlatList({
+        elemLiftFn: _liftFlatU8,
+        elemAlign32: 1,
+        elemSize32: 1,
+        typedArray: Uint8Array,
+      }), 8, 4, 2],],
+      variantSize32: 16,
+      variantAlign32: 8,
+      variantPayloadOffset32: 8,
+      variantFlatCount: 3,
+    } ),
+    elemAlign32: 8,
+    elemSize32: 16,
+    typedArray: undefined,
+  })],
+  resultLowerFns: [_lowerFlatVariant({
+    caseMetas: [[ 'executed', _lowerFlatVariant({
+      caseMetas: [[ 'int64', _lowerFlatS64, 8, 8, 1 ],[ 'i64-vector', _lowerFlatList({
+        elemLowerFn: _lowerFlatS64,
+        elemSize32: 8,
+        elemAlign32: 8,
+      }), 8, 4, 2 ],[ 'i64-map', _lowerFlatList({
+        elemLowerFn: _lowerFlatRecord({ fieldMetas: [['key', _lowerFlatStringAny, 8, 4 ],['value', _lowerFlatS64, 8, 8 ],], size32: 16, align32: 8 }),
+        elemSize32: 16,
+        elemAlign32: 8,
+      }), 8, 4, 2 ],],
+      variantSize32: 16,
+      variantAlign32: 8,
+      variantPayloadOffset32: 8,
+      variantFlatCount: 3,
+    } ), 16, 8, 3 ],[ 'refused', _lowerFlatRecord({ fieldMetas: [['reason', _lowerFlatStringAny, 8, 4 ],['fallback', _lowerFlatStringAny, 8, 4 ],], size32: 16, align32: 4 }), 16, 4, 4 ],],
+    variantSize32: 24,
+    variantAlign32: 8,
+    variantPayloadOffset32: 8,
+    variantFlatCount: 5,
+  } )],
   hasResultPointer: true,
   funcTypeIsAsync: false,
   getCallbackFn: () => null,
@@ -7332,7 +8379,7 @@ null,
   memoryIdx: 0,
   stringEncoding: 'utf8',
   getMemoryFn: () => memory0,
-  getReallocFn: undefined,
+  getReallocFn: () => realloc0,
   importFn: _trampoline14,
 },
 );
@@ -7344,16 +8391,27 @@ null,
   isAsync: false,
   isManualAsync: _trampoline15.manuallyAsync,
   paramLiftFns: [_liftFlatList({
-    elemLiftFn: _liftFlatBorrow.bind(null, 1),
-    elemAlign32: 4,
-    elemSize32: 4,
-    typedArray: undefined,
+    elemLiftFn: _liftFlatU8,
+    elemAlign32: 1,
+    elemSize32: 1,
+    typedArray: Uint8Array,
   })],
-  resultLowerFns: [_lowerFlatList({
-    elemLowerFn: _lowerFlatU32,
-    elemSize32: 4,
-    elemAlign32: 4,
-  })],
+  resultLowerFns: [
+  _lowerFlatResult({
+    caseMetas: [
+    [ 'ok', _lowerFlatList({
+      elemLowerFn: _lowerFlatU8,
+      elemSize32: 1,
+      elemAlign32: 1,
+    }), 12, 4, 4 ],
+    [ 'err', _lowerFlatStringAny, 12, 4, 4 ],
+    ],
+    variantSize32: 12,
+    variantAlign32: 4,
+    variantPayloadOffset32: 4,
+    variantFlatCount: 3,
+  })
+  ],
   hasResultPointer: true,
   funcTypeIsAsync: false,
   getCallbackFn: () => null,
@@ -7373,16 +8431,27 @@ null,
   isAsync: false,
   isManualAsync: _trampoline15.manuallyAsync,
   paramLiftFns: [_liftFlatList({
-    elemLiftFn: _liftFlatBorrow.bind(null, 1),
-    elemAlign32: 4,
-    elemSize32: 4,
-    typedArray: undefined,
+    elemLiftFn: _liftFlatU8,
+    elemAlign32: 1,
+    elemSize32: 1,
+    typedArray: Uint8Array,
   })],
-  resultLowerFns: [_lowerFlatList({
-    elemLowerFn: _lowerFlatU32,
-    elemSize32: 4,
-    elemAlign32: 4,
-  })],
+  resultLowerFns: [
+  _lowerFlatResult({
+    caseMetas: [
+    [ 'ok', _lowerFlatList({
+      elemLowerFn: _lowerFlatU8,
+      elemSize32: 1,
+      elemAlign32: 1,
+    }), 12, 4, 4 ],
+    [ 'err', _lowerFlatStringAny, 12, 4, 4 ],
+    ],
+    variantSize32: 12,
+    variantAlign32: 4,
+    variantPayloadOffset32: 4,
+    variantFlatCount: 3,
+  })
+  ],
   hasResultPointer: true,
   funcTypeIsAsync: false,
   getCallbackFn: () => null,
@@ -7402,39 +8471,39 @@ null,
   componentIdx: 0,
   isAsync: false,
   isManualAsync: _trampoline16.manuallyAsync,
-  paramLiftFns: [_liftFlatBorrow.bind(null, 3)],
+  paramLiftFns: [_liftFlatList({
+    elemLiftFn: _liftFlatStringAny,
+    elemAlign32: 4,
+    elemSize32: 8,
+    typedArray: undefined,
+  }),_liftFlatList({
+    elemLiftFn: _liftFlatStringAny,
+    elemAlign32: 4,
+    elemSize32: 8,
+    typedArray: undefined,
+  })],
   resultLowerFns: [
   _lowerFlatResult({
     caseMetas: [
-    [ 'ok', _lowerFlatU64, 16, 8, 8 ],
-    [ 'err', _lowerFlatVariant({
-      caseMetas: [[ 'last-operation-failed', _lowerFlatOwn({
-        componentIdx: 0,
-        lowerFn: 
-        function lowerImportedOwnedHost_Error$1(obj) {
-          if (!(obj instanceof Error$1)) {
-            throw new TypeError('Resource error: Not a valid \"Error$1\" resource.');
-          }
-          let handle = obj[symbolRscHandle];
-          if (!handle) {
-            const rep = obj[symbolRscRep] || ++captureCnt0;
-            captureTable0.set(rep, obj);
-            handle = rscTableCreateOwn(handleTable0, rep);
-          }
-          return handle;
-        }
-        ,
-      }), 4, 4, 1 ],[ 'closed', null, 0, 0, 0 ],],
-      variantSize32: 8,
-      variantAlign32: 4,
-      variantPayloadOffset32: 4,
-      variantFlatCount: 2,
-    } ), 16, 8, 8 ],
+    [ 'ok', _lowerFlatRecord({ fieldMetas: [['sources', _lowerFlatList({
+      elemLowerFn: _lowerFlatRecord({ fieldMetas: [['sourceId', _lowerFlatStringAny, 8, 4 ],['source', _lowerFlatList({
+        elemLowerFn: _lowerFlatU8,
+        elemSize32: 1,
+        elemAlign32: 1,
+      }), 8, 4 ],], size32: 16, align32: 4 }),
+      elemSize32: 16,
+      elemAlign32: 4,
+    }), 8, 4 ],['namespaces', _lowerFlatList({
+      elemLowerFn: _lowerFlatStringAny,
+      elemSize32: 8,
+      elemAlign32: 4,
+    }), 8, 4 ],], size32: 16, align32: 4 }), 20, 4, 4 ],
+    [ 'err', _lowerFlatStringAny, 20, 4, 4 ],
     ],
-    variantSize32: 16,
-    variantAlign32: 8,
-    variantPayloadOffset32: 8,
-    variantFlatCount: 3,
+    variantSize32: 20,
+    variantAlign32: 4,
+    variantPayloadOffset32: 4,
+    variantFlatCount: 5,
   })
   ],
   hasResultPointer: true,
@@ -7445,7 +8514,7 @@ null,
   memoryIdx: 0,
   stringEncoding: 'utf8',
   getMemoryFn: () => memory0,
-  getReallocFn: undefined,
+  getReallocFn: () => realloc0,
   importFn: _trampoline16,
 },
 )) : _lowerImportBackwardsCompat.bind(
@@ -7455,39 +8524,39 @@ null,
   componentIdx: 0,
   isAsync: false,
   isManualAsync: _trampoline16.manuallyAsync,
-  paramLiftFns: [_liftFlatBorrow.bind(null, 3)],
+  paramLiftFns: [_liftFlatList({
+    elemLiftFn: _liftFlatStringAny,
+    elemAlign32: 4,
+    elemSize32: 8,
+    typedArray: undefined,
+  }),_liftFlatList({
+    elemLiftFn: _liftFlatStringAny,
+    elemAlign32: 4,
+    elemSize32: 8,
+    typedArray: undefined,
+  })],
   resultLowerFns: [
   _lowerFlatResult({
     caseMetas: [
-    [ 'ok', _lowerFlatU64, 16, 8, 8 ],
-    [ 'err', _lowerFlatVariant({
-      caseMetas: [[ 'last-operation-failed', _lowerFlatOwn({
-        componentIdx: 0,
-        lowerFn: 
-        function lowerImportedOwnedHost_Error$1(obj) {
-          if (!(obj instanceof Error$1)) {
-            throw new TypeError('Resource error: Not a valid \"Error$1\" resource.');
-          }
-          let handle = obj[symbolRscHandle];
-          if (!handle) {
-            const rep = obj[symbolRscRep] || ++captureCnt0;
-            captureTable0.set(rep, obj);
-            handle = rscTableCreateOwn(handleTable0, rep);
-          }
-          return handle;
-        }
-        ,
-      }), 4, 4, 1 ],[ 'closed', null, 0, 0, 0 ],],
-      variantSize32: 8,
-      variantAlign32: 4,
-      variantPayloadOffset32: 4,
-      variantFlatCount: 2,
-    } ), 16, 8, 8 ],
+    [ 'ok', _lowerFlatRecord({ fieldMetas: [['sources', _lowerFlatList({
+      elemLowerFn: _lowerFlatRecord({ fieldMetas: [['sourceId', _lowerFlatStringAny, 8, 4 ],['source', _lowerFlatList({
+        elemLowerFn: _lowerFlatU8,
+        elemSize32: 1,
+        elemAlign32: 1,
+      }), 8, 4 ],], size32: 16, align32: 4 }),
+      elemSize32: 16,
+      elemAlign32: 4,
+    }), 8, 4 ],['namespaces', _lowerFlatList({
+      elemLowerFn: _lowerFlatStringAny,
+      elemSize32: 8,
+      elemAlign32: 4,
+    }), 8, 4 ],], size32: 16, align32: 4 }), 20, 4, 4 ],
+    [ 'err', _lowerFlatStringAny, 20, 4, 4 ],
     ],
-    variantSize32: 16,
-    variantAlign32: 8,
-    variantPayloadOffset32: 8,
-    variantFlatCount: 3,
+    variantSize32: 20,
+    variantAlign32: 4,
+    variantPayloadOffset32: 4,
+    variantFlatCount: 5,
   })
   ],
   hasResultPointer: true,
@@ -7498,7 +8567,7 @@ null,
   memoryIdx: 0,
   stringEncoding: 'utf8',
   getMemoryFn: () => memory0,
-  getReallocFn: undefined,
+  getReallocFn: () => realloc0,
   importFn: _trampoline16,
 },
 );
@@ -7509,46 +8578,8 @@ null,
   componentIdx: 0,
   isAsync: false,
   isManualAsync: _trampoline17.manuallyAsync,
-  paramLiftFns: [_liftFlatBorrow.bind(null, 3),_liftFlatList({
-    elemLiftFn: _liftFlatU8,
-    elemAlign32: 1,
-    elemSize32: 1,
-    typedArray: Uint8Array,
-  })],
-  resultLowerFns: [
-  _lowerFlatResult({
-    caseMetas: [
-    [ 'ok', null, 12, 4, 4 ],
-    [ 'err', _lowerFlatVariant({
-      caseMetas: [[ 'last-operation-failed', _lowerFlatOwn({
-        componentIdx: 0,
-        lowerFn: 
-        function lowerImportedOwnedHost_Error$1(obj) {
-          if (!(obj instanceof Error$1)) {
-            throw new TypeError('Resource error: Not a valid \"Error$1\" resource.');
-          }
-          let handle = obj[symbolRscHandle];
-          if (!handle) {
-            const rep = obj[symbolRscRep] || ++captureCnt0;
-            captureTable0.set(rep, obj);
-            handle = rscTableCreateOwn(handleTable0, rep);
-          }
-          return handle;
-        }
-        ,
-      }), 4, 4, 1 ],[ 'closed', null, 0, 0, 0 ],],
-      variantSize32: 8,
-      variantAlign32: 4,
-      variantPayloadOffset32: 4,
-      variantFlatCount: 2,
-    } ), 12, 4, 4 ],
-    ],
-    variantSize32: 12,
-    variantAlign32: 4,
-    variantPayloadOffset32: 4,
-    variantFlatCount: 3,
-  })
-  ],
+  paramLiftFns: [],
+  resultLowerFns: [_lowerFlatTuple({ elemLowerMetas: [[_lowerFlatU64, 8, 8],[_lowerFlatU64, 8, 8],], size32: 16, align32: 8 })],
   hasResultPointer: true,
   funcTypeIsAsync: false,
   getCallbackFn: () => null,
@@ -7567,46 +8598,8 @@ null,
   componentIdx: 0,
   isAsync: false,
   isManualAsync: _trampoline17.manuallyAsync,
-  paramLiftFns: [_liftFlatBorrow.bind(null, 3),_liftFlatList({
-    elemLiftFn: _liftFlatU8,
-    elemAlign32: 1,
-    elemSize32: 1,
-    typedArray: Uint8Array,
-  })],
-  resultLowerFns: [
-  _lowerFlatResult({
-    caseMetas: [
-    [ 'ok', null, 12, 4, 4 ],
-    [ 'err', _lowerFlatVariant({
-      caseMetas: [[ 'last-operation-failed', _lowerFlatOwn({
-        componentIdx: 0,
-        lowerFn: 
-        function lowerImportedOwnedHost_Error$1(obj) {
-          if (!(obj instanceof Error$1)) {
-            throw new TypeError('Resource error: Not a valid \"Error$1\" resource.');
-          }
-          let handle = obj[symbolRscHandle];
-          if (!handle) {
-            const rep = obj[symbolRscRep] || ++captureCnt0;
-            captureTable0.set(rep, obj);
-            handle = rscTableCreateOwn(handleTable0, rep);
-          }
-          return handle;
-        }
-        ,
-      }), 4, 4, 1 ],[ 'closed', null, 0, 0, 0 ],],
-      variantSize32: 8,
-      variantAlign32: 4,
-      variantPayloadOffset32: 4,
-      variantFlatCount: 2,
-    } ), 12, 4, 4 ],
-    ],
-    variantSize32: 12,
-    variantAlign32: 4,
-    variantPayloadOffset32: 4,
-    variantFlatCount: 3,
-  })
-  ],
+  paramLiftFns: [],
+  resultLowerFns: [_lowerFlatTuple({ elemLowerMetas: [[_lowerFlatU64, 8, 8],[_lowerFlatU64, 8, 8],], size32: 16, align32: 8 })],
   hasResultPointer: true,
   funcTypeIsAsync: false,
   getCallbackFn: () => null,
@@ -7626,41 +8619,17 @@ null,
   componentIdx: 0,
   isAsync: false,
   isManualAsync: _trampoline18.manuallyAsync,
-  paramLiftFns: [_liftFlatBorrow.bind(null, 3)],
-  resultLowerFns: [
-  _lowerFlatResult({
-    caseMetas: [
-    [ 'ok', null, 12, 4, 4 ],
-    [ 'err', _lowerFlatVariant({
-      caseMetas: [[ 'last-operation-failed', _lowerFlatOwn({
-        componentIdx: 0,
-        lowerFn: 
-        function lowerImportedOwnedHost_Error$1(obj) {
-          if (!(obj instanceof Error$1)) {
-            throw new TypeError('Resource error: Not a valid \"Error$1\" resource.');
-          }
-          let handle = obj[symbolRscHandle];
-          if (!handle) {
-            const rep = obj[symbolRscRep] || ++captureCnt0;
-            captureTable0.set(rep, obj);
-            handle = rscTableCreateOwn(handleTable0, rep);
-          }
-          return handle;
-        }
-        ,
-      }), 4, 4, 1 ],[ 'closed', null, 0, 0, 0 ],],
-      variantSize32: 8,
-      variantAlign32: 4,
-      variantPayloadOffset32: 4,
-      variantFlatCount: 2,
-    } ), 12, 4, 4 ],
-    ],
-    variantSize32: 12,
-    variantAlign32: 4,
-    variantPayloadOffset32: 4,
-    variantFlatCount: 3,
-  })
-  ],
+  paramLiftFns: [_liftFlatList({
+    elemLiftFn: _liftFlatBorrow.bind(null, 1),
+    elemAlign32: 4,
+    elemSize32: 4,
+    typedArray: undefined,
+  })],
+  resultLowerFns: [_lowerFlatList({
+    elemLowerFn: _lowerFlatU32,
+    elemSize32: 4,
+    elemAlign32: 4,
+  })],
   hasResultPointer: true,
   funcTypeIsAsync: false,
   getCallbackFn: () => null,
@@ -7669,7 +8638,7 @@ null,
   memoryIdx: 0,
   stringEncoding: 'utf8',
   getMemoryFn: () => memory0,
-  getReallocFn: undefined,
+  getReallocFn: () => realloc0,
   importFn: _trampoline18,
 },
 )) : _lowerImportBackwardsCompat.bind(
@@ -7679,41 +8648,17 @@ null,
   componentIdx: 0,
   isAsync: false,
   isManualAsync: _trampoline18.manuallyAsync,
-  paramLiftFns: [_liftFlatBorrow.bind(null, 3)],
-  resultLowerFns: [
-  _lowerFlatResult({
-    caseMetas: [
-    [ 'ok', null, 12, 4, 4 ],
-    [ 'err', _lowerFlatVariant({
-      caseMetas: [[ 'last-operation-failed', _lowerFlatOwn({
-        componentIdx: 0,
-        lowerFn: 
-        function lowerImportedOwnedHost_Error$1(obj) {
-          if (!(obj instanceof Error$1)) {
-            throw new TypeError('Resource error: Not a valid \"Error$1\" resource.');
-          }
-          let handle = obj[symbolRscHandle];
-          if (!handle) {
-            const rep = obj[symbolRscRep] || ++captureCnt0;
-            captureTable0.set(rep, obj);
-            handle = rscTableCreateOwn(handleTable0, rep);
-          }
-          return handle;
-        }
-        ,
-      }), 4, 4, 1 ],[ 'closed', null, 0, 0, 0 ],],
-      variantSize32: 8,
-      variantAlign32: 4,
-      variantPayloadOffset32: 4,
-      variantFlatCount: 2,
-    } ), 12, 4, 4 ],
-    ],
-    variantSize32: 12,
-    variantAlign32: 4,
-    variantPayloadOffset32: 4,
-    variantFlatCount: 3,
-  })
-  ],
+  paramLiftFns: [_liftFlatList({
+    elemLiftFn: _liftFlatBorrow.bind(null, 1),
+    elemAlign32: 4,
+    elemSize32: 4,
+    typedArray: undefined,
+  })],
+  resultLowerFns: [_lowerFlatList({
+    elemLowerFn: _lowerFlatU32,
+    elemSize32: 4,
+    elemAlign32: 4,
+  })],
   hasResultPointer: true,
   funcTypeIsAsync: false,
   getCallbackFn: () => null,
@@ -7722,7 +8667,7 @@ null,
   memoryIdx: 0,
   stringEncoding: 'utf8',
   getMemoryFn: () => memory0,
-  getReallocFn: undefined,
+  getReallocFn: () => realloc0,
   importFn: _trampoline18,
 },
 );
@@ -7733,12 +8678,41 @@ null,
   componentIdx: 0,
   isAsync: false,
   isManualAsync: _trampoline19.manuallyAsync,
-  paramLiftFns: [],
-  resultLowerFns: [_lowerFlatList({
-    elemLowerFn: _lowerFlatTuple({ elemLowerMetas: [[_lowerFlatStringAny, 8, 4],[_lowerFlatStringAny, 8, 4],], size32: 16, align32: 4 }),
-    elemSize32: 16,
-    elemAlign32: 4,
-  })],
+  paramLiftFns: [_liftFlatBorrow.bind(null, 3)],
+  resultLowerFns: [
+  _lowerFlatResult({
+    caseMetas: [
+    [ 'ok', _lowerFlatU64, 16, 8, 8 ],
+    [ 'err', _lowerFlatVariant({
+      caseMetas: [[ 'last-operation-failed', _lowerFlatOwn({
+        componentIdx: 0,
+        lowerFn: 
+        function lowerImportedOwnedHost_Error$1(obj) {
+          if (!(obj instanceof Error$1)) {
+            throw new TypeError('Resource error: Not a valid \"Error$1\" resource.');
+          }
+          let handle = obj[symbolRscHandle];
+          if (!handle) {
+            const rep = obj[symbolRscRep] || ++captureCnt0;
+            captureTable0.set(rep, obj);
+            handle = rscTableCreateOwn(handleTable0, rep);
+          }
+          return handle;
+        }
+        ,
+      }), 4, 4, 1 ],[ 'closed', null, 0, 0, 0 ],],
+      variantSize32: 8,
+      variantAlign32: 4,
+      variantPayloadOffset32: 4,
+      variantFlatCount: 2,
+    } ), 16, 8, 8 ],
+    ],
+    variantSize32: 16,
+    variantAlign32: 8,
+    variantPayloadOffset32: 8,
+    variantFlatCount: 3,
+  })
+  ],
   hasResultPointer: true,
   funcTypeIsAsync: false,
   getCallbackFn: () => null,
@@ -7747,7 +8721,7 @@ null,
   memoryIdx: 0,
   stringEncoding: 'utf8',
   getMemoryFn: () => memory0,
-  getReallocFn: () => realloc0,
+  getReallocFn: undefined,
   importFn: _trampoline19,
 },
 )) : _lowerImportBackwardsCompat.bind(
@@ -7757,12 +8731,41 @@ null,
   componentIdx: 0,
   isAsync: false,
   isManualAsync: _trampoline19.manuallyAsync,
-  paramLiftFns: [],
-  resultLowerFns: [_lowerFlatList({
-    elemLowerFn: _lowerFlatTuple({ elemLowerMetas: [[_lowerFlatStringAny, 8, 4],[_lowerFlatStringAny, 8, 4],], size32: 16, align32: 4 }),
-    elemSize32: 16,
-    elemAlign32: 4,
-  })],
+  paramLiftFns: [_liftFlatBorrow.bind(null, 3)],
+  resultLowerFns: [
+  _lowerFlatResult({
+    caseMetas: [
+    [ 'ok', _lowerFlatU64, 16, 8, 8 ],
+    [ 'err', _lowerFlatVariant({
+      caseMetas: [[ 'last-operation-failed', _lowerFlatOwn({
+        componentIdx: 0,
+        lowerFn: 
+        function lowerImportedOwnedHost_Error$1(obj) {
+          if (!(obj instanceof Error$1)) {
+            throw new TypeError('Resource error: Not a valid \"Error$1\" resource.');
+          }
+          let handle = obj[symbolRscHandle];
+          if (!handle) {
+            const rep = obj[symbolRscRep] || ++captureCnt0;
+            captureTable0.set(rep, obj);
+            handle = rscTableCreateOwn(handleTable0, rep);
+          }
+          return handle;
+        }
+        ,
+      }), 4, 4, 1 ],[ 'closed', null, 0, 0, 0 ],],
+      variantSize32: 8,
+      variantAlign32: 4,
+      variantPayloadOffset32: 4,
+      variantFlatCount: 2,
+    } ), 16, 8, 8 ],
+    ],
+    variantSize32: 16,
+    variantAlign32: 8,
+    variantPayloadOffset32: 8,
+    variantFlatCount: 3,
+  })
+  ],
   hasResultPointer: true,
   funcTypeIsAsync: false,
   getCallbackFn: () => null,
@@ -7771,7 +8774,7 @@ null,
   memoryIdx: 0,
   stringEncoding: 'utf8',
   getMemoryFn: () => memory0,
-  getReallocFn: () => realloc0,
+  getReallocFn: undefined,
   importFn: _trampoline19,
 },
 );
@@ -7782,33 +8785,44 @@ null,
   componentIdx: 0,
   isAsync: false,
   isManualAsync: _trampoline20.manuallyAsync,
-  paramLiftFns: [],
+  paramLiftFns: [_liftFlatBorrow.bind(null, 3),_liftFlatList({
+    elemLiftFn: _liftFlatU8,
+    elemAlign32: 1,
+    elemSize32: 1,
+    typedArray: Uint8Array,
+  })],
   resultLowerFns: [
-  _lowerFlatOption({
+  _lowerFlatResult({
     caseMetas: [
-    [ 'none', null, 0, 0, 0 ],
-    [ 'some', _lowerFlatOwn({
-      componentIdx: 0,
-      lowerFn: 
-      function lowerImportedOwnedHost_TerminalInput(obj) {
-        if (!(obj instanceof TerminalInput)) {
-          throw new TypeError('Resource error: Not a valid \"TerminalInput\" resource.');
+    [ 'ok', null, 12, 4, 4 ],
+    [ 'err', _lowerFlatVariant({
+      caseMetas: [[ 'last-operation-failed', _lowerFlatOwn({
+        componentIdx: 0,
+        lowerFn: 
+        function lowerImportedOwnedHost_Error$1(obj) {
+          if (!(obj instanceof Error$1)) {
+            throw new TypeError('Resource error: Not a valid \"Error$1\" resource.');
+          }
+          let handle = obj[symbolRscHandle];
+          if (!handle) {
+            const rep = obj[symbolRscRep] || ++captureCnt0;
+            captureTable0.set(rep, obj);
+            handle = rscTableCreateOwn(handleTable0, rep);
+          }
+          return handle;
         }
-        let handle = obj[symbolRscHandle];
-        if (!handle) {
-          const rep = obj[symbolRscRep] || ++captureCnt4;
-          captureTable4.set(rep, obj);
-          handle = rscTableCreateOwn(handleTable4, rep);
-        }
-        return handle;
-      }
-      ,
-    }), 4, 4, 1],
+        ,
+      }), 4, 4, 1 ],[ 'closed', null, 0, 0, 0 ],],
+      variantSize32: 8,
+      variantAlign32: 4,
+      variantPayloadOffset32: 4,
+      variantFlatCount: 2,
+    } ), 12, 4, 4 ],
     ],
-    variantSize32: 8,
+    variantSize32: 12,
     variantAlign32: 4,
     variantPayloadOffset32: 4,
-    variantFlatCount: 2,
+    variantFlatCount: 3,
   })
   ],
   hasResultPointer: true,
@@ -7829,33 +8843,44 @@ null,
   componentIdx: 0,
   isAsync: false,
   isManualAsync: _trampoline20.manuallyAsync,
-  paramLiftFns: [],
+  paramLiftFns: [_liftFlatBorrow.bind(null, 3),_liftFlatList({
+    elemLiftFn: _liftFlatU8,
+    elemAlign32: 1,
+    elemSize32: 1,
+    typedArray: Uint8Array,
+  })],
   resultLowerFns: [
-  _lowerFlatOption({
+  _lowerFlatResult({
     caseMetas: [
-    [ 'none', null, 0, 0, 0 ],
-    [ 'some', _lowerFlatOwn({
-      componentIdx: 0,
-      lowerFn: 
-      function lowerImportedOwnedHost_TerminalInput(obj) {
-        if (!(obj instanceof TerminalInput)) {
-          throw new TypeError('Resource error: Not a valid \"TerminalInput\" resource.');
+    [ 'ok', null, 12, 4, 4 ],
+    [ 'err', _lowerFlatVariant({
+      caseMetas: [[ 'last-operation-failed', _lowerFlatOwn({
+        componentIdx: 0,
+        lowerFn: 
+        function lowerImportedOwnedHost_Error$1(obj) {
+          if (!(obj instanceof Error$1)) {
+            throw new TypeError('Resource error: Not a valid \"Error$1\" resource.');
+          }
+          let handle = obj[symbolRscHandle];
+          if (!handle) {
+            const rep = obj[symbolRscRep] || ++captureCnt0;
+            captureTable0.set(rep, obj);
+            handle = rscTableCreateOwn(handleTable0, rep);
+          }
+          return handle;
         }
-        let handle = obj[symbolRscHandle];
-        if (!handle) {
-          const rep = obj[symbolRscRep] || ++captureCnt4;
-          captureTable4.set(rep, obj);
-          handle = rscTableCreateOwn(handleTable4, rep);
-        }
-        return handle;
-      }
-      ,
-    }), 4, 4, 1],
+        ,
+      }), 4, 4, 1 ],[ 'closed', null, 0, 0, 0 ],],
+      variantSize32: 8,
+      variantAlign32: 4,
+      variantPayloadOffset32: 4,
+      variantFlatCount: 2,
+    } ), 12, 4, 4 ],
     ],
-    variantSize32: 8,
+    variantSize32: 12,
     variantAlign32: 4,
     variantPayloadOffset32: 4,
-    variantFlatCount: 2,
+    variantFlatCount: 3,
   })
   ],
   hasResultPointer: true,
@@ -7877,33 +8902,39 @@ null,
   componentIdx: 0,
   isAsync: false,
   isManualAsync: _trampoline21.manuallyAsync,
-  paramLiftFns: [],
+  paramLiftFns: [_liftFlatBorrow.bind(null, 3)],
   resultLowerFns: [
-  _lowerFlatOption({
+  _lowerFlatResult({
     caseMetas: [
-    [ 'none', null, 0, 0, 0 ],
-    [ 'some', _lowerFlatOwn({
-      componentIdx: 0,
-      lowerFn: 
-      function lowerImportedOwnedHost_TerminalOutput(obj) {
-        if (!(obj instanceof TerminalOutput)) {
-          throw new TypeError('Resource error: Not a valid \"TerminalOutput\" resource.');
+    [ 'ok', null, 12, 4, 4 ],
+    [ 'err', _lowerFlatVariant({
+      caseMetas: [[ 'last-operation-failed', _lowerFlatOwn({
+        componentIdx: 0,
+        lowerFn: 
+        function lowerImportedOwnedHost_Error$1(obj) {
+          if (!(obj instanceof Error$1)) {
+            throw new TypeError('Resource error: Not a valid \"Error$1\" resource.');
+          }
+          let handle = obj[symbolRscHandle];
+          if (!handle) {
+            const rep = obj[symbolRscRep] || ++captureCnt0;
+            captureTable0.set(rep, obj);
+            handle = rscTableCreateOwn(handleTable0, rep);
+          }
+          return handle;
         }
-        let handle = obj[symbolRscHandle];
-        if (!handle) {
-          const rep = obj[symbolRscRep] || ++captureCnt5;
-          captureTable5.set(rep, obj);
-          handle = rscTableCreateOwn(handleTable5, rep);
-        }
-        return handle;
-      }
-      ,
-    }), 4, 4, 1],
+        ,
+      }), 4, 4, 1 ],[ 'closed', null, 0, 0, 0 ],],
+      variantSize32: 8,
+      variantAlign32: 4,
+      variantPayloadOffset32: 4,
+      variantFlatCount: 2,
+    } ), 12, 4, 4 ],
     ],
-    variantSize32: 8,
+    variantSize32: 12,
     variantAlign32: 4,
     variantPayloadOffset32: 4,
-    variantFlatCount: 2,
+    variantFlatCount: 3,
   })
   ],
   hasResultPointer: true,
@@ -7924,33 +8955,39 @@ null,
   componentIdx: 0,
   isAsync: false,
   isManualAsync: _trampoline21.manuallyAsync,
-  paramLiftFns: [],
+  paramLiftFns: [_liftFlatBorrow.bind(null, 3)],
   resultLowerFns: [
-  _lowerFlatOption({
+  _lowerFlatResult({
     caseMetas: [
-    [ 'none', null, 0, 0, 0 ],
-    [ 'some', _lowerFlatOwn({
-      componentIdx: 0,
-      lowerFn: 
-      function lowerImportedOwnedHost_TerminalOutput(obj) {
-        if (!(obj instanceof TerminalOutput)) {
-          throw new TypeError('Resource error: Not a valid \"TerminalOutput\" resource.');
+    [ 'ok', null, 12, 4, 4 ],
+    [ 'err', _lowerFlatVariant({
+      caseMetas: [[ 'last-operation-failed', _lowerFlatOwn({
+        componentIdx: 0,
+        lowerFn: 
+        function lowerImportedOwnedHost_Error$1(obj) {
+          if (!(obj instanceof Error$1)) {
+            throw new TypeError('Resource error: Not a valid \"Error$1\" resource.');
+          }
+          let handle = obj[symbolRscHandle];
+          if (!handle) {
+            const rep = obj[symbolRscRep] || ++captureCnt0;
+            captureTable0.set(rep, obj);
+            handle = rscTableCreateOwn(handleTable0, rep);
+          }
+          return handle;
         }
-        let handle = obj[symbolRscHandle];
-        if (!handle) {
-          const rep = obj[symbolRscRep] || ++captureCnt5;
-          captureTable5.set(rep, obj);
-          handle = rscTableCreateOwn(handleTable5, rep);
-        }
-        return handle;
-      }
-      ,
-    }), 4, 4, 1],
+        ,
+      }), 4, 4, 1 ],[ 'closed', null, 0, 0, 0 ],],
+      variantSize32: 8,
+      variantAlign32: 4,
+      variantPayloadOffset32: 4,
+      variantFlatCount: 2,
+    } ), 12, 4, 4 ],
     ],
-    variantSize32: 8,
+    variantSize32: 12,
     variantAlign32: 4,
     variantPayloadOffset32: 4,
-    variantFlatCount: 2,
+    variantFlatCount: 3,
   })
   ],
   hasResultPointer: true,
@@ -7973,6 +9010,55 @@ null,
   isAsync: false,
   isManualAsync: _trampoline22.manuallyAsync,
   paramLiftFns: [],
+  resultLowerFns: [_lowerFlatList({
+    elemLowerFn: _lowerFlatTuple({ elemLowerMetas: [[_lowerFlatStringAny, 8, 4],[_lowerFlatStringAny, 8, 4],], size32: 16, align32: 4 }),
+    elemSize32: 16,
+    elemAlign32: 4,
+  })],
+  hasResultPointer: true,
+  funcTypeIsAsync: false,
+  getCallbackFn: () => null,
+  getPostReturnFn: () => null,
+  isCancellable: false,
+  memoryIdx: 0,
+  stringEncoding: 'utf8',
+  getMemoryFn: () => memory0,
+  getReallocFn: () => realloc0,
+  importFn: _trampoline22,
+},
+)) : _lowerImportBackwardsCompat.bind(
+null,
+{
+  trampolineIdx: 22,
+  componentIdx: 0,
+  isAsync: false,
+  isManualAsync: _trampoline22.manuallyAsync,
+  paramLiftFns: [],
+  resultLowerFns: [_lowerFlatList({
+    elemLowerFn: _lowerFlatTuple({ elemLowerMetas: [[_lowerFlatStringAny, 8, 4],[_lowerFlatStringAny, 8, 4],], size32: 16, align32: 4 }),
+    elemSize32: 16,
+    elemAlign32: 4,
+  })],
+  hasResultPointer: true,
+  funcTypeIsAsync: false,
+  getCallbackFn: () => null,
+  getPostReturnFn: () => null,
+  isCancellable: false,
+  memoryIdx: 0,
+  stringEncoding: 'utf8',
+  getMemoryFn: () => memory0,
+  getReallocFn: () => realloc0,
+  importFn: _trampoline22,
+},
+);
+let trampoline23 = _trampoline23.manuallyAsync ? new WebAssembly.Suspending(_lowerImportBackwardsCompat.bind(
+null,
+{
+  trampolineIdx: 23,
+  componentIdx: 0,
+  isAsync: false,
+  isManualAsync: _trampoline23.manuallyAsync,
+  paramLiftFns: [],
   resultLowerFns: [
   _lowerFlatOption({
     caseMetas: [
@@ -7980,15 +9066,15 @@ null,
     [ 'some', _lowerFlatOwn({
       componentIdx: 0,
       lowerFn: 
-      function lowerImportedOwnedHost_TerminalOutput(obj) {
-        if (!(obj instanceof TerminalOutput)) {
-          throw new TypeError('Resource error: Not a valid \"TerminalOutput\" resource.');
+      function lowerImportedOwnedHost_TerminalInput(obj) {
+        if (!(obj instanceof TerminalInput)) {
+          throw new TypeError('Resource error: Not a valid \"TerminalInput\" resource.');
         }
         let handle = obj[symbolRscHandle];
         if (!handle) {
-          const rep = obj[symbolRscRep] || ++captureCnt5;
-          captureTable5.set(rep, obj);
-          handle = rscTableCreateOwn(handleTable5, rep);
+          const rep = obj[symbolRscRep] || ++captureCnt4;
+          captureTable4.set(rep, obj);
+          handle = rscTableCreateOwn(handleTable4, rep);
         }
         return handle;
       }
@@ -8010,15 +9096,63 @@ null,
   stringEncoding: 'utf8',
   getMemoryFn: () => memory0,
   getReallocFn: undefined,
-  importFn: _trampoline22,
+  importFn: _trampoline23,
 },
 )) : _lowerImportBackwardsCompat.bind(
 null,
 {
-  trampolineIdx: 22,
+  trampolineIdx: 23,
   componentIdx: 0,
   isAsync: false,
-  isManualAsync: _trampoline22.manuallyAsync,
+  isManualAsync: _trampoline23.manuallyAsync,
+  paramLiftFns: [],
+  resultLowerFns: [
+  _lowerFlatOption({
+    caseMetas: [
+    [ 'none', null, 0, 0, 0 ],
+    [ 'some', _lowerFlatOwn({
+      componentIdx: 0,
+      lowerFn: 
+      function lowerImportedOwnedHost_TerminalInput(obj) {
+        if (!(obj instanceof TerminalInput)) {
+          throw new TypeError('Resource error: Not a valid \"TerminalInput\" resource.');
+        }
+        let handle = obj[symbolRscHandle];
+        if (!handle) {
+          const rep = obj[symbolRscRep] || ++captureCnt4;
+          captureTable4.set(rep, obj);
+          handle = rscTableCreateOwn(handleTable4, rep);
+        }
+        return handle;
+      }
+      ,
+    }), 4, 4, 1],
+    ],
+    variantSize32: 8,
+    variantAlign32: 4,
+    variantPayloadOffset32: 4,
+    variantFlatCount: 2,
+  })
+  ],
+  hasResultPointer: true,
+  funcTypeIsAsync: false,
+  getCallbackFn: () => null,
+  getPostReturnFn: () => null,
+  isCancellable: false,
+  memoryIdx: 0,
+  stringEncoding: 'utf8',
+  getMemoryFn: () => memory0,
+  getReallocFn: undefined,
+  importFn: _trampoline23,
+},
+);
+let trampoline24 = _trampoline24.manuallyAsync ? new WebAssembly.Suspending(_lowerImportBackwardsCompat.bind(
+null,
+{
+  trampolineIdx: 24,
+  componentIdx: 0,
+  isAsync: false,
+  isManualAsync: _trampoline24.manuallyAsync,
   paramLiftFns: [],
   resultLowerFns: [
   _lowerFlatOption({
@@ -8057,17 +9191,166 @@ null,
   stringEncoding: 'utf8',
   getMemoryFn: () => memory0,
   getReallocFn: undefined,
-  importFn: _trampoline22,
+  importFn: _trampoline24,
+},
+)) : _lowerImportBackwardsCompat.bind(
+null,
+{
+  trampolineIdx: 24,
+  componentIdx: 0,
+  isAsync: false,
+  isManualAsync: _trampoline24.manuallyAsync,
+  paramLiftFns: [],
+  resultLowerFns: [
+  _lowerFlatOption({
+    caseMetas: [
+    [ 'none', null, 0, 0, 0 ],
+    [ 'some', _lowerFlatOwn({
+      componentIdx: 0,
+      lowerFn: 
+      function lowerImportedOwnedHost_TerminalOutput(obj) {
+        if (!(obj instanceof TerminalOutput)) {
+          throw new TypeError('Resource error: Not a valid \"TerminalOutput\" resource.');
+        }
+        let handle = obj[symbolRscHandle];
+        if (!handle) {
+          const rep = obj[symbolRscRep] || ++captureCnt5;
+          captureTable5.set(rep, obj);
+          handle = rscTableCreateOwn(handleTable5, rep);
+        }
+        return handle;
+      }
+      ,
+    }), 4, 4, 1],
+    ],
+    variantSize32: 8,
+    variantAlign32: 4,
+    variantPayloadOffset32: 4,
+    variantFlatCount: 2,
+  })
+  ],
+  hasResultPointer: true,
+  funcTypeIsAsync: false,
+  getCallbackFn: () => null,
+  getPostReturnFn: () => null,
+  isCancellable: false,
+  memoryIdx: 0,
+  stringEncoding: 'utf8',
+  getMemoryFn: () => memory0,
+  getReallocFn: undefined,
+  importFn: _trampoline24,
+},
+);
+let trampoline25 = _trampoline25.manuallyAsync ? new WebAssembly.Suspending(_lowerImportBackwardsCompat.bind(
+null,
+{
+  trampolineIdx: 25,
+  componentIdx: 0,
+  isAsync: false,
+  isManualAsync: _trampoline25.manuallyAsync,
+  paramLiftFns: [],
+  resultLowerFns: [
+  _lowerFlatOption({
+    caseMetas: [
+    [ 'none', null, 0, 0, 0 ],
+    [ 'some', _lowerFlatOwn({
+      componentIdx: 0,
+      lowerFn: 
+      function lowerImportedOwnedHost_TerminalOutput(obj) {
+        if (!(obj instanceof TerminalOutput)) {
+          throw new TypeError('Resource error: Not a valid \"TerminalOutput\" resource.');
+        }
+        let handle = obj[symbolRscHandle];
+        if (!handle) {
+          const rep = obj[symbolRscRep] || ++captureCnt5;
+          captureTable5.set(rep, obj);
+          handle = rscTableCreateOwn(handleTable5, rep);
+        }
+        return handle;
+      }
+      ,
+    }), 4, 4, 1],
+    ],
+    variantSize32: 8,
+    variantAlign32: 4,
+    variantPayloadOffset32: 4,
+    variantFlatCount: 2,
+  })
+  ],
+  hasResultPointer: true,
+  funcTypeIsAsync: false,
+  getCallbackFn: () => null,
+  getPostReturnFn: () => null,
+  isCancellable: false,
+  memoryIdx: 0,
+  stringEncoding: 'utf8',
+  getMemoryFn: () => memory0,
+  getReallocFn: undefined,
+  importFn: _trampoline25,
+},
+)) : _lowerImportBackwardsCompat.bind(
+null,
+{
+  trampolineIdx: 25,
+  componentIdx: 0,
+  isAsync: false,
+  isManualAsync: _trampoline25.manuallyAsync,
+  paramLiftFns: [],
+  resultLowerFns: [
+  _lowerFlatOption({
+    caseMetas: [
+    [ 'none', null, 0, 0, 0 ],
+    [ 'some', _lowerFlatOwn({
+      componentIdx: 0,
+      lowerFn: 
+      function lowerImportedOwnedHost_TerminalOutput(obj) {
+        if (!(obj instanceof TerminalOutput)) {
+          throw new TypeError('Resource error: Not a valid \"TerminalOutput\" resource.');
+        }
+        let handle = obj[symbolRscHandle];
+        if (!handle) {
+          const rep = obj[symbolRscRep] || ++captureCnt5;
+          captureTable5.set(rep, obj);
+          handle = rscTableCreateOwn(handleTable5, rep);
+        }
+        return handle;
+      }
+      ,
+    }), 4, 4, 1],
+    ],
+    variantSize32: 8,
+    variantAlign32: 4,
+    variantPayloadOffset32: 4,
+    variantFlatCount: 2,
+  })
+  ],
+  hasResultPointer: true,
+  funcTypeIsAsync: false,
+  getCallbackFn: () => null,
+  getPostReturnFn: () => null,
+  isCancellable: false,
+  memoryIdx: 0,
+  stringEncoding: 'utf8',
+  getMemoryFn: () => memory0,
+  getReallocFn: undefined,
+  importFn: _trampoline25,
 },
 );
 Promise.all([module0, module1, module2]).catch(() => {});
 ({ exports: exports0 } = yield instantiateCore(yield module1));
 ({ exports: exports1 } = yield instantiateCore(yield module0, {
   'rasa:runtime/host@0.1.0': {
-    call: exports0['0'],
+    call: exports0['2'],
+  },
+  'rasa:runtime/optimizer@0.1.0': {
+    'can-call': exports0['0'],
+    'try-call': exports0['1'],
+  },
+  'rasa:runtime/source-loader@0.1.0': {
+    'load-runner-sources': exports0['3'],
   },
   'wasi:cli/environment@0.2.0': {
-    'get-environment': exports0['6'],
+    'get-environment': exports0['9'],
   },
   'wasi:cli/exit@0.2.0': {
     exit: trampoline6,
@@ -8088,13 +9371,13 @@ Promise.all([module0, module1, module2]).catch(() => {});
     '[resource-drop]terminal-output': trampoline5,
   },
   'wasi:cli/terminal-stderr@0.2.0': {
-    'get-terminal-stderr': exports0['9'],
+    'get-terminal-stderr': exports0['12'],
   },
   'wasi:cli/terminal-stdin@0.2.0': {
-    'get-terminal-stdin': exports0['7'],
+    'get-terminal-stdin': exports0['10'],
   },
   'wasi:cli/terminal-stdout@0.2.0': {
-    'get-terminal-stdout': exports0['8'],
+    'get-terminal-stdout': exports0['11'],
   },
   'wasi:clocks/monotonic-clock@0.2.0': {
     'subscribe-duration': trampoline12,
@@ -8105,18 +9388,18 @@ Promise.all([module0, module1, module2]).catch(() => {});
   'wasi:io/poll@0.2.0': {
     '[method]pollable.block': trampoline7,
     '[resource-drop]pollable': trampoline1,
-    poll: exports0['2'],
+    poll: exports0['5'],
   },
   'wasi:io/streams@0.2.0': {
-    '[method]output-stream.blocking-flush': exports0['5'],
-    '[method]output-stream.check-write': exports0['3'],
+    '[method]output-stream.blocking-flush': exports0['8'],
+    '[method]output-stream.check-write': exports0['6'],
     '[method]output-stream.subscribe': trampoline8,
-    '[method]output-stream.write': exports0['4'],
+    '[method]output-stream.write': exports0['7'],
     '[resource-drop]input-stream': trampoline2,
     '[resource-drop]output-stream': trampoline3,
   },
   'wasi:random/insecure-seed@0.3.0-rc-2026-03-15': {
-    'get-insecure-seed': exports0['1'],
+    'get-insecure-seed': exports0['4'],
   },
 }));
 memory0 = exports1.memory;
@@ -8133,6 +9416,9 @@ try {
     $imports: exports0.$imports,
     '0': trampoline13,
     '1': trampoline14,
+    '10': trampoline23,
+    '11': trampoline24,
+    '12': trampoline25,
     '2': trampoline15,
     '3': trampoline16,
     '4': trampoline17,
@@ -8154,24 +9440,32 @@ try {
 session010Status = exports1['rasa:runtime/session@0.1.0#status'];
 session010RenderHash = exports1['rasa:runtime/session@0.1.0#render-hash'];
 session010EvalSource = exports1['rasa:runtime/session@0.1.0#eval-source'];
+session010EvalSourceWithId = exports1['rasa:runtime/session@0.1.0#eval-source-with-id'];
 session010EvalPackageSource = exports1['rasa:runtime/session@0.1.0#eval-package-source'];
+session010EvalPackageSourceWithId = exports1['rasa:runtime/session@0.1.0#eval-package-source-with-id'];
 session010SessionNew = exports1['rasa:runtime/session@0.1.0#session-new'];
 session010SessionFree = exports1['rasa:runtime/session@0.1.0#session-free'];
+session010SessionSetOptimizerEnabled = exports1['rasa:runtime/session@0.1.0#session-set-optimizer-enabled'];
 session010SessionLoadPackage = WebAssembly.promising(exports1['rasa:runtime/session@0.1.0#session-load-package']);
 session010SessionEval = WebAssembly.promising(exports1['rasa:runtime/session@0.1.0#session-eval']);
+session010SessionEvalWithId = exports1['rasa:runtime/session@0.1.0#session-eval-with-id'];
 session010SessionReplEval = WebAssembly.promising(exports1['rasa:runtime/session@0.1.0#session-repl-eval']);
 session010InspectSource = exports1['rasa:runtime/session@0.1.0#inspect-source'];
 session010SyntaxTokens = exports1['rasa:runtime/session@0.1.0#syntax-tokens'];
 const session010 = {
   evalPackageSource: evalPackageSource,
+  evalPackageSourceWithId: evalPackageSourceWithId,
   evalSource: evalSource,
+  evalSourceWithId: evalSourceWithId,
   inspectSource: inspectSource,
   renderHash: renderHash,
   sessionEval: sessionEval,
+  sessionEvalWithId: sessionEvalWithId,
   sessionFree: sessionFree,
   sessionLoadPackage: sessionLoadPackage,
   sessionNew: sessionNew,
   sessionReplEval: sessionReplEval,
+  sessionSetOptimizerEnabled: sessionSetOptimizerEnabled,
   status: status,
   syntaxTokens: syntaxTokens,
   

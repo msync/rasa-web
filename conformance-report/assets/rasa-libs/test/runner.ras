@@ -1,0 +1,7 @@
+(ns rasa.test.runner
+  (:require [rasa.test.runner.impl :as impl]))
+
+(defn run
+  "Runs loaded test namespaces according to runner options and returns result data."
+  [opts]
+  (rasa.test.runner.impl/run opts))

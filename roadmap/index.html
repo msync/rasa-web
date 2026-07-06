@@ -36,12 +36,12 @@
       --rasa-backdrop: rgba(6, 10, 14, 0.45);
       --rasa-radius: 8px;
   
-      --rasa-reader: var(--rasa-gold);
-      --rasa-analysis: var(--rasa-blue);
-      --rasa-ir: var(--rasa-violet);
-      --rasa-facts: var(--rasa-green);
-      --rasa-plan: var(--rasa-teal);
-      --rasa-eval: var(--rasa-red);
+      --phase-reader: var(--rasa-gold);
+      --phase-analysis: var(--rasa-blue);
+      --phase-ir: var(--rasa-violet);
+      --phase-facts: var(--rasa-green);
+      --phase-plan: var(--rasa-teal);
+      --phase-eval: var(--rasa-red);
       font-family:
         Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
         "Segoe UI", sans-serif;
@@ -137,12 +137,12 @@
       --rasa-backdrop: rgba(6, 10, 14, 0.45);
       --rasa-radius: 8px;
   
-      --rasa-reader: var(--rasa-gold);
-      --rasa-analysis: var(--rasa-blue);
-      --rasa-ir: var(--rasa-violet);
-      --rasa-facts: var(--rasa-green);
-      --rasa-plan: var(--rasa-teal);
-      --rasa-eval: var(--rasa-red);
+      --phase-reader: var(--rasa-gold);
+      --phase-analysis: var(--rasa-blue);
+      --phase-ir: var(--rasa-violet);
+      --phase-facts: var(--rasa-green);
+      --phase-plan: var(--rasa-teal);
+      --phase-eval: var(--rasa-red);
       font-family:
         Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
         "Segoe UI", sans-serif;
@@ -659,12 +659,12 @@
         <div class="brand-copy">
           <span class="eyebrow">Rasa Roadmap</span>
           <h1>Roadmap</h1>
-          <span class="topbar-subtitle">Objective delivery plan for capabilities, milestones, and proof.</span>
+          <span class="topbar-subtitle">Objective delivery plan for current focus, evidence, and proof.</span>
         </div>
       </div>
       <div class="status">
         <img class="brand-mark" src="./assets/brand/mark.svg" alt="" aria-hidden="true" />
-        <span class="pill ok">6 milestones</span><span class="pill">planned</span>
+        <span class="pill ok">9 milestones</span><span class="pill">planned</span>
         <button class="theme-toggle" type="button" data-role="theme-toggle" aria-label="Toggle color theme">Toggle Theme</button>
       </div>
     </header>
@@ -672,8 +672,8 @@
       <section class="intro">
         <div>
           <span class="kicker">Delivery Plan</span>
-          <h2>Milestones ordered by practical capability.</h2>
-          <p>Planned roadmap view. It publishes objective milestone shape and proof expectations; release support claims remain in release notes.</p>
+          <h2>Backlog ordered by current Rasa focus.</h2>
+          <p>Projected from the current docs/work/ledger.md backlog. It publishes objective milestone shape and proof expectations; release support claims remain in release notes.</p>
         </div>
         <a class="data-link" href="./roadmap.json">roadmap.json</a>
       </section>
@@ -681,48 +681,69 @@
         <nav class="milestone-index" aria-label="Milestones">
           <div class="index-head">
             <span class="kicker">Milestones</span>
-            <strong>6 planned</strong>
+            <strong>9 planned</strong>
           </div>
           <button class="index-item active" type="button" data-roadmap-index="0" aria-current="true">
     <span class="index-order">1</span>
     <span class="index-copy">
-      <strong>CLI Text Transformer</strong>
-      <span>strings, regex, files, stdio, args, exit status</span>
+      <strong>Metadata role normalization</strong>
+      <span>docs/proposals/010-language-operational-spine/01-language-constitution.md</span>
     </span>
   </button>
 <button class="index-item" type="button" data-roadmap-index="1" aria-current="false">
     <span class="index-order">2</span>
     <span class="index-copy">
-      <strong>Managed Lowering Performance</strong>
-      <span>WasmGC, native-tier/Cranelift, bounded facts, plan authority, benchmark evidence</span>
+      <strong>Structured fact authority</strong>
+      <span>docs/proposals/010-language-operational-spine/02-fact-authority-and-explain.md</span>
     </span>
   </button>
 <button class="index-item" type="button" data-roadmap-index="2" aria-current="false">
     <span class="index-order">3</span>
     <span class="index-copy">
-      <strong>Browser Embedded Rasa</strong>
-      <span>Wasm session stability, sandboxed capabilities, UI diagnostics</span>
+      <strong>ras explain and LSP artifact spine</strong>
+      <span>docs/proposals/010-language-operational-spine/02-fact-authority-and-explain.md</span>
     </span>
   </button>
 <button class="index-item" type="button" data-roadmap-index="3" aria-current="false">
     <span class="index-order">4</span>
     <span class="index-copy">
-      <strong>HTTP JSON Client Script</strong>
-      <span>JSON, bytes/text boundaries, HTTP client capability, colorless suspension</span>
+      <strong>Function-level effect and capability inference</strong>
+      <span>docs/proposals/010-language-operational-spine/03-capabilities-threat-and-effects.md</span>
     </span>
   </button>
 <button class="index-item" type="button" data-roadmap-index="4" aria-current="false">
     <span class="index-order">5</span>
     <span class="index-copy">
-      <strong>HTTP JSON Service</strong>
-      <span>routing, request/response maps, lifecycle, concurrency, cancellation</span>
+      <strong>Checked-boundary guards</strong>
+      <span>docs/proposals/010-language-operational-spine/02-fact-authority-and-explain.md</span>
     </span>
   </button>
 <button class="index-item" type="button" data-roadmap-index="5" aria-current="false">
     <span class="index-order">6</span>
     <span class="index-copy">
-      <strong>Capability Model And Manifest Tooling</strong>
-      <span>package loading, capability declarations, importer tooling, generated artifacts</span>
+      <strong>Numeric MVP spec and proof</strong>
+      <span>docs/proposals/010-language-operational-spine/06-numeric-mvp-and-data-plane.md</span>
+    </span>
+  </button>
+<button class="index-item" type="button" data-roadmap-index="6" aria-current="false">
+    <span class="index-order">7</span>
+    <span class="index-copy">
+      <strong>Suspension boundary diagnostics</strong>
+      <span>docs/proposals/010-language-operational-spine/05-concurrency-suspension-boundaries.md</span>
+    </span>
+  </button>
+<button class="index-item" type="button" data-roadmap-index="7" aria-current="false">
+    <span class="index-order">8</span>
+    <span class="index-copy">
+      <strong>Boundary movement and WMP inspection</strong>
+      <span>docs/proposals/010-language-operational-spine/04-runtime-target-ecosystem.md</span>
+    </span>
+  </button>
+<button class="index-item" type="button" data-roadmap-index="8" aria-current="false">
+    <span class="index-order">9</span>
+    <span class="index-copy">
+      <strong>Tiny WIT projection from checked facts</strong>
+      <span>docs/proposals/010-language-operational-spine/03-capabilities-threat-and-effects.md</span>
     </span>
   </button>
         </nav>
@@ -731,44 +752,19 @@
       <span class="order" data-detail="order">Milestone 1</span>
       <span class="status" data-detail="status">planned</span>
     </div>
-    <h3 data-detail="title">CLI Text Transformer</h3>
-    <p class="summary" data-detail="summary">Run a Rasa script that reads text, transforms it, and writes output.</p>
-    <div class="pressure" data-detail="pressure">strings, regex, files, stdio, args, exit status</div>
+    <h3 data-detail="title">Metadata role normalization</h3>
+    <p class="summary" data-detail="summary">Analyzer emits normalized metadata role facts for hints, return types, purity, docs, capability constraints, layout hints, and shape claims.</p>
+    <div class="pressure" data-detail="pressure">docs/proposals/010-language-operational-spine/01-language-constitution.md</div>
     <section class="milestone-section">
-      <h4>Capability Pressure</h4>
-      <ul data-detail="capabilities"><li>strings with documented indexing and character semantics</li><li>regex dialect decision and result model</li><li>file or stdio input</li><li>file or stdio output</li><li>CLI arguments or a small execution context</li><li>structured runtime errors for missing or denied capabilities</li></ul>
+      <h4>Evidence And Authority</h4>
+      <ul data-detail="capabilities"><li>Authority: docs/proposals/010-language-operational-spine/01-language-constitution.md</li><li>Acceptance: Analyzer emits normalized metadata role facts for hints, return types, purity, docs, capability constraints, layout hints, and shape claims.</li></ul>
     </section>
     <section class="milestone-section">
       <h4>Story Path</h4>
       <ul class="story-details" data-detail="stories"><li>
     <details>
-      <summary>Practical input/output boundary</summary>
-      <ul><li>Choose the smallest non-fixture boundary: CLI arguments, stdin/stdout, file paths, or a host-admitted text buffer.</li><li>Prove admitted, denied, and unsupported-lane outcomes.</li><li>Keep host facts out of pure language semantics.</li></ul>
-    </details>
-  </li><li>
-    <details>
-      <summary>Text semantics review</summary>
-      <ul><li>Decide the first string indexing and character contract.</li><li>Name what is portable now and what remains deferred.</li></ul>
-    </details>
-  </li><li>
-    <details>
-      <summary>Regex alpha contract</summary>
-      <ul><li>Choose the first regex dialect boundary.</li><li>Define match, find, replace, split, and capture result shapes.</li></ul>
-    </details>
-  </li><li>
-    <details>
-      <summary>CLI execution context</summary>
-      <ul><li>Define how a script sees arguments, stdin, stdout, stderr, and exit status.</li><li>Keep host facts out of pure language semantics.</li></ul>
-    </details>
-  </li><li>
-    <details>
-      <summary>File/stdio capability alpha</summary>
-      <ul><li>Admit read/write operations through explicit capability evidence.</li><li>Prove denial and missing-capability diagnostics.</li></ul>
-    </details>
-  </li><li>
-    <details>
-      <summary>Demo script and report</summary>
-      <ul><li>Add one polished text-transformer example.</li><li>Show native proof.</li><li>Show runtime-Wasm proof over the same source-level contract. If blocked, the story cannot close; it must name the implementation blocker and next command.</li><li>Show a compact capability report rather than requiring users to read raw phase dumps.</li></ul>
+      <summary>Metadata role normalization</summary>
+      <ul><li>Authority: docs/proposals/010-language-operational-spine/01-language-constitution.md</li><li>Acceptance: Analyzer emits normalized metadata role facts for hints, return types, purity, docs, capability constraints, layout hints, and shape claims.</li></ul>
     </details>
   </li></ul>
     </section>
@@ -780,44 +776,19 @@
       <span class="order">Milestone 1</span>
       <span class="status">planned</span>
     </div>
-    <h3>CLI Text Transformer</h3>
-    <p class="summary">Run a Rasa script that reads text, transforms it, and writes output.</p>
-    <div class="pressure">strings, regex, files, stdio, args, exit status</div>
+    <h3>Metadata role normalization</h3>
+    <p class="summary">Analyzer emits normalized metadata role facts for hints, return types, purity, docs, capability constraints, layout hints, and shape claims.</p>
+    <div class="pressure">docs/proposals/010-language-operational-spine/01-language-constitution.md</div>
     <section class="milestone-section">
-    <h4>Capability Pressure</h4>
-    <ul><li>strings with documented indexing and character semantics</li><li>regex dialect decision and result model</li><li>file or stdio input</li><li>file or stdio output</li><li>CLI arguments or a small execution context</li><li>structured runtime errors for missing or denied capabilities</li></ul>
+    <h4>Evidence And Authority</h4>
+    <ul><li>Authority: docs/proposals/010-language-operational-spine/01-language-constitution.md</li><li>Acceptance: Analyzer emits normalized metadata role facts for hints, return types, purity, docs, capability constraints, layout hints, and shape claims.</li></ul>
   </section>
     <section class="milestone-section">
     <h4>Story Path</h4>
     <ul class="story-details"><li>
     <details>
-      <summary>Practical input/output boundary</summary>
-      <ul><li>Choose the smallest non-fixture boundary: CLI arguments, stdin/stdout, file paths, or a host-admitted text buffer.</li><li>Prove admitted, denied, and unsupported-lane outcomes.</li><li>Keep host facts out of pure language semantics.</li></ul>
-    </details>
-  </li><li>
-    <details>
-      <summary>Text semantics review</summary>
-      <ul><li>Decide the first string indexing and character contract.</li><li>Name what is portable now and what remains deferred.</li></ul>
-    </details>
-  </li><li>
-    <details>
-      <summary>Regex alpha contract</summary>
-      <ul><li>Choose the first regex dialect boundary.</li><li>Define match, find, replace, split, and capture result shapes.</li></ul>
-    </details>
-  </li><li>
-    <details>
-      <summary>CLI execution context</summary>
-      <ul><li>Define how a script sees arguments, stdin, stdout, stderr, and exit status.</li><li>Keep host facts out of pure language semantics.</li></ul>
-    </details>
-  </li><li>
-    <details>
-      <summary>File/stdio capability alpha</summary>
-      <ul><li>Admit read/write operations through explicit capability evidence.</li><li>Prove denial and missing-capability diagnostics.</li></ul>
-    </details>
-  </li><li>
-    <details>
-      <summary>Demo script and report</summary>
-      <ul><li>Add one polished text-transformer example.</li><li>Show native proof.</li><li>Show runtime-Wasm proof over the same source-level contract. If blocked, the story cannot close; it must name the implementation blocker and next command.</li><li>Show a compact capability report rather than requiring users to read raw phase dumps.</li></ul>
+      <summary>Metadata role normalization</summary>
+      <ul><li>Authority: docs/proposals/010-language-operational-spine/01-language-constitution.md</li><li>Acceptance: Analyzer emits normalized metadata role facts for hints, return types, purity, docs, capability constraints, layout hints, and shape claims.</li></ul>
     </details>
   </li></ul>
   </section>
@@ -827,50 +798,41 @@
       <span class="order">Milestone 2</span>
       <span class="status">planned</span>
     </div>
-    <h3>Managed Lowering Performance</h3>
-    <p class="summary">Run and measure a pure Rasa application kernel through planned managed-value lowerings.</p>
-    <div class="pressure">WasmGC, native-tier/Cranelift, bounded facts, plan authority, benchmark evidence</div>
-    
-    
+    <h3>Structured fact authority</h3>
+    <p class="summary">Facts record evidence source, level, scope/dominance, assumptions, dependencies, and authorization; raw metadata does not authorize optimization.</p>
+    <div class="pressure">docs/proposals/010-language-operational-spine/02-fact-authority-and-explain.md</div>
+    <section class="milestone-section">
+    <h4>Evidence And Authority</h4>
+    <ul><li>Authority: docs/proposals/010-language-operational-spine/02-fact-authority-and-explain.md</li><li>Acceptance: Facts record evidence source, level, scope/dominance, assumptions, dependencies, and authorization; raw metadata does not authorize optimization.</li></ul>
+  </section>
+    <section class="milestone-section">
+    <h4>Story Path</h4>
+    <ul class="story-details"><li>
+    <details>
+      <summary>Structured fact authority</summary>
+      <ul><li>Authority: docs/proposals/010-language-operational-spine/02-fact-authority-and-explain.md</li><li>Acceptance: Facts record evidence source, level, scope/dominance, assumptions, dependencies, and authorization; raw metadata does not authorize optimization.</li></ul>
+    </details>
+  </li></ul>
+  </section>
   </article>
 <article class="milestone">
     <div class="milestone-head">
       <span class="order">Milestone 3</span>
       <span class="status">planned</span>
     </div>
-    <h3>Browser Embedded Rasa</h3>
-    <p class="summary">Embed a Rasa evaluator in a browser page with controlled host callbacks.</p>
-    <div class="pressure">Wasm session stability, sandboxed capabilities, UI diagnostics</div>
+    <h3>ras explain and LSP artifact spine</h3>
+    <p class="summary">Users can see claimed, inferred, checked, unknown, disproved, fallback, and proof-loss evidence from the same artifact path.</p>
+    <div class="pressure">docs/proposals/010-language-operational-spine/02-fact-authority-and-explain.md</div>
     <section class="milestone-section">
-    <h4>Capability Pressure</h4>
-    <ul><li>stable browser Wasm session lifecycle</li><li>reusable evaluator instance with persistent defs</li><li>explicit session reset</li><li>source loading for `rasa.core` through the same mechanism as native where possible</li><li>structured diagnostics and rendered values for UI consumption</li><li>host callback admission model for browser-provided functions</li><li>syntax highlighting or phase output that can support an editor surface</li></ul>
+    <h4>Evidence And Authority</h4>
+    <ul><li>Authority: docs/proposals/010-language-operational-spine/02-fact-authority-and-explain.md</li><li>Acceptance: Users can see claimed, inferred, checked, unknown, disproved, fallback, and proof-loss evidence from the same artifact path.</li></ul>
   </section>
     <section class="milestone-section">
     <h4>Story Path</h4>
     <ul class="story-details"><li>
     <details>
-      <summary>Browser session contract review</summary>
-      <ul><li>Define what a browser evaluator session owns.</li><li>Confirm how persistent defs, reset, core loading, and diagnostics line up with native runtime sessions.</li></ul>
-    </details>
-  </li><li>
-    <details>
-      <summary>Host callback capability alpha</summary>
-      <ul><li>Admit a tiny browser host capability surface.</li><li>Prove denied or missing callbacks report structured errors.</li><li>Keep callback identity and JavaScript values outside source semantics.</li></ul>
-    </details>
-  </li><li>
-    <details>
-      <summary>UI result contract</summary>
-      <ul><li>Define the result object the page receives after eval.</li><li>Include rendered value, structured diagnostics, phase status, and enough source span data for UI highlighting.</li></ul>
-    </details>
-  </li><li>
-    <details>
-      <summary>Embedded demo page</summary>
-      <ul><li>Build a small page with one Rasa input, one host-provided capability, and a reset button.</li><li>Reuse shared REPL/editor components where possible.</li></ul>
-    </details>
-  </li><li>
-    <details>
-      <summary>Native parity check</summary>
-      <ul><li>Show the same Rasa source can run through a native host harness with an equivalent admitted capability.</li><li>Record any browser-only or native-only limitations explicitly.</li></ul>
+      <summary>ras explain and LSP artifact spine</summary>
+      <ul><li>Authority: docs/proposals/010-language-operational-spine/02-fact-authority-and-explain.md</li><li>Acceptance: Users can see claimed, inferred, checked, unknown, disproved, fallback, and proof-loss evidence from the same artifact path.</li></ul>
     </details>
   </li></ul>
   </section>
@@ -880,44 +842,19 @@
       <span class="order">Milestone 4</span>
       <span class="status">planned</span>
     </div>
-    <h3>HTTP JSON Client Script</h3>
-    <p class="summary">Fetch JSON, transform data, and emit JSON from Rasa.</p>
-    <div class="pressure">JSON, bytes/text boundaries, HTTP client capability, colorless suspension</div>
+    <h3>Function-level effect and capability inference</h3>
+    <p class="summary">Calls infer effects/capabilities bottom-up; opaque calls poison purity honestly; allow/deny constraints diagnose violations.</p>
+    <div class="pressure">docs/proposals/010-language-operational-spine/03-capabilities-threat-and-effects.md</div>
     <section class="milestone-section">
-    <h4>Capability Pressure</h4>
-    <ul><li>JSON parse/generate over Rasa maps, vectors, strings, numbers, booleans, and nil</li><li>bytes/text boundary decisions for request and response bodies</li><li>URI or URL validation policy</li><li>HTTP client capability admission</li><li>request/response map shape</li><li>structured errors for denied, unavailable, malformed, timeout, and non-2xx cases</li><li>suspension evidence without source-level async coloring</li></ul>
+    <h4>Evidence And Authority</h4>
+    <ul><li>Authority: docs/proposals/010-language-operational-spine/03-capabilities-threat-and-effects.md</li><li>Acceptance: Calls infer effects/capabilities bottom-up; opaque calls poison purity honestly; allow/deny constraints diagnose violations.</li></ul>
   </section>
     <section class="milestone-section">
     <h4>Story Path</h4>
     <ul class="story-details"><li>
     <details>
-      <summary>JSON value contract</summary>
-      <ul><li>Define JSON-to-Rasa and Rasa-to-JSON mapping.</li><li>Name numeric, keyword/string key, ordering, and unsupported-value behavior.</li></ul>
-    </details>
-  </li><li>
-    <details>
-      <summary>Body boundary contract</summary>
-      <ul><li>Decide when bodies are strings, bytes, or explicit decoded values.</li><li>Keep encoding failures structured.</li></ul>
-    </details>
-  </li><li>
-    <details>
-      <summary>HTTP request/response data shape</summary>
-      <ul><li>Define the minimal request map and response map.</li><li>Include status, headers, body, and error shape.</li></ul>
-    </details>
-  </li><li>
-    <details>
-      <summary>HTTP client capability alpha</summary>
-      <ul><li>Admit one outbound request operation through capability evidence.</li><li>Prove denied, missing, and unavailable host behavior.</li></ul>
-    </details>
-  </li><li>
-    <details>
-      <summary>Colorless suspension proof</summary>
-      <ul><li>Show source code does not need host-specific async syntax.</li><li>Record where the runtime may suspend and resume.</li></ul>
-    </details>
-  </li><li>
-    <details>
-      <summary>Demo script and report</summary>
-      <ul><li>Add a small script that fetches JSON from a controlled test host or fixture.</li><li>Show native proof.</li><li>Show browser/Wasm proof through fetch or an admitted host stub, or name the precise deferred host-lowering piece.</li></ul>
+      <summary>Function-level effect and capability inference</summary>
+      <ul><li>Authority: docs/proposals/010-language-operational-spine/03-capabilities-threat-and-effects.md</li><li>Acceptance: Calls infer effects/capabilities bottom-up; opaque calls poison purity honestly; allow/deny constraints diagnose violations.</li></ul>
     </details>
   </li></ul>
   </section>
@@ -927,39 +864,19 @@
       <span class="order">Milestone 5</span>
       <span class="status">planned</span>
     </div>
-    <h3>HTTP JSON Service</h3>
-    <p class="summary">Serve a small JSON endpoint from Rasa.</p>
-    <div class="pressure">routing, request/response maps, lifecycle, concurrency, cancellation</div>
+    <h3>Checked-boundary guards</h3>
+    <p class="summary">Entry/return guards work for a tiny subset and establish scoped checked facts only after dominance.</p>
+    <div class="pressure">docs/proposals/010-language-operational-spine/02-fact-authority-and-explain.md</div>
     <section class="milestone-section">
-    <h4>Capability Pressure</h4>
-    <ul><li>request map and response map contract</li><li>JSON body parse/generate reuse from the client milestone</li><li>header representation and normalization policy</li><li>HTTP server capability admission</li><li>route or handler invocation model</li><li>structured errors for handler failure, malformed response, denied server capability, port binding failure, and unsupported host lanes</li><li>suspension and cancellation evidence</li><li>resource cleanup for server lifecycle</li></ul>
+    <h4>Evidence And Authority</h4>
+    <ul><li>Authority: docs/proposals/010-language-operational-spine/02-fact-authority-and-explain.md</li><li>Acceptance: Entry/return guards work for a tiny subset and establish scoped checked facts only after dominance.</li></ul>
   </section>
     <section class="milestone-section">
     <h4>Story Path</h4>
     <ul class="story-details"><li>
     <details>
-      <summary>Server request/response contract</summary>
-      <ul><li>Reuse or refine the client request/response map shape.</li><li>Define what an inbound request contains at alpha scope.</li></ul>
-    </details>
-  </li><li>
-    <details>
-      <summary>Handler invocation contract</summary>
-      <ul><li>Decide whether handlers are ordinary functions, protocol methods, or a capability-specific adapter shape.</li><li>Keep handler invocation as Rasa callable semantics, not host callback leakage.</li></ul>
-    </details>
-  </li><li>
-    <details>
-      <summary>Server capability alpha</summary>
-      <ul><li>Admit one HTTP server operation through capability evidence.</li><li>Prove denied, unavailable, malformed response, and handler failure paths.</li></ul>
-    </details>
-  </li><li>
-    <details>
-      <summary>Suspension, cancellation, and lifecycle proof</summary>
-      <ul><li>Name where the runtime may park and resume work.</li><li>Prove server shutdown or cleanup behavior at alpha scope.</li><li>Record deferred cancellation behavior explicitly.</li></ul>
-    </details>
-  </li><li>
-    <details>
-      <summary>Demo service and report</summary>
-      <ul><li>Add one small JSON endpoint demo.</li><li>Show native proof.</li><li>Show Wasm proof when a host can provide an inbound request loop, or name the precise host-lowering limitation.</li></ul>
+      <summary>Checked-boundary guards</summary>
+      <ul><li>Authority: docs/proposals/010-language-operational-spine/02-fact-authority-and-explain.md</li><li>Acceptance: Entry/return guards work for a tiny subset and establish scoped checked facts only after dominance.</li></ul>
     </details>
   </li></ul>
   </section>
@@ -969,44 +886,85 @@
       <span class="order">Milestone 6</span>
       <span class="status">planned</span>
     </div>
-    <h3>Capability Model And Manifest Tooling</h3>
-    <p class="summary">Generate and validate capability models from provider/interface sources with small human policy overlays.</p>
-    <div class="pressure">package loading, capability declarations, importer tooling, generated artifacts</div>
+    <h3>Numeric MVP spec and proof</h3>
+    <p class="summary">Literal, i64, finite f64, equality/hash, arithmetic, constant folding, EDN/JSON, and WIT scalar policy are specified and tested before tensor work expands.</p>
+    <div class="pressure">docs/proposals/010-language-operational-spine/06-numeric-mvp-and-data-plane.md</div>
     <section class="milestone-section">
-    <h4>Capability Pressure</h4>
-    <ul><li>canonical Rasa capability model</li><li>importer path from at least one external interface source</li><li>policy overlay model separated from imported interface facts</li><li>Rasa-readable declaration surface or restricted data form</li><li>source-spanned validation diagnostics</li><li>generated capability catalog artifacts</li><li>generated denied, missing, and unsupported capability tests</li><li>documentation/reference projection from the same model</li></ul>
+    <h4>Evidence And Authority</h4>
+    <ul><li>Authority: docs/proposals/010-language-operational-spine/06-numeric-mvp-and-data-plane.md</li><li>Acceptance: Literal, i64, finite f64, equality/hash, arithmetic, constant folding, EDN/JSON, and WIT scalar policy are specified and tested before tensor work expands.</li></ul>
   </section>
     <section class="milestone-section">
     <h4>Story Path</h4>
     <ul class="story-details"><li>
     <details>
-      <summary>Capability model boundary</summary>
-      <ul><li>Define the Rasa-owned capability model independently of any one manifest syntax.</li><li>Separate imported interface facts from policy overlay facts.</li></ul>
+      <summary>Numeric MVP spec and proof</summary>
+      <ul><li>Authority: docs/proposals/010-language-operational-spine/06-numeric-mvp-and-data-plane.md</li><li>Acceptance: Literal, i64, finite f64, equality/hash, arithmetic, constant folding, EDN/JSON, and WIT scalar policy are specified and tested before tensor work expands.</li></ul>
     </details>
-  </li><li>
+  </li></ul>
+  </section>
+  </article>
+<article class="milestone">
+    <div class="milestone-head">
+      <span class="order">Milestone 7</span>
+      <span class="status">planned</span>
+    </div>
+    <h3>Suspension boundary diagnostics</h3>
+    <p class="summary">may-suspend propagates through capability calls and unsupported suspension in pure/perf contexts gives a precise diagnostic.</p>
+    <div class="pressure">docs/proposals/010-language-operational-spine/05-concurrency-suspension-boundaries.md</div>
+    <section class="milestone-section">
+    <h4>Evidence And Authority</h4>
+    <ul><li>Authority: docs/proposals/010-language-operational-spine/05-concurrency-suspension-boundaries.md</li><li>Acceptance: may-suspend propagates through capability calls and unsupported suspension in pure/perf contexts gives a precise diagnostic.</li></ul>
+  </section>
+    <section class="milestone-section">
+    <h4>Story Path</h4>
+    <ul class="story-details"><li>
     <details>
-      <summary>Importer spike</summary>
-      <ul><li>Choose one source, likely WIT or existing provider metadata.</li><li>Generate a small capability model with source/provenance evidence.</li></ul>
+      <summary>Suspension boundary diagnostics</summary>
+      <ul><li>Authority: docs/proposals/010-language-operational-spine/05-concurrency-suspension-boundaries.md</li><li>Acceptance: may-suspend propagates through capability calls and unsupported suspension in pure/perf contexts gives a precise diagnostic.</li></ul>
     </details>
-  </li><li>
+  </li></ul>
+  </section>
+  </article>
+<article class="milestone">
+    <div class="milestone-head">
+      <span class="order">Milestone 8</span>
+      <span class="status">planned</span>
+    </div>
+    <h3>Boundary movement and WMP inspection</h3>
+    <p class="summary">Plans expose movement mode, WMP profile, guard/fallback, and runtime-Wasm allocator path where relevant.</p>
+    <div class="pressure">docs/proposals/010-language-operational-spine/04-runtime-target-ecosystem.md</div>
+    <section class="milestone-section">
+    <h4>Evidence And Authority</h4>
+    <ul><li>Authority: docs/proposals/010-language-operational-spine/04-runtime-target-ecosystem.md</li><li>Acceptance: Plans expose movement mode, WMP profile, guard/fallback, and runtime-Wasm allocator path where relevant.</li></ul>
+  </section>
+    <section class="milestone-section">
+    <h4>Story Path</h4>
+    <ul class="story-details"><li>
     <details>
-      <summary>Policy overlay sketch</summary>
-      <ul><li>Add a minimal human-authored overlay for exposure, names, authority, and deferrals.</li><li>Keep syntax explicitly experimental.</li></ul>
+      <summary>Boundary movement and WMP inspection</summary>
+      <ul><li>Authority: docs/proposals/010-language-operational-spine/04-runtime-target-ecosystem.md</li><li>Acceptance: Plans expose movement mode, WMP profile, guard/fallback, and runtime-Wasm allocator path where relevant.</li></ul>
     </details>
-  </li><li>
+  </li></ul>
+  </section>
+  </article>
+<article class="milestone">
+    <div class="milestone-head">
+      <span class="order">Milestone 9</span>
+      <span class="status">planned</span>
+    </div>
+    <h3>Tiny WIT projection from checked facts</h3>
+    <p class="summary">Generated WIT is no more precise than proven or checked facts; hinted-only facts require guard, dynamic encoding, or refusal.</p>
+    <div class="pressure">docs/proposals/010-language-operational-spine/03-capabilities-threat-and-effects.md</div>
+    <section class="milestone-section">
+    <h4>Evidence And Authority</h4>
+    <ul><li>Authority: docs/proposals/010-language-operational-spine/03-capabilities-threat-and-effects.md</li><li>Acceptance: Generated WIT is no more precise than proven or checked facts; hinted-only facts require guard, dynamic encoding, or refusal.</li></ul>
+  </section>
+    <section class="milestone-section">
+    <h4>Story Path</h4>
+    <ul class="story-details"><li>
     <details>
-      <summary>Rasa validation diagnostics</summary>
-      <ul><li>Validate the generated model and overlay through Rasa tooling.</li><li>Produce source-spanned diagnostics and suggested fixes for missing policy, unsupported shapes, or unavailable lanes.</li></ul>
-    </details>
-  </li><li>
-    <details>
-      <summary>Artifact generation</summary>
-      <ul><li>Generate capability catalog entries, reference docs, test skeletons, and website-capability projection data from the model.</li></ul>
-    </details>
-  </li><li>
-    <details>
-      <summary>Demo package/provider</summary>
-      <ul><li>Prove the flow on one tiny provider or package.</li><li>Show what was generated, what the user wrote, and what Rasa refused.</li></ul>
+      <summary>Tiny WIT projection from checked facts</summary>
+      <ul><li>Authority: docs/proposals/010-language-operational-spine/03-capabilities-threat-and-effects.md</li><li>Acceptance: Generated WIT is no more precise than proven or checked facts; hinted-only facts require guard, dynamic encoding, or refusal.</li></ul>
     </details>
   </li></ul>
   </section>
@@ -1027,7 +985,7 @@
         root.dataset.theme = next;
         localStorage.setItem(key, next);
       });
-      const roadmap = {"schema":1,"title":"Rasa Roadmap","generatedAt":"2026-07-03T06:52:16.171Z","source":{"kind":"repo-roadmap","milestoneCount":6},"note":"Planned roadmap view.","milestones":[{"order":1,"title":"CLI Text Transformer","summary":"Run a Rasa script that reads text, transforms it, and writes output.","pressure":"strings, regex, files, stdio, args, exit status","status":"planned","requiredCapabilities":["strings with documented indexing and character semantics","regex dialect decision and result model","file or stdio input","file or stdio output","CLI arguments or a small execution context","structured runtime errors for missing or denied capabilities"],"storySequence":["Practical input/output boundary","Text semantics review","Regex alpha contract","CLI execution context","File/stdio capability alpha","Demo script and report"],"storyDetails":[{"title":"Practical input/output boundary","bullets":["Choose the smallest non-fixture boundary: CLI arguments, stdin/stdout, file paths, or a host-admitted text buffer.","Prove admitted, denied, and unsupported-lane outcomes.","Keep host facts out of pure language semantics."]},{"title":"Text semantics review","bullets":["Decide the first string indexing and character contract.","Name what is portable now and what remains deferred."]},{"title":"Regex alpha contract","bullets":["Choose the first regex dialect boundary.","Define match, find, replace, split, and capture result shapes."]},{"title":"CLI execution context","bullets":["Define how a script sees arguments, stdin, stdout, stderr, and exit status.","Keep host facts out of pure language semantics."]},{"title":"File/stdio capability alpha","bullets":["Admit read/write operations through explicit capability evidence.","Prove denial and missing-capability diagnostics."]},{"title":"Demo script and report","bullets":["Add one polished text-transformer example.","Show native proof.","Show runtime-Wasm proof over the same source-level contract. If blocked, the story cannot close; it must name the implementation blocker and next command.","Show a compact capability report rather than requiring users to read raw phase dumps."]}]},{"order":2,"title":"Managed Lowering Performance","summary":"Run and measure a pure Rasa application kernel through planned managed-value lowerings.","pressure":"WasmGC, native-tier/Cranelift, bounded facts, plan authority, benchmark evidence","status":"planned","requiredCapabilities":[],"storySequence":[],"storyDetails":[]},{"order":3,"title":"Browser Embedded Rasa","summary":"Embed a Rasa evaluator in a browser page with controlled host callbacks.","pressure":"Wasm session stability, sandboxed capabilities, UI diagnostics","status":"planned","requiredCapabilities":["stable browser Wasm session lifecycle","reusable evaluator instance with persistent defs","explicit session reset","source loading for `rasa.core` through the same mechanism as native where possible","structured diagnostics and rendered values for UI consumption","host callback admission model for browser-provided functions","syntax highlighting or phase output that can support an editor surface"],"storySequence":["Browser session contract review","Host callback capability alpha","UI result contract","Embedded demo page","Native parity check"],"storyDetails":[{"title":"Browser session contract review","bullets":["Define what a browser evaluator session owns.","Confirm how persistent defs, reset, core loading, and diagnostics line up with native runtime sessions."]},{"title":"Host callback capability alpha","bullets":["Admit a tiny browser host capability surface.","Prove denied or missing callbacks report structured errors.","Keep callback identity and JavaScript values outside source semantics."]},{"title":"UI result contract","bullets":["Define the result object the page receives after eval.","Include rendered value, structured diagnostics, phase status, and enough source span data for UI highlighting."]},{"title":"Embedded demo page","bullets":["Build a small page with one Rasa input, one host-provided capability, and a reset button.","Reuse shared REPL/editor components where possible."]},{"title":"Native parity check","bullets":["Show the same Rasa source can run through a native host harness with an equivalent admitted capability.","Record any browser-only or native-only limitations explicitly."]}]},{"order":4,"title":"HTTP JSON Client Script","summary":"Fetch JSON, transform data, and emit JSON from Rasa.","pressure":"JSON, bytes/text boundaries, HTTP client capability, colorless suspension","status":"planned","requiredCapabilities":["JSON parse/generate over Rasa maps, vectors, strings, numbers, booleans, and nil","bytes/text boundary decisions for request and response bodies","URI or URL validation policy","HTTP client capability admission","request/response map shape","structured errors for denied, unavailable, malformed, timeout, and non-2xx cases","suspension evidence without source-level async coloring"],"storySequence":["JSON value contract","Body boundary contract","HTTP request/response data shape","HTTP client capability alpha","Colorless suspension proof","Demo script and report"],"storyDetails":[{"title":"JSON value contract","bullets":["Define JSON-to-Rasa and Rasa-to-JSON mapping.","Name numeric, keyword/string key, ordering, and unsupported-value behavior."]},{"title":"Body boundary contract","bullets":["Decide when bodies are strings, bytes, or explicit decoded values.","Keep encoding failures structured."]},{"title":"HTTP request/response data shape","bullets":["Define the minimal request map and response map.","Include status, headers, body, and error shape."]},{"title":"HTTP client capability alpha","bullets":["Admit one outbound request operation through capability evidence.","Prove denied, missing, and unavailable host behavior."]},{"title":"Colorless suspension proof","bullets":["Show source code does not need host-specific async syntax.","Record where the runtime may suspend and resume."]},{"title":"Demo script and report","bullets":["Add a small script that fetches JSON from a controlled test host or fixture.","Show native proof.","Show browser/Wasm proof through fetch or an admitted host stub, or name the precise deferred host-lowering piece."]}]},{"order":5,"title":"HTTP JSON Service","summary":"Serve a small JSON endpoint from Rasa.","pressure":"routing, request/response maps, lifecycle, concurrency, cancellation","status":"planned","requiredCapabilities":["request map and response map contract","JSON body parse/generate reuse from the client milestone","header representation and normalization policy","HTTP server capability admission","route or handler invocation model","structured errors for handler failure, malformed response, denied server capability, port binding failure, and unsupported host lanes","suspension and cancellation evidence","resource cleanup for server lifecycle"],"storySequence":["Server request/response contract","Handler invocation contract","Server capability alpha","Suspension, cancellation, and lifecycle proof","Demo service and report"],"storyDetails":[{"title":"Server request/response contract","bullets":["Reuse or refine the client request/response map shape.","Define what an inbound request contains at alpha scope."]},{"title":"Handler invocation contract","bullets":["Decide whether handlers are ordinary functions, protocol methods, or a capability-specific adapter shape.","Keep handler invocation as Rasa callable semantics, not host callback leakage."]},{"title":"Server capability alpha","bullets":["Admit one HTTP server operation through capability evidence.","Prove denied, unavailable, malformed response, and handler failure paths."]},{"title":"Suspension, cancellation, and lifecycle proof","bullets":["Name where the runtime may park and resume work.","Prove server shutdown or cleanup behavior at alpha scope.","Record deferred cancellation behavior explicitly."]},{"title":"Demo service and report","bullets":["Add one small JSON endpoint demo.","Show native proof.","Show Wasm proof when a host can provide an inbound request loop, or name the precise host-lowering limitation."]}]},{"order":6,"title":"Capability Model And Manifest Tooling","summary":"Generate and validate capability models from provider/interface sources with small human policy overlays.","pressure":"package loading, capability declarations, importer tooling, generated artifacts","status":"planned","requiredCapabilities":["canonical Rasa capability model","importer path from at least one external interface source","policy overlay model separated from imported interface facts","Rasa-readable declaration surface or restricted data form","source-spanned validation diagnostics","generated capability catalog artifacts","generated denied, missing, and unsupported capability tests","documentation/reference projection from the same model"],"storySequence":["Capability model boundary","Importer spike","Policy overlay sketch","Rasa validation diagnostics","Artifact generation","Demo package/provider"],"storyDetails":[{"title":"Capability model boundary","bullets":["Define the Rasa-owned capability model independently of any one manifest syntax.","Separate imported interface facts from policy overlay facts."]},{"title":"Importer spike","bullets":["Choose one source, likely WIT or existing provider metadata.","Generate a small capability model with source/provenance evidence."]},{"title":"Policy overlay sketch","bullets":["Add a minimal human-authored overlay for exposure, names, authority, and deferrals.","Keep syntax explicitly experimental."]},{"title":"Rasa validation diagnostics","bullets":["Validate the generated model and overlay through Rasa tooling.","Produce source-spanned diagnostics and suggested fixes for missing policy, unsupported shapes, or unavailable lanes."]},{"title":"Artifact generation","bullets":["Generate capability catalog entries, reference docs, test skeletons, and website-capability projection data from the model."]},{"title":"Demo package/provider","bullets":["Prove the flow on one tiny provider or package.","Show what was generated, what the user wrote, and what Rasa refused."]}]}]};
+      const roadmap = {"schema":1,"title":"Rasa Roadmap","generatedAt":"2026-07-06T13:59:14.618Z","source":{"kind":"repo-work-ledger","milestoneCount":9},"note":"Projected from the current docs/work/ledger.md backlog.","milestones":[{"order":1,"title":"Metadata role normalization","summary":"Analyzer emits normalized metadata role facts for hints, return types, purity, docs, capability constraints, layout hints, and shape claims.","pressure":"docs/proposals/010-language-operational-spine/01-language-constitution.md","status":"planned","requiredCapabilities":["Authority: docs/proposals/010-language-operational-spine/01-language-constitution.md","Acceptance: Analyzer emits normalized metadata role facts for hints, return types, purity, docs, capability constraints, layout hints, and shape claims."],"storySequence":["Metadata role normalization"],"storyDetails":[{"title":"Metadata role normalization","bullets":["Authority: docs/proposals/010-language-operational-spine/01-language-constitution.md","Acceptance: Analyzer emits normalized metadata role facts for hints, return types, purity, docs, capability constraints, layout hints, and shape claims."]}]},{"order":2,"title":"Structured fact authority","summary":"Facts record evidence source, level, scope/dominance, assumptions, dependencies, and authorization; raw metadata does not authorize optimization.","pressure":"docs/proposals/010-language-operational-spine/02-fact-authority-and-explain.md","status":"planned","requiredCapabilities":["Authority: docs/proposals/010-language-operational-spine/02-fact-authority-and-explain.md","Acceptance: Facts record evidence source, level, scope/dominance, assumptions, dependencies, and authorization; raw metadata does not authorize optimization."],"storySequence":["Structured fact authority"],"storyDetails":[{"title":"Structured fact authority","bullets":["Authority: docs/proposals/010-language-operational-spine/02-fact-authority-and-explain.md","Acceptance: Facts record evidence source, level, scope/dominance, assumptions, dependencies, and authorization; raw metadata does not authorize optimization."]}]},{"order":3,"title":"ras explain and LSP artifact spine","summary":"Users can see claimed, inferred, checked, unknown, disproved, fallback, and proof-loss evidence from the same artifact path.","pressure":"docs/proposals/010-language-operational-spine/02-fact-authority-and-explain.md","status":"planned","requiredCapabilities":["Authority: docs/proposals/010-language-operational-spine/02-fact-authority-and-explain.md","Acceptance: Users can see claimed, inferred, checked, unknown, disproved, fallback, and proof-loss evidence from the same artifact path."],"storySequence":["ras explain and LSP artifact spine"],"storyDetails":[{"title":"ras explain and LSP artifact spine","bullets":["Authority: docs/proposals/010-language-operational-spine/02-fact-authority-and-explain.md","Acceptance: Users can see claimed, inferred, checked, unknown, disproved, fallback, and proof-loss evidence from the same artifact path."]}]},{"order":4,"title":"Function-level effect and capability inference","summary":"Calls infer effects/capabilities bottom-up; opaque calls poison purity honestly; allow/deny constraints diagnose violations.","pressure":"docs/proposals/010-language-operational-spine/03-capabilities-threat-and-effects.md","status":"planned","requiredCapabilities":["Authority: docs/proposals/010-language-operational-spine/03-capabilities-threat-and-effects.md","Acceptance: Calls infer effects/capabilities bottom-up; opaque calls poison purity honestly; allow/deny constraints diagnose violations."],"storySequence":["Function-level effect and capability inference"],"storyDetails":[{"title":"Function-level effect and capability inference","bullets":["Authority: docs/proposals/010-language-operational-spine/03-capabilities-threat-and-effects.md","Acceptance: Calls infer effects/capabilities bottom-up; opaque calls poison purity honestly; allow/deny constraints diagnose violations."]}]},{"order":5,"title":"Checked-boundary guards","summary":"Entry/return guards work for a tiny subset and establish scoped checked facts only after dominance.","pressure":"docs/proposals/010-language-operational-spine/02-fact-authority-and-explain.md","status":"planned","requiredCapabilities":["Authority: docs/proposals/010-language-operational-spine/02-fact-authority-and-explain.md","Acceptance: Entry/return guards work for a tiny subset and establish scoped checked facts only after dominance."],"storySequence":["Checked-boundary guards"],"storyDetails":[{"title":"Checked-boundary guards","bullets":["Authority: docs/proposals/010-language-operational-spine/02-fact-authority-and-explain.md","Acceptance: Entry/return guards work for a tiny subset and establish scoped checked facts only after dominance."]}]},{"order":6,"title":"Numeric MVP spec and proof","summary":"Literal, i64, finite f64, equality/hash, arithmetic, constant folding, EDN/JSON, and WIT scalar policy are specified and tested before tensor work expands.","pressure":"docs/proposals/010-language-operational-spine/06-numeric-mvp-and-data-plane.md","status":"planned","requiredCapabilities":["Authority: docs/proposals/010-language-operational-spine/06-numeric-mvp-and-data-plane.md","Acceptance: Literal, i64, finite f64, equality/hash, arithmetic, constant folding, EDN/JSON, and WIT scalar policy are specified and tested before tensor work expands."],"storySequence":["Numeric MVP spec and proof"],"storyDetails":[{"title":"Numeric MVP spec and proof","bullets":["Authority: docs/proposals/010-language-operational-spine/06-numeric-mvp-and-data-plane.md","Acceptance: Literal, i64, finite f64, equality/hash, arithmetic, constant folding, EDN/JSON, and WIT scalar policy are specified and tested before tensor work expands."]}]},{"order":7,"title":"Suspension boundary diagnostics","summary":"may-suspend propagates through capability calls and unsupported suspension in pure/perf contexts gives a precise diagnostic.","pressure":"docs/proposals/010-language-operational-spine/05-concurrency-suspension-boundaries.md","status":"planned","requiredCapabilities":["Authority: docs/proposals/010-language-operational-spine/05-concurrency-suspension-boundaries.md","Acceptance: may-suspend propagates through capability calls and unsupported suspension in pure/perf contexts gives a precise diagnostic."],"storySequence":["Suspension boundary diagnostics"],"storyDetails":[{"title":"Suspension boundary diagnostics","bullets":["Authority: docs/proposals/010-language-operational-spine/05-concurrency-suspension-boundaries.md","Acceptance: may-suspend propagates through capability calls and unsupported suspension in pure/perf contexts gives a precise diagnostic."]}]},{"order":8,"title":"Boundary movement and WMP inspection","summary":"Plans expose movement mode, WMP profile, guard/fallback, and runtime-Wasm allocator path where relevant.","pressure":"docs/proposals/010-language-operational-spine/04-runtime-target-ecosystem.md","status":"planned","requiredCapabilities":["Authority: docs/proposals/010-language-operational-spine/04-runtime-target-ecosystem.md","Acceptance: Plans expose movement mode, WMP profile, guard/fallback, and runtime-Wasm allocator path where relevant."],"storySequence":["Boundary movement and WMP inspection"],"storyDetails":[{"title":"Boundary movement and WMP inspection","bullets":["Authority: docs/proposals/010-language-operational-spine/04-runtime-target-ecosystem.md","Acceptance: Plans expose movement mode, WMP profile, guard/fallback, and runtime-Wasm allocator path where relevant."]}]},{"order":9,"title":"Tiny WIT projection from checked facts","summary":"Generated WIT is no more precise than proven or checked facts; hinted-only facts require guard, dynamic encoding, or refusal.","pressure":"docs/proposals/010-language-operational-spine/03-capabilities-threat-and-effects.md","status":"planned","requiredCapabilities":["Authority: docs/proposals/010-language-operational-spine/03-capabilities-threat-and-effects.md","Acceptance: Generated WIT is no more precise than proven or checked facts; hinted-only facts require guard, dynamic encoding, or refusal."],"storySequence":["Tiny WIT projection from checked facts"],"storyDetails":[{"title":"Tiny WIT projection from checked facts","bullets":["Authority: docs/proposals/010-language-operational-spine/03-capabilities-threat-and-effects.md","Acceptance: Generated WIT is no more precise than proven or checked facts; hinted-only facts require guard, dynamic encoding, or refusal."]}]}]};
       const buttons = Array.from(document.querySelectorAll("[data-roadmap-index]"));
       const detail = document.querySelector("[data-roadmap-detail]");
       const capabilityList = detail?.querySelector("[data-detail='capabilities']");

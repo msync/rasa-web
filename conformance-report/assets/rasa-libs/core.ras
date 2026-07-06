@@ -225,6 +225,44 @@
   [x]
   (if x true false))
 
+(defn ex-info
+  "Returns a portable Rasa error value with message, data, and optional cause."
+  ([message data]
+   (ex-info message data nil))
+  ([message data cause]
+   {:rasa/error true
+    :rasa.error/kind :rasa.error/exception-info
+    :rasa.error/category :error
+    :rasa.error/message message
+    :rasa.error/data data
+    :rasa.error/span nil
+    :rasa.error/cause cause}))
+
+(defn ex-data
+  "Returns the data map carried by a portable Rasa error value."
+  [ex]
+  (get ex :rasa.error/data))
+
+(defn ex-category
+  "Returns the broad category carried by a portable Rasa error value."
+  [ex]
+  (get ex :rasa.error/category))
+
+(defn ex-kind
+  "Returns the specific kind carried by a portable Rasa error value."
+  [ex]
+  (get ex :rasa.error/kind))
+
+(defn ex-message
+  "Returns the message carried by a portable Rasa error value."
+  [ex]
+  (get ex :rasa.error/message))
+
+(defn ex-cause
+  "Returns the cause carried by a portable Rasa error value."
+  [ex]
+  (get ex :rasa.error/cause))
+
 (defn any?
   "Returns true for any value."
   [x]

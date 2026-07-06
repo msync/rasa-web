@@ -1,0 +1,78 @@
+{:exports
+ {summary
+  {:signature {:args [{:name :args :type :map}]
+               :returns :map}
+   :effects [:fs/read :model/read]
+   :policy [:fs/read]
+   :targets {:native {:availability :available}
+             :wasmtime {:availability :unsupported-by-rasa
+                        :reason :gguf-wit-resource-contract-missing}
+             :wasm-browser {:availability :impossible
+                            :reason :browser-has-no-ambient-filesystem}}}
+  tensors
+  {:signature {:args [{:name :args :type :map}]
+               :returns [:vector :map]}
+   :effects [:fs/read :model/read]
+   :policy [:fs/read]
+   :targets {:native {:availability :available}
+             :wasmtime {:availability :unsupported-by-rasa
+                        :reason :gguf-wit-resource-contract-missing}
+             :wasm-browser {:availability :requires-adapter
+                            :adapter-kind :browser-file-or-fetch}}}
+  summary-byte-view
+  {:signature {:args [{:name :args :type :map}]
+               :returns :map}
+   :effects [:model/read]
+   :policy [:model/read]
+   :boundary-contracts [{:kind :model-byte-resource
+                         :authority :boundary-materialized
+                         :provider-read :boundary-materialized
+                         :access :boundary-materialized-bytes}
+                        {:kind :model-byte-resource
+                         :authority :host-admitted
+                         :provider-read :boundary-materialized
+                         :access :boundary-materialized-bytes}]
+   :targets {:native {:availability :available}
+             :wasmtime {:availability :available}
+             :wasm-browser {:availability :requires-adapter
+                            :adapter-kind :browser-file-or-fetch}}}
+  summary-read-at
+  {:signature {:args [{:name :args :type :map}]
+               :returns :map}
+   :effects [:model/read]
+   :policy [:model/read]
+   :boundary-contracts [{:kind :model-byte-resource
+                         :authority :host-admitted
+                         :provider-read :host-read-at
+                         :access :read-at}]
+   :targets {:native {:availability :available}
+             :wasmtime {:availability :available}
+             :wasm-browser {:availability :requires-adapter
+                            :adapter-kind :browser-file-or-fetch}}}
+  open-model
+  {:signature {:args [{:name :args :type :map}]
+               :returns :resource}
+   :effects [:model/read]
+   :policy [:model/read]
+   :targets {:native {:availability :available}
+             :wasmtime {:availability :available}
+             :wasm-browser {:availability :requires-adapter
+                            :adapter-kind :browser-file-or-fetch}}}
+  model-summary
+  {:signature {:args [{:name :model :type :resource}]
+               :returns :map}
+   :effects [:model/read]
+   :policy [:model/read]
+   :targets {:native {:availability :available}
+             :wasmtime {:availability :available}
+             :wasm-browser {:availability :requires-adapter
+                            :adapter-kind :browser-file-or-fetch}}}
+  close-model
+  {:signature {:args [{:name :model :type :resource}]
+               :returns :map}
+   :effects [:resource-close]
+   :policy []
+   :targets {:native {:availability :available}
+             :wasmtime {:availability :available}
+             :wasm-browser {:availability :requires-adapter
+                            :adapter-kind :browser-file-or-fetch}}}}}

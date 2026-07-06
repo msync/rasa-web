@@ -1,25 +1,50 @@
 {
   "runtime": "../assets/ras.wasm",
   "sourceLibraries": [
-    "./assets/rasa-libs/core.ras"
+    "./assets/rasa-libs/core.ras",
+    "./assets/rasa-libs/string.ras",
+    "./assets/rasa-libs/json.ras",
+    "./assets/rasa-libs/edn.ras",
+    "./assets/rasa-libs/test/impl.ras",
+    "./assets/rasa-libs/test/runner/impl.ras",
+    "./assets/rasa-libs/test/runner.ras",
+    "./assets/rasa-libs/test.ras"
   ],
+  "session": {
+    "initialNamespace": "rasa.core"
+  },
   "capabilityCatalogs": [
     {
-      "package": "rasa.net",
-      "url": "./assets/capabilities/rasa.net/catalog.ras"
+      "package": "rasa.http",
+      "url": "./assets/capabilities/rasa.http/catalog.ras"
+    },
+    {
+      "package": "rasa.ml.gguf/package",
+      "url": "./assets/capabilities/rasa.ml.gguf/catalog.ras"
     }
   ],
   "providers": [
     {
-      "package": "rasa.net",
+      "package": "rasa.http",
       "target": "wasm-browser",
       "kind": "browser-module",
-      "module": "./providers/rasa-net-browser.js"
+      "module": "./providers/rasa-http-browser.js"
+    },
+    {
+      "package": "rasa.ml.gguf/package",
+      "target": "wasm-browser",
+      "kind": "browser-module",
+      "module": "./providers/rasa-ml-gguf-browser.js"
     }
   ],
   "policy": {
     "allow": [
-      "rasa.net/request"
+      "rasa.http/request",
+      "rasa.ml.gguf/package/summary-byte-view",
+      "rasa.ml.gguf/package/summary-read-at",
+      "rasa.ml.gguf/package/open-model",
+      "rasa.ml.gguf/package/model-summary",
+      "rasa.ml.gguf/package/close-model"
     ]
   }
 }

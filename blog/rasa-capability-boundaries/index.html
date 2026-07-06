@@ -36,12 +36,12 @@
       --rasa-backdrop: rgba(6, 10, 14, 0.45);
       --rasa-radius: 8px;
   
-      --rasa-reader: var(--rasa-gold);
-      --rasa-analysis: var(--rasa-blue);
-      --rasa-ir: var(--rasa-violet);
-      --rasa-facts: var(--rasa-green);
-      --rasa-plan: var(--rasa-teal);
-      --rasa-eval: var(--rasa-red);
+      --phase-reader: var(--rasa-gold);
+      --phase-analysis: var(--rasa-blue);
+      --phase-ir: var(--rasa-violet);
+      --phase-facts: var(--rasa-green);
+      --phase-plan: var(--rasa-teal);
+      --phase-eval: var(--rasa-red);
       font-family:
         Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
         "Segoe UI", sans-serif;
@@ -466,7 +466,7 @@
         <div class="post-body">
           <p>Rasa is a Clojure-family language, but the point is not to clone a host-shaped Clojure runtime. The point is to keep the parts that make Clojure enduring: small syntax, values over objects, interactive development, sequence-shaped composition, and a practical bias toward programs that can be inspected while they are being built.</p>
 <p>The design pressure is different now. A modern language cannot treat the host as an invisible ambient power source. Filesystems, network access, clocks, model bytes, browser handles, process state, and GPU resources must be visible to the compiler and to operators. WebAssembly, WIT, WASI, browsers, native runtimes, and optimizing backends all make the same demand in different words: source semantics should stay pure, while host effects should be admitted deliberately.</p>
-<p>This first post is about that boundary. The anchor is deliberately small: reading a text file, transforming it, writing it back, and proving the same source works through native <code>ras</code> and the Wasmtime-backed <code>ras-wasm</code> product. Small examples expose architecture better than grand diagrams when the system is young.</p>
+<p>This first post is about that boundary. The anchor is deliberately small: reading a text file, transforming it, writing it back, and proving the same source works through native <code>ras</code> and the Wasmtime-backed <code>ras-wasmtime</code> product. Small examples expose architecture better than grand diagrams when the system is young.</p>
 <h2>The Philosophy</h2>
 <p>Rasa separates semantic authority from representation.</p>
 <p>Source code should not know whether a value lives in a Rust heap, Wasm linear memory, a future WasmGC object graph, or a native-tier compiled frame. Those are runtime and backend decisions. They are important, but they are not source semantics.</p>
@@ -540,7 +540,7 @@ human or tool view -&gt; projection</code></pre>
    <span class="tok-keyword">:boundary-mode</span> <span class="tok-keyword">:copy-value</span>
    <span class="tok-keyword">:policy</span> <span class="tok-punct">[</span><span class="tok-keyword">:fs/read</span><span class="tok-punct">]</span>
    <span class="tok-keyword">:targets</span> <span class="tok-punct">{</span><span class="tok-keyword">:native</span> <span class="tok-punct">{</span><span class="tok-keyword">:availability</span> <span class="tok-keyword">:available</span><span class="tok-punct">}</span>
-             <span class="tok-keyword">:wasm-host</span> <span class="tok-punct">{</span><span class="tok-keyword">:availability</span> <span class="tok-keyword">:available</span>
+             <span class="tok-keyword">:wasmtime</span> <span class="tok-punct">{</span><span class="tok-keyword">:availability</span> <span class="tok-keyword">:available</span>
                          <span class="tok-keyword">:requires</span> <span class="tok-punct">[</span><span class="tok-keyword">:wasi/filesystem</span><span class="tok-punct">]</span><span class="tok-punct">}</span>
              <span class="tok-keyword">:wasm-browser</span> <span class="tok-punct">{</span><span class="tok-keyword">:availability</span> <span class="tok-keyword">:requires-adapter</span>
                             <span class="tok-keyword">:adapter-kind</span> <span class="tok-keyword">:javascript</span>
@@ -553,7 +553,7 @@ human or tool view -&gt; projection</code></pre>
    <span class="tok-keyword">:boundary-mode</span> <span class="tok-keyword">:copy-value</span>
    <span class="tok-keyword">:policy</span> <span class="tok-punct">[</span><span class="tok-keyword">:fs/write</span><span class="tok-punct">]</span>
    <span class="tok-keyword">:targets</span> <span class="tok-punct">{</span><span class="tok-keyword">:native</span> <span class="tok-punct">{</span><span class="tok-keyword">:availability</span> <span class="tok-keyword">:available</span><span class="tok-punct">}</span>
-             <span class="tok-keyword">:wasm-host</span> <span class="tok-punct">{</span><span class="tok-keyword">:availability</span> <span class="tok-keyword">:available</span>
+             <span class="tok-keyword">:wasmtime</span> <span class="tok-punct">{</span><span class="tok-keyword">:availability</span> <span class="tok-keyword">:available</span>
                          <span class="tok-keyword">:requires</span> <span class="tok-punct">[</span><span class="tok-keyword">:wasi/filesystem</span><span class="tok-punct">]</span><span class="tok-punct">}</span>
              <span class="tok-keyword">:wasm-browser</span> <span class="tok-punct">{</span><span class="tok-keyword">:availability</span> <span class="tok-keyword">:requires-adapter</span>
                             <span class="tok-keyword">:adapter-kind</span> <span class="tok-keyword">:javascript</span>
@@ -580,8 +580,8 @@ human or tool view -&gt; projection</code></pre>
                              <span class="tok-keyword">:returns</span> <span class="tok-keyword">:map</span><span class="tok-punct">}</span><span class="tok-punct">}</span><span class="tok-punct">]</span>
  <span class="tok-keyword">:artifacts</span> <span class="tok-punct">{</span><span class="tok-keyword">:native</span> <span class="tok-punct">{</span><span class="tok-keyword">:kind</span> <span class="tok-keyword">:native-dylib</span>
                       <span class="tok-keyword">:path</span> <span class="tok-string">&quot;native/librasa_io_provider.dylib&quot;</span><span class="tok-punct">}</span>
-             <span class="tok-keyword">:wasm-host</span> <span class="tok-punct">{</span><span class="tok-keyword">:kind</span> <span class="tok-keyword">:wasm-component</span>
-                         <span class="tok-keyword">:path</span> <span class="tok-string">&quot;wasm-host/rasa_io_provider.wasm&quot;</span>
+             <span class="tok-keyword">:wasmtime</span> <span class="tok-punct">{</span><span class="tok-keyword">:kind</span> <span class="tok-keyword">:wasm-component</span>
+                         <span class="tok-keyword">:path</span> <span class="tok-string">&quot;wasmtime/rasa_io_provider.wasm&quot;</span>
                          <span class="tok-keyword">:wit</span> <span class="tok-punct">{</span><span class="tok-keyword">:package</span> <span class="tok-symbol">rasa:provider@0.1.0</span>
                                <span class="tok-keyword">:world</span> <span class="tok-symbol">provider</span><span class="tok-punct">}</span>
                          <span class="tok-keyword">:requires</span> <span class="tok-punct">[</span><span class="tok-keyword">:wasi/filesystem</span><span class="tok-punct">]</span><span class="tok-punct">}</span><span class="tok-punct">}</span><span class="tok-punct">}</span></code></pre>
@@ -613,36 +613,36 @@ Capabilities:
 - rasa.io/write-text available calls=1 effects=fs/write,may-suspend policy=fs/write boundary=copy-value</code></pre>
 <p>That is the core point. The filesystem read is not ambient. It is visible, planned, and admitted.</p>
 <h2>Wasm Host Flow</h2>
-<p>The same source also runs through <code>ras-wasm</code>.</p>
+<p>The same source also runs through <code>ras-wasmtime</code>.</p>
 <p>The product shape is:</p>
 <pre><code class="language-text">ras        native command
-ras-wasm   native Wasmtime launcher
+ras-wasmtime   native Wasmtime launcher
 ras.wasm   Wasm component runtime artifact</code></pre>
 <p>The Wasm runtime is not the old raw pointer ABI. <code>ras.wasm</code> is a Wasm component with WIT session exports. The host launcher loads it, supplies the package data, and routes admitted capability calls to provider components.</p>
 <p>For the IO example, the Wasm provider is also a component:</p>
-<pre><code class="language-text">target/rasa-capabilities/rasa.io/wasm-host/rasa_io_provider.wasm</code></pre>
+<pre><code class="language-text">target/rasa-capabilities/rasa.io/wasmtime/rasa_io_provider.wasm</code></pre>
 <p>Run the same source:</p>
 <pre><code class="language-bash">rm -f target/rasa-text-output.txt
-target/release/ras-wasm run examples/text/file-text-pipeline.ras
+target/release/ras-wasmtime run examples/text/file-text-pipeline.ras
 cat target/rasa-text-output.txt</code></pre>
-<p>The expected Rasa value is the same as native. The file should exist on disk. This is not a virtual workspace. For the <code>wasm-host</code> target, the provider is given a WASI filesystem context by the host, so the admitted provider operation can write the host file.</p>
+<p>The expected Rasa value is the same as native. The file should exist on disk. This is not a virtual workspace. For the <code>wasmtime</code> target, the provider is given a WASI filesystem context by the host, so the admitted provider operation can write the host file.</p>
 <p>Confirm the provider:</p>
-<pre><code class="language-bash">target/release/ras-wasm run --phase confirm examples/text/file-text-pipeline.ras</code></pre>
+<pre><code class="language-bash">target/release/ras-wasmtime run --phase confirm examples/text/file-text-pipeline.ras</code></pre>
 <p>The confirmation should identify the Wasm provider artifact:</p>
 <pre><code class="language-clojure"><span class="tok-punct">{</span><span class="tok-keyword">:id</span> <span class="tok-keyword">:rasa.io/write-text</span>
  <span class="tok-keyword">:status</span> <span class="tok-keyword">:confirmed</span>
  <span class="tok-keyword">:result-class</span> <span class="tok-keyword">:value</span>
  <span class="tok-keyword">:artifact-kind</span> <span class="tok-keyword">:wasm-component</span>
- <span class="tok-keyword">:artifact-path</span> <span class="tok-string">&quot;.../target/rasa-capabilities/rasa.io/wasm-host/rasa_io_provider.wasm&quot;</span>
+ <span class="tok-keyword">:artifact-path</span> <span class="tok-string">&quot;.../target/rasa-capabilities/rasa.io/wasmtime/rasa_io_provider.wasm&quot;</span>
  <span class="tok-keyword">:codec</span> <span class="tok-keyword">:rasa-data-v1</span>
  <span class="tok-keyword">:abi</span> <span class="tok-keyword">:rasa-provider-abi-v1</span><span class="tok-punct">}</span></code></pre>
 <p>The source did not change. The runtime product changed.</p>
 <h2>Policy Denial</h2>
 <p>The same plan can be denied:</p>
 <pre><code class="language-bash">target/release/ras run --phase plan --policy deny-fs examples/text/file-text-pipeline.ras
-target/release/ras-wasm run --phase plan --policy deny-fs examples/text/file-text-pipeline.ras</code></pre>
+target/release/ras-wasmtime run --phase plan --policy deny-fs examples/text/file-text-pipeline.ras</code></pre>
 <p>Both lanes should report a blocked plan:</p>
-<pre><code class="language-text">Capability plan: blocked (wasm-host)
+<pre><code class="language-text">Capability plan: blocked (wasmtime)
 Capabilities:
 - rasa.io/read-text policy-denied calls=1 effects=fs/read,may-suspend policy=fs/read boundary=copy-value reason=policy-denied
 - rasa.io/write-text policy-denied calls=1 effects=fs/write,may-suspend policy=fs/write boundary=copy-value reason=policy-denied</code></pre>
@@ -653,7 +653,7 @@ Capabilities:
 <pre><code class="language-bash">cargo run --quiet -p rasa-repl --example io_repl_checkpoint
 cat target/rasa-repl-native-output.txt</code></pre>
 <p>Wasm host:</p>
-<pre><code class="language-bash">cargo run --quiet -p rasa-wasm-host --example io_repl_checkpoint
+<pre><code class="language-bash">cargo run --quiet -p rasa-runtime-wasmtime --example io_repl_checkpoint
 cat target/rasa-repl-wasm-output.txt</code></pre>
 <p>The checkpoint evaluates the same sequence of forms:</p>
 <pre><code class="language-clojure"><span class="tok-punct">(</span><span class="tok-form">ns</span> <span class="tok-symbol">repl.io.checkpoint</span>
@@ -673,12 +673,12 @@ cat target/rasa-repl-wasm-output.txt</code></pre>
 <p>You can also try this manually:</p>
 <pre><code class="language-bash">target/release/ras repl</code></pre>
 <p>or:</p>
-<pre><code class="language-bash">target/release/ras-wasm repl</code></pre>
+<pre><code class="language-bash">target/release/ras-wasmtime repl</code></pre>
 <p>Paste the forms one by one. Use different output paths if both sessions are open.</p>
 <h2>Installation Shape</h2>
 <p>The product installer now carries the resources needed to make this work outside the workspace:</p>
 <pre><code class="language-text">bin/ras
-bin/ras-wasm
+bin/ras-wasmtime
 lib/rasa/ras.wasm
 share/rasa/lib/rasa/core.ras
 share/rasa/lib/rasa/string.ras
@@ -687,12 +687,12 @@ share/rasa/capabilities/rasa.io/manifest.ras
 share/rasa/capabilities/rasa.io/catalog.ras
 share/rasa/capabilities/rasa.io/providers/io.ras
 share/rasa/capabilities/rasa.io/native/librasa_io_provider.dylib
-share/rasa/capabilities/rasa.io/wasm-host/rasa_io_provider.wasm</code></pre>
+share/rasa/capabilities/rasa.io/wasmtime/rasa_io_provider.wasm</code></pre>
 <p>Smoke-test an install:</p>
 <pre><code class="language-bash">target/release/ras install user --prefix target/rasa-install-smoke
 target/rasa-install-smoke/bin/ras install doctor --prefix target/rasa-install-smoke
 target/rasa-install-smoke/bin/ras run examples/text/file-text-pipeline.ras
-target/rasa-install-smoke/bin/ras-wasm run examples/text/file-text-pipeline.ras</code></pre>
+target/rasa-install-smoke/bin/ras-wasmtime run examples/text/file-text-pipeline.ras</code></pre>
 <p>The installed commands discover the source libraries and Rasa-owned capability roots from the prefix. End users should not need workspace-only flags for core Rasa capabilities.</p>
 <h2>Why This Matters</h2>
 <p>The IO example is intentionally modest. It is not a web framework, an actor runtime, a package manager, or a database client. It is a proof of the shape Rasa needs before those things become honest.</p>

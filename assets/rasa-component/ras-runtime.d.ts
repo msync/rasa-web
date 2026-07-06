@@ -1,5 +1,7 @@
 // world root:component/root
 import type * as RasaRuntimeHost from './interfaces/rasa-runtime-host.js'; // rasa:runtime/host@0.1.0
+import type * as RasaRuntimeOptimizer from './interfaces/rasa-runtime-optimizer.js'; // rasa:runtime/optimizer@0.1.0
+import type * as RasaRuntimeSourceLoader from './interfaces/rasa-runtime-source-loader.js'; // rasa:runtime/source-loader@0.1.0
 import type * as WasiCliEnvironment from './interfaces/wasi-cli-environment.js'; // wasi:cli/environment@0.2.6
 import type * as WasiCliExit from './interfaces/wasi-cli-exit.js'; // wasi:cli/exit@0.2.6
 import type * as WasiCliStderr from './interfaces/wasi-cli-stderr.js'; // wasi:cli/stderr@0.2.6
@@ -18,6 +20,8 @@ import type * as WasiRandomInsecureSeed from './interfaces/wasi-random-insecure-
 import type * as RasaRuntimeSession from './interfaces/rasa-runtime-session.js'; // rasa:runtime/session@0.1.0
 export interface ImportObject {
   'rasa:runtime/host@0.1.0': typeof RasaRuntimeHost,
+  'rasa:runtime/optimizer@0.1.0': typeof RasaRuntimeOptimizer,
+  'rasa:runtime/source-loader@0.1.0': typeof RasaRuntimeSourceLoader,
   'wasi:cli/environment@0.2.6': typeof WasiCliEnvironment,
   'wasi:cli/exit@0.2.6': typeof WasiCliExit,
   'wasi:cli/stderr@0.2.6': typeof WasiCliStderr,
