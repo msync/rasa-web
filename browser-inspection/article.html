@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" href="./assets/brand/mark.svg" type="image/svg+xml" />
     <script defer src="./assets/analytics/google-tag.js?v=841e948e3e6e"></script>
+    <script vite-ignore type="module" src="/assets/rasa-browser-runtime.js"></script>
     <title>Rasa Browser Inspection Article Embed</title>
     <style>
       :root {
@@ -51,11 +52,8 @@
         artifact through generated component adapter assets. Browser execution
         stays local to this static page; no server computes language data.
       </p>
-      <rasa-browser-inspection-workbench
-        runtime-url="../assets/ras.wasm"
-        mode="article"
-      ></rasa-browser-inspection-workbench>
+      <rasa-browser-inspection-workbench mode="article"></rasa-browser-inspection-workbench>
     </article>
-    <script type="module" src="./app.js?v=dccdc7637c79"></script>
+    <script type="module" src="./app.js?v=af9afb9829fc"></script>
   </body>
 </html>

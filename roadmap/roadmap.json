@@ -1,22 +1,22 @@
 {
   "schema": 1,
   "title": "Rasa Roadmap",
-  "generatedAt": "2026-07-06T13:59:14.618Z",
+  "generatedAt": "2026-07-07T16:32:38.235Z",
   "source": {
     "kind": "repo-work-ledger",
-    "milestoneCount": 9
+    "milestoneCount": 13
   },
   "note": "Projected from the current docs/work/ledger.md backlog.",
   "milestones": [
     {
       "order": 1,
       "title": "Metadata role normalization",
-      "summary": "Analyzer emits normalized metadata role facts for hints, return types, purity, docs, capability constraints, layout hints, and shape claims.",
+      "summary": "Analyzer emits normalized metadata role facts for type hints, function return hints, docs, layout hints, shape claims, and unsupported metadata diagnostics. Purity stays derived-only; function-level capability policy is not admitted.",
       "pressure": "docs/proposals/010-language-operational-spine/01-language-constitution.md",
       "status": "planned",
       "requiredCapabilities": [
         "Authority: docs/proposals/010-language-operational-spine/01-language-constitution.md",
-        "Acceptance: Analyzer emits normalized metadata role facts for hints, return types, purity, docs, capability constraints, layout hints, and shape claims."
+        "Acceptance: Analyzer emits normalized metadata role facts for type hints, function return hints, docs, layout hints, shape claims, and unsupported metadata diagnostics. Purity stays derived-only; function-level capability policy is not admitted."
       ],
       "storySequence": [
         "Metadata role normalization"
@@ -26,13 +26,36 @@
           "title": "Metadata role normalization",
           "bullets": [
             "Authority: docs/proposals/010-language-operational-spine/01-language-constitution.md",
-            "Acceptance: Analyzer emits normalized metadata role facts for hints, return types, purity, docs, capability constraints, layout hints, and shape claims."
+            "Acceptance: Analyzer emits normalized metadata role facts for type hints, function return hints, docs, layout hints, shape claims, and unsupported metadata diagnostics. Purity stays derived-only; function-level capability policy is not admitted."
           ]
         }
       ]
     },
     {
       "order": 2,
+      "title": "Package/provider authority algebra",
+      "summary": "ras ext validate enforces closed manifest/catalog/provider grammar, catalog/provider agreement, target requirements, movement contracts, stable diagnostics, and valid/invalid authority fixtures.",
+      "pressure": "docs/proposals/011-package-provider-authority-algebra/README.md",
+      "status": "planned",
+      "requiredCapabilities": [
+        "Authority: docs/proposals/011-package-provider-authority-algebra/README.md",
+        "Acceptance: ras ext validate enforces closed manifest/catalog/provider grammar, catalog/provider agreement, target requirements, movement contracts, stable diagnostics, and valid/invalid authority fixtures."
+      ],
+      "storySequence": [
+        "Package/provider authority algebra"
+      ],
+      "storyDetails": [
+        {
+          "title": "Package/provider authority algebra",
+          "bullets": [
+            "Authority: docs/proposals/011-package-provider-authority-algebra/README.md",
+            "Acceptance: ras ext validate enforces closed manifest/catalog/provider grammar, catalog/provider agreement, target requirements, movement contracts, stable diagnostics, and valid/invalid authority fixtures."
+          ]
+        }
+      ]
+    },
+    {
+      "order": 3,
       "title": "Structured fact authority",
       "summary": "Facts record evidence source, level, scope/dominance, assumptions, dependencies, and authorization; raw metadata does not authorize optimization.",
       "pressure": "docs/proposals/010-language-operational-spine/02-fact-authority-and-explain.md",
@@ -55,7 +78,7 @@
       ]
     },
     {
-      "order": 3,
+      "order": 4,
       "title": "ras explain and LSP artifact spine",
       "summary": "Users can see claimed, inferred, checked, unknown, disproved, fallback, and proof-loss evidence from the same artifact path.",
       "pressure": "docs/proposals/010-language-operational-spine/02-fact-authority-and-explain.md",
@@ -78,14 +101,60 @@
       ]
     },
     {
-      "order": 4,
+      "order": 5,
+      "title": "Compiler outcome API",
+      "summary": "Source-visible rasa.compiler/check-source returns versioned Rasa outcome data with typed reports and diagnostics; expected failures are values, not Rust stack traces; file authority stays outside the compiler API.",
+      "pressure": "docs/proposals/010-language-operational-spine/08-compiler-outcome-api.md",
+      "status": "planned",
+      "requiredCapabilities": [
+        "Authority: docs/proposals/010-language-operational-spine/08-compiler-outcome-api.md",
+        "Acceptance: Source-visible rasa.compiler/check-source returns versioned Rasa outcome data with typed reports and diagnostics; expected failures are values, not Rust stack traces; file authority stays outside the compiler API."
+      ],
+      "storySequence": [
+        "Compiler outcome API"
+      ],
+      "storyDetails": [
+        {
+          "title": "Compiler outcome API",
+          "bullets": [
+            "Authority: docs/proposals/010-language-operational-spine/08-compiler-outcome-api.md",
+            "Acceptance: Source-visible rasa.compiler/check-source returns versioned Rasa outcome data with typed reports and diagnostics; expected failures are values, not Rust stack traces; file authority stays outside the compiler API."
+          ]
+        }
+      ]
+    },
+    {
+      "order": 6,
+      "title": "Web demo metadata reports and browser parity note",
+      "summary": "Browser demo presents typed metadata contract report examples through a friendly projection and labels native artifact, runtime-Wasm, and adapter-pending states honestly.",
+      "pressure": "docs/proposals/010-language-operational-spine/08-compiler-outcome-api.md",
+      "status": "planned",
+      "requiredCapabilities": [
+        "Authority: docs/proposals/010-language-operational-spine/08-compiler-outcome-api.md",
+        "Acceptance: Browser demo presents typed metadata contract report examples through a friendly projection and labels native artifact, runtime-Wasm, and adapter-pending states honestly."
+      ],
+      "storySequence": [
+        "Web demo metadata reports and browser parity note"
+      ],
+      "storyDetails": [
+        {
+          "title": "Web demo metadata reports and browser parity note",
+          "bullets": [
+            "Authority: docs/proposals/010-language-operational-spine/08-compiler-outcome-api.md",
+            "Acceptance: Browser demo presents typed metadata contract report examples through a friendly projection and labels native artifact, runtime-Wasm, and adapter-pending states honestly."
+          ]
+        }
+      ]
+    },
+    {
+      "order": 7,
       "title": "Function-level effect and capability inference",
-      "summary": "Calls infer effects/capabilities bottom-up; opaque calls poison purity honestly; allow/deny constraints diagnose violations.",
+      "summary": "Resolved package/import/host calls infer effects and capabilities bottom-up; unknown facts are explicit; admission consumes package/provider authority data.",
       "pressure": "docs/proposals/010-language-operational-spine/03-capabilities-threat-and-effects.md",
       "status": "planned",
       "requiredCapabilities": [
         "Authority: docs/proposals/010-language-operational-spine/03-capabilities-threat-and-effects.md",
-        "Acceptance: Calls infer effects/capabilities bottom-up; opaque calls poison purity honestly; allow/deny constraints diagnose violations."
+        "Acceptance: Resolved package/import/host calls infer effects and capabilities bottom-up; unknown facts are explicit; admission consumes package/provider authority data."
       ],
       "storySequence": [
         "Function-level effect and capability inference"
@@ -95,13 +164,13 @@
           "title": "Function-level effect and capability inference",
           "bullets": [
             "Authority: docs/proposals/010-language-operational-spine/03-capabilities-threat-and-effects.md",
-            "Acceptance: Calls infer effects/capabilities bottom-up; opaque calls poison purity honestly; allow/deny constraints diagnose violations."
+            "Acceptance: Resolved package/import/host calls infer effects and capabilities bottom-up; unknown facts are explicit; admission consumes package/provider authority data."
           ]
         }
       ]
     },
     {
-      "order": 5,
+      "order": 8,
       "title": "Checked-boundary guards",
       "summary": "Entry/return guards work for a tiny subset and establish scoped checked facts only after dominance.",
       "pressure": "docs/proposals/010-language-operational-spine/02-fact-authority-and-explain.md",
@@ -124,7 +193,7 @@
       ]
     },
     {
-      "order": 6,
+      "order": 9,
       "title": "Numeric MVP spec and proof",
       "summary": "Literal, i64, finite f64, equality/hash, arithmetic, constant folding, EDN/JSON, and WIT scalar policy are specified and tested before tensor work expands.",
       "pressure": "docs/proposals/010-language-operational-spine/06-numeric-mvp-and-data-plane.md",
@@ -147,37 +216,14 @@
       ]
     },
     {
-      "order": 7,
-      "title": "Suspension boundary diagnostics",
-      "summary": "may-suspend propagates through capability calls and unsupported suspension in pure/perf contexts gives a precise diagnostic.",
-      "pressure": "docs/proposals/010-language-operational-spine/05-concurrency-suspension-boundaries.md",
-      "status": "planned",
-      "requiredCapabilities": [
-        "Authority: docs/proposals/010-language-operational-spine/05-concurrency-suspension-boundaries.md",
-        "Acceptance: may-suspend propagates through capability calls and unsupported suspension in pure/perf contexts gives a precise diagnostic."
-      ],
-      "storySequence": [
-        "Suspension boundary diagnostics"
-      ],
-      "storyDetails": [
-        {
-          "title": "Suspension boundary diagnostics",
-          "bullets": [
-            "Authority: docs/proposals/010-language-operational-spine/05-concurrency-suspension-boundaries.md",
-            "Acceptance: may-suspend propagates through capability calls and unsupported suspension in pure/perf contexts gives a precise diagnostic."
-          ]
-        }
-      ]
-    },
-    {
-      "order": 8,
+      "order": 10,
       "title": "Boundary movement and WMP inspection",
-      "summary": "Plans expose movement mode, WMP profile, guard/fallback, and runtime-Wasm allocator path where relevant.",
+      "summary": "Plans expose movement mode, WMP profile, guard/fallback, runtime-Wasm allocator path, WMP-2 candidate/refusal causes, and boundary materialization cost where relevant.",
       "pressure": "docs/proposals/010-language-operational-spine/04-runtime-target-ecosystem.md",
       "status": "planned",
       "requiredCapabilities": [
         "Authority: docs/proposals/010-language-operational-spine/04-runtime-target-ecosystem.md",
-        "Acceptance: Plans expose movement mode, WMP profile, guard/fallback, and runtime-Wasm allocator path where relevant."
+        "Acceptance: Plans expose movement mode, WMP profile, guard/fallback, runtime-Wasm allocator path, WMP-2 candidate/refusal causes, and boundary materialization cost where relevant."
       ],
       "storySequence": [
         "Boundary movement and WMP inspection"
@@ -187,13 +233,59 @@
           "title": "Boundary movement and WMP inspection",
           "bullets": [
             "Authority: docs/proposals/010-language-operational-spine/04-runtime-target-ecosystem.md",
-            "Acceptance: Plans expose movement mode, WMP profile, guard/fallback, and runtime-Wasm allocator path where relevant."
+            "Acceptance: Plans expose movement mode, WMP profile, guard/fallback, runtime-Wasm allocator path, WMP-2 candidate/refusal causes, and boundary materialization cost where relevant."
           ]
         }
       ]
     },
     {
-      "order": 9,
+      "order": 11,
+      "title": "WMP-2 image data-plane proof",
+      "summary": "First slice has a manifest-driven Sobel proof under examples/proofs/sobel/, generated browser packaging under web/proofs, browser runtime-Wasm checksum parity, visible canvas output, boxed/WMP-2 target cost reporting, and source-local plan/packed-data-refusal for counted-loop pressure. The packed-loop contract slice now adds examples/proofs/packed-loop/: packed-copy.ras admits the first one-dimensional u8 WMP-2 packed-linear candidate through compiler-recognized rasa.array intrinsics, ^:rasa/packed, induction-indexed read/write, and array/persistent!; buffer-escape-refused.ras, index-shape-refused.ras, counted-refused.ras, and refused.ras keep the strict refusal path; inferred.ras preserves unfenced analyzer-driven optimization. Remaining pressure: specific escape/sealing diagnostics, broader dtypes and shapes, K-mer bitmask range facts, Sobel affine indexed-buffer facts, browser execution track, guard placement, boundary movement reporting from compiler facts, and measured fallback comparison.",
+      "pressure": "docs/proposals/010-language-operational-spine/09-hard-problems-and-proof-workloads.md",
+      "status": "planned",
+      "requiredCapabilities": [
+        "Authority: docs/proposals/010-language-operational-spine/09-hard-problems-and-proof-workloads.md",
+        "Acceptance: First slice has a manifest-driven Sobel proof under examples/proofs/sobel/, generated browser packaging under web/proofs, browser runtime-Wasm checksum parity, visible canvas output, boxed/WMP-2 target cost reporting, and source-local plan/packed-data-refusal for counted-loop pressure. The packed-loop contract slice now adds examples/proofs/packed-loop/: packed-copy.ras admits the first one-dimensional u8 WMP-2 packed-linear candidate through compiler-recognized rasa.array intrinsics, ^:rasa/packed, induction-indexed read/write, and array/persistent!; buffer-escape-refused.ras, index-shape-refused.ras, counted-refused.ras, and refused.ras keep the strict refusal path; inferred.ras preserves unfenced analyzer-driven optimization. Remaining pressure: specific escape/sealing diagnostics, broader dtypes and shapes, K-mer bitmask range facts, Sobel affine indexed-buffer facts, browser execution track, guard placement, boundary movement reporting from compiler facts, and measured fallback comparison."
+      ],
+      "storySequence": [
+        "WMP-2 image data-plane proof"
+      ],
+      "storyDetails": [
+        {
+          "title": "WMP-2 image data-plane proof",
+          "bullets": [
+            "Authority: docs/proposals/010-language-operational-spine/09-hard-problems-and-proof-workloads.md",
+            "Acceptance: First slice has a manifest-driven Sobel proof under examples/proofs/sobel/, generated browser packaging under web/proofs, browser runtime-Wasm checksum parity, visible canvas output, boxed/WMP-2 target cost reporting, and source-local plan/packed-data-refusal for counted-loop pressure. The packed-loop contract slice now adds examples/proofs/packed-loop/: packed-copy.ras admits the first one-dimensional u8 WMP-2 packed-linear candidate through compiler-recognized rasa.array intrinsics, ^:rasa/packed, induction-indexed read/write, and array/persistent!; buffer-escape-refused.ras, index-shape-refused.ras, counted-refused.ras, and refused.ras keep the strict refusal path; inferred.ras preserves unfenced analyzer-driven optimization. Remaining pressure: specific escape/sealing diagnostics, broader dtypes and shapes, K-mer bitmask range facts, Sobel affine indexed-buffer facts, browser execution track, guard placement, boundary movement reporting from compiler facts, and measured fallback comparison."
+          ]
+        }
+      ]
+    },
+    {
+      "order": 12,
+      "title": "Suspension boundary diagnostics",
+      "summary": "may-suspend propagates through capability calls and unsupported suspension in non-suspending/performance-sensitive contexts gives a precise diagnostic.",
+      "pressure": "docs/proposals/010-language-operational-spine/05-concurrency-suspension-boundaries.md",
+      "status": "planned",
+      "requiredCapabilities": [
+        "Authority: docs/proposals/010-language-operational-spine/05-concurrency-suspension-boundaries.md",
+        "Acceptance: may-suspend propagates through capability calls and unsupported suspension in non-suspending/performance-sensitive contexts gives a precise diagnostic."
+      ],
+      "storySequence": [
+        "Suspension boundary diagnostics"
+      ],
+      "storyDetails": [
+        {
+          "title": "Suspension boundary diagnostics",
+          "bullets": [
+            "Authority: docs/proposals/010-language-operational-spine/05-concurrency-suspension-boundaries.md",
+            "Acceptance: may-suspend propagates through capability calls and unsupported suspension in non-suspending/performance-sensitive contexts gives a precise diagnostic."
+          ]
+        }
+      ]
+    },
+    {
+      "order": 13,
       "title": "Tiny WIT projection from checked facts",
       "summary": "Generated WIT is no more precise than proven or checked facts; hinted-only facts require guard, dynamic encoding, or refusal.",
       "pressure": "docs/proposals/010-language-operational-spine/03-capabilities-threat-and-effects.md",

@@ -1,5 +1,5 @@
 {
-  "runtime": "../assets/ras.wasm",
+  "runtime": "/assets/ras.wasm",
   "sourceLibraries": [
     "./assets/rasa-libs/core.ras",
     "./assets/rasa-libs/string.ras",

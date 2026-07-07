@@ -1,0 +1,12 @@
+{:capabilities
+ [{:id :rasa.http/request
+   :signature {:args [{:name :request :type :map}]
+               :returns :map}
+   :effects [:http/client :may-suspend]
+   :boundary-mode :copy-value
+   :policy [:http/client]
+   :targets {:native {:availability :available}
+             :wasmtime {:availability :available}
+             :wasm-browser {:availability :requires-adapter
+                            :adapter-kind :javascript
+                            :reason :browser-needs-admitted-fetch-adapter}}}]}

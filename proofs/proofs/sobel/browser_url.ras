@@ -1,0 +1,12 @@
+(ns sobel.browser-url
+  (:require [rasa.edn :as edn]
+            [rasa.http :as http]
+            [sobel.workload :as workload]))
+
+(def response
+  (http/request {:method :get
+                 :url "https://rasa.local/proofs/sobel/input.edn"
+                 :headers {"accept" "application/edn"}}))
+
+(workload/run
+  (edn/read-string (:body response)))
