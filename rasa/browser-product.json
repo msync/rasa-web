@@ -56,7 +56,7 @@
   "packageSchema": "rasa.package/v1",
   "build": {
     "producer": "rasa-runtime-wasm/browser-product-v1",
-    "sourceRevision": "2358123cc3e0802194912cc3b6c3132f9f537318",
+    "sourceRevision": "fdaf104961cb8f6cfe0860d2bc7a22b3c3f8061d",
     "sourceState": "dirty"
   },
   "inventory": [
@@ -135,8 +135,8 @@
     {
       "path": "runtime/ras.wasm",
       "kind": "runtime-component",
-      "bytes": 4230242,
-      "sha256": "c973e3bd6ddc0ca1d32303dc5a7748367995428d08f24b36f699a2a9f4867700"
+      "bytes": 4256734,
+      "sha256": "c063a201d80278a47c701f120edabe5944ea654b8f8d48781a95e1c18c671569"
     },
     {
       "path": "runtime/rasa-browser-runtime.js",
@@ -261,8 +261,8 @@
     {
       "path": "runtime/rasa-component/ras-runtime.core.wasm",
       "kind": "component-adapter",
-      "bytes": 4214657,
-      "sha256": "1c1a187c35a222b104958e968447c6295027c6a392aea1de0daca9577bf2e855"
+      "bytes": 4241149,
+      "sha256": "3c71b7bc59c38f3bb0257e9b05ab865b0e53fc62fb413729e218c19255842d1f"
     },
     {
       "path": "runtime/rasa-component/ras-runtime.core2.wasm",
