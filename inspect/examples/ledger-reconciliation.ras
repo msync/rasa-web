@@ -1,0 +1,58 @@
+(ns demo.inspect.ledger-reconciliation)
+
+(def postings
+  [{:batch 17 :account :cash :side :debit :amount 12500 :currency :usd}
+   {:batch 17 :account :revenue :side :credit :amount 12500 :currency :usd}
+   {:batch 18 :account :cash :side :debit :amount 8200 :currency :usd}
+   {:batch 18 :account :revenue :side :credit :amount 8000 :currency :usd}
+   {:batch 18 :account :fees :side :credit :amount 200 :currency :usd}
+   {:batch 19 :account :cash :side :credit :amount 3100 :currency :usd}
+   {:batch 19 :account :refunds :side :debit :amount 3100 :currency :usd}])
+
+(defn signed-amount [posting]
+  (if (= :debit (:side posting))
+    (- 0 (:amount posting))
+    (:amount posting)))
+
+(def enriched
+  (map
+    (fn [posting]
+      (assoc posting :signed (signed-amount posting)))
+    postings))
+
+(def by-account (group-by :account enriched))
+
+(def balances
+  (into
+    {}
+    (map
+      (fn [account-entry]
+        (let [account (first account-entry)
+              rows (second account-entry)]
+          [account (reduce + 0 (map :signed rows))]))
+      by-account)))
+
+(def batch-totals
+  (into
+    {}
+    (map
+      (fn [batch-entry]
+        (let [batch (first batch-entry)
+              rows (second batch-entry)]
+          [batch (reduce + 0 (map :signed rows))]))
+      (group-by :batch enriched))))
+
+(def unbalanced
+  (into
+    []
+    (keep
+      (fn [batch-entry]
+        (if (= 0 (second batch-entry)) nil batch-entry))
+      batch-totals)))
+
+{:status (if (empty? unbalanced) :balanced :unbalanced)
+ :postings (count postings)
+ :batches (count batch-totals)
+ :balances balances
+ :batch-totals batch-totals
+ :unbalanced unbalanced}

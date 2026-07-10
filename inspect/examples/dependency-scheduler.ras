@@ -1,0 +1,52 @@
+(ns demo.inspect.dependency-scheduler)
+
+(def tasks
+  [{:id :schema :depends-on #{} :minutes 3}
+   {:id :compiler :depends-on #{:schema} :minutes 8}
+   {:id :runtime :depends-on #{:schema} :minutes 6}
+   {:id :browser-adapter :depends-on #{:runtime} :minutes 4}
+   {:id :conformance :depends-on #{:compiler :runtime} :minutes 7}
+   {:id :website :depends-on #{:browser-adapter :conformance} :minutes 5}
+   {:id :release :depends-on #{:website} :minutes 2}])
+
+(defn dependency-complete? [completed dependency]
+  (some? (completed dependency)))
+
+(defn ready? [completed task]
+  (every?
+    (fn [dependency]
+      (dependency-complete? completed dependency))
+    (:depends-on task)))
+
+(def schedule
+  (loop [remaining tasks
+         completed #{}
+         layers []
+         elapsed 0]
+    (if (empty? remaining)
+      {:status :scheduled
+       :layers layers
+       :elapsed-minutes elapsed
+       :completed completed}
+      (let [ready (into [] (filter (fn [task] (ready? completed task)) remaining))]
+        (if (empty? ready)
+          {:status :cycle
+           :blocked (into [] (map :id remaining))
+           :layers layers}
+          (let [ready-ids (into #{} (map :id ready))
+                next-remaining
+                (into
+                  []
+                  (filter
+                    (fn [task]
+                      (nil? (ready-ids (:id task))))
+                    remaining))
+                layer-duration (reduce max 0 (map :minutes ready))]
+            (recur
+              next-remaining
+              (into completed ready-ids)
+              (conj layers {:tasks (into [] (map :id ready))
+                            :minutes layer-duration})
+              (+ elapsed layer-duration))))))))
+
+schedule

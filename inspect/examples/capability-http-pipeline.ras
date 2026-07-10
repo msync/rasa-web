@@ -1,0 +1,30 @@
+(ns demo.inspect.capability-http-pipeline
+  (:require [rasa.http :as http]
+            [rasa.json :as json]))
+
+(def response
+  (http/request
+    {:method :get
+     :url "/inspect-data/shipments.json"
+     :headers {"accept" "application/json"}}))
+
+(def shipments (json/parse (:body response)))
+
+(def delayed
+  (into
+    []
+    (filter
+      (fn [shipment]
+        (< (:promised-days shipment) (:actual-days shipment)))
+      shipments)))
+
+{:http-status (:status response)
+ :shipments (count shipments)
+ :delayed (into [] (map :id delayed))
+ :delay-by-carrier
+ (into
+   {}
+   (map
+     (fn [carrier-entry]
+       [(first carrier-entry) (count (second carrier-entry))])
+     (group-by :carrier delayed)))}

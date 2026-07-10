@@ -1,0 +1,304 @@
+(ns demo.music.notation)
+
+(defn note
+  "Creates an ordinary note event."
+  [pitch duration time]
+  {:pitch pitch
+   :duration duration
+   :time time
+   :velocity 0.82})
+
+(defn voiced-note [pitch duration time velocity]
+  {:pitch pitch
+   :duration duration
+   :time time
+   :velocity velocity})
+
+(defn track [instrument notes]
+  {:instrument instrument
+   :notes (vec notes)})
+
+(defn arranged-track [instrument notes options]
+  (assoc options
+         :instrument instrument
+         :notes (vec notes)))
+
+(defn beat-seconds [bpm]
+  (if (= bpm 72)
+    0.833333
+    (if (= bpm 96)
+      0.625
+      (if (= bpm 112)
+        0.535714
+        (if (= bpm 128)
+          0.46875
+          0.5)))))
+
+(defn duration-beats [duration]
+  (if (= duration "16n")
+    0.25
+    (if (= duration "8n")
+      0.5
+      (if (= duration "4n")
+        1.0
+        0.5))))
+
+(defn seconds-for [config key]
+  (* (demo.music.notation/beat-seconds (get config :bpm))
+     (demo.music.notation/duration-beats (get config key))))
+
+(defn grid-token? [ch]
+  (not (= ch \space)))
+
+(defn grid-hit? [ch]
+  (not (= ch \.)))
+
+(defn grid-line [config pitch grid-string]
+  (let [step (demo.music.notation/seconds-for config :subdivision)]
+    (loop [cursor 0
+           step-index 0
+           out []]
+      (if (< cursor (count grid-string))
+        (let [ch (nth grid-string cursor)]
+          (if (demo.music.notation/grid-token? ch)
+            (recur (inc cursor)
+                   (inc step-index)
+                   (if (demo.music.notation/grid-hit? ch)
+                     (conj out (demo.music.notation/note pitch step (* step-index step)))
+                     out))
+            (recur (inc cursor) step-index out)))
+        out))))
+
+(defn drum-machine [config patterns]
+  (loop [entries (seq patterns)
+         out []]
+    (if entries
+      (let [entry (first entries)]
+        (recur (next entries)
+               (into out (demo.music.notation/grid-line config (first entry) (second entry)))))
+      out)))
+
+(def chord-book
+  {"D3 A3 D4 F4" ["D3" "A3" "D4" "F4"]
+   "E3 B3 D4 G4" ["E3" "B3" "D4" "G4"]
+   "C3 E3 G3 C4" ["C3" "E3" "G3" "C4"]
+   "A2 C3 E3 A3" ["A2" "C3" "E3" "A3"]
+   "G3 C4 E4 G4" ["G3" "C4" "E4" "G4"]
+   "E3 A3 C4 E4" ["E3" "A3" "C4" "E4"]
+   "C3 G3 C4 E4" ["C3" "G3" "C4" "E4"]
+   "A2 E3 C4 E4" ["A2" "E3" "C4" "E4"]
+   "F3 A3 C4 E4" ["F3" "A3" "C4" "E4"]
+   "G3 B3 D4 G4" ["G3" "B3" "D4" "G4"]
+   "C3 G3 B3 E4" ["C3" "G3" "B3" "E4"]
+   "A2 E3 G3 C4" ["A2" "E3" "G3" "C4"]
+   "F2 C3 A3 E4" ["F2" "C3" "A3" "E4"]
+   "G2 D3 B3 F4" ["G2" "D3" "B3" "F4"]
+   "D3 A3 C4 F4" ["D3" "A3" "C4" "F4"]
+   "E3 B3 G4 D5" ["E3" "B3" "G4" "D5"]
+   "B2 F#3 A3 D4" ["B2" "F#3" "A3" "D4"]
+   "A2 E3 B3 C5" ["A2" "E3" "B3" "C5"]})
+
+(defn chord-pitches [line]
+  (get demo.music.notation/chord-book line []))
+
+(defn arpeggio-line [duration line-index line]
+  (let [start (* line-index (* duration 4))]
+    (map-indexed
+      (fn [i pitch]
+        (demo.music.notation/note pitch duration (+ start (* i duration))))
+      (demo.music.notation/chord-pitches line))))
+
+(defn arpeggiator [config chord-lines]
+  (let [duration (demo.music.notation/seconds-for config :duration)]
+    (loop [lines (seq chord-lines)
+           line-index 0
+           out []]
+      (if lines
+        (recur (next lines)
+               (inc line-index)
+               (into out (demo.music.notation/arpeggio-line duration line-index (first lines))))
+        out))))
+
+(defn pulse-line [config pitches]
+  (let [step (demo.music.notation/seconds-for config :duration)]
+    (map-indexed
+      (fn [i pitch]
+        (demo.music.notation/voiced-note pitch step (* i step) 0.72))
+      pitches)))
+
+(defn wrap-index [index length]
+  (loop [cursor index]
+    (if (< cursor length)
+      cursor
+      (recur (- cursor length)))))
+
+(defn rotated-pitch [pitches index rotate]
+  (nth pitches (demo.music.notation/wrap-index (+ index rotate) (count pitches))))
+
+(defn clockwork-velocity [step accent soft]
+  (if (= (bit-and step 7) 0)
+    accent
+    (if (= (bit-and step 3) 0)
+      0.74
+      soft)))
+
+(defn clockwork-line [config motif options]
+  (let [step-size (demo.music.notation/seconds-for config :duration)
+        steps (get options :steps)
+        rotate (get options :rotate)
+        phase (get options :phase)
+        duration (get options :note-duration)
+        accent (get options :accent)
+        soft (get options :soft)]
+    (loop [step 0
+           out []]
+      (if (< step steps)
+        (recur
+          (inc step)
+          (conj out
+                (demo.music.notation/voiced-note
+                  (demo.music.notation/rotated-pitch motif step rotate)
+                  duration
+                  (+ phase (* step step-size))
+                  (demo.music.notation/clockwork-velocity step accent soft))))
+        out))))
+
+(defn chord-notes [duration start velocity line]
+  (map-indexed
+    (fn [_ pitch]
+      (demo.music.notation/voiced-note pitch duration start velocity))
+    (demo.music.notation/chord-pitches line)))
+
+(defn chord-pad [config chord-lines options]
+  (let [beat (demo.music.notation/beat-seconds (get config :bpm))
+        hold (* beat (get options :hold-beats))
+        gap (* beat (get options :start-beats))
+        velocity (get options :velocity)]
+    (loop [lines (seq chord-lines)
+           line-index 0
+           out []]
+      (if lines
+        (recur
+          (next lines)
+          (inc line-index)
+          (into out
+                (demo.music.notation/chord-notes
+                  hold
+                  (* line-index gap)
+                  velocity
+                  (first lines))))
+        out))))
+
+(defn rotating-line [config pitches options]
+  (let [step-size (demo.music.notation/seconds-for config :duration)
+        steps (get options :steps)
+        rotate (get options :rotate)
+        phase (get options :phase)
+        duration (get options :note-duration)
+        velocity (get options :velocity)]
+    (loop [step 0
+           out []]
+      (if (< step steps)
+        (recur
+          (inc step)
+          (conj out
+                (demo.music.notation/voiced-note
+                  (demo.music.notation/rotated-pitch pitches step rotate)
+                  duration
+                  (+ phase (* step step-size))
+                  velocity)))
+        out))))
+
+(defn offset-note [note offset]
+  (assoc note :time (+ (get note :time) offset)))
+
+(defn offset-notes [notes offset]
+  (map
+    (fn [note] (demo.music.notation/offset-note note offset))
+    notes))
+
+(defn repeat-phrase [notes period repeats]
+  (loop [index 0
+         out []]
+    (if (< index repeats)
+      (recur
+        (inc index)
+        (into out (demo.music.notation/offset-notes notes (* index period))))
+      out)))
+
+(defn remainder [value divisor]
+  (- value (* (quot value divisor) divisor)))
+
+(defn euclidean-hit? [step hits steps rotate]
+  (let [slot (demo.music.notation/remainder (+ step rotate) steps)]
+    (< (demo.music.notation/remainder (* slot hits) steps) hits)))
+
+(defn rhythm-velocity [step accent-every accent velocity]
+  (if (= (demo.music.notation/remainder step accent-every) 0)
+    accent
+    velocity))
+
+(defn euclidean
+  "Evenly distributes a number of hits across a repeating number of steps."
+  [config pitch options]
+  (let [step-size (demo.music.notation/seconds-for config :subdivision)
+        hits (get options :hits)
+        steps (get options :steps)
+        total-steps (get options :total-steps)
+        rotate (get options :rotate)
+        duration (get options :duration)
+        velocity (get options :velocity)
+        accent-every (get options :accent-every)
+        accent (get options :accent)]
+    (loop [step 0
+           out []]
+      (if (< step total-steps)
+        (recur
+          (inc step)
+          (if (demo.music.notation/euclidean-hit? step hits steps rotate)
+            (conj out
+                  (demo.music.notation/voiced-note
+                    pitch
+                    duration
+                    (* step step-size)
+                    (demo.music.notation/rhythm-velocity
+                      step accent-every accent velocity)))
+            out))
+        out))))
+
+(defn note-cycle
+  "Plays successive pitches at a fixed step interval while the pitch cycle repeats independently."
+  [config pitches options]
+  (let [step-size (demo.music.notation/seconds-for config :subdivision)
+        total-steps (get options :total-steps)
+        every (get options :every)
+        rotate (get options :rotate)
+        duration (get options :duration)
+        velocity (get options :velocity)
+        accent-every (get options :accent-every)
+        accent (get options :accent)]
+    (loop [step 0
+           note-index 0
+           out []]
+      (if (< step total-steps)
+        (if (= (demo.music.notation/remainder step every) 0)
+          (recur
+            (inc step)
+            (inc note-index)
+            (conj out
+                  (demo.music.notation/voiced-note
+                    (demo.music.notation/rotated-pitch pitches note-index rotate)
+                    duration
+                    (* step step-size)
+                    (demo.music.notation/rhythm-velocity
+                      note-index accent-every accent velocity))))
+          (recur (inc step) note-index out))
+        out))))
+
+(defn layer
+  "Combines independently generated note lines into one ordinary note vector."
+  [parts]
+  (reduce
+    (fn [out notes] (into out notes))
+    []
+    parts))

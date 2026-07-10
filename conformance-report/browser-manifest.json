@@ -1,26 +1,47 @@
 {
-  "runtime": "/assets/ras.wasm",
+  "runtime": "/rasa/runtime/ras.wasm",
   "sourceLibraries": [
-    "./assets/rasa-libs/core.ras",
-    "./assets/rasa-libs/string.ras",
-    "./assets/rasa-libs/json.ras",
-    "./assets/rasa-libs/edn.ras",
-    "./assets/rasa-libs/test/impl.ras",
-    "./assets/rasa-libs/test/runner/impl.ras",
-    "./assets/rasa-libs/test/runner.ras",
-    "./assets/rasa-libs/test.ras"
+    {
+      "url": "./assets/rasa-libs/core.ras",
+      "sourceId": "rasa://stdlib/lib/rasa/core.ras"
+    },
+    {
+      "url": "./assets/rasa-libs/string.ras",
+      "sourceId": "rasa://stdlib/lib/rasa/string.ras"
+    },
+    {
+      "url": "./assets/rasa-libs/json.ras",
+      "sourceId": "rasa://stdlib/lib/rasa/json.ras"
+    },
+    {
+      "url": "./assets/rasa-libs/edn.ras",
+      "sourceId": "rasa://stdlib/lib/rasa/edn.ras"
+    },
+    {
+      "url": "./assets/rasa-libs/test/impl.ras",
+      "sourceId": "rasa://stdlib/lib/rasa/test/impl.ras"
+    },
+    {
+      "url": "./assets/rasa-libs/test/runner/impl.ras",
+      "sourceId": "rasa://stdlib/lib/rasa/test/runner/impl.ras"
+    },
+    {
+      "url": "./assets/rasa-libs/test/runner.ras",
+      "sourceId": "rasa://stdlib/lib/rasa/test/runner.ras"
+    },
+    {
+      "url": "./assets/rasa-libs/test.ras",
+      "sourceId": "rasa://stdlib/lib/rasa/test.ras"
+    }
   ],
+  "adapterBaseUrl": "/rasa/runtime/rasa-component/",
   "session": {
     "initialNamespace": "rasa.core"
   },
-  "capabilityCatalogs": [
+  "packages": [
     {
       "package": "rasa.http",
-      "url": "./assets/capabilities/rasa.http/catalog.ras"
-    },
-    {
-      "package": "rasa.ml.gguf/package",
-      "url": "./assets/capabilities/rasa.ml.gguf/catalog.ras"
+      "url": "./assets/capabilities/rasa.http/package.ras"
     }
   ],
   "providers": [
@@ -29,22 +50,11 @@
       "target": "wasm-browser",
       "kind": "browser-module",
       "module": "./providers/rasa-http-browser.js"
-    },
-    {
-      "package": "rasa.ml.gguf/package",
-      "target": "wasm-browser",
-      "kind": "browser-module",
-      "module": "./providers/rasa-ml-gguf-browser.js"
     }
   ],
   "policy": {
     "allow": [
-      "rasa.http/request",
-      "rasa.ml.gguf/package/summary-byte-view",
-      "rasa.ml.gguf/package/summary-read-at",
-      "rasa.ml.gguf/package/open-model",
-      "rasa.ml.gguf/package/model-summary",
-      "rasa.ml.gguf/package/close-model"
+      "rasa.http/request"
     ]
   }
 }

@@ -1,45 +1,114 @@
 {
   "schema": 1,
   "title": "Rasa Roadmap",
-  "generatedAt": "2026-07-07T16:32:38.235Z",
+  "generatedAt": "2026-07-10T16:36:19.831Z",
   "source": {
     "kind": "repo-work-ledger",
-    "milestoneCount": 13
+    "milestoneCount": 16
   },
   "note": "Projected from the current docs/work/ledger.md backlog.",
   "milestones": [
     {
       "order": 1,
-      "title": "Metadata role normalization",
-      "summary": "Analyzer emits normalized metadata role facts for type hints, function return hints, docs, layout hints, shape claims, and unsupported metadata diagnostics. Purity stays derived-only; function-level capability policy is not admitted.",
-      "pressure": "docs/proposals/010-language-operational-spine/01-language-constitution.md",
+      "title": "Semantic truth and compatibility classification",
+      "summary": "Replace blanket Clojure conformance posture with feature-specific classification and evidence. Maximize Clojure-shaped syntax; every intentional divergence names the Rasa goal it serves, while missing implementation remains a defect or deferral rather than a language difference.",
+      "pressure": "docs/proposals/010-language-operational-spine/00-semantic-truth-and-runtime-foundation.md; docs/spec/index.md",
       "status": "planned",
       "requiredCapabilities": [
-        "Authority: docs/proposals/010-language-operational-spine/01-language-constitution.md",
-        "Acceptance: Analyzer emits normalized metadata role facts for type hints, function return hints, docs, layout hints, shape claims, and unsupported metadata diagnostics. Purity stays derived-only; function-level capability policy is not admitted."
+        "Authority: docs/proposals/010-language-operational-spine/00-semantic-truth-and-runtime-foundation.md; docs/spec/index.md",
+        "Acceptance: Replace blanket Clojure conformance posture with feature-specific classification and evidence. Maximize Clojure-shaped syntax; every intentional divergence names the Rasa goal it serves, while missing implementation remains a defect or deferral rather than a language difference."
       ],
       "storySequence": [
-        "Metadata role normalization"
+        "Semantic truth and compatibility classification"
       ],
       "storyDetails": [
         {
-          "title": "Metadata role normalization",
+          "title": "Semantic truth and compatibility classification",
           "bullets": [
-            "Authority: docs/proposals/010-language-operational-spine/01-language-constitution.md",
-            "Acceptance: Analyzer emits normalized metadata role facts for type hints, function return hints, docs, layout hints, shape claims, and unsupported metadata diagnostics. Purity stays derived-only; function-level capability policy is not admitted."
+            "Authority: docs/proposals/010-language-operational-spine/00-semantic-truth-and-runtime-foundation.md; docs/spec/index.md",
+            "Acceptance: Replace blanket Clojure conformance posture with feature-specific classification and evidence. Maximize Clojure-shaped syntax; every intentional divergence names the Rasa goal it serves, while missing implementation remains a defect or deferral rather than a language difference."
           ]
         }
       ]
     },
     {
       "order": 2,
+      "title": "Ordinary runtime competence repairs",
+      "summary": "Preserve source semantics while replacing vector_assoc whole-vector rebuilding with persistent structural update, making list conj prepend and vector conj append use the collection substrate rather than rebuilding through Vec, caching or preparing closure-body links by runtime snapshot/invalidation instead of relinking on every call, and replacing RuntimePackedBuffer's clonable Arc<Mutex<_>> mutation path with storage that enforces the admitted lane-local unique-authority model. Add behavior, asymptotic, allocation/locking, call-overhead, native, and runtime-Wasm proofs. No new syntax, metadata, or language divergence.",
+      "pressure": "crates/rasa-collections/README.md; crates/rasa-eval/README.md; crates/rasa-runtime/README.md",
+      "status": "planned",
+      "requiredCapabilities": [
+        "Authority: crates/rasa-collections/README.md; crates/rasa-eval/README.md; crates/rasa-runtime/README.md",
+        "Acceptance: Preserve source semantics while replacing vector_assoc whole-vector rebuilding with persistent structural update, making list conj prepend and vector conj append use the collection substrate rather than rebuilding through Vec, caching or preparing closure-body links by runtime snapshot/invalidation instead of relinking on every call, and replacing RuntimePackedBuffer's clonable Arc<Mutex<_>> mutation path with storage that enforces the admitted lane-local unique-authority model. Add behavior, asymptotic, allocation/locking, call-overhead, native, and runtime-Wasm proofs. No new syntax, metadata, or language divergence."
+      ],
+      "storySequence": [
+        "Ordinary runtime competence repairs"
+      ],
+      "storyDetails": [
+        {
+          "title": "Ordinary runtime competence repairs",
+          "bullets": [
+            "Authority: crates/rasa-collections/README.md; crates/rasa-eval/README.md; crates/rasa-runtime/README.md",
+            "Acceptance: Preserve source semantics while replacing vector_assoc whole-vector rebuilding with persistent structural update, making list conj prepend and vector conj append use the collection substrate rather than rebuilding through Vec, caching or preparing closure-body links by runtime snapshot/invalidation instead of relinking on every call, and replacing RuntimePackedBuffer's clonable Arc<Mutex<_>> mutation path with storage that enforces the admitted lane-local unique-authority model. Add behavior, asymptotic, allocation/locking, call-overhead, native, and runtime-Wasm proofs. No new syntax, metadata, or language divergence."
+          ]
+        }
+      ]
+    },
+    {
+      "order": 3,
+      "title": "Value authority and mutability safety kernel",
+      "summary": "One affine cell/handle/store mechanism carries owner, extent, generation, mutability, escape, movement, publication, cleanup, and synchronization authority. Concrete Rust cells are non-clonable; handles are aliases; transfer invalidates old handles and rehomes cleanup atomically. Ordinary vector-of construction remains the first shift-left refinement: checked i64/f64 contracts never imply packed storage. Open or unproved authority cannot admit mutation, movement, sharing, region allocation, or tasks. RESET-0007 consumes this kernel before further concurrency or capability movement.",
+      "pressure": "docs/spec/002-data-model.md; docs/spec/008-collections-seqs.md; docs/architecture/runtime-memory-and-boundary-model.md; docs/work/active/RESET-0007-wasm-substrate-concurrency-base.md",
+      "status": "planned",
+      "requiredCapabilities": [
+        "Authority: docs/spec/002-data-model.md; docs/spec/008-collections-seqs.md; docs/architecture/runtime-memory-and-boundary-model.md; docs/work/active/RESET-0007-wasm-substrate-concurrency-base.md",
+        "Acceptance: One affine cell/handle/store mechanism carries owner, extent, generation, mutability, escape, movement, publication, cleanup, and synchronization authority. Concrete Rust cells are non-clonable; handles are aliases; transfer invalidates old handles and rehomes cleanup atomically. Ordinary vector-of construction remains the first shift-left refinement: checked i64/f64 contracts never imply packed storage. Open or unproved authority cannot admit mutation, movement, sharing, region allocation, or tasks. RESET-0007 consumes this kernel before further concurrency or capability movement."
+      ],
+      "storySequence": [
+        "Value authority and mutability safety kernel"
+      ],
+      "storyDetails": [
+        {
+          "title": "Value authority and mutability safety kernel",
+          "bullets": [
+            "Authority: docs/spec/002-data-model.md; docs/spec/008-collections-seqs.md; docs/architecture/runtime-memory-and-boundary-model.md; docs/work/active/RESET-0007-wasm-substrate-concurrency-base.md",
+            "Acceptance: One affine cell/handle/store mechanism carries owner, extent, generation, mutability, escape, movement, publication, cleanup, and synchronization authority. Concrete Rust cells are non-clonable; handles are aliases; transfer invalidates old handles and rehomes cleanup atomically. Ordinary vector-of construction remains the first shift-left refinement: checked i64/f64 contracts never imply packed storage. Open or unproved authority cannot admit mutation, movement, sharing, region allocation, or tasks. RESET-0007 consumes this kernel before further concurrency or capability movement."
+          ]
+        }
+      ]
+    },
+    {
+      "order": 4,
+      "title": "Clojure-shaped source core and metadata normalization",
+      "summary": "Stabilize user macro expansion/provenance and namespace behavior; analyzer emits normalized metadata role facts for type contracts, function return contracts, docs, layout contracts, shape claims, and unsupported metadata diagnostics. Purity stays derived-only; function-level capability policy is not admitted.",
+      "pressure": "docs/proposals/010-language-operational-spine/01-language-constitution.md",
+      "status": "planned",
+      "requiredCapabilities": [
+        "Authority: docs/proposals/010-language-operational-spine/01-language-constitution.md",
+        "Acceptance: Stabilize user macro expansion/provenance and namespace behavior; analyzer emits normalized metadata role facts for type contracts, function return contracts, docs, layout contracts, shape claims, and unsupported metadata diagnostics. Purity stays derived-only; function-level capability policy is not admitted."
+      ],
+      "storySequence": [
+        "Clojure-shaped source core and metadata normalization"
+      ],
+      "storyDetails": [
+        {
+          "title": "Clojure-shaped source core and metadata normalization",
+          "bullets": [
+            "Authority: docs/proposals/010-language-operational-spine/01-language-constitution.md",
+            "Acceptance: Stabilize user macro expansion/provenance and namespace behavior; analyzer emits normalized metadata role facts for type contracts, function return contracts, docs, layout contracts, shape claims, and unsupported metadata diagnostics. Purity stays derived-only; function-level capability policy is not admitted."
+          ]
+        }
+      ]
+    },
+    {
+      "order": 5,
       "title": "Package/provider authority algebra",
-      "summary": "ras ext validate enforces closed manifest/catalog/provider grammar, catalog/provider agreement, target requirements, movement contracts, stable diagnostics, and valid/invalid authority fixtures.",
+      "summary": "ras package check enforces closed package authority grammar, package/provider agreement, target requirements, movement contracts, stable diagnostics, and valid/invalid authority fixtures.",
       "pressure": "docs/proposals/011-package-provider-authority-algebra/README.md",
       "status": "planned",
       "requiredCapabilities": [
         "Authority: docs/proposals/011-package-provider-authority-algebra/README.md",
-        "Acceptance: ras ext validate enforces closed manifest/catalog/provider grammar, catalog/provider agreement, target requirements, movement contracts, stable diagnostics, and valid/invalid authority fixtures."
+        "Acceptance: ras package check enforces closed package authority grammar, package/provider agreement, target requirements, movement contracts, stable diagnostics, and valid/invalid authority fixtures."
       ],
       "storySequence": [
         "Package/provider authority algebra"
@@ -49,20 +118,20 @@
           "title": "Package/provider authority algebra",
           "bullets": [
             "Authority: docs/proposals/011-package-provider-authority-algebra/README.md",
-            "Acceptance: ras ext validate enforces closed manifest/catalog/provider grammar, catalog/provider agreement, target requirements, movement contracts, stable diagnostics, and valid/invalid authority fixtures."
+            "Acceptance: ras package check enforces closed package authority grammar, package/provider agreement, target requirements, movement contracts, stable diagnostics, and valid/invalid authority fixtures."
           ]
         }
       ]
     },
     {
-      "order": 3,
+      "order": 6,
       "title": "Structured fact authority",
-      "summary": "Facts record evidence source, level, scope/dominance, assumptions, dependencies, and authorization; raw metadata does not authorize optimization.",
-      "pressure": "docs/proposals/010-language-operational-spine/02-fact-authority-and-explain.md",
+      "summary": "Typed analysis implements the value, effect, control, and target domains; known authority is retained independently from `Closed",
+      "pressure": "docs/spec/009-errors-effects.md; docs/architecture/value-authority-calculus.md; docs/proposals/010-language-operational-spine/02-fact-authority-and-explain.md",
       "status": "planned",
       "requiredCapabilities": [
-        "Authority: docs/proposals/010-language-operational-spine/02-fact-authority-and-explain.md",
-        "Acceptance: Facts record evidence source, level, scope/dominance, assumptions, dependencies, and authorization; raw metadata does not authorize optimization."
+        "Authority: docs/spec/009-errors-effects.md; docs/architecture/value-authority-calculus.md; docs/proposals/010-language-operational-spine/02-fact-authority-and-explain.md",
+        "Acceptance: Typed analysis implements the value, effect, control, and target domains; known authority is retained independently from `Closed"
       ],
       "storySequence": [
         "Structured fact authority"
@@ -71,14 +140,14 @@
         {
           "title": "Structured fact authority",
           "bullets": [
-            "Authority: docs/proposals/010-language-operational-spine/02-fact-authority-and-explain.md",
-            "Acceptance: Facts record evidence source, level, scope/dominance, assumptions, dependencies, and authorization; raw metadata does not authorize optimization."
+            "Authority: docs/spec/009-errors-effects.md; docs/architecture/value-authority-calculus.md; docs/proposals/010-language-operational-spine/02-fact-authority-and-explain.md",
+            "Acceptance: Typed analysis implements the value, effect, control, and target domains; known authority is retained independently from `Closed"
           ]
         }
       ]
     },
     {
-      "order": 4,
+      "order": 7,
       "title": "ras explain and LSP artifact spine",
       "summary": "Users can see claimed, inferred, checked, unknown, disproved, fallback, and proof-loss evidence from the same artifact path.",
       "pressure": "docs/proposals/010-language-operational-spine/02-fact-authority-and-explain.md",
@@ -101,7 +170,7 @@
       ]
     },
     {
-      "order": 5,
+      "order": 8,
       "title": "Compiler outcome API",
       "summary": "Source-visible rasa.compiler/check-source returns versioned Rasa outcome data with typed reports and diagnostics; expected failures are values, not Rust stack traces; file authority stays outside the compiler API.",
       "pressure": "docs/proposals/010-language-operational-spine/08-compiler-outcome-api.md",
@@ -124,7 +193,7 @@
       ]
     },
     {
-      "order": 6,
+      "order": 9,
       "title": "Web demo metadata reports and browser parity note",
       "summary": "Browser demo presents typed metadata contract report examples through a friendly projection and labels native artifact, runtime-Wasm, and adapter-pending states honestly.",
       "pressure": "docs/proposals/010-language-operational-spine/08-compiler-outcome-api.md",
@@ -147,30 +216,30 @@
       ]
     },
     {
-      "order": 7,
-      "title": "Function-level effect and capability inference",
-      "summary": "Resolved package/import/host calls infer effects and capabilities bottom-up; unknown facts are explicit; admission consumes package/provider authority data.",
-      "pressure": "docs/proposals/010-language-operational-spine/03-capabilities-threat-and-effects.md",
+      "order": 10,
+      "title": "Function-level effect, capability, and suspension inference",
+      "summary": "Stable capability-operation origins introduce typed colors; summaries retain known origins plus closed/open tails and propagate monotonically through resolved calls, exact recursive fixed points, higher-order effect/control parameters, latent triggers, and protocol dispatch; redefinition and origin-contract revisions invalidate dependents.",
+      "pressure": "docs/spec/009-errors-effects.md; docs/proposals/010-language-operational-spine/03-capabilities-threat-and-effects.md",
       "status": "planned",
       "requiredCapabilities": [
-        "Authority: docs/proposals/010-language-operational-spine/03-capabilities-threat-and-effects.md",
-        "Acceptance: Resolved package/import/host calls infer effects and capabilities bottom-up; unknown facts are explicit; admission consumes package/provider authority data."
+        "Authority: docs/spec/009-errors-effects.md; docs/proposals/010-language-operational-spine/03-capabilities-threat-and-effects.md",
+        "Acceptance: Stable capability-operation origins introduce typed colors; summaries retain known origins plus closed/open tails and propagate monotonically through resolved calls, exact recursive fixed points, higher-order effect/control parameters, latent triggers, and protocol dispatch; redefinition and origin-contract revisions invalidate dependents."
       ],
       "storySequence": [
-        "Function-level effect and capability inference"
+        "Function-level effect, capability, and suspension inference"
       ],
       "storyDetails": [
         {
-          "title": "Function-level effect and capability inference",
+          "title": "Function-level effect, capability, and suspension inference",
           "bullets": [
-            "Authority: docs/proposals/010-language-operational-spine/03-capabilities-threat-and-effects.md",
-            "Acceptance: Resolved package/import/host calls infer effects and capabilities bottom-up; unknown facts are explicit; admission consumes package/provider authority data."
+            "Authority: docs/spec/009-errors-effects.md; docs/proposals/010-language-operational-spine/03-capabilities-threat-and-effects.md",
+            "Acceptance: Stable capability-operation origins introduce typed colors; summaries retain known origins plus closed/open tails and propagate monotonically through resolved calls, exact recursive fixed points, higher-order effect/control parameters, latent triggers, and protocol dispatch; redefinition and origin-contract revisions invalidate dependents."
           ]
         }
       ]
     },
     {
-      "order": 8,
+      "order": 11,
       "title": "Checked-boundary guards",
       "summary": "Entry/return guards work for a tiny subset and establish scoped checked facts only after dominance.",
       "pressure": "docs/proposals/010-language-operational-spine/02-fact-authority-and-explain.md",
@@ -193,7 +262,7 @@
       ]
     },
     {
-      "order": 9,
+      "order": 12,
       "title": "Numeric MVP spec and proof",
       "summary": "Literal, i64, finite f64, equality/hash, arithmetic, constant folding, EDN/JSON, and WIT scalar policy are specified and tested before tensor work expands.",
       "pressure": "docs/proposals/010-language-operational-spine/06-numeric-mvp-and-data-plane.md",
@@ -216,7 +285,7 @@
       ]
     },
     {
-      "order": 10,
+      "order": 13,
       "title": "Boundary movement and WMP inspection",
       "summary": "Plans expose movement mode, WMP profile, guard/fallback, runtime-Wasm allocator path, WMP-2 candidate/refusal causes, and boundary materialization cost where relevant.",
       "pressure": "docs/proposals/010-language-operational-spine/04-runtime-target-ecosystem.md",
@@ -239,14 +308,14 @@
       ]
     },
     {
-      "order": 11,
+      "order": 14,
       "title": "WMP-2 image data-plane proof",
-      "summary": "First slice has a manifest-driven Sobel proof under examples/proofs/sobel/, generated browser packaging under web/proofs, browser runtime-Wasm checksum parity, visible canvas output, boxed/WMP-2 target cost reporting, and source-local plan/packed-data-refusal for counted-loop pressure. The packed-loop contract slice now adds examples/proofs/packed-loop/: packed-copy.ras admits the first one-dimensional u8 WMP-2 packed-linear candidate through compiler-recognized rasa.array intrinsics, ^:rasa/packed, induction-indexed read/write, and array/persistent!; buffer-escape-refused.ras, index-shape-refused.ras, counted-refused.ras, and refused.ras keep the strict refusal path; inferred.ras preserves unfenced analyzer-driven optimization. Remaining pressure: specific escape/sealing diagnostics, broader dtypes and shapes, K-mer bitmask range facts, Sobel affine indexed-buffer facts, browser execution track, guard placement, boundary movement reporting from compiler facts, and measured fallback comparison.",
+      "summary": "In progress. Sobel and packed-loop proofs cover browser/runtime-Wasm parity, source-local refusal, scalar-parametric byte-aligned kernels, and measured execution. FC-05 now makes array/freeze! return PackedImmutable, keeps packed values across calls and the optimizer ABI, requires explicit array/materialize, and records packed boundary copies without ordinary-result rebuilding. Live pressure: retire ^rasa.array/Packed as admission authority through stronger lifecycle inference; add non-byte-aligned lowering, broader affine indexing and shapes, K-mer range facts, precise guard placement, and honest fallback measurements.",
       "pressure": "docs/proposals/010-language-operational-spine/09-hard-problems-and-proof-workloads.md",
       "status": "planned",
       "requiredCapabilities": [
         "Authority: docs/proposals/010-language-operational-spine/09-hard-problems-and-proof-workloads.md",
-        "Acceptance: First slice has a manifest-driven Sobel proof under examples/proofs/sobel/, generated browser packaging under web/proofs, browser runtime-Wasm checksum parity, visible canvas output, boxed/WMP-2 target cost reporting, and source-local plan/packed-data-refusal for counted-loop pressure. The packed-loop contract slice now adds examples/proofs/packed-loop/: packed-copy.ras admits the first one-dimensional u8 WMP-2 packed-linear candidate through compiler-recognized rasa.array intrinsics, ^:rasa/packed, induction-indexed read/write, and array/persistent!; buffer-escape-refused.ras, index-shape-refused.ras, counted-refused.ras, and refused.ras keep the strict refusal path; inferred.ras preserves unfenced analyzer-driven optimization. Remaining pressure: specific escape/sealing diagnostics, broader dtypes and shapes, K-mer bitmask range facts, Sobel affine indexed-buffer facts, browser execution track, guard placement, boundary movement reporting from compiler facts, and measured fallback comparison."
+        "Acceptance: In progress. Sobel and packed-loop proofs cover browser/runtime-Wasm parity, source-local refusal, scalar-parametric byte-aligned kernels, and measured execution. FC-05 now makes array/freeze! return PackedImmutable, keeps packed values across calls and the optimizer ABI, requires explicit array/materialize, and records packed boundary copies without ordinary-result rebuilding. Live pressure: retire ^rasa.array/Packed as admission authority through stronger lifecycle inference; add non-byte-aligned lowering, broader affine indexing and shapes, K-mer range facts, precise guard placement, and honest fallback measurements."
       ],
       "storySequence": [
         "WMP-2 image data-plane proof"
@@ -256,20 +325,20 @@
           "title": "WMP-2 image data-plane proof",
           "bullets": [
             "Authority: docs/proposals/010-language-operational-spine/09-hard-problems-and-proof-workloads.md",
-            "Acceptance: First slice has a manifest-driven Sobel proof under examples/proofs/sobel/, generated browser packaging under web/proofs, browser runtime-Wasm checksum parity, visible canvas output, boxed/WMP-2 target cost reporting, and source-local plan/packed-data-refusal for counted-loop pressure. The packed-loop contract slice now adds examples/proofs/packed-loop/: packed-copy.ras admits the first one-dimensional u8 WMP-2 packed-linear candidate through compiler-recognized rasa.array intrinsics, ^:rasa/packed, induction-indexed read/write, and array/persistent!; buffer-escape-refused.ras, index-shape-refused.ras, counted-refused.ras, and refused.ras keep the strict refusal path; inferred.ras preserves unfenced analyzer-driven optimization. Remaining pressure: specific escape/sealing diagnostics, broader dtypes and shapes, K-mer bitmask range facts, Sobel affine indexed-buffer facts, browser execution track, guard placement, boundary movement reporting from compiler facts, and measured fallback comparison."
+            "Acceptance: In progress. Sobel and packed-loop proofs cover browser/runtime-Wasm parity, source-local refusal, scalar-parametric byte-aligned kernels, and measured execution. FC-05 now makes array/freeze! return PackedImmutable, keeps packed values across calls and the optimizer ABI, requires explicit array/materialize, and records packed boundary copies without ordinary-result rebuilding. Live pressure: retire ^rasa.array/Packed as admission authority through stronger lifecycle inference; add non-byte-aligned lowering, broader affine indexing and shapes, K-mer range facts, precise guard placement, and honest fallback measurements."
           ]
         }
       ]
     },
     {
-      "order": 12,
+      "order": 15,
       "title": "Suspension boundary diagnostics",
-      "summary": "may-suspend propagates through capability calls and unsupported suspension in non-suspending/performance-sensitive contexts gives a precise diagnostic.",
-      "pressure": "docs/proposals/010-language-operational-spine/05-concurrency-suspension-boundaries.md",
+      "summary": "Internally derived suspension origins and their closed/open tail propagate without source async coloring; only closed-empty evidence enters a proven non-suspending region, while known or open origins produce a precise refusal diagnostic.",
+      "pressure": "docs/spec/009-errors-effects.md; docs/proposals/010-language-operational-spine/05-concurrency-suspension-boundaries.md",
       "status": "planned",
       "requiredCapabilities": [
-        "Authority: docs/proposals/010-language-operational-spine/05-concurrency-suspension-boundaries.md",
-        "Acceptance: may-suspend propagates through capability calls and unsupported suspension in non-suspending/performance-sensitive contexts gives a precise diagnostic."
+        "Authority: docs/spec/009-errors-effects.md; docs/proposals/010-language-operational-spine/05-concurrency-suspension-boundaries.md",
+        "Acceptance: Internally derived suspension origins and their closed/open tail propagate without source async coloring; only closed-empty evidence enters a proven non-suspending region, while known or open origins produce a precise refusal diagnostic."
       ],
       "storySequence": [
         "Suspension boundary diagnostics"
@@ -278,21 +347,21 @@
         {
           "title": "Suspension boundary diagnostics",
           "bullets": [
-            "Authority: docs/proposals/010-language-operational-spine/05-concurrency-suspension-boundaries.md",
-            "Acceptance: may-suspend propagates through capability calls and unsupported suspension in non-suspending/performance-sensitive contexts gives a precise diagnostic."
+            "Authority: docs/spec/009-errors-effects.md; docs/proposals/010-language-operational-spine/05-concurrency-suspension-boundaries.md",
+            "Acceptance: Internally derived suspension origins and their closed/open tail propagate without source async coloring; only closed-empty evidence enters a proven non-suspending region, while known or open origins produce a precise refusal diagnostic."
           ]
         }
       ]
     },
     {
-      "order": 13,
+      "order": 16,
       "title": "Tiny WIT projection from checked facts",
-      "summary": "Generated WIT is no more precise than proven or checked facts; hinted-only facts require guard, dynamic encoding, or refusal.",
+      "summary": "Generated WIT is no more precise than proven or checked facts; declared-only facts require guard, dynamic encoding, or refusal.",
       "pressure": "docs/proposals/010-language-operational-spine/03-capabilities-threat-and-effects.md",
       "status": "planned",
       "requiredCapabilities": [
         "Authority: docs/proposals/010-language-operational-spine/03-capabilities-threat-and-effects.md",
-        "Acceptance: Generated WIT is no more precise than proven or checked facts; hinted-only facts require guard, dynamic encoding, or refusal."
+        "Acceptance: Generated WIT is no more precise than proven or checked facts; declared-only facts require guard, dynamic encoding, or refusal."
       ],
       "storySequence": [
         "Tiny WIT projection from checked facts"
@@ -302,7 +371,7 @@
           "title": "Tiny WIT projection from checked facts",
           "bullets": [
             "Authority: docs/proposals/010-language-operational-spine/03-capabilities-threat-and-effects.md",
-            "Acceptance: Generated WIT is no more precise than proven or checked facts; hinted-only facts require guard, dynamic encoding, or refusal."
+            "Acceptance: Generated WIT is no more precise than proven or checked facts; declared-only facts require guard, dynamic encoding, or refusal."
           ]
         }
       ]

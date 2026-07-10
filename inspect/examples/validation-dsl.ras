@@ -1,0 +1,49 @@
+(ns demo.inspect.validation-dsl)
+
+(defmacro check [test code field value]
+  `(if ~test
+     nil
+     {:code ~code :field ~field :value ~value}))
+
+(def allowed-currencies #{:usd :eur :gbp})
+
+(defn validate-invoice [invoice]
+  (into
+    []
+    (keep
+      (fn [failure] failure)
+      [(check (< 0 (:amount invoice))
+              :amount-must-be-positive
+              :amount
+              (:amount invoice))
+       (check (some? (allowed-currencies (:currency invoice)))
+              :unsupported-currency
+              :currency
+              (:currency invoice))
+       (check (< 0 (count (:lines invoice)))
+              :invoice-needs-lines
+              :lines
+              (:lines invoice))])))
+
+(def invoices
+  [{:id :inv-100 :amount 12500 :currency :usd :lines [:consulting :support]}
+   {:id :inv-101 :amount -300 :currency :usd :lines [:refund]}
+   {:id :inv-102 :amount 8400 :currency :btc :lines [:hardware]}
+   {:id :inv-103 :amount 0 :currency :eur :lines []}
+   {:id :inv-104 :amount 2200 :currency :gbp :lines [:training]}])
+
+(def evaluated
+  (map
+    (fn [invoice]
+      (let [failures (validate-invoice invoice)]
+        {:id (:id invoice)
+         :valid? (empty? failures)
+         :failures failures}))
+    invoices))
+
+(def failures (mapcat :failures evaluated))
+
+{:valid (into [] (map :id (filter :valid? evaluated)))
+ :invalid (into [] (map :id (filter (fn [result] (not (:valid? result))) evaluated)))
+ :failure-counts (frequencies (map :code failures))
+ :results (into [] evaluated)}

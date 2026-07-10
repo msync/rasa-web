@@ -1,0 +1,50 @@
+(ns demo.inspect.packed-sensor-calibration
+  (:require [rasa.array :as array]))
+
+(def sample-count 512)
+
+(defn calibrated-frame []
+  (let [out (array/builder u8 [512])]
+    ^rasa.array/Packed
+    (loop [index 0]
+      (if (< index 512)
+        (do
+          (array/set!
+            out
+            index
+            (bit-and
+              (+ 19
+                 (* index 37)
+                 (quot (* index index) 7))
+              255))
+          (recur (inc index)))
+        (array/freeze! out)))))
+
+(def frame (calibrated-frame))
+
+(def checksum
+  (loop [index 0
+         total 0]
+    (if (< index sample-count)
+      (recur (inc index) (+ total (* (inc index) (array/get frame index))))
+      total)))
+
+{:samples sample-count
+ :checksum checksum
+ :first-16
+ [(array/get frame 0)
+  (array/get frame 1)
+  (array/get frame 2)
+  (array/get frame 3)
+  (array/get frame 4)
+  (array/get frame 5)
+  (array/get frame 6)
+  (array/get frame 7)
+  (array/get frame 8)
+  (array/get frame 9)
+  (array/get frame 10)
+  (array/get frame 11)
+  (array/get frame 12)
+  (array/get frame 13)
+  (array/get frame 14)
+  (array/get frame 15)]}

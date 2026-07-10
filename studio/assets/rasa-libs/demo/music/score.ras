@@ -1,0 +1,346 @@
+(ns demo.music.score)
+
+(def ticks-per-beat 96)
+
+(def duration-table
+  {:whole 384
+   :half 192
+   :quarter 96
+   :eighth 48
+   :sixteenth 24
+   :thirty-second 12})
+
+(def pitch-class
+  {\C 0
+   \D 2
+   \E 4
+   \F 5
+   \G 7
+   \A 9
+   \B 11})
+
+(def digit-value
+  {\0 0
+   \1 1
+   \2 2
+   \3 3
+   \4 4
+   \5 5
+   \6 6
+   \7 7
+   \8 8
+   \9 9})
+
+(defn remainder [value divisor]
+  (- value (* (quot value divisor) divisor)))
+
+(defn ticks [duration]
+  (get demo.music.score/duration-table duration 96))
+
+(defn accidental [pitch]
+  (if (= (count pitch) 3)
+    (if (= (nth pitch 1) \#)
+      1
+      (if (= (nth pitch 1) \b) -1 0))
+    0))
+
+(defn midi [pitch]
+  (let [letter (nth pitch 0)
+        octave-char (nth pitch (dec (count pitch)))
+        octave (get demo.music.score/digit-value octave-char 4)]
+    (+ (* (+ octave 1) 12)
+       (get demo.music.score/pitch-class letter 0)
+       (demo.music.score/accidental pitch))))
+
+(defn note-step [pitch duration velocity]
+  {:pitches [(demo.music.score/midi pitch)]
+   :duration (demo.music.score/ticks duration)
+   :velocity velocity})
+
+(defn notes
+  "Creates a run of equally spaced notes in musician-readable pitch names."
+  [duration pitches]
+  (mapv
+    (fn [pitch]
+      (demo.music.score/note-step pitch duration 0.82))
+    pitches))
+
+(defn soft-notes [duration pitches]
+  (mapv
+    (fn [pitch]
+      (demo.music.score/note-step pitch duration 0.56))
+    pitches))
+
+(defn chord [duration pitches]
+  {:pitches (mapv demo.music.score/midi pitches)
+   :duration (demo.music.score/ticks duration)
+   :velocity 0.58})
+
+(defn rest [duration]
+  {:pitches []
+   :duration (demo.music.score/ticks duration)
+   :velocity 0.0})
+
+(defn grid-token? [ch]
+  (not (= ch \space)))
+
+(defn drum-grid
+  "Turns an x-and-dot musician grid into a transformable percussion phrase."
+  [duration sound grid]
+  (let [step-duration (demo.music.score/ticks duration)]
+    (loop [cursor 0
+           steps []]
+      (if (< cursor (count grid))
+        (let [ch (nth grid cursor)]
+          (recur
+            (inc cursor)
+            (if (demo.music.score/grid-token? ch)
+              (conj steps
+                    {:pitches (if (= ch \.) [] [sound])
+                     :duration step-duration
+                     :velocity (if (= ch \X) 0.92 0.68)})
+              steps)))
+        {:kind :rasa.music/phrase
+         :steps steps
+         :ticks (demo.music.score/phrase-ticks steps)}))))
+
+(defn append-token [steps token]
+  (if (vector? token)
+    (into steps token)
+    (conj steps token)))
+
+(defn phrase-ticks [steps]
+  (reduce
+    (fn [total step]
+      (+ total (get step :duration)))
+    0
+    steps))
+
+(defn phrase
+  "Combines note runs, chords, and rests into one transformable motif."
+  [tokens]
+  (let [steps
+        (reduce
+          demo.music.score/append-token
+          []
+          tokens)]
+    {:kind :rasa.music/phrase
+     :steps steps
+     :ticks (demo.music.score/phrase-ticks steps)}))
+
+(defn map-pitches [step f]
+  (assoc step :pitches (mapv f (get step :pitches))))
+
+(defn transpose [phrase semitones]
+  (assoc phrase
+         :steps
+         (mapv
+           (fn [step]
+             (demo.music.score/map-pitches
+               step
+               (fn [pitch] (+ pitch semitones))))
+           (get phrase :steps))))
+
+(defn invert [phrase pivot]
+  (let [center (demo.music.score/midi pivot)]
+    (assoc phrase
+           :steps
+           (mapv
+             (fn [step]
+               (demo.music.score/map-pitches
+                 step
+                 (fn [pitch] (+ center (- center pitch)))))
+             (get phrase :steps)))))
+
+(defn rotate [phrase amount]
+  (let [steps (get phrase :steps)
+        length (count steps)
+        index (if (= length 0)
+                0
+                (demo.music.score/remainder amount length))
+        parts (split-at index steps)
+        rotated (into (vec (second parts)) (first parts))]
+    (assoc phrase :steps rotated)))
+
+(defn augment [phrase factor]
+  (let [steps
+        (mapv
+          (fn [step]
+            (assoc step :duration (* (get step :duration) factor)))
+          (get phrase :steps))]
+    {:kind :rasa.music/phrase
+     :steps steps
+     :ticks (demo.music.score/phrase-ticks steps)}))
+
+(defn accent [phrase every strong soft]
+  (assoc phrase
+         :steps
+         (map-indexed
+           (fn [index step]
+             (assoc step
+                    :velocity
+                    (if (= (demo.music.score/remainder index every) 0)
+                      strong
+                      soft)))
+           (get phrase :steps))))
+
+(defn dynamics [phrase factor]
+  (assoc phrase
+         :steps
+         (mapv
+           (fn [step]
+             (assoc step :velocity (* (get step :velocity) factor)))
+           (get phrase :steps))))
+
+(defn repeat-phrase [phrase times]
+  (loop [index 0
+         steps []]
+    (if (< index times)
+      (recur (inc index) (into steps (get phrase :steps)))
+      {:kind :rasa.music/phrase
+       :steps steps
+       :ticks (demo.music.score/phrase-ticks steps)})))
+
+(defn event [pitch at duration velocity section]
+  {:pitch pitch
+   :at at
+   :duration duration
+   :velocity velocity
+   :section section})
+
+(defn step-events [step at section]
+  (mapv
+    (fn [pitch]
+      (demo.music.score/event
+        pitch
+        at
+        (get step :duration)
+        (get step :velocity)
+        section))
+    (get step :pitches)))
+
+(defn phrase-events [phrase start section]
+  (loop [steps (seq (get phrase :steps))
+         cursor start
+         out []]
+    (if steps
+      (let [step (first steps)]
+        (recur
+          (next steps)
+          (+ cursor (get step :duration))
+          (into out (demo.music.score/step-events step cursor section))))
+      out)))
+
+(defn part [voice phrase options]
+  (assoc options
+         :voice voice
+         :phrase phrase))
+
+(defn canon-phrase [phrase options]
+  (-> phrase
+      (demo.music.score/rotate (get options :rotate 0))
+      (demo.music.score/transpose (get options :transpose 0))
+      (demo.music.score/augment (get options :augment 1))))
+
+(defn canon
+  "Creates several delayed, transformed entrances from one motif."
+  [voice phrase entrances]
+  (mapv
+    (fn [options]
+      (demo.music.score/part
+        voice
+        (demo.music.score/canon-phrase phrase options)
+        options))
+    entrances))
+
+(defn append-part [parts item]
+  (if (vector? item)
+    (into parts item)
+    (conj parts item)))
+
+(defn section [name bars part-groups]
+  {:name name
+   :bars bars
+   :parts (reduce demo.music.score/append-part [] part-groups)})
+
+(defn bar-ticks [meter]
+  (* (first meter) demo.music.score/ticks-per-beat))
+
+(defn layout-sections [meter sections]
+  (loop [remaining (seq sections)
+         cursor 0
+         out []]
+    (if remaining
+      (let [section (first remaining)
+            duration (* (get section :bars)
+                        (demo.music.score/bar-ticks meter))]
+        (recur
+          (next remaining)
+          (+ cursor duration)
+          (conj out
+                (assoc section
+                       :at cursor
+                       :duration duration))))
+      out)))
+
+(defn repeated-part-events [part section]
+  (let [phrase (get part :phrase)
+        times (get part :times 1)
+        after (* (get part :after-beats 0)
+                 demo.music.score/ticks-per-beat)
+        period (+ (get phrase :ticks)
+                  (* (get part :gap-beats 0)
+                     demo.music.score/ticks-per-beat))]
+    (loop [index 0
+           out []]
+      (if (< index times)
+        (recur
+          (inc index)
+          (into out
+                (demo.music.score/phrase-events
+                  phrase
+                  (+ (get section :at)
+                     after
+                     (* index period))
+                  (get section :name))))
+        out))))
+
+(defn section-events [voice section]
+  (reduce
+    (fn [out part]
+      (if (= (get part :voice) voice)
+        (into out (demo.music.score/repeated-part-events part section))
+        out))
+    []
+    (get section :parts)))
+
+(defn voice-events [voice sections]
+  (reduce
+    (fn [out section]
+      (into out (demo.music.score/section-events voice section)))
+    []
+    sections))
+
+(defn render-track [voice-entry sections]
+  (let [voice (first voice-entry)
+        config (second voice-entry)]
+    (assoc config
+           :voice voice
+           :notes (demo.music.score/voice-events voice sections))))
+
+(defn score
+  "Compiles named musical sections into the exact integer-tick browser schedule."
+  [config voices sections]
+  (let [meter (get config :meter)
+        laid-out (demo.music.score/layout-sections meter sections)
+        tracks
+        (mapv
+          (fn [voice-entry]
+            (demo.music.score/render-track voice-entry laid-out))
+          (seq voices))]
+    {:kind :rasa.music/score
+     :tempo (get config :tempo)
+     :meter meter
+     :ticks-per-beat demo.music.score/ticks-per-beat
+     :sections laid-out
+     :tracks tracks}))

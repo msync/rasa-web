@@ -1,0 +1,31 @@
+(ns rasa.array)
+
+(def ^{:doc "Creates a checked read-only packed view for admitted primitive storage types."
+       :rasa.impl/backing rasa.array.impl/view}
+  view
+  rasa.array.impl/view)
+
+(def ^{:doc "Creates local mutable packed construction storage for a packed compute region."
+       :rasa.impl/backing rasa.array.impl/builder}
+  builder
+  rasa.array.impl/builder)
+
+(def ^{:doc "Reads one scalar element from a packed array or local builder."
+       :rasa.impl/backing rasa.array.impl/get}
+  get
+  rasa.array.impl/get)
+
+(def ^{:doc "Writes one scalar element to a local mutable packed builder."
+       :rasa.impl/backing rasa.array.impl/set!}
+  set!
+  rasa.array.impl/set!)
+
+(def ^{:doc "Consumes a local mutable packed builder and returns an immutable packed value."
+       :rasa.impl/backing rasa.array.impl/freeze!}
+  freeze!
+  rasa.array.impl/freeze!)
+
+(def ^{:doc "Explicitly projects a packed immutable value to an ordinary typed persistent vector."
+       :rasa.impl/backing rasa.array.impl/materialize}
+  materialize
+  rasa.array.impl/materialize)

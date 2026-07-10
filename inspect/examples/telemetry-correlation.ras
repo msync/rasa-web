@@ -1,0 +1,62 @@
+(ns demo.inspect.telemetry-correlation)
+
+(def events
+  [{:request :r-17 :service :edge :at 1000 :duration 8 :status 200}
+   {:request :r-17 :service :auth :at 1011 :duration 22 :status 200}
+   {:request :r-17 :service :catalog :at 1036 :duration 41 :status 200}
+   {:request :r-18 :service :edge :at 1040 :duration 9 :status 200}
+   {:request :r-18 :service :auth :at 1052 :duration 19 :status 401}
+   {:request :r-19 :service :edge :at 1080 :duration 7 :status 200}
+   {:request :r-19 :service :auth :at 1090 :duration 18 :status 200}
+   {:request :r-19 :service :catalog :at 1112 :duration 73 :status 200}
+   {:request :r-19 :service :inventory :at 1188 :duration 54 :status 503}
+   {:request :r-20 :service :edge :at 1200 :duration 6 :status 200}
+   {:request :r-20 :service :auth :at 1209 :duration 16 :status 200}
+   {:request :r-20 :service :catalog :at 1228 :duration 31 :status 200}])
+
+(def active-window
+  (take
+    9
+    (drop-while
+      (fn [event]
+        (< (:at event) 1030))
+      events)))
+
+(defn request-summary [request-entry]
+  (let [request (first request-entry)
+        spans (second request-entry)
+        statuses (into [] (map :status spans))
+        failed
+        (into
+          []
+          (filter
+            (fn [status]
+              (not (= status 200)))
+            statuses))]
+    {:request request
+     :services (into [] (map :service spans))
+     :span-count (count spans)
+     :total-duration (reduce + 0 (map :duration spans))
+     :max-duration (reduce max 0 (map :duration spans))
+     :failed-statuses failed}))
+
+(def summaries
+  (into
+    []
+    (map request-summary (group-by :request active-window))))
+
+(def alerts
+  (into
+    []
+    (filter
+      (fn [summary]
+        (or
+          (< 100 (:total-duration summary))
+          (not (empty? (:failed-statuses summary)))))
+      summaries)))
+
+{:window-events (count active-window)
+ :requests (count summaries)
+ :alerts alerts
+ :request->latency
+ (zipmap (map :request summaries) (map :total-duration summaries))}

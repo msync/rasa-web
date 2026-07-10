@@ -1,0 +1,6 @@
+(ns rasa.http)
+
+(defn request
+  "Performs an admitted whole-value HTTP request."
+  [request]
+  (host/call :rasa.http/request request))

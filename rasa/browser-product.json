@@ -1,0 +1,292 @@
+{
+  "schema": "rasa.browser-product.v1",
+  "product": {
+    "id": "rasa.website",
+    "version": "0.1.0"
+  },
+  "api": {
+    "version": "rasa.browser-api.v1",
+    "module": "./api/index.js"
+  },
+  "runtime": "./runtime/ras.wasm",
+  "sourceLibraries": [
+    {
+      "url": "./assets/rasa-libs/core.ras",
+      "sourceId": "rasa://stdlib/lib/rasa/core.ras"
+    },
+    {
+      "url": "./assets/rasa-libs/array.ras",
+      "sourceId": "rasa://stdlib/lib/rasa/array.ras"
+    },
+    {
+      "url": "./assets/rasa-libs/json.ras",
+      "sourceId": "rasa://stdlib/lib/rasa/json.ras"
+    },
+    {
+      "url": "./assets/rasa-libs/http.ras",
+      "sourceId": "rasa://stdlib/lib/rasa/http.ras"
+    },
+    {
+      "url": "./assets/rasa-libs/string.ras",
+      "sourceId": "rasa://stdlib/lib/rasa/string.ras"
+    }
+  ],
+  "adapterBaseUrl": "./runtime/rasa-component/",
+  "packages": [
+    {
+      "package": "rasa.http",
+      "url": "./packages/rasa.http/package.ras"
+    }
+  ],
+  "providers": [
+    {
+      "package": "rasa.http",
+      "target": "wasm-browser",
+      "kind": "browser-module",
+      "module": "./providers/rasa-http-browser.js"
+    }
+  ],
+  "policy": {
+    "allow": []
+  },
+  "runtimeContract": {
+    "componentWorld": "rasa:runtime/session@0.1.0",
+    "abi": "rasa.runtime.browser-component.v1"
+  },
+  "packageSchema": "rasa.package/v1",
+  "build": {
+    "producer": "rasa-runtime-wasm/browser-product-v1",
+    "sourceRevision": "de30c8984f1b5e40c2fc143c543cddb99b40cf91",
+    "sourceState": "dirty"
+  },
+  "inventory": [
+    {
+      "path": "api/capability-bridge.js",
+      "kind": "public-api",
+      "bytes": 19728,
+      "sha256": "170c8f50edfd099e690c4e18745b65125e9fd217a18ff69dfa6cb92b93aa24ff"
+    },
+    {
+      "path": "api/index.js",
+      "kind": "public-api",
+      "bytes": 135,
+      "sha256": "f61dfbd1615a82aaf74deeb98151919a3c292366cc8d810bd4e109519d21f703"
+    },
+    {
+      "path": "api/product.js",
+      "kind": "public-api",
+      "bytes": 8901,
+      "sha256": "90039aec61a9065fed9b889e6e5b577967048d70ea981fe0120e338f7aa709a1"
+    },
+    {
+      "path": "api/runtime.js",
+      "kind": "public-api",
+      "bytes": 3261,
+      "sha256": "abee1a336bae9bbd2ca798b31273cca8aa19a26cd5ac5957da3b7e895bfd7e21"
+    },
+    {
+      "path": "api/wasm-session.js",
+      "kind": "public-api",
+      "bytes": 26247,
+      "sha256": "74fc3b93aace9dc76df09d954642d5b9092ae4cd705b43cfd1fb790db71d0126"
+    },
+    {
+      "path": "assets/rasa-libs/array.ras",
+      "kind": "source-library",
+      "bytes": 1061,
+      "sha256": "b114df557f83ce4c86a1587c31bfeef1deedb502598b27f573aa5ca1e4432f76"
+    },
+    {
+      "path": "assets/rasa-libs/core.ras",
+      "kind": "source-library",
+      "bytes": 18985,
+      "sha256": "557347762b9692f6311c180449368f7cb2935d103b00b483a635327fdfdda436"
+    },
+    {
+      "path": "assets/rasa-libs/http.ras",
+      "kind": "source-library",
+      "bytes": 135,
+      "sha256": "197255bef7715a0453774195804117cedf2f2643270387b89ff9d63332949cbf"
+    },
+    {
+      "path": "assets/rasa-libs/json.ras",
+      "kind": "source-library",
+      "bytes": 309,
+      "sha256": "a928049ca7071f4fc2760c725b7ac4a559cea089b31c8555454c49122543ba8d"
+    },
+    {
+      "path": "assets/rasa-libs/string.ras",
+      "kind": "source-library",
+      "bytes": 853,
+      "sha256": "65c564976e359fa831b7042dcd7b361b26ef2bca9b59eb47de37db49cc1cb32f"
+    },
+    {
+      "path": "packages/rasa.http/package.ras",
+      "kind": "normalized-package",
+      "bytes": 1339,
+      "sha256": "808f0b6153cd4174dd81808dd96209981673dde21f9d95943036dc2017936150"
+    },
+    {
+      "path": "providers/rasa-http-browser.js",
+      "kind": "browser-provider",
+      "bytes": 2657,
+      "sha256": "2bd7084f58b26c1bd3b833efa42e1290639942b3644ab3c4701e7bbcf8a6bf26"
+    },
+    {
+      "path": "runtime/ras.wasm",
+      "kind": "runtime-component",
+      "bytes": 4220347,
+      "sha256": "4de8ffc22ea3b4374b38c3e58858a8c631d14b51bcfc92a711bb96ef1521e16c"
+    },
+    {
+      "path": "runtime/rasa-browser-runtime.js",
+      "kind": "product-asset",
+      "bytes": 1052,
+      "sha256": "982a2650ba3801bdf5d5d2bf3196507fe5c095afddd11dd6a59f7c12b7c2e45d"
+    },
+    {
+      "path": "runtime/rasa-component/interfaces/rasa-runtime-host.d.ts",
+      "kind": "component-adapter",
+      "bytes": 105,
+      "sha256": "845d773d506938a598e4baddd317a52ff1d32740d1318514491f8d7cfc577c72"
+    },
+    {
+      "path": "runtime/rasa-component/interfaces/rasa-runtime-optimizer.d.ts",
+      "kind": "component-adapter",
+      "bytes": 1481,
+      "sha256": "82af6d42bc1a619848e0c05d825971df179949e9ef5dae7f7be451bc5280f50f"
+    },
+    {
+      "path": "runtime/rasa-component/interfaces/rasa-runtime-session.d.ts",
+      "kind": "component-adapter",
+      "bytes": 1249,
+      "sha256": "a0cc770528db87aa4a75eb89a9f354cafd76fa70aeafa3a4bc61bd300eaacba5"
+    },
+    {
+      "path": "runtime/rasa-component/interfaces/rasa-runtime-source-loader.d.ts",
+      "kind": "component-adapter",
+      "bytes": 317,
+      "sha256": "da1c8aad36413deaef677e29c0effe91797e85983a1da5ebb2bf4642ecd1cf84"
+    },
+    {
+      "path": "runtime/rasa-component/interfaces/wasi-cli-environment.d.ts",
+      "kind": "component-adapter",
+      "bytes": 112,
+      "sha256": "4e97b7628d8f54d637d30155d38ffb819f54ca602e8e756aba2f3623d14e5d9f"
+    },
+    {
+      "path": "runtime/rasa-component/interfaces/wasi-cli-exit.d.ts",
+      "kind": "component-adapter",
+      "bytes": 177,
+      "sha256": "902775d529e1957821749c3c639e1cbeb01b4844817a576ec377bc3f8df14145"
+    },
+    {
+      "path": "runtime/rasa-component/interfaces/wasi-cli-stderr.d.ts",
+      "kind": "component-adapter",
+      "bytes": 163,
+      "sha256": "f1de18de407176335f8b511f78f53564b56324f0ce50342cd76a11357975c888"
+    },
+    {
+      "path": "runtime/rasa-component/interfaces/wasi-cli-stdin.d.ts",
+      "kind": "component-adapter",
+      "bytes": 158,
+      "sha256": "eea2cac73abd5b94d5103044052cdc89d1a46ba409de70816224a04d94c49137"
+    },
+    {
+      "path": "runtime/rasa-component/interfaces/wasi-cli-stdout.d.ts",
+      "kind": "component-adapter",
+      "bytes": 163,
+      "sha256": "99fe2e6569db63ad0d737b7471c90ccade627cc9caa031bb714e6c3a70c4adba"
+    },
+    {
+      "path": "runtime/rasa-component/interfaces/wasi-cli-terminal-input.d.ts",
+      "kind": "component-adapter",
+      "bytes": 176,
+      "sha256": "6a91f6d34876c2bee40d92924b9dbb69a45a7d3185c703323b2879f13810ef82"
+    },
+    {
+      "path": "runtime/rasa-component/interfaces/wasi-cli-terminal-output.d.ts",
+      "kind": "component-adapter",
+      "bytes": 178,
+      "sha256": "890937a99dcfbcf4a0300f3e6a71f441f60fd82a0bcc179bf2dc8ac68a502078"
+    },
+    {
+      "path": "runtime/rasa-component/interfaces/wasi-cli-terminal-stderr.d.ts",
+      "kind": "component-adapter",
+      "bytes": 207,
+      "sha256": "db5ff917c256e4d4087f944819c5c7583d37bf3ae904a02e5395f07830a8b847"
+    },
+    {
+      "path": "runtime/rasa-component/interfaces/wasi-cli-terminal-stdin.d.ts",
+      "kind": "component-adapter",
+      "bytes": 201,
+      "sha256": "3238e8d9f5c3242841c16eccaa187d2a1233aaaeaf507c27482794f47aeab040"
+    },
+    {
+      "path": "runtime/rasa-component/interfaces/wasi-cli-terminal-stdout.d.ts",
+      "kind": "component-adapter",
+      "bytes": 207,
+      "sha256": "146c7bf22e120023b9f9ff2fa9100716ec4692b4ac839084d202d43f64696bac"
+    },
+    {
+      "path": "runtime/rasa-component/interfaces/wasi-clocks-monotonic-clock.d.ts",
+      "kind": "component-adapter",
+      "bytes": 213,
+      "sha256": "d38d1c12b8c83eab7e9b21c51dcf019645ecdba01537137fd64df12d3d7bca26"
+    },
+    {
+      "path": "runtime/rasa-component/interfaces/wasi-io-error.d.ts",
+      "kind": "component-adapter",
+      "bytes": 158,
+      "sha256": "b8b24e95462625044d0c1c295530bfc9aafda9bcfc86fbacfb6259c3b147b4c4"
+    },
+    {
+      "path": "runtime/rasa-component/interfaces/wasi-io-poll.d.ts",
+      "kind": "component-adapter",
+      "bytes": 234,
+      "sha256": "87b29694c8cd33fb38f2a951645f00e1c1ab17b1448b11c2494db1d96f60e291"
+    },
+    {
+      "path": "runtime/rasa-component/interfaces/wasi-io-streams.d.ts",
+      "kind": "component-adapter",
+      "bytes": 745,
+      "sha256": "1067c4d8c57f3d2aa43078445cd291d76410bfe23420981f890e33a6f28c8431"
+    },
+    {
+      "path": "runtime/rasa-component/interfaces/wasi-random-insecure-seed.d.ts",
+      "kind": "component-adapter",
+      "bytes": 125,
+      "sha256": "ad193da9624acbd245a9adca69c110d9267beb1f0695da2dd6258d06ca16d525"
+    },
+    {
+      "path": "runtime/rasa-component/ras-runtime.core.wasm",
+      "kind": "component-adapter",
+      "bytes": 4204762,
+      "sha256": "07ac4db5507d7a1df0b6f2b5250b52d061e5bd8011691e7cb4bb449d26912f82"
+    },
+    {
+      "path": "runtime/rasa-component/ras-runtime.core2.wasm",
+      "kind": "component-adapter",
+      "bytes": 372,
+      "sha256": "ac51db903a1fa6c6d368fae6883982ec734e6efb632b41438f5e33c2930003a6"
+    },
+    {
+      "path": "runtime/rasa-component/ras-runtime.core3.wasm",
+      "kind": "component-adapter",
+      "bytes": 213,
+      "sha256": "6fc2679fdac94f5aafee14281ccb3f02e7bc7047e3322db036019b1b4ceb0ea7"
+    },
+    {
+      "path": "runtime/rasa-component/ras-runtime.d.ts",
+      "kind": "component-adapter",
+      "bytes": 4673,
+      "sha256": "ae1893b3b56f97a60643d78aa1d4b2f87c42eb29dcb6890dbba1ebe053d26ba6"
+    },
+    {
+      "path": "runtime/rasa-component/ras-runtime.js",
+      "kind": "component-adapter",
+      "bytes": 294134,
+      "sha256": "1e3c65057aada73c8567f90bffe4e11d90386816af4aea4b68e862aa1a6884ba"
+    }
+  ]
+}

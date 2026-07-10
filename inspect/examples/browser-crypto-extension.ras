@@ -1,0 +1,18 @@
+(ns demo.inspect.browser-crypto-extension
+  (:import [demo.crypto :as crypto]))
+
+(def release-record
+  {:name "rasa-browser-product"
+   :version "0.1.0"
+   :artifacts
+   [{:path "runtime/ras.wasm" :bytes 4290684}
+    {:path "adapter/ras-runtime.js" :bytes 294000}
+    {:path "manifest.json" :bytes 2048}]})
+
+(def canonical (pr-str release-record))
+(def digest (crypto/sha256 canonical))
+
+{:algorithm :sha-256
+ :input-bytes (count canonical)
+ :digest digest
+ :verified? (= digest (crypto/sha256 canonical))}

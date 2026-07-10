@@ -4,6 +4,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" href="../assets/brand/mark.svg" type="image/svg+xml" />
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
     <script defer src="../assets/analytics/google-tag.js"></script>
     <title>Rasa Data Scripts: A Practical Checkpoint | Rasa Blog</title>
     <style>
@@ -43,7 +47,7 @@
       --phase-plan: var(--rasa-teal);
       --phase-eval: var(--rasa-red);
       font-family:
-        Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+        "IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
         "Segoe UI", sans-serif;
     }
 
@@ -108,6 +112,189 @@
     }
   
       
+    :root {
+      --rasa-site-header-height: 58px;
+    }
+
+    .rasa-site-header {
+      align-items: center;
+      background: color-mix(in srgb, var(--rasa-surface) 90%, transparent);
+      backdrop-filter: blur(16px) saturate(120%);
+      border-bottom: 1px solid var(--rasa-line);
+      box-sizing: border-box;
+      display: grid;
+      grid-template-columns: 180px minmax(0, 1fr) 240px;
+      height: var(--rasa-site-header-height);
+      padding: 0 20px;
+      position: sticky;
+      top: 0;
+      width: 100%;
+      z-index: 100;
+    }
+
+    .rasa-site-brand {
+      align-items: center;
+      display: inline-flex;
+      justify-self: start;
+      min-width: 0;
+    }
+
+    .rasa-site-brand img {
+      display: block;
+      height: 23px;
+      max-width: 112px;
+      width: auto;
+    }
+
+    .rasa-site-nav {
+      align-items: stretch;
+      align-self: stretch;
+      display: flex;
+      gap: 2px;
+      justify-content: center;
+      min-width: 0;
+    }
+
+    .rasa-site-nav a {
+      align-items: center;
+      color: var(--rasa-muted);
+      display: inline-flex;
+      font-family: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 0 14px;
+      position: relative;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .rasa-site-nav a[data-nav-hidden="true"] {
+      display: none;
+    }
+
+    .rasa-site-nav a:hover,
+    .rasa-site-nav a[aria-current="page"] {
+      color: var(--rasa-text);
+    }
+
+    .rasa-site-nav a[aria-current="page"]::after {
+      background: var(--rasa-gold);
+      bottom: -1px;
+      content: "";
+      height: 2px;
+      left: 14px;
+      position: absolute;
+      right: 14px;
+    }
+
+    .rasa-site-actions {
+      align-items: center;
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      min-width: 0;
+    }
+
+    .rasa-site-runtime {
+      align-items: center;
+      color: var(--rasa-muted);
+      display: inline-flex;
+      font-family: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+      font-size: 12px;
+      gap: 7px;
+      white-space: nowrap;
+    }
+
+    .rasa-site-runtime i {
+      background: var(--rasa-dim);
+      border-radius: 50%;
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--rasa-dim) 15%, transparent);
+      height: 7px;
+      width: 7px;
+    }
+
+    .rasa-site-runtime[data-status="ready"] i,
+    .rasa-site-runtime[data-status="refused"] i {
+      background: var(--rasa-green);
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--rasa-green) 15%, transparent);
+    }
+
+    .rasa-site-runtime[data-status="loading"] i,
+    .rasa-site-runtime[data-status="booting"] i,
+    .rasa-site-runtime[data-status="running"] i {
+      background: var(--rasa-gold);
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--rasa-gold) 15%, transparent);
+    }
+
+    .rasa-site-theme,
+    .rasa-site-action {
+      align-items: center;
+      background: transparent;
+      border: 1px solid var(--rasa-line);
+      border-radius: 6px;
+      color: var(--rasa-muted);
+      cursor: pointer;
+      display: inline-flex;
+      font-family: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      justify-content: center;
+      min-height: 34px;
+      padding: 0 11px;
+    }
+
+    .rasa-site-theme:hover,
+    .rasa-site-action:hover {
+      border-color: var(--rasa-line-strong);
+      color: var(--rasa-text);
+    }
+
+    .rasa-site-theme:focus-visible,
+    .rasa-site-action:focus-visible,
+    .rasa-site-brand:focus-visible,
+    .rasa-site-nav a:focus-visible {
+      outline: 2px solid var(--rasa-gold);
+      outline-offset: 2px;
+    }
+
+    @media (max-width: 760px) {
+      :root {
+        --rasa-site-header-height: 104px;
+      }
+
+      .rasa-site-header {
+        grid-template-areas:
+          "brand actions"
+          "nav nav";
+        grid-template-columns: minmax(0, 1fr) auto;
+        grid-template-rows: 58px 46px;
+        height: var(--rasa-site-header-height);
+        padding: 0 14px;
+      }
+
+      .rasa-site-brand { grid-area: brand; }
+      .rasa-site-nav {
+        border-top: 1px solid var(--rasa-line);
+        grid-area: nav;
+        justify-content: flex-start;
+        margin: 0 -14px;
+        overflow-x: auto;
+        padding: 0 7px;
+        scrollbar-width: none;
+      }
+      .rasa-site-nav::-webkit-scrollbar { display: none; }
+      .rasa-site-nav a { padding: 0 12px; }
+      .rasa-site-nav a[aria-current="page"]::after { left: 12px; right: 12px; }
+      .rasa-site-actions { grid-area: actions; }
+      .rasa-site-runtime span { display: none; }
+    }
+
+    @media (max-width: 440px) {
+      .rasa-site-runtime { font-size: 0; }
+      .rasa-site-theme { padding: 0 9px; }
+    }
+  
+      
     * { box-sizing: border-box; }
     body {
       background:
@@ -125,108 +312,6 @@
       margin: 0 auto;
       max-width: 1180px;
       padding: 24px;
-    }
-    .blog-topbar {
-      align-items: center;
-      background: color-mix(in srgb, var(--rasa-panel) 92%, transparent);
-      border: 1px solid var(--rasa-line);
-      border-radius: 8px;
-      box-shadow: 0 16px 60px var(--rasa-shadow);
-      display: grid;
-      gap: 18px;
-      grid-template-columns: auto minmax(260px, 1fr) auto auto;
-      min-height: 92px;
-      padding: 18px;
-    }
-    .blog-brand,
-    .blog-nav,
-    .blog-actions {
-      align-items: center;
-      display: flex;
-    }
-    .blog-brand {
-      border-radius: 8px;
-      min-width: 112px;
-      text-decoration: none;
-    }
-    .brand-logo {
-      display: block;
-      height: 38px;
-      width: auto;
-    }
-    .blog-topbar-copy {
-      display: grid;
-      gap: 4px;
-      min-width: 0;
-    }
-    .blog-eyebrow {
-      color: var(--rasa-blue);
-      font-size: 12px;
-      font-weight: 820;
-      letter-spacing: 0;
-      text-transform: uppercase;
-    }
-    .blog-topbar h1 {
-      font-size: clamp(24px, 3vw, 34px);
-      line-height: 1.02;
-      margin: 0;
-    }
-    .blog-topbar p {
-      color: var(--rasa-muted);
-      font-size: 14px;
-      line-height: 1.35;
-      margin: 0;
-      max-width: 660px;
-    }
-    .blog-nav {
-      gap: 6px;
-      justify-content: flex-end;
-    }
-    .blog-nav a,
-    .theme-toggle,
-    .blog-pill {
-      align-items: center;
-      border: 1px solid var(--rasa-line);
-      border-radius: 999px;
-      color: var(--rasa-text);
-      display: inline-flex;
-      font-size: 12px;
-      font-weight: 780;
-      min-height: 34px;
-      padding: 0 12px;
-      text-decoration: none;
-      white-space: nowrap;
-    }
-    .blog-nav a:hover,
-    .blog-nav a:focus-visible,
-    .theme-toggle:hover,
-    .theme-toggle:focus-visible {
-      border-color: var(--rasa-line-strong);
-      outline: none;
-    }
-    .blog-actions {
-      flex-wrap: wrap;
-      gap: 8px;
-      justify-content: flex-end;
-    }
-    .brand-mark {
-      display: block;
-      height: 24px;
-      opacity: 0.72;
-      width: 24px;
-    }
-    .blog-pill {
-      color: var(--rasa-muted);
-    }
-    .blog-pill.ok {
-      color: var(--rasa-green);
-    }
-    .theme-toggle {
-      background: color-mix(in srgb, var(--rasa-line) 30%, transparent);
-      cursor: pointer;
-      font: inherit;
-      font-size: 12px;
-      font-weight: 780;
     }
     .blog-hero,
     .post,
@@ -403,22 +488,8 @@
       margin: 0;
       padding-left: 14px;
     }
-    @media (max-width: 1040px) {
-      .blog-topbar {
-        grid-template-columns: auto minmax(220px, 1fr);
-      }
-      .blog-nav,
-      .blog-actions {
-        grid-column: 1 / -1;
-        justify-content: flex-start;
-      }
-    }
     @media (max-width: 760px) {
       main { padding: 14px; }
-      .blog-topbar {
-        align-items: flex-start;
-        grid-template-columns: 1fr;
-      }
       .post-head,
       .post-body,
       .blog-hero {
@@ -429,30 +500,46 @@
     </style>
   </head>
   <body>
-    <main>
-      
-      
-    <header class="blog-topbar">
-      <a class="blog-brand" href="../../" aria-label="Rasa home">
-        <img class="brand-logo" src="../assets/brand/logo.svg" alt="Rasa" />
+    
+    <header class="rasa-site-header">
+      <a class="rasa-site-brand" href="/" aria-label="Rasa home">
+        <img alt="Rasa" src="/assets/brand/logo.svg" />
       </a>
-      <div class="blog-topbar-copy">
-        <span class="blog-eyebrow">Building Rasa</span>
-        <h1>Rasa Blog</h1>
-        <p>Technical notes on language semantics, capabilities, and portable execution.</p>
-      </div>
-      <nav class="blog-nav" aria-label="Rasa sections">
-        <a href="../">Blog</a>
-        <a href="../../roadmap/">Roadmap</a>
-        <a href="../../conformance/">Conformance</a>
+      <nav class="rasa-site-nav" aria-label="Primary navigation">
+    <a
+      href="/inspect/"
+      
+      
+    >Inspect</a>
+    <a
+      href="/studio/"
+      
+      
+    >Studio</a>
+    <a
+      href="/conformance-report/"
+      
+      
+    >Conformance</a>
+    <a
+      href="/roadmap/"
+      
+      data-nav-hidden="true"
+    >Roadmap</a>
+    <a
+      href="/blog/"
+      aria-current="page"
+      data-nav-hidden="true"
+    >Engineering</a>
       </nav>
-      <div class="blog-actions">
-        <img class="brand-mark" src="../assets/brand/mark.svg" alt="" aria-hidden="true" />
-        <span class="blog-pill ok">July 2, 2026</span><span class="blog-pill">Part 3</span>
-        <button class="theme-toggle" type="button" data-role="theme-toggle" aria-label="Toggle color theme">Light</button>
+      <div class="rasa-site-actions">
+        
+        
+        <button class="rasa-site-theme" type="button" data-role="site-theme-toggle" aria-label="Toggle color theme">Theme</button>
       </div>
     </header>
-  
+    <main>
+      
       <article class="post">
         <header class="post-head">
           <a class="back-link" href="../">Blog</a>
@@ -530,22 +617,29 @@ Capabilities:
     
     </main>
     <script>
+      
+    (() => {
       const key = "rasa.theme";
       const root = document.documentElement;
       const saved = localStorage.getItem(key);
-      const theme = saved === "light" || saved === "dark" ? saved : "dark";
-      const toggle = document.querySelector("[data-role='theme-toggle']");
-      function setTheme(next) {
+      const preferred = saved === "light" || saved === "dark"
+        ? saved
+        : window.matchMedia?.("(prefers-color-scheme: light)")?.matches ? "light" : "dark";
+      const toggles = Array.from(document.querySelectorAll("[data-role='site-theme-toggle']"));
+      function apply(next) {
         root.dataset.rasaTheme = next;
         root.dataset.theme = next;
-        if (toggle) toggle.textContent = next === "light" ? "Dark" : "Light";
-      }
-      setTheme(theme);
-      toggle?.addEventListener("click", () => {
-        const next = root.dataset.rasaTheme === "light" ? "dark" : "light";
-        setTheme(next);
         localStorage.setItem(key, next);
-      });
+        for (const toggle of toggles) {
+          toggle.textContent = next === "light" ? "Dark" : "Light";
+          toggle.setAttribute("aria-label", "Switch to " + (next === "light" ? "dark" : "light") + " theme");
+        }
+      }
+      apply(preferred);
+      for (const toggle of toggles) {
+        toggle.addEventListener("click", () => apply(root.dataset.rasaTheme === "light" ? "dark" : "light"));
+      }
+    })();
     </script>
   </body>
 </html>

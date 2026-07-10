@@ -1,0 +1,8 @@
+[
+  {"id":"s-101","carrier":"north","promised-days":2,"actual-days":2},
+  {"id":"s-102","carrier":"north","promised-days":2,"actual-days":4},
+  {"id":"s-103","carrier":"coast","promised-days":3,"actual-days":5},
+  {"id":"s-104","carrier":"coast","promised-days":3,"actual-days":3},
+  {"id":"s-105","carrier":"metro","promised-days":1,"actual-days":2},
+  {"id":"s-106","carrier":"metro","promised-days":1,"actual-days":1}
+]

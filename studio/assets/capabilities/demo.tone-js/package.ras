@@ -1,0 +1,38 @@
+{:schema :rasa.package/v1
+ :id demo.tone-js
+ :version "0.1.0"
+ :exports [{:name play!
+            :capability :demo.tone-js/play!
+            :provider tone-js
+            :signature {:args [{:name tracks :type :vector}]
+                        :returns :map}
+            :result {:class :value :movement :copy-value}
+            :behavior [:browser/audio-output]
+            :metadata {:browser/effects [:browser/audio-output]
+                       :browser/boundary :ordinary-values
+                       :browser/projection :dynamic-value-projection
+                       :browser/demo :live-composer}
+            :targets [{:target :wasmtime
+                       :availability :available}
+                      {:target :wasm-browser
+                       :availability :requires-adapter
+                       :adapter-kind :javascript}]}
+           {:name perform!
+            :capability :demo.tone-js/perform!
+            :provider tone-js
+            :signature {:args [{:name score :type :map}]
+                        :returns :map}
+            :result {:class :value :movement :copy-value}
+            :behavior [:browser/audio-output]
+            :metadata {:browser/effects [:browser/audio-output]
+                       :browser/boundary :ordinary-values
+                       :browser/projection :dynamic-value-projection
+                       :browser/demo :algorithmic-orchestra}
+            :targets [{:target :wasmtime
+                       :availability :available}
+                      {:target :wasm-browser
+                       :availability :requires-adapter
+                       :adapter-kind :javascript}]}]
+ :providers []
+ :metadata {:generated-by "web/studio"
+            :browser/boundary :ordinary-values}}

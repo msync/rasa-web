@@ -1,0 +1,55 @@
+{
+  "callables": [
+    {
+      "abi": "packed-vector-v1",
+      "arity": 0,
+      "inputIndex": 0,
+      "inputShape": "none",
+      "packed": {
+        "input": {
+          "byteLength": 0,
+          "element": "u8",
+          "length": 0
+        },
+        "memory": {
+          "minimumPages": 3
+        },
+        "output": {
+          "byteLength": 196608,
+          "element": "u8",
+          "length": 196608,
+          "offset": 0
+        }
+      },
+      "result": "packed-array",
+      "symbol": "demo.visuals.packed-oil-current/packed-rgba",
+      "url": "wasmgc-callables/0-demo-visuals-packed-oil-current-packed-rgba-a0.wasm"
+    },
+    {
+      "abi": "packed-vector-v1",
+      "arity": 0,
+      "inputIndex": 0,
+      "inputShape": "none",
+      "packed": {
+        "input": {
+          "byteLength": 0,
+          "element": "u8",
+          "length": 0
+        },
+        "memory": {
+          "minimumPages": 3
+        },
+        "output": {
+          "byteLength": 196608,
+          "element": "u8",
+          "length": 196608,
+          "offset": 0
+        }
+      },
+      "result": "packed-array",
+      "symbol": "demo.visuals.packed-signal-cathedral/packed-rgba",
+      "url": "wasmgc-callables/1-demo-visuals-packed-signal-cathedral-packed-rgba-a0.wasm"
+    }
+  ],
+  "schema": "rasa.browser.wasmgc-callables.v1"
+}

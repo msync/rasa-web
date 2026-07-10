@@ -1,0 +1,17 @@
+(ns demo.inspect.checked-pricing
+  (:compile {:types :checked
+             :runtime-checks :boundaries}))
+
+(defn ^i64 gross-cents [^i64 unit-cents ^i64 quantity]
+  (* unit-cents quantity))
+
+(defn ^i64 net-cents [^i64 gross ^i64 discount-cents]
+  (- gross discount-cents))
+
+(def ^i64 gross (gross-cents 2500 5))
+
+{:unit-cents 2500
+ :quantity 5
+ :gross gross
+ :discount 500
+ :net (net-cents 12500 500)}

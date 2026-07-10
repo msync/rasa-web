@@ -1,0 +1,31 @@
+{:schema :rasa.package/v1
+ :id rasa.http
+ :version "0.1.0"
+ :exports [{:name request
+            :capability :rasa.http/request
+            :provider http
+            :signature {:args [{:name request :type :map}]
+                        :returns :map}
+            :result {:class :value
+                     :movement :copy-value}
+            :authority [{:id :http/client
+                         :scope {:kind :unscoped}}]
+            :behavior [:may-suspend]
+            :boundary-mode :copy-value
+            :targets [{:target :native
+                       :artifact :http/native
+                       :execution-trust :declared-trusted}
+                      {:target :wasmtime
+                       :availability :unsupported-by-rasa
+                       :reason :wasmtime-http-provider-missing}
+                      {:target :wasm-browser
+                       :availability :requires-adapter
+                       :adapter-kind :javascript
+                       :reason :browser-needs-admitted-fetch-adapter}]}]
+ :providers [{:id http
+              :abi :rasa-provider-abi-v1
+              :codec :rasa-data-v1
+              :artifacts [{:id :http/native
+                           :target :native
+                           :kind :native-dylib
+                           :path "native/librasa_http_provider.dylib"}]}]}

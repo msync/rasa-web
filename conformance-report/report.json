@@ -15839,7 +15839,7 @@
         "provenance": [
           "compat/generated/namespaces/clojure.core/function/empty.ras"
         ],
-        "summary": "Returns an empty collection of the same broad kind as coll, or nil.",
+        "summary": "Returns an empty collection of the same broad kind as coll while preserving a typed vector contract.",
         "caseIds": [
           "jank/clojure.core/empty/0",
           "jank/clojure.core/empty/1",
@@ -17808,7 +17808,7 @@
         "provenance": [
           "compat/generated/namespaces/clojure.core/function/pop.ras"
         ],
-        "summary": "Returns a vector or list stack without its next item, or nil for nil.",
+        "summary": "Returns a vector or list stack without its next item while preserving a typed vector contract.",
         "caseIds": [
           "jank/clojure.core/pop/0",
           "jank/clojure.core/pop/2",

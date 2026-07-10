@@ -70,6 +70,11 @@
   max
   rasa.prim/max)
 
+(def ^{:doc "Returns the integer quotient of x divided by y."
+       :rasa.impl/backing rasa.prim/quot}
+  quot
+  rasa.prim/quot)
+
 (def ^{:doc "Returns the bitwise and of integer arguments."
        :rasa.impl/backing rasa.prim/bit-and}
   bit-and
@@ -119,6 +124,21 @@
        :rasa.impl/backing rasa.prim/vals}
   vals
   rasa.prim/vals)
+
+(def ^{:doc "Returns an ordinary persistent vector whose elements satisfy the checked builtin type contract."
+       :rasa.impl/backing rasa.prim/vector-of}
+  vector-of
+  rasa.prim/vector-of)
+
+(def ^{:doc "Returns an empty collection of the same broad kind as coll while preserving a typed vector contract."
+       :rasa.impl/backing rasa.prim/empty}
+  empty
+  rasa.prim/empty)
+
+(def ^{:doc "Returns a vector or list stack without its next item while preserving a typed vector contract."
+       :rasa.impl/backing rasa.prim/pop}
+  pop
+  rasa.prim/pop)
 
 (def ^{:doc "Returns true when all supplied values are equal."
        :rasa.impl/backing rasa.prim/=}
@@ -321,29 +341,12 @@
 (defn vec
   "Returns a vector containing the items of coll."
   [coll]
-  (into [] coll))
+  (if (vector? coll) coll (into [] coll)))
 
 (defn set
   "Returns a set containing the items of coll."
   [coll]
   (into #{} coll))
-
-(defn empty
-  "Returns an empty collection of the same broad kind as coll, or nil."
-  [coll]
-  (if (nil? coll)
-    nil
-    (if (string? coll)
-      ""
-      (if (vector? coll)
-        []
-        (if (map? coll)
-          {}
-          (if (set? coll)
-            #{}
-            (if (list? coll)
-              '()
-              (if (seqable? coll) '() nil))))))))
 
 (defn peek
   "Returns the next stack item from a vector or list, or nil for nil and empty stacks."
@@ -354,17 +357,6 @@
       (if (empty? coll) nil (nth coll (dec (count coll))))
       (if (list? coll)
         (first coll)
-        (nth [] 0)))))
-
-(defn pop
-  "Returns a vector or list stack without its next item, or nil for nil."
-  [coll]
-  (if (nil? coll)
-    nil
-    (if (vector? coll)
-      (if (empty? coll) (nth [] 0) (vec (butlast coll)))
-      (if (list? coll)
-        (if (empty? coll) (nth [] 0) (rest coll))
         (nth [] 0)))))
 
 (defn some

@@ -1,0 +1,8 @@
+(ns demo.inspect.checked-pricing-rejected
+  (:compile {:types :checked
+             :runtime-checks :boundaries}))
+
+(defn ^i64 gross-cents [^i64 unit-cents ^i64 quantity]
+  (* unit-cents quantity))
+
+(gross-cents "2500" 5)
