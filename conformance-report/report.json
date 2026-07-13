@@ -11,9 +11,10 @@
       "inputs": [
         "compat/generated/namespaces/clojure.core",
         "lib/rasa/core.ras",
-        "crates/rasa-eval/src/native/mod.rs",
+        "crates/language/eval/src/native/mod.rs",
         "web/conformance/cases/clojure-core-portable.json",
         "web/conformance/cases/rasa-core-source-portable.json",
+        "crates/reference/conformance/cases/core.ras",
         "web/conformance/projection/deferred-core.json",
         "web/conformance/projection/excluded-core.json"
       ]
@@ -34,18 +35,18 @@
       "import": {
         "upstreamFiles": 234,
         "upstreamCases": 5723,
-        "projectedFiles": 112,
-        "projectedCases": 2846,
+        "projectedFiles": 113,
+        "projectedCases": 2915,
         "supportedFiles": 107,
         "cases": 1494,
         "importedCases": 1494,
-        "importerFilteredCases": 1352,
-        "unprojectedCases": 2862,
+        "importerFilteredCases": 1421,
+        "unprojectedCases": 2793,
         "unclassifiedCases": 11,
         "residualCases": 4,
-        "filtered": 1474,
-        "generatedAt": "2026-07-12T17:53:10.562Z",
-        "projectedFunctions": 161
+        "filtered": 1542,
+        "generatedAt": "2026-07-13T11:56:19.086Z",
+        "projectedFunctions": 168
       },
       "filtered": [
         {
@@ -9903,7 +9904,620 @@
             "source": "jank-lang/clojure-test-suite",
             "file": "test/clojure/core_test/quot.cljc"
           },
-          "reason": "not in Rasa projected supported set"
+          "reason": "unsupported fixture/local symbol r",
+          "form": "(let [r (quot 10 3)]\n                                    (and (int? r)\n                                         (= 3 r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "unsupported fixture/local symbol r",
+          "form": "(let [r (quot -10 3)]\n                                    (and (int? r)\n                                         (= -3 r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "unsupported fixture/local symbol r",
+          "form": "(let [r (quot -10 -3)]\n                                    (and (int? r)\n                                         (= 3 r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "unsupported fixture/local symbol r",
+          "form": "(let [r (quot 10 -3)]\n                                    (and (int? r)\n                                         (= -3 r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "big integer literal",
+          "form": "(let [r (quot 1/2 3/4)]\n                                    (and (p/big-int? r)\n                                         (= 0N r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "big integer literal",
+          "form": "(let [r (quot 10 3N)]\n                                    (and (p/big-int? r)\n                                         (= 3N r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "big integer literal",
+          "form": "(let [r (quot -10 3N)]\n                                    (and (p/big-int? r)\n                                         (= -3N r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "big integer literal",
+          "form": "(let [r (quot -10 -3N)]\n                                    (and (p/big-int? r)\n                                         (= 3N r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "big integer literal",
+          "form": "(let [r (quot 10 -3N)]\n                                    (and (p/big-int? r)\n                                         (= -3N r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "big integer literal",
+          "form": "(let [r (quot 10N 3)]\n                                    (and (p/big-int? r)\n                                         (= 3N r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "big integer literal",
+          "form": "(let [r (quot -10N 3)]\n                                    (and (p/big-int? r)\n                                         (= -3N r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "big integer literal",
+          "form": "(let [r (quot -10N -3)]\n                                    (and (p/big-int? r)\n                                         (= 3N r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "big integer literal",
+          "form": "(let [r (quot 10N -3)]\n                                    (and (p/big-int? r)\n                                         (= -3N r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "big integer literal",
+          "form": "(let [r (quot 10N 3N)]\n                                    (and (p/big-int? r)\n                                         (= 3N r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "big integer literal",
+          "form": "(let [r (quot -10N 3N)]\n                                    (and (p/big-int? r)\n                                         (= -3N r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "big integer literal",
+          "form": "(let [r (quot -10N -3N)]\n                                    (and (p/big-int? r)\n                                         (= 3N r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "big integer literal",
+          "form": "(let [r (quot 10N -3N)]\n                                    (and (p/big-int? r)\n                                         (= -3N r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "unsupported fixture/local symbol r",
+          "form": "(let [r (quot 10 3.0)]\n                                    (and (double? r)\n                                         (= 3.0 r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "unsupported fixture/local symbol r",
+          "form": "(let [r (quot -10 3.0)]\n                                    (and (double? r)\n                                         (= -3.0 r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "unsupported fixture/local symbol r",
+          "form": "(let [r (quot -10 -3.0)]\n                                    (and (double? r)\n                                         (= 3.0 r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "unsupported fixture/local symbol r",
+          "form": "(let [r (quot 10 -3.0)]\n                                    (and (double? r)\n                                         (= -3.0 r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "unsupported fixture/local symbol r",
+          "form": "(let [r (quot 10.0 3)]\n                                    (and (double? r)\n                                         (= 3.0 r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "unsupported fixture/local symbol r",
+          "form": "(let [r (quot -10.0 3)]\n                                    (and (double? r)\n                                         (= -3.0 r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "unsupported fixture/local symbol r",
+          "form": "(let [r (quot -10.0 -3)]\n                                    (and (double? r)\n                                         (= 3.0 r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "unsupported fixture/local symbol r",
+          "form": "(let [r (quot 10.0 -3)]\n                                    (and (double? r)\n                                         (= -3.0 r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "unsupported fixture/local symbol r",
+          "form": "(let [r (quot 10.0 3.0)]\n                                    (and (double? r)\n                                         (= 3.0 r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "unsupported fixture/local symbol r",
+          "form": "(let [r (quot -10.0 3.0)]\n                                    (and (double? r)\n                                         (= -3.0 r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "unsupported fixture/local symbol r",
+          "form": "(let [r (quot -10.0 -3.0)]\n                                    (and (double? r)\n                                         (= 3.0 r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "unsupported fixture/local symbol r",
+          "form": "(let [r (quot 10.0 -3.0)]\n                                    (and (double? r)\n                                         (= -3.0 r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "big decimal literal",
+          "form": "(let [r (quot 10 3.0M)]\n                                    (and (decimal? r)\n                                         (= 3.0M r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "big decimal literal",
+          "form": "(let [r (quot -10 3.0M)]\n                                    (and (decimal? r)\n                                         (= -3.0M r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "big decimal literal",
+          "form": "(let [r (quot -10 -3.0M)]\n                                    (and (decimal? r)\n                                         (= 3.0M r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "big decimal literal",
+          "form": "(let [r (quot 10 -3.0M)]\n                                    (and (decimal? r)\n                                         (= -3.0M r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "big decimal literal",
+          "form": "(let [r (quot 10.0M 3)]\n                                    (and (decimal? r)\n                                         (= 3.0M r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "big decimal literal",
+          "form": "(let [r (quot -10.0M 3)]\n                                    (and (decimal? r)\n                                         (= -3.0M r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "big decimal literal",
+          "form": "(let [r (quot -10.0M -3)]\n                                    (and (decimal? r)\n                                         (= 3.0M r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "big decimal literal",
+          "form": "(let [r (quot 10.0M -3)]\n                                    (and (decimal? r)\n                                         (= -3.0M r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "big decimal literal",
+          "form": "(let [r (quot 10.0M 3.0M)]\n                                    (and (decimal? r)\n                                         (= 3.0M r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "big decimal literal",
+          "form": "(let [r (quot -10.0M 3.0M)]\n                                    (and (decimal? r)\n                                         (= -3.0M r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "big decimal literal",
+          "form": "(let [r (quot -10.0M -3.0M)]\n                                    (and (decimal? r)\n                                         (= 3.0M r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "big decimal literal",
+          "form": "(let [r (quot 10.0M -3.0M)]\n                                    (and (decimal? r)\n                                         (= -3.0M r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "big decimal literal",
+          "form": "(let [r (quot 10.0M 3.0)]\n                                    (and (double? r)\n                                         (= 3.0 r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "big decimal literal",
+          "form": "(let [r (quot -10.0M 3.0)]\n                                    (and (double? r)\n                                         (= -3.0 r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "big decimal literal",
+          "form": "(let [r (quot -10.0M -3.0)]\n                                    (and (double? r)\n                                         (= 3.0 r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "big decimal literal",
+          "form": "(let [r (quot 10.0M -3.0)]\n                                    (and (double? r)\n                                         (= -3.0 r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "big decimal literal",
+          "form": "(let [r (quot 10.0 3.0M)]\n                                    (and (double? r)\n                                         (= 3.0 r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "big decimal literal",
+          "form": "(let [r (quot -10.0 3.0M)]\n                                    (and (double? r)\n                                         (= -3.0 r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "big decimal literal",
+          "form": "(let [r (quot -10.0 -3.0M)]\n                                    (and (double? r)\n                                         (= 3.0 r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "big decimal literal",
+          "form": "(let [r (quot 10.0 -3.0M)]\n                                    (and (double? r)\n                                         (= -3.0 r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "big integer literal",
+          "form": "(let [r (quot 3 1/2)]\n                                    (and (p/big-int? r)\n                                         (= 6N r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "big integer literal",
+          "form": "(let [r (quot 3 4/3)]\n                                    (and (p/big-int? r)\n                                         (= 2N r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "big integer literal",
+          "form": "(let [r (quot 37/2 15)]\n                                    (and (p/big-int? r)\n                                         (= 1N r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "big integer literal",
+          "form": "(let [r (quot 3 -1/2)]\n                                    (and (p/big-int? r)\n                                         (= -6N r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "big integer literal",
+          "form": "(let [r (quot 3 -4/3)]\n                                    (and (p/big-int? r)\n                                         (= -2N r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "big integer literal",
+          "form": "(let [r (quot 37/2 -15)]\n                                    (and (p/big-int? r)\n                                         (= -1N r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "big integer literal",
+          "form": "(let [r (quot -3 1/2)]\n                                    (and (p/big-int? r)\n                                         (= -6N r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "big integer literal",
+          "form": "(let [r (quot -3 4/3)]\n                                    (and (p/big-int? r)\n                                         (= -2N r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "big integer literal",
+          "form": "(let [r (quot -37/2 15)]\n                                    (and (p/big-int? r)\n                                         (= -1N r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "big integer literal",
+          "form": "(let [r (quot -3 -1/2)]\n                                    (and (p/big-int? r)\n                                         (= 6N r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "big integer literal",
+          "form": "(let [r (quot -3 -4/3)]\n                                    (and (p/big-int? r)\n                                         (= 2N r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "big integer literal",
+          "form": "(let [r (quot -37/2 -15)]\n                                    (and (p/big-int? r)\n                                         (= 1N r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "non-finite numeric literal",
+          "form": "(let [r (quot 1 ##Inf)]\n                                    (and (double? r)\n                                         (= 0.0 r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "non-finite numeric literal",
+          "form": "(let [r (quot 1 ##-Inf)]\n                                    (and (double? r)\n                                         (= 0.0 r)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "dialect/helper namespace",
+          "form": "(is (p/thrown? (quot 10 0)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "non-finite numeric literal",
+          "form": "(is (p/thrown? (quot ##Inf 1)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "non-finite numeric literal",
+          "form": "(is (p/thrown? (quot ##-Inf 1)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "non-finite numeric literal",
+          "form": "(is (p/thrown? (quot ##NaN 1)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "non-finite numeric literal",
+          "form": "(is (p/thrown? (quot 1 ##NaN)))"
+        },
+        {
+          "function": "quot",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/quot.cljc"
+          },
+          "reason": "non-finite numeric literal",
+          "form": "(is (p/thrown? (quot ##NaN 1)))"
         },
         {
           "function": "",
@@ -14075,17 +14689,6 @@
           ]
         },
         {
-          "name": "quot",
-          "kind": "function",
-          "classification": "Unclassified",
-          "status": "needs-triage",
-          "reason": "jank has upstream test rows, but Rasa has not yet classified this clojure.core symbol for portable support.",
-          "upstreamCases": 69,
-          "files": [
-            "test/clojure/core_test/quot.cljc"
-          ]
-        },
-        {
           "name": "rand-nth",
           "kind": "function",
           "classification": "Unclassified",
@@ -15094,7 +15697,7 @@
           "Projected from the native pure core registry; compat descriptor is not yet generated."
         ],
         "provenance": [
-          "crates/rasa-eval/src/native/mod.rs"
+          "crates/language/eval/src/native/mod.rs"
         ],
         "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
         "caseIds": [
@@ -15158,7 +15761,7 @@
           "Projected from the native pure core registry; compat descriptor is not yet generated."
         ],
         "provenance": [
-          "crates/rasa-eval/src/native/mod.rs"
+          "crates/language/eval/src/native/mod.rs"
         ],
         "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
         "caseIds": [
@@ -15560,7 +16163,7 @@
           "Projected from the native pure core registry; compat descriptor is not yet generated."
         ],
         "provenance": [
-          "crates/rasa-eval/src/native/mod.rs"
+          "crates/language/eval/src/native/mod.rs"
         ],
         "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
         "caseIds": [
@@ -15827,7 +16430,7 @@
           "Projected from the native pure core registry; compat descriptor is not yet generated."
         ],
         "provenance": [
-          "crates/rasa-eval/src/native/mod.rs"
+          "crates/language/eval/src/native/mod.rs"
         ],
         "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
         "caseIds": [
@@ -15974,7 +16577,8 @@
         "sequencePolicy": "strict",
         "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/empty",
         "notes": [
-          "Public Rasa core function is defined in source over already-admitted core operations."
+          "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+          "Alpha public-core semantics cover finite Rasa runtime values; full Clojure edge parity is deferred."
         ],
         "provenance": [
           "compat/generated/namespaces/clojure.core/function/empty.ras"
@@ -16025,6 +16629,25 @@
           "jank/clojure.core/emptyqmark/9",
           "jank/clojure.core/emptyqmark/10"
         ]
+      },
+      {
+        "name": "ensure-reduced",
+        "kind": "function",
+        "arglists": [
+          "(ensure-reduced x)"
+        ],
+        "classification": "PortableEquivalent",
+        "status": "implemented-alpha",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html",
+        "notes": [
+          "Public Rasa core function is installed as eval-owned native semantics; core metadata is descriptive evidence only."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/ensure-x2dreduced.ras"
+        ],
+        "summary": "Returns x unchanged when it is already reduced, otherwise wraps it for reduction termination.",
+        "caseIds": []
       },
       {
         "name": "every-pred",
@@ -16652,7 +17275,7 @@
           "Projected from the native pure core registry; compat descriptor is not yet generated."
         ],
         "provenance": [
-          "crates/rasa-eval/src/native/mod.rs"
+          "crates/language/eval/src/native/mod.rs"
         ],
         "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
         "caseIds": [
@@ -16679,7 +17302,7 @@
           "Projected from the native pure core registry; compat descriptor is not yet generated."
         ],
         "provenance": [
-          "crates/rasa-eval/src/native/mod.rs"
+          "crates/language/eval/src/native/mod.rs"
         ],
         "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
         "caseIds": [
@@ -16898,7 +17521,7 @@
           "Projected from the native pure core registry; compat descriptor is not yet generated."
         ],
         "provenance": [
-          "crates/rasa-eval/src/native/mod.rs"
+          "crates/language/eval/src/native/mod.rs"
         ],
         "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
         "caseIds": []
@@ -17076,7 +17699,7 @@
           "Projected from the native pure core registry; compat descriptor is not yet generated."
         ],
         "provenance": [
-          "crates/rasa-eval/src/native/mod.rs"
+          "crates/language/eval/src/native/mod.rs"
         ],
         "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
         "caseIds": []
@@ -17985,7 +18608,8 @@
         "sequencePolicy": "eager-finite",
         "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/pop",
         "notes": [
-          "Public Rasa core function is defined in source over already-admitted core operations."
+          "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+          "Rasa sequence operations are finite eager in alpha; Clojure LazySeq parity is deferred."
         ],
         "provenance": [
           "compat/generated/namespaces/clojure.core/function/pop.ras"
@@ -18117,6 +18741,26 @@
         ]
       },
       {
+        "name": "quot",
+        "kind": "function",
+        "arglists": [
+          "(quot x y)"
+        ],
+        "classification": "IntentionalDivergence",
+        "status": "implemented-alpha",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html",
+        "notes": [
+          "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+          "Alpha numeric semantics cover checked i64 and finite f64; full Clojure numeric tower parity is deferred."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/quot.ras"
+        ],
+        "summary": "Returns the integer quotient of x divided by y.",
+        "caseIds": []
+      },
+      {
         "name": "range",
         "kind": "function",
         "arglists": [
@@ -18143,24 +18787,113 @@
         "name": "reduce",
         "kind": "function",
         "arglists": [
-          "(reduce ...)"
+          "(reduce f coll)",
+          "(reduce f init coll)"
         ],
         "classification": "PortableEquivalent",
-        "status": "implemented-native",
-        "sequencePolicy": "strict",
-        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/reduce",
+        "status": "implemented-alpha",
+        "sequencePolicy": "lazy-compatible",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html",
         "notes": [
-          "Projected from the native pure core registry; compat descriptor is not yet generated."
+          "Public Rasa core facade is installed as eval-owned native semantics; core metadata is descriptive evidence only.",
+          "Alpha lazy compatibility covers runtime-owned lazy sequence views, eval-owned pull-cursor lazy producers, i64 range arities, and bounded projection only."
         ],
         "provenance": [
-          "crates/rasa-eval/src/native/mod.rs"
+          "compat/generated/namespaces/clojure.core/function/reduce.ras"
         ],
-        "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
+        "summary": "Public Rasa core facade is installed as eval-owned native semantics; core metadata is descriptive evidence only.",
         "caseIds": [
           "jank/clojure.core/reduce/0",
           "jank/clojure.core/reduce/2",
           "jank/clojure.core/reduce/3",
-          "jank/clojure.core/reduce/4"
+          "jank/clojure.core/reduce/4",
+          "rasa/reference/core/reduction/incremental-reduce"
+        ]
+      },
+      {
+        "name": "reduce-kv",
+        "kind": "function",
+        "arglists": [
+          "(reduce-kv f init coll)"
+        ],
+        "classification": "PortableEquivalent",
+        "status": "implemented-alpha",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html",
+        "notes": [
+          "Public Rasa core function is installed as eval-owned native semantics; core metadata is descriptive evidence only."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/reduce-x2dkv.ras"
+        ],
+        "summary": "Public Rasa core function is installed as eval-owned native semantics; core metadata is descriptive evidence only.",
+        "caseIds": [
+          "rasa/reference/core/reduction/reduce-kv"
+        ]
+      },
+      {
+        "name": "reduced",
+        "kind": "function",
+        "arglists": [
+          "(reduced x)"
+        ],
+        "classification": "PortableEquivalent",
+        "status": "implemented-alpha",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html",
+        "notes": [
+          "Public Rasa core function is installed as eval-owned native semantics; core metadata is descriptive evidence only."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/reduced.ras"
+        ],
+        "summary": "Public Rasa core function is installed as eval-owned native semantics; core metadata is descriptive evidence only.",
+        "caseIds": [
+          "rasa/reference/core/reduction/reduced-identity"
+        ]
+      },
+      {
+        "name": "reduced?",
+        "kind": "function",
+        "arglists": [
+          "(reduced? x)"
+        ],
+        "classification": "PortableEquivalent",
+        "status": "implemented-alpha",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html",
+        "notes": [
+          "Public Rasa core function is installed as eval-owned native semantics; core metadata is descriptive evidence only."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/reduced-x3f.ras"
+        ],
+        "summary": "Public Rasa core function is installed as eval-owned native semantics; core metadata is descriptive evidence only.",
+        "caseIds": [
+          "rasa/reference/core/reduction/reduced-predicate"
+        ]
+      },
+      {
+        "name": "reductions",
+        "kind": "function",
+        "arglists": [
+          "(reductions f coll)",
+          "(reductions f init coll)"
+        ],
+        "classification": "PortableEquivalent",
+        "status": "implemented-alpha",
+        "sequencePolicy": "lazy-compatible",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html",
+        "notes": [
+          "Public Rasa core facade is installed as eval-owned native semantics; core metadata is descriptive evidence only.",
+          "Alpha lazy compatibility covers runtime-owned lazy sequence views, eval-owned pull-cursor lazy producers, i64 range arities, and bounded projection only."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/reductions.ras"
+        ],
+        "summary": "Public Rasa core facade is installed as eval-owned native semantics; core metadata is descriptive evidence only.",
+        "caseIds": [
+          "rasa/reference/core/reduction/reductions-lazy-terminal"
         ]
       },
       {
@@ -18280,7 +19013,7 @@
         "name": "satisfies?",
         "kind": "function",
         "arglists": [
-          "(satisfies? descriptor value)"
+          "(satisfies? protocol value)"
         ],
         "classification": "IntentionalDivergence",
         "status": "implemented-alpha",
@@ -18919,6 +19652,27 @@
         ]
       },
       {
+        "name": "unreduced",
+        "kind": "function",
+        "arglists": [
+          "(unreduced x)"
+        ],
+        "classification": "PortableEquivalent",
+        "status": "implemented-alpha",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html",
+        "notes": [
+          "Public Rasa core function is installed as eval-owned native semantics; core metadata is descriptive evidence only."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/unreduced.ras"
+        ],
+        "summary": "Public Rasa core function is installed as eval-owned native semantics; core metadata is descriptive evidence only.",
+        "caseIds": [
+          "rasa/reference/core/reduction/unreduced-one-layer"
+        ]
+      },
+      {
         "name": "update",
         "kind": "function",
         "arglists": [
@@ -19128,7 +19882,7 @@
           "Projected from the native pure core registry; compat descriptor is not yet generated."
         ],
         "provenance": [
-          "crates/rasa-eval/src/native/mod.rs"
+          "crates/language/eval/src/native/mod.rs"
         ],
         "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
         "caseIds": [
@@ -43480,11 +44234,104 @@
           "higher-order",
           "source-defined-core"
         ]
+      },
+      {
+        "id": "rasa/reference/core/reduction/reduced-identity",
+        "function": "reduced",
+        "title": "Reduced carriers use fresh semantic identity",
+        "source": "(= [true false] (let [x (reduced 1)] [(= x x) (= x (reduced 1))]))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface",
+          "runtime-value-algebra",
+          "eval-semantics",
+          "portable-wasm-readiness"
+        ],
+        "provenance": "crates/reference/conformance/cases/core.ras"
+      },
+      {
+        "id": "rasa/reference/core/reduction/reduced-predicate",
+        "function": "reduced?",
+        "title": "Reduced predicate recognizes only carriers",
+        "source": "(= [true false] [(reduced? (reduced 1)) (reduced? 1)])",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface",
+          "runtime-value-algebra",
+          "eval-semantics",
+          "portable-wasm-readiness"
+        ],
+        "provenance": "crates/reference/conformance/cases/core.ras"
+      },
+      {
+        "id": "rasa/reference/core/reduction/unreduced-one-layer",
+        "function": "unreduced",
+        "title": "Unreduced removes exactly one carrier layer",
+        "source": "(= [true 1 2] (let [x (reduced 1) nested (reduced x)] [(reduced? (unreduced nested)) (unreduced (unreduced nested)) (unreduced 2)]))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface",
+          "runtime-value-algebra",
+          "eval-semantics",
+          "portable-wasm-readiness"
+        ],
+        "provenance": "crates/reference/conformance/cases/core.ras"
+      },
+      {
+        "id": "rasa/reference/core/reduction/incremental-reduce",
+        "function": "reduce",
+        "title": "Reduce stops an unbounded poisoned source",
+        "source": "(= {:sum 28 :empty-init true :empty-no-init true :one-item true :nested true} {:sum (reduce (fn [sum value] (let [next (+ sum value)] (if (= value 7) (reduced next) next))) 0 (map (fn [value] (if (= value 8) (nth [] 0) value)) (range))) :empty-init (reduced? (reduce + (reduced 9) [])) :empty-no-init (reduced? (reduce (fn [] (reduced 10)) [])) :one-item (reduced? (reduce + [(reduced 11)])) :nested (reduced? (reduce (fn [acc item] (reduced (reduced 12))) 0 [1]))})",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface",
+          "runtime-value-algebra",
+          "eval-semantics",
+          "tier-readiness",
+          "portable-wasm-readiness"
+        ],
+        "provenance": "crates/reference/conformance/cases/core.ras"
+      },
+      {
+        "id": "rasa/reference/core/reduction/reduce-kv",
+        "function": "reduce-kv",
+        "title": "Reduce-kv covers keyed persistent collections",
+        "source": "(= {:vector 11 :typed 20 :map 14 :order [:c :a :b] :nil true :stop true} (let [small (assoc (assoc (assoc {} :c 3) :a 1) :b 2)] {:vector (reduce-kv (fn [sum index value] (+ sum (* index value))) 0 [2 3 4]) :typed (reduce-kv (fn [sum index value] (+ sum (* (inc index) value))) 0 (vector-of i64 2 3 4)) :map (reduce-kv (fn [sum key value] (+ sum (* key value))) 0 {1 2 3 4}) :order (reduce-kv (fn [keys key value] (conj keys key)) [] small) :nil (reduced? (reduce-kv (fn [acc key value] (nth [] 0)) (reduced 9) nil)) :stop (reduced? (reduce-kv (fn [acc key value] (reduced (reduced 10))) 0 [1 2]))}))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface",
+          "runtime-value-algebra",
+          "eval-semantics",
+          "tier-readiness",
+          "portable-wasm-readiness"
+        ],
+        "provenance": "crates/reference/conformance/cases/core.ras"
+      },
+      {
+        "id": "rasa/reference/core/reduction/reductions-lazy-terminal",
+        "function": "reductions",
+        "title": "Reductions defers work and emits one terminal value",
+        "source": "(= {:construction 84 :init 81 :stopped [82 true] :empty true :terminal [true 83]} (let [poisoned (map (fn [value] (if (= value 0) (nth [] 0) value)) (range)) init-only (reductions (fn [acc item] (nth [] 0)) 81 poisoned) stopped (reductions + (reduced 82) poisoned) terminal (nth (reductions (fn [acc item] (reduced (reduced 83))) 0 [1]) 1)] {:construction (let [items (reductions (fn [] (nth [] 0)) [])] 84) :init (first init-only) :stopped [(first stopped) (nil? (next stopped))] :empty (reduced? (first (reductions (fn [] (reduced 85)) []))) :terminal [(reduced? terminal) (unreduced terminal)]}))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface",
+          "runtime-value-algebra",
+          "eval-semantics",
+          "tier-readiness",
+          "portable-wasm-readiness"
+        ],
+        "provenance": "crates/reference/conformance/cases/core.ras"
       }
     ]
   },
   "run": {
-    "generatedAt": "2026-07-12T17:55:15.517Z",
+    "generatedAt": "2026-07-13T12:05:56.368Z",
     "rasaRevision": "local",
     "clojureVersion": "1.12.5",
     "engine": "rasa-runtime-wasm",
@@ -43494,24 +44341,24 @@
     "upstreamFiles": 234,
     "upstreamCases": 5723,
     "supportedFiles": 107,
-    "projectedCases": 2846,
-    "projected": 173,
-    "supported": 173,
-    "implemented": 161,
+    "projectedCases": 2915,
+    "projected": 180,
+    "supported": 180,
+    "implemented": 168,
     "deferred": 12,
     "excluded": 14,
     "importedCases": 1494,
-    "importerFilteredCases": 1352,
-    "upstreamPendingFunctions": 118,
-    "unprojectedCases": 2862,
+    "importerFilteredCases": 1421,
+    "upstreamPendingFunctions": 117,
+    "unprojectedCases": 2793,
     "unclassifiedCases": 11,
     "residualCases": 4,
-    "filteredUpstream": 1474,
-    "pass": 1455,
+    "filteredUpstream": 1542,
+    "pass": 1461,
     "fail": 48,
     "expectedFailure": 0,
     "structuralGap": 0,
-    "untested": 47
+    "untested": 49
   },
   "functions": [
     {
@@ -47987,7 +48834,7 @@
         "Projected from the native pure core registry; compat descriptor is not yet generated."
       ],
       "provenance": [
-        "crates/rasa-eval/src/native/mod.rs"
+        "crates/language/eval/src/native/mod.rs"
       ],
       "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
       "caseIds": [
@@ -48362,7 +49209,7 @@
         "Projected from the native pure core registry; compat descriptor is not yet generated."
       ],
       "provenance": [
-        "crates/rasa-eval/src/native/mod.rs"
+        "crates/language/eval/src/native/mod.rs"
       ],
       "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
       "caseIds": [
@@ -50501,7 +51348,7 @@
         "Projected from the native pure core registry; compat descriptor is not yet generated."
       ],
       "provenance": [
-        "crates/rasa-eval/src/native/mod.rs"
+        "crates/language/eval/src/native/mod.rs"
       ],
       "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
       "caseIds": [
@@ -51760,7 +52607,7 @@
         "Projected from the native pure core registry; compat descriptor is not yet generated."
       ],
       "provenance": [
-        "crates/rasa-eval/src/native/mod.rs"
+        "crates/language/eval/src/native/mod.rs"
       ],
       "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
       "caseIds": [
@@ -52280,7 +53127,8 @@
       "sequencePolicy": "strict",
       "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/empty",
       "notes": [
-        "Public Rasa core function is defined in source over already-admitted core operations."
+        "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+        "Alpha public-core semantics cover finite Rasa runtime values; full Clojure edge parity is deferred."
       ],
       "provenance": [
         "compat/generated/namespaces/clojure.core/function/empty.ras"
@@ -52619,6 +53467,36 @@
           "log": ""
         }
       ]
+    },
+    {
+      "name": "ensure-reduced",
+      "kind": "function",
+      "arglists": [
+        "(ensure-reduced x)"
+      ],
+      "classification": "PortableEquivalent",
+      "status": "implemented-alpha",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html",
+      "notes": [
+        "Public Rasa core function is installed as eval-owned native semantics; core metadata is descriptive evidence only."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/ensure-x2dreduced.ras"
+      ],
+      "summary": "Returns x unchanged when it is already reduced, otherwise wraps it for reduction termination.",
+      "caseIds": [],
+      "counts": {
+        "pass": 0,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 0,
+        "state": "untested"
+      },
+      "cases": []
     },
     {
       "name": "every-pred",
@@ -55130,7 +56008,7 @@
         "Projected from the native pure core registry; compat descriptor is not yet generated."
       ],
       "provenance": [
-        "crates/rasa-eval/src/native/mod.rs"
+        "crates/language/eval/src/native/mod.rs"
       ],
       "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
       "caseIds": [
@@ -55253,7 +56131,7 @@
         "Projected from the native pure core registry; compat descriptor is not yet generated."
       ],
       "provenance": [
-        "crates/rasa-eval/src/native/mod.rs"
+        "crates/language/eval/src/native/mod.rs"
       ],
       "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
       "caseIds": [
@@ -56478,7 +57356,7 @@
         "Projected from the native pure core registry; compat descriptor is not yet generated."
       ],
       "provenance": [
-        "crates/rasa-eval/src/native/mod.rs"
+        "crates/language/eval/src/native/mod.rs"
       ],
       "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
       "caseIds": [],
@@ -57157,7 +58035,7 @@
         "Projected from the native pure core registry; compat descriptor is not yet generated."
       ],
       "provenance": [
-        "crates/rasa-eval/src/native/mod.rs"
+        "crates/language/eval/src/native/mod.rs"
       ],
       "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
       "caseIds": [],
@@ -61574,7 +62452,8 @@
       "sequencePolicy": "eager-finite",
       "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/pop",
       "notes": [
-        "Public Rasa core function is defined in source over already-admitted core operations."
+        "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+        "Rasa sequence operations are finite eager in alpha; Clojure LazySeq parity is deferred."
       ],
       "provenance": [
         "compat/generated/namespaces/clojure.core/function/pop.ras"
@@ -62210,6 +63089,37 @@
       ]
     },
     {
+      "name": "quot",
+      "kind": "function",
+      "arglists": [
+        "(quot x y)"
+      ],
+      "classification": "IntentionalDivergence",
+      "status": "implemented-alpha",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html",
+      "notes": [
+        "Public Rasa core facade delegates to a reserved `rasa.prim` backing primitive.",
+        "Alpha numeric semantics cover checked i64 and finite f64; full Clojure numeric tower parity is deferred."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/quot.ras"
+      ],
+      "summary": "Returns the integer quotient of x divided by y.",
+      "caseIds": [],
+      "counts": {
+        "pass": 0,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 0,
+        "state": "untested"
+      },
+      "cases": []
+    },
+    {
       "name": "range",
       "kind": "function",
       "arglists": [
@@ -62247,33 +63157,36 @@
       "name": "reduce",
       "kind": "function",
       "arglists": [
-        "(reduce ...)"
+        "(reduce f coll)",
+        "(reduce f init coll)"
       ],
       "classification": "PortableEquivalent",
-      "status": "implemented-native",
-      "sequencePolicy": "strict",
-      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/reduce",
+      "status": "implemented-alpha",
+      "sequencePolicy": "lazy-compatible",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html",
       "notes": [
-        "Projected from the native pure core registry; compat descriptor is not yet generated."
+        "Public Rasa core facade is installed as eval-owned native semantics; core metadata is descriptive evidence only.",
+        "Alpha lazy compatibility covers runtime-owned lazy sequence views, eval-owned pull-cursor lazy producers, i64 range arities, and bounded projection only."
       ],
       "provenance": [
-        "crates/rasa-eval/src/native/mod.rs"
+        "compat/generated/namespaces/clojure.core/function/reduce.ras"
       ],
-      "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
+      "summary": "Public Rasa core facade is installed as eval-owned native semantics; core metadata is descriptive evidence only.",
       "caseIds": [
         "jank/clojure.core/reduce/0",
         "jank/clojure.core/reduce/2",
         "jank/clojure.core/reduce/3",
-        "jank/clojure.core/reduce/4"
+        "jank/clojure.core/reduce/4",
+        "rasa/reference/core/reduction/incremental-reduce"
       ],
       "counts": {
-        "pass": 4,
+        "pass": 5,
         "fail": 0,
         "expectedFailure": 0,
         "structuralGap": 0
       },
       "coverage": {
-        "cases": 4,
+        "cases": 5,
         "state": "tested"
       },
       "cases": [
@@ -62322,6 +63235,218 @@
           "observed": "true",
           "axes": [
             "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "rasa/reference/core/reduction/incremental-reduce",
+          "title": "Reduce stops an unbounded poisoned source",
+          "source": "(= {:sum 28 :empty-init true :empty-no-init true :one-item true :nested true} {:sum (reduce (fn [sum value] (let [next (+ sum value)] (if (= value 7) (reduced next) next))) 0 (map (fn [value] (if (= value 8) (nth [] 0) value)) (range))) :empty-init (reduced? (reduce + (reduced 9) [])) :empty-no-init (reduced? (reduce (fn [] (reduced 10)) [])) :one-item (reduced? (reduce + [(reduced 11)])) :nested (reduced? (reduce (fn [acc item] (reduced (reduced 12))) 0 [1]))})",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface",
+            "runtime-value-algebra",
+            "eval-semantics",
+            "tier-readiness",
+            "portable-wasm-readiness"
+          ],
+          "log": ""
+        }
+      ]
+    },
+    {
+      "name": "reduce-kv",
+      "kind": "function",
+      "arglists": [
+        "(reduce-kv f init coll)"
+      ],
+      "classification": "PortableEquivalent",
+      "status": "implemented-alpha",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html",
+      "notes": [
+        "Public Rasa core function is installed as eval-owned native semantics; core metadata is descriptive evidence only."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/reduce-x2dkv.ras"
+      ],
+      "summary": "Public Rasa core function is installed as eval-owned native semantics; core metadata is descriptive evidence only.",
+      "caseIds": [
+        "rasa/reference/core/reduction/reduce-kv"
+      ],
+      "counts": {
+        "pass": 1,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 1,
+        "state": "tested"
+      },
+      "cases": [
+        {
+          "id": "rasa/reference/core/reduction/reduce-kv",
+          "title": "Reduce-kv covers keyed persistent collections",
+          "source": "(= {:vector 11 :typed 20 :map 14 :order [:c :a :b] :nil true :stop true} (let [small (assoc (assoc (assoc {} :c 3) :a 1) :b 2)] {:vector (reduce-kv (fn [sum index value] (+ sum (* index value))) 0 [2 3 4]) :typed (reduce-kv (fn [sum index value] (+ sum (* (inc index) value))) 0 (vector-of i64 2 3 4)) :map (reduce-kv (fn [sum key value] (+ sum (* key value))) 0 {1 2 3 4}) :order (reduce-kv (fn [keys key value] (conj keys key)) [] small) :nil (reduced? (reduce-kv (fn [acc key value] (nth [] 0)) (reduced 9) nil)) :stop (reduced? (reduce-kv (fn [acc key value] (reduced (reduced 10))) 0 [1 2]))}))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface",
+            "runtime-value-algebra",
+            "eval-semantics",
+            "tier-readiness",
+            "portable-wasm-readiness"
+          ],
+          "log": ""
+        }
+      ]
+    },
+    {
+      "name": "reduced",
+      "kind": "function",
+      "arglists": [
+        "(reduced x)"
+      ],
+      "classification": "PortableEquivalent",
+      "status": "implemented-alpha",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html",
+      "notes": [
+        "Public Rasa core function is installed as eval-owned native semantics; core metadata is descriptive evidence only."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/reduced.ras"
+      ],
+      "summary": "Public Rasa core function is installed as eval-owned native semantics; core metadata is descriptive evidence only.",
+      "caseIds": [
+        "rasa/reference/core/reduction/reduced-identity"
+      ],
+      "counts": {
+        "pass": 1,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 1,
+        "state": "tested"
+      },
+      "cases": [
+        {
+          "id": "rasa/reference/core/reduction/reduced-identity",
+          "title": "Reduced carriers use fresh semantic identity",
+          "source": "(= [true false] (let [x (reduced 1)] [(= x x) (= x (reduced 1))]))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface",
+            "runtime-value-algebra",
+            "eval-semantics",
+            "portable-wasm-readiness"
+          ],
+          "log": ""
+        }
+      ]
+    },
+    {
+      "name": "reduced?",
+      "kind": "function",
+      "arglists": [
+        "(reduced? x)"
+      ],
+      "classification": "PortableEquivalent",
+      "status": "implemented-alpha",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html",
+      "notes": [
+        "Public Rasa core function is installed as eval-owned native semantics; core metadata is descriptive evidence only."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/reduced-x3f.ras"
+      ],
+      "summary": "Public Rasa core function is installed as eval-owned native semantics; core metadata is descriptive evidence only.",
+      "caseIds": [
+        "rasa/reference/core/reduction/reduced-predicate"
+      ],
+      "counts": {
+        "pass": 1,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 1,
+        "state": "tested"
+      },
+      "cases": [
+        {
+          "id": "rasa/reference/core/reduction/reduced-predicate",
+          "title": "Reduced predicate recognizes only carriers",
+          "source": "(= [true false] [(reduced? (reduced 1)) (reduced? 1)])",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface",
+            "runtime-value-algebra",
+            "eval-semantics",
+            "portable-wasm-readiness"
+          ],
+          "log": ""
+        }
+      ]
+    },
+    {
+      "name": "reductions",
+      "kind": "function",
+      "arglists": [
+        "(reductions f coll)",
+        "(reductions f init coll)"
+      ],
+      "classification": "PortableEquivalent",
+      "status": "implemented-alpha",
+      "sequencePolicy": "lazy-compatible",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html",
+      "notes": [
+        "Public Rasa core facade is installed as eval-owned native semantics; core metadata is descriptive evidence only.",
+        "Alpha lazy compatibility covers runtime-owned lazy sequence views, eval-owned pull-cursor lazy producers, i64 range arities, and bounded projection only."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/reductions.ras"
+      ],
+      "summary": "Public Rasa core facade is installed as eval-owned native semantics; core metadata is descriptive evidence only.",
+      "caseIds": [
+        "rasa/reference/core/reduction/reductions-lazy-terminal"
+      ],
+      "counts": {
+        "pass": 1,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 1,
+        "state": "tested"
+      },
+      "cases": [
+        {
+          "id": "rasa/reference/core/reduction/reductions-lazy-terminal",
+          "title": "Reductions defers work and emits one terminal value",
+          "source": "(= {:construction 84 :init 81 :stopped [82 true] :empty true :terminal [true 83]} (let [poisoned (map (fn [value] (if (= value 0) (nth [] 0) value)) (range)) init-only (reductions (fn [acc item] (nth [] 0)) 81 poisoned) stopped (reductions + (reduced 82) poisoned) terminal (nth (reductions (fn [acc item] (reduced (reduced 83))) 0 [1]) 1)] {:construction (let [items (reductions (fn [] (nth [] 0)) [])] 84) :init (first init-only) :stopped [(first stopped) (nil? (next stopped))] :empty (reduced? (first (reductions (fn [] (reduced 85)) []))) :terminal [(reduced? terminal) (unreduced terminal)]}))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface",
+            "runtime-value-algebra",
+            "eval-semantics",
+            "tier-readiness",
+            "portable-wasm-readiness"
           ],
           "log": ""
         }
@@ -62661,7 +63786,7 @@
       "name": "satisfies?",
       "kind": "function",
       "arglists": [
-        "(satisfies? descriptor value)"
+        "(satisfies? protocol value)"
       ],
       "classification": "IntentionalDivergence",
       "status": "implemented-alpha",
@@ -65831,6 +66956,54 @@
       ]
     },
     {
+      "name": "unreduced",
+      "kind": "function",
+      "arglists": [
+        "(unreduced x)"
+      ],
+      "classification": "PortableEquivalent",
+      "status": "implemented-alpha",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html",
+      "notes": [
+        "Public Rasa core function is installed as eval-owned native semantics; core metadata is descriptive evidence only."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/unreduced.ras"
+      ],
+      "summary": "Public Rasa core function is installed as eval-owned native semantics; core metadata is descriptive evidence only.",
+      "caseIds": [
+        "rasa/reference/core/reduction/unreduced-one-layer"
+      ],
+      "counts": {
+        "pass": 1,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 1,
+        "state": "tested"
+      },
+      "cases": [
+        {
+          "id": "rasa/reference/core/reduction/unreduced-one-layer",
+          "title": "Unreduced removes exactly one carrier layer",
+          "source": "(= [true 1 2] (let [x (reduced 1) nested (reduced x)] [(reduced? (unreduced nested)) (unreduced (unreduced nested)) (unreduced 2)]))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface",
+            "runtime-value-algebra",
+            "eval-semantics",
+            "portable-wasm-readiness"
+          ],
+          "log": ""
+        }
+      ]
+    },
+    {
       "name": "update",
       "kind": "function",
       "arglists": [
@@ -66931,7 +68104,7 @@
         "Projected from the native pure core registry; compat descriptor is not yet generated."
       ],
       "provenance": [
-        "crates/rasa-eval/src/native/mod.rs"
+        "crates/language/eval/src/native/mod.rs"
       ],
       "summary": "Projected from the native pure core registry; compat descriptor is not yet generated.",
       "caseIds": [
@@ -69296,17 +70469,6 @@
       "upstreamCases": 14,
       "files": [
         "test/clojure/core_test/qualified_symbol_qmark.cljc"
-      ]
-    },
-    {
-      "name": "quot",
-      "kind": "function",
-      "classification": "Unclassified",
-      "status": "needs-triage",
-      "reason": "jank has upstream test rows, but Rasa has not yet classified this clojure.core symbol for portable support.",
-      "upstreamCases": 69,
-      "files": [
-        "test/clojure/core_test/quot.cljc"
       ]
     },
     {

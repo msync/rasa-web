@@ -1,4 +1,10 @@
-export * from "./capability-bridge.js";
-export * from "./product.js";
-export * from "./runtime.js";
-export * from "./wasm-session.js";
+export {
+  Browser,
+  BrowserError,
+  Session,
+  assertRunOk,
+  loadBrowser,
+  projectRun,
+  runOk,
+} from "./browser.js";
+export * from "./contract.js";

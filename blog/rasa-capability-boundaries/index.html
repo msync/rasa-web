@@ -672,7 +672,7 @@ human or tool view -&gt; projection</code></pre>
                          <span class="tok-keyword">:wit</span> <span class="tok-punct">{</span><span class="tok-keyword">:package</span> <span class="tok-symbol">rasa:provider@0.1.0</span>
                                <span class="tok-keyword">:world</span> <span class="tok-symbol">provider</span><span class="tok-punct">}</span>
                          <span class="tok-keyword">:requires</span> <span class="tok-punct">[</span><span class="tok-keyword">:wasi/filesystem</span><span class="tok-punct">]</span><span class="tok-punct">}</span><span class="tok-punct">}</span><span class="tok-punct">}</span></code></pre>
-<p>The Rust source for this provider lives in <code>capabilities/rasa.io/provider-rust</code>. That name is deliberate. <code>providers/io.ras</code> is Rasa metadata; <code>provider-rust</code> is implementation source. The provider implements the admitted boundary, but it does not own the language-level meaning of IO.</p>
+<p>The Rust source for this provider lives in <code>crates/world/providers/io</code>. That name is deliberate. <code>providers/io.ras</code> is Rasa metadata; <code>provider-rust</code> is implementation source. The provider implements the admitted boundary, but it does not own the language-level meaning of IO.</p>
 <h2>Native Flow</h2>
 <p>When native <code>ras</code> runs the file pipeline, the flow is:</p>
 <ol><li>The loader reads the entry source.</li><li>The namespace form loads <code>rasa.io</code> and <code>rasa.string</code>.</li><li>The reader, expander, analyzer, IR, facts, and checks produce phase data.</li><li>Calls to <code>io/read-text</code> and <code>io/write-text</code> are seen as calls to Rasa-owned capability identities.</li><li>The capability planner checks the <code>rasa.io</code> catalog and the selected policy.</li><li>Provider confirmation finds the native dynamic library.</li><li>Evaluation runs in the native runtime.</li><li>The provider reads and writes UTF-8 files through the host filesystem.</li><li>Values return to Rasa as normal strings and maps.</li></ol>
@@ -740,7 +740,7 @@ Capabilities:
 <pre><code class="language-bash">cargo run --quiet -p rasa-repl --example io_repl_checkpoint
 cat target/rasa-repl-native-output.txt</code></pre>
 <p>Wasm host:</p>
-<pre><code class="language-bash">cargo run --quiet -p rasa-runtime-wasmtime --example io_repl_checkpoint
+<pre><code class="language-bash">cargo run --quiet -p rasa-runtime-wasmtime --example wasmtime-io-repl-checkpoint
 cat target/rasa-repl-wasm-output.txt</code></pre>
 <p>The checkpoint evaluates the same sequence of forms:</p>
 <pre><code class="language-clojure"><span class="tok-punct">(</span><span class="tok-form">ns</span> <span class="tok-symbol">repl.io.checkpoint</span>

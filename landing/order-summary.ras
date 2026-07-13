@@ -1,0 +1,21 @@
+(ns demo.landing.order-summary)
+
+(def orders
+  [{:id ^i64 101 :kind :book :region :west :qty ^i64 2 :unit ^i64 30}
+   {:id ^i64 102 :kind :tool :region :east :qty ^i64 1 :unit ^i64 70}
+   {:id ^i64 103 :kind :book :region :west :qty ^i64 3 :unit ^i64 30}
+   {:id ^i64 104 :kind :demo :region :north :qty ^i64 1 :unit ^i64 0}])
+
+(def billable #{:book :tool})
+
+(def enriched
+  (map
+    (fn [order]
+      (assoc order
+        :total (* (:qty order) (:unit order))
+        :billable (contains? billable (:kind order))))
+    orders))
+
+{:billable-kinds (into #{} (map :kind (filter :billable enriched)))
+ :billable-total (reduce + ^i64 0 (map :total (filter :billable enriched)))
+ :by-id (zipmap (map :id enriched) enriched)}

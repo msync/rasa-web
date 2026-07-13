@@ -554,7 +554,7 @@
           <p>A programming language becomes easier to trust when its examples are executable. Not screenshots of results. Not a parallel teaching interpreter. Executable source, running through the same runtime contract that the rest of the product uses.</p>
 <p>That is the browser story Rasa now has a concrete path for. A Rasa page can show code, let a reader edit it, run it in place, inspect the result, and still preserve the same language boundary rules used by native and Wasm-hosted execution.</p>
 <p>The browser is not a toy host. It has its own capabilities: DOM state, fetch, storage, workers, WebGPU, WebNN, TensorFlow.js, browser permission prompts, and a security model that refuses ambient local power by design. If Rasa is serious about portable semantics and explicit host boundaries, the browser is not a special exception. It is one of the best tests of the design.</p>
-<p>This post is about the current browser runtime shape: <code>ras.wasm</code>, WIT session exports, generated component adapter assets, a shared <code>@rasa/wasm-session</code> facade, and capability calls routed through browser-owned providers.</p>
+<p>This post is about the current browser runtime shape: <code>ras.wasm</code>, WIT session exports, generated component adapter assets, a shared <code>@rasa/browser/engine</code> facade, and capability calls routed through browser-owned providers.</p>
 <h2>The Product Shape</h2>
 <p>There are three runtime product names worth knowing:</p>
 <pre><code class="language-text">ras       native Rasa executable
@@ -617,7 +617,7 @@ Browser UI owns presentation and host resources.</code></pre>
 <p>That separation keeps the website useful without letting website code become language authority.</p>
 <h2>The Browser Session Facade</h2>
 <p>Browser sections use one shared package:</p>
-<pre><code class="language-text">@rasa/wasm-session</code></pre>
+<pre><code class="language-text">@rasa/browser/engine</code></pre>
 <p>It is the browser facade over the generated component adapter. A page asks for a runtime engine, creates a session, and evaluates source through that session:</p>
 <pre><code class="language-javascript">const engine = await RasaWasmEngine.load(&quot;./ras.wasm&quot;, { host });
 const session = engine.createSession();

@@ -1,7 +1,4 @@
 export const BROWSER_COMPONENT_RUNTIME_KIND = "wasm-component";
-export const BROWSER_COMPONENT_ADAPTER_PENDING_REASON = "browser-component-adapter-pending";
-export const BROWSER_COMPONENT_ADAPTER_PENDING_MESSAGE =
-  "Browser execution is pending the Wasm component adapter. Use `ras` or `ras-wasmtime` locally for execution.";
 
 const DEFAULT_COMPONENT_ASSET_DIR = "rasa-component/";
 const RUNTIME_HOST_IMPORT = "rasa:runtime/host";
@@ -27,15 +24,6 @@ const RASA_PHASE_ALL =
   RASA_PHASE_EVAL |
   RASA_PHASE_PLAN;
 const RASA_REPORT_TRACES = 1 << 8;
-
-export class RasaBrowserRuntimeUnavailableError extends Error {
-  constructor(message = BROWSER_COMPONENT_ADAPTER_PENDING_MESSAGE) {
-    super(message);
-    this.name = "RasaBrowserRuntimeUnavailableError";
-    this.runtimeKind = BROWSER_COMPONENT_RUNTIME_KIND;
-    this.unavailableReason = BROWSER_COMPONENT_ADAPTER_PENDING_REASON;
-  }
-}
 
 export class RasaBrowserHostCallError extends Error {
   constructor(message) {
@@ -86,7 +74,6 @@ export class RasaWasmEngine {
     this.byteLength = options.byteLength ?? null;
     this.available = true;
     this.runtimeKind = BROWSER_COMPONENT_RUNTIME_KIND;
-    this.unavailableReason = null;
     this.message = "Browser Wasm component runtime ready.";
     this.session = options.session;
     this.importObject = options.imports || {};
@@ -102,10 +89,6 @@ export class RasaWasmEngine {
 
   renderHash() {
     return this.session.renderHash();
-  }
-
-  unavailableError() {
-    return new RasaBrowserRuntimeUnavailableError(this.message);
   }
 
   evaluate(source, options = null) {
@@ -138,7 +121,7 @@ export class RasaWasmEngine {
   }
 
   inspect(source, options = null) {
-    const text = this.session.inspectSource(encodeUtf8(source), reportFlags(options));
+    const text = this.session.inspectSource(encodeUtf8(source), inspectionFlags(options));
     return parseJsonPayload(text, "inspection artifact");
   }
 
@@ -206,6 +189,17 @@ export class RasaWasmEngine {
   async evaluateReplSessionAsync(session, source, options = null) {
     return await this.evaluateReplSession(session, source, options);
   }
+}
+
+function inspectionFlags(options) {
+  if (typeof options === "number") return options;
+  const includeEval = options?.includeEval !== false;
+  const includePlan = options?.includePlan !== false;
+  const detail = options?.detail || "standard";
+  const detailBits = detail === "summary" ? 0 : detail === "full" ? 2 : 1;
+  return (includeEval ? 1 : 0)
+    | (includePlan ? 2 : 0)
+    | (detailBits << 8);
 }
 
 export function encodeUtf8(value) {

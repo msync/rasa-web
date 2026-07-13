@@ -55,40 +55,58 @@
   },
   "packageSchema": "rasa.package/v1",
   "build": {
-    "producer": "rasa-runtime-wasm/browser-product-v1",
-    "sourceRevision": "72e8eac336de2cb7782ba8744558d62e62c392fe",
+    "producer": "rasa-web/browser-product-v1",
+    "sourceRevision": "8e7a380ca3de4dbae4f6b686558b210968fc5ea9",
     "sourceState": "dirty"
   },
   "inventory": [
     {
-      "path": "api/capability-bridge.js",
+      "path": "api/advanced.js",
       "kind": "public-api",
-      "bytes": 20353,
-      "sha256": "7c256c8063b392154a676fdd664e948d8c75666b28cfc80324c50e6974646105"
+      "bytes": 170,
+      "sha256": "dec62ba137c85d67b2814de22d35828f932d8a595ee769fee0919764575a8f8b"
+    },
+    {
+      "path": "api/browser.js",
+      "kind": "public-api",
+      "bytes": 9134,
+      "sha256": "fa4c0ee95550c107201c0206daf98ee0645a6365c7df7da04a1368b62bf6dc5c"
+    },
+    {
+      "path": "api/capability.js",
+      "kind": "public-api",
+      "bytes": 5494,
+      "sha256": "cc2c7a0e0f579fed9965ae491d9419df64f38d199ea74ff43bae46f7c747cb08"
+    },
+    {
+      "path": "api/contract.js",
+      "kind": "public-api",
+      "bytes": 4505,
+      "sha256": "c88656a38297cae79f1458ed42285d0ffa4c4473d14cd5e36b15fa09a9c82ca1"
+    },
+    {
+      "path": "api/data.js",
+      "kind": "public-api",
+      "bytes": 4980,
+      "sha256": "345d2ff04d8db6c21e7f3d3256fbae7643b4f2423e97ee9122151078fd65e66b"
+    },
+    {
+      "path": "api/distribution.js",
+      "kind": "public-api",
+      "bytes": 9349,
+      "sha256": "b5f2f00a518c8f90f9befd2d05295b050ecdda858e59820724bef0951c61d066"
+    },
+    {
+      "path": "api/engine.js",
+      "kind": "public-api",
+      "bytes": 27432,
+      "sha256": "51067b8d971d214d47729f9575ad9e0a9f41e9fb5d43677e7e3de9a14eedbc9c"
     },
     {
       "path": "api/index.js",
       "kind": "public-api",
-      "bytes": 135,
-      "sha256": "f61dfbd1615a82aaf74deeb98151919a3c292366cc8d810bd4e109519d21f703"
-    },
-    {
-      "path": "api/product.js",
-      "kind": "public-api",
-      "bytes": 8901,
-      "sha256": "90039aec61a9065fed9b889e6e5b577967048d70ea981fe0120e338f7aa709a1"
-    },
-    {
-      "path": "api/runtime.js",
-      "kind": "public-api",
-      "bytes": 3261,
-      "sha256": "abee1a336bae9bbd2ca798b31273cca8aa19a26cd5ac5957da3b7e895bfd7e21"
-    },
-    {
-      "path": "api/wasm-session.js",
-      "kind": "public-api",
-      "bytes": 27754,
-      "sha256": "fcfdcaef187f735230ca987fd5197003beb719321be943ad956588149f33087c"
+      "bytes": 154,
+      "sha256": "93cc24263bee0a4651d5d13f0da60ae5b0a0879d48d3690d38e6dd323d62d356"
     },
     {
       "path": "assets/rasa-libs/array.ras",
@@ -99,8 +117,8 @@
     {
       "path": "assets/rasa-libs/core.ras",
       "kind": "source-library",
-      "bytes": 21283,
-      "sha256": "0d57d7da8478fdfe026ab8afc3796780eb3ba233a11bb195633fab3af2e08ea8"
+      "bytes": 21444,
+      "sha256": "cde169851847f825ed23b7895993b07002f435b6a623ecf5b73d3d1441d37763"
     },
     {
       "path": "assets/rasa-libs/http.ras",
@@ -135,14 +153,8 @@
     {
       "path": "runtime/ras.wasm",
       "kind": "runtime-component",
-      "bytes": 3686714,
-      "sha256": "1d50c2996552733a007b316a606a7b8e057ace355f143ddc86376ec6a90d8c7a"
-    },
-    {
-      "path": "runtime/rasa-browser-runtime.js",
-      "kind": "product-asset",
-      "bytes": 1052,
-      "sha256": "982a2650ba3801bdf5d5d2bf3196507fe5c095afddd11dd6a59f7c12b7c2e45d"
+      "bytes": 3789545,
+      "sha256": "21df5edf0308fd26a85f01a078519964798b440b2bbece04b16ded4ad91c2378"
     },
     {
       "path": "runtime/rasa-component/interfaces/rasa-runtime-host.d.ts",
@@ -261,8 +273,8 @@
     {
       "path": "runtime/rasa-component/ras-runtime.core.wasm",
       "kind": "component-adapter",
-      "bytes": 3670983,
-      "sha256": "63e2929b77f6ef06820f3f3917cd31a6007bfaa825c4a45379b653c0ec37e6dc"
+      "bytes": 3773814,
+      "sha256": "0053844d90b672c648cba57913f8b78e4f68a47732cc843542c31065ceae9dac"
     },
     {
       "path": "runtime/rasa-component/ras-runtime.core2.wasm",

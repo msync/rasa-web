@@ -398,6 +398,11 @@
   [pred coll]
   (not (every? pred coll)))
 
+(defn ensure-reduced
+  "Returns x unchanged when it is already reduced, otherwise wraps it for reduction termination."
+  [x]
+  (if (reduced? x) x (reduced x)))
+
 (defn every-pred
   "Returns a function that is true when every predicate is truthy for every supplied argument."
   [pred & preds]

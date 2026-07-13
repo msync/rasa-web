@@ -10,8 +10,7 @@
             :behavior [:browser/audio-output]
             :metadata {:browser/effects [:browser/audio-output]
                        :browser/boundary :ordinary-values
-                       :browser/projection :dynamic-value-projection
-                       :browser/demo :live-composer}
+                       :browser/projection :dynamic-value-projection}
             :targets [{:target :wasmtime
                        :availability :available}
                       {:target :wasm-browser
@@ -26,13 +25,11 @@
             :behavior [:browser/audio-output]
             :metadata {:browser/effects [:browser/audio-output]
                        :browser/boundary :ordinary-values
-                       :browser/projection :dynamic-value-projection
-                       :browser/demo :algorithmic-orchestra}
+                       :browser/projection :dynamic-value-projection}
             :targets [{:target :wasmtime
                        :availability :available}
                       {:target :wasm-browser
                        :availability :requires-adapter
                        :adapter-kind :javascript}]}]
  :providers []
- :metadata {:generated-by "web/studio"
-            :browser/boundary :ordinary-values}}
+ :metadata {:browser/boundary :ordinary-values}}
