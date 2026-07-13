@@ -162,7 +162,6 @@ export class BrowserDistribution {
     optimizerManifestUrl = null,
     sourceLibraries = [],
     packages = [],
-    packageBundleText = "",
     initialNamespace = "",
     registry = new CapabilityRegistry(),
     providerInstances = new Map(),
@@ -176,7 +175,6 @@ export class BrowserDistribution {
     this.optimizerManifestUrl = optimizerManifestUrl;
     this.sourceLibraries = sourceLibraries;
     this.packages = packages;
-    this.packageBundleText = packageBundleText;
     this.initialNamespace = initialNamespace;
     this.registry = registry;
     this.providerInstances = providerInstances;
@@ -195,9 +193,7 @@ export class BrowserDistribution {
 
   configureSession(engine, session, options = { phases: "all" }) {
     const reports = [];
-    if (this.packageBundleText) {
-      reports.push(engine.loadPackage(session, this.packageBundleText));
-    }
+    reports.push(engine.setAdmittedOperations(session, this.admittedOperations()));
     for (const source of this.sourceLibraries) {
       reports.push(evaluateSourceLibrary(engine, session, source, options));
     }
@@ -209,9 +205,7 @@ export class BrowserDistribution {
 
   async configureSessionAsync(engine, session, options = { phases: "all" }) {
     const reports = [];
-    if (this.packageBundleText) {
-      reports.push(await engine.loadPackageAsync(session, this.packageBundleText));
-    }
+    reports.push(await engine.setAdmittedOperationsAsync(session, this.admittedOperations()));
     for (const source of this.sourceLibraries) {
       reports.push(await evaluateSourceLibraryAsync(engine, session, source, options));
     }
@@ -220,6 +214,33 @@ export class BrowserDistribution {
     }
     return reports;
   }
+
+  admittedOperations() {
+    const declared = new Set();
+    for (const { data, packageName } of this.packages) {
+      for (const exported of data?.exports || []) {
+        if (!admitsBrowserAdapter(exported)) continue;
+        const identity = payloadName(exported?.capability)
+          || capabilityKey(packageName, payloadName(exported?.name));
+        if (identity) declared.add(identity);
+      }
+    }
+    return this.registry.entries()
+      .filter((identity) => declared.has(identity))
+      .filter((identity) => {
+        const slash = identity.lastIndexOf("/");
+        return slash > 0 && this.policy.allows(identity.slice(0, slash), identity.slice(slash + 1));
+      })
+      .sort();
+  }
+}
+
+function admitsBrowserAdapter(exported) {
+  const target = (exported?.targets || []).find(
+    (entry) => payloadName(entry?.target) === "wasm-browser",
+  );
+  return payloadName(target?.availability) === "requires-adapter"
+    && payloadName(target?.["adapter-kind"] || target?.adapter) === "javascript";
 }
 
 export function capabilityKey(packageName, exportName) {
@@ -276,7 +297,6 @@ export async function loadBrowserDistribution(manifestUrl, options = {}) {
     optimizerManifestUrl,
     sourceLibraries,
     packages,
-    packageBundleText: packageBundleText(packages),
     initialNamespace,
     registry,
     policy,
@@ -444,14 +464,6 @@ export function isMapEntries(value) {
 export function payloadName(value) {
   if (isKeyword(value) || isSymbol(value)) return value.name;
   return String(value ?? "");
-}
-
-function packageBundleText(packages) {
-  if (!packages.length) return "";
-  return renderRasaData({
-    schema: keyword("rasa.package-bundle/v1"),
-    packages: packages.map(({ data }) => data),
-  });
 }
 
 function evaluateSourceLibrary(engine, session, source, options) {

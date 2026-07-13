@@ -1,10 +1,10 @@
 {
   "schema": 1,
   "title": "Rasa Roadmap",
-  "generatedAt": "2026-07-10T18:25:15.898Z",
+  "generatedAt": "2026-07-13T04:13:21.639Z",
   "source": {
     "kind": "repo-work-ledger",
-    "milestoneCount": 16
+    "milestoneCount": 17
   },
   "note": "Projected from the current docs/work/ledger.md backlog.",
   "milestones": [
@@ -218,12 +218,12 @@
     {
       "order": 10,
       "title": "Function-level effect, capability, and suspension inference",
-      "summary": "Stable capability-operation origins introduce typed colors; summaries retain known origins plus closed/open tails and propagate monotonically through resolved calls, exact recursive fixed points, higher-order effect/control parameters, latent triggers, and protocol dispatch; redefinition and origin-contract revisions invalidate dependents.",
+      "summary": "After CC-01 through CC-03: stable capability origins propagate through one existing compiler call graph without source coloring. Ordinary effectful code remains generically executable; inference improves localized policy, resource, region-split, and fallback diagnostics. Acceptance includes deep granted IO, denied IO, opaque-call fallback, recursive invalidation, zero parallel semantic engines, and story-level non-growth.",
       "pressure": "docs/spec/009-errors-effects.md; docs/proposals/010-language-operational-spine/03-capabilities-threat-and-effects.md",
       "status": "planned",
       "requiredCapabilities": [
         "Authority: docs/spec/009-errors-effects.md; docs/proposals/010-language-operational-spine/03-capabilities-threat-and-effects.md",
-        "Acceptance: Stable capability-operation origins introduce typed colors; summaries retain known origins plus closed/open tails and propagate monotonically through resolved calls, exact recursive fixed points, higher-order effect/control parameters, latent triggers, and protocol dispatch; redefinition and origin-contract revisions invalidate dependents."
+        "Acceptance: After CC-01 through CC-03: stable capability origins propagate through one existing compiler call graph without source coloring. Ordinary effectful code remains generically executable; inference improves localized policy, resource, region-split, and fallback diagnostics. Acceptance includes deep granted IO, denied IO, opaque-call fallback, recursive invalidation, zero parallel semantic engines, and story-level non-growth."
       ],
       "storySequence": [
         "Function-level effect, capability, and suspension inference"
@@ -233,7 +233,7 @@
           "title": "Function-level effect, capability, and suspension inference",
           "bullets": [
             "Authority: docs/spec/009-errors-effects.md; docs/proposals/010-language-operational-spine/03-capabilities-threat-and-effects.md",
-            "Acceptance: Stable capability-operation origins introduce typed colors; summaries retain known origins plus closed/open tails and propagate monotonically through resolved calls, exact recursive fixed points, higher-order effect/control parameters, latent triggers, and protocol dispatch; redefinition and origin-contract revisions invalidate dependents."
+            "Acceptance: After CC-01 through CC-03: stable capability origins propagate through one existing compiler call graph without source coloring. Ordinary effectful code remains generically executable; inference improves localized policy, resource, region-split, and fallback diagnostics. Acceptance includes deep granted IO, denied IO, opaque-call fallback, recursive invalidation, zero parallel semantic engines, and story-level non-growth."
           ]
         }
       ]
@@ -372,6 +372,29 @@
           "bullets": [
             "Authority: docs/proposals/010-language-operational-spine/03-capabilities-threat-and-effects.md",
             "Acceptance: Generated WIT is no more precise than proven or checked facts; declared-only facts require guard, dynamic encoding, or refusal."
+          ]
+        }
+      ]
+    },
+    {
+      "order": 17,
+      "title": "Snapshot-aware compiler-service design (deferred)",
+      "summary": "Begin only after FC-07 authority convergence and essential FC-08 identity/legalization. Design the incremental compiler database, long-lived service lifecycle, complete LSP queries, MCP/agent protocol and actions, and runtime evaluation-session integration around one compiler-owned typed query boundary with explicit `Closed",
+      "pressure": "docs/spec/014-tooling-protocols.md; docs/proposals/010-language-operational-spine/08-compiler-outcome-api.md",
+      "status": "planned",
+      "requiredCapabilities": [
+        "Authority: docs/spec/014-tooling-protocols.md; docs/proposals/010-language-operational-spine/08-compiler-outcome-api.md",
+        "Acceptance: Begin only after FC-07 authority convergence and essential FC-08 identity/legalization. Design the incremental compiler database, long-lived service lifecycle, complete LSP queries, MCP/agent protocol and actions, and runtime evaluation-session integration around one compiler-owned typed query boundary with explicit `Closed"
+      ],
+      "storySequence": [
+        "Snapshot-aware compiler-service design (deferred)"
+      ],
+      "storyDetails": [
+        {
+          "title": "Snapshot-aware compiler-service design (deferred)",
+          "bullets": [
+            "Authority: docs/spec/014-tooling-protocols.md; docs/proposals/010-language-operational-spine/08-compiler-outcome-api.md",
+            "Acceptance: Begin only after FC-07 authority convergence and essential FC-08 identity/legalization. Design the incremental compiler database, long-lived service lifecycle, complete LSP queries, MCP/agent protocol and actions, and runtime evaluation-session integration around one compiler-owned typed query boundary with explicit `Closed"
           ]
         }
       ]

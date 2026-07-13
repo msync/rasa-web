@@ -1,6 +1,6 @@
 /** @module Interface rasa:runtime/optimizer@0.1.0 **/
-export function canCall(symbol: string, arity: number): boolean;
-export function tryCall(symbol: string, arity: number, args: Array<CallArg>): CallResult;
+export function installVersion(currency: string, version: bigint): bigint | undefined;
+export function tryCall(token: bigint, args: Array<CallArg>): CallResult;
 export interface PackedArray {
   dtype: string,
   shape: BigUint64Array,

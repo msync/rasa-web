@@ -56,15 +56,15 @@
   "packageSchema": "rasa.package/v1",
   "build": {
     "producer": "rasa-runtime-wasm/browser-product-v1",
-    "sourceRevision": "fdaf104961cb8f6cfe0860d2bc7a22b3c3f8061d",
+    "sourceRevision": "72e8eac336de2cb7782ba8744558d62e62c392fe",
     "sourceState": "dirty"
   },
   "inventory": [
     {
       "path": "api/capability-bridge.js",
       "kind": "public-api",
-      "bytes": 19728,
-      "sha256": "170c8f50edfd099e690c4e18745b65125e9fd217a18ff69dfa6cb92b93aa24ff"
+      "bytes": 20353,
+      "sha256": "7c256c8063b392154a676fdd664e948d8c75666b28cfc80324c50e6974646105"
     },
     {
       "path": "api/index.js",
@@ -87,8 +87,8 @@
     {
       "path": "api/wasm-session.js",
       "kind": "public-api",
-      "bytes": 26247,
-      "sha256": "74fc3b93aace9dc76df09d954642d5b9092ae4cd705b43cfd1fb790db71d0126"
+      "bytes": 27754,
+      "sha256": "fcfdcaef187f735230ca987fd5197003beb719321be943ad956588149f33087c"
     },
     {
       "path": "assets/rasa-libs/array.ras",
@@ -99,8 +99,8 @@
     {
       "path": "assets/rasa-libs/core.ras",
       "kind": "source-library",
-      "bytes": 18985,
-      "sha256": "557347762b9692f6311c180449368f7cb2935d103b00b483a635327fdfdda436"
+      "bytes": 21283,
+      "sha256": "0d57d7da8478fdfe026ab8afc3796780eb3ba233a11bb195633fab3af2e08ea8"
     },
     {
       "path": "assets/rasa-libs/http.ras",
@@ -135,8 +135,8 @@
     {
       "path": "runtime/ras.wasm",
       "kind": "runtime-component",
-      "bytes": 4256734,
-      "sha256": "c063a201d80278a47c701f120edabe5944ea654b8f8d48781a95e1c18c671569"
+      "bytes": 3686714,
+      "sha256": "1d50c2996552733a007b316a606a7b8e057ace355f143ddc86376ec6a90d8c7a"
     },
     {
       "path": "runtime/rasa-browser-runtime.js",
@@ -153,14 +153,14 @@
     {
       "path": "runtime/rasa-component/interfaces/rasa-runtime-optimizer.d.ts",
       "kind": "component-adapter",
-      "bytes": 1481,
-      "sha256": "82af6d42bc1a619848e0c05d825971df179949e9ef5dae7f7be451bc5280f50f"
+      "bytes": 1487,
+      "sha256": "e15e666e09d7c6b2f5fcbfcea108c1f8d96bf05037641726f04e19ed5ba354a3"
     },
     {
       "path": "runtime/rasa-component/interfaces/rasa-runtime-session.d.ts",
       "kind": "component-adapter",
-      "bytes": 1249,
-      "sha256": "a0cc770528db87aa4a75eb89a9f354cafd76fa70aeafa3a4bc61bd300eaacba5"
+      "bytes": 1270,
+      "sha256": "c1fcd356fae82e30d2c2b1fb4a923d6c02f1ab6b49d20fb3ded82ad6fa6db774"
     },
     {
       "path": "runtime/rasa-component/interfaces/rasa-runtime-source-loader.d.ts",
@@ -261,20 +261,20 @@
     {
       "path": "runtime/rasa-component/ras-runtime.core.wasm",
       "kind": "component-adapter",
-      "bytes": 4241149,
-      "sha256": "3c71b7bc59c38f3bb0257e9b05ab865b0e53fc62fb413729e218c19255842d1f"
+      "bytes": 3670983,
+      "sha256": "63e2929b77f6ef06820f3f3917cd31a6007bfaa825c4a45379b653c0ec37e6dc"
     },
     {
       "path": "runtime/rasa-component/ras-runtime.core2.wasm",
       "kind": "component-adapter",
-      "bytes": 372,
-      "sha256": "ac51db903a1fa6c6d368fae6883982ec734e6efb632b41438f5e33c2930003a6"
+      "bytes": 368,
+      "sha256": "7e2c1e330fe68db24a9681a5868e1ed4c7a5c55f97235daaf8afb8a3b5b34205"
     },
     {
       "path": "runtime/rasa-component/ras-runtime.core3.wasm",
       "kind": "component-adapter",
-      "bytes": 213,
-      "sha256": "6fc2679fdac94f5aafee14281ccb3f02e7bc7047e3322db036019b1b4ceb0ea7"
+      "bytes": 211,
+      "sha256": "b68a7858027284541333065236dcc4d17167a0dc08e0b17ef2fd68d89799456f"
     },
     {
       "path": "runtime/rasa-component/ras-runtime.d.ts",
@@ -285,8 +285,8 @@
     {
       "path": "runtime/rasa-component/ras-runtime.js",
       "kind": "component-adapter",
-      "bytes": 294134,
-      "sha256": "1e3c65057aada73c8567f90bffe4e11d90386816af4aea4b68e862aa1a6884ba"
+      "bytes": 294116,
+      "sha256": "6ac0eb66864a7e86109116b995be8a56aa617e40d18323c31c645cbe7ff116db"
     }
   ]
 }

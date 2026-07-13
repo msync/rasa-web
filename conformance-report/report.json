@@ -13,6 +13,7 @@
         "lib/rasa/core.ras",
         "crates/rasa-eval/src/native/mod.rs",
         "web/conformance/cases/clojure-core-portable.json",
+        "web/conformance/cases/rasa-core-source-portable.json",
         "web/conformance/projection/deferred-core.json",
         "web/conformance/projection/excluded-core.json"
       ]
@@ -33,18 +34,18 @@
       "import": {
         "upstreamFiles": 234,
         "upstreamCases": 5723,
-        "projectedFiles": 110,
-        "projectedCases": 2813,
-        "supportedFiles": 105,
-        "cases": 1474,
-        "importedCases": 1474,
-        "importerFilteredCases": 1339,
-        "unprojectedCases": 2895,
+        "projectedFiles": 112,
+        "projectedCases": 2846,
+        "supportedFiles": 107,
+        "cases": 1494,
+        "importedCases": 1494,
+        "importerFilteredCases": 1352,
+        "unprojectedCases": 2862,
         "unclassifiedCases": 11,
         "residualCases": 4,
-        "filtered": 1463,
-        "generatedAt": "2026-07-05T11:21:35.733Z",
-        "projectedFunctions": 152
+        "filtered": 1474,
+        "generatedAt": "2026-07-12T17:53:10.562Z",
+        "projectedFunctions": 161
       },
       "filtered": [
         {
@@ -399,7 +400,8 @@
             "source": "jank-lang/clojure-test-suite",
             "file": "test/clojure/core_test/associative_qmark.cljc"
           },
-          "reason": "not in Rasa projected supported set"
+          "reason": "operator to-array is not in supported set",
+          "form": "(= false (associative? (to-array [1 2 3])))"
         },
         {
           "function": "atom",
@@ -10903,7 +10905,107 @@
             "source": "jank-lang/clojure-test-suite",
             "file": "test/clojure/core_test/some_fn.cljc"
           },
-          "reason": "not in Rasa projected supported set"
+          "reason": "unsupported fixture/local symbol even?",
+          "form": "(is (= false ((some-fn even?) 1)))"
+        },
+        {
+          "function": "some-fn",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/some_fn.cljc"
+          },
+          "reason": "unsupported fixture/local symbol even?",
+          "form": "(is (= true ((some-fn even?) 2)))"
+        },
+        {
+          "function": "some-fn",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/some_fn.cljc"
+          },
+          "reason": "unsupported fixture/local symbol even?",
+          "form": "(is (= true ((some-fn even?) 1 2)))"
+        },
+        {
+          "function": "some-fn",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/some_fn.cljc"
+          },
+          "reason": "anonymous function literal",
+          "form": "(is (= false ((some-fn neg? #(> % 10)) 1 2 3)))"
+        },
+        {
+          "function": "some-fn",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/some_fn.cljc"
+          },
+          "reason": "anonymous function literal",
+          "form": "(is (= true ((some-fn neg? #(> % 10) #(= % 3)) 1 2 3)))"
+        },
+        {
+          "function": "some-fn",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/some_fn.cljc"
+          },
+          "reason": "anonymous function literal",
+          "form": "(is (= true ((some-fn neg? #(> % 10) #(= % 3) #(= % 5)) 1 2 5)))"
+        },
+        {
+          "function": "some-fn",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/some_fn.cljc"
+          },
+          "reason": "unsupported fixture/local symbol even?",
+          "form": "(is (= true ((some-fn even? (fn [_] (assert false \"pred should have been short-circuited\"))) 2)))"
+        },
+        {
+          "function": "some-fn",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/some_fn.cljc"
+          },
+          "reason": "unsupported fixture/local symbol even?",
+          "form": "(is (= true ((some-fn even?) 2 \"arg should have been short-circuited\")))"
+        },
+        {
+          "function": "some-fn",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/some_fn.cljc"
+          },
+          "reason": "dialect/helper namespace",
+          "form": "(is (p/thrown? (some-fn)))"
+        },
+        {
+          "function": "some-fn",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/some_fn.cljc"
+          },
+          "reason": "dialect/helper namespace",
+          "form": "(p/thrown? ((some-fn \"not a fn\") nil))"
+        },
+        {
+          "function": "some-fn",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/some_fn.cljc"
+          },
+          "reason": "dialect/helper namespace",
+          "form": "(p/thrown? ((some-fn 42) nil))"
+        },
+        {
+          "function": "some-fn",
+          "upstream": {
+            "source": "jank-lang/clojure-test-suite",
+            "file": "test/clojure/core_test/some_fn.cljc"
+          },
+          "reason": "dialect/helper namespace",
+          "form": "(p/thrown? ((some-fn 3.14) nil))"
         },
         {
           "function": "sort",
@@ -13192,17 +13294,6 @@
           ]
         },
         {
-          "name": "associative?",
-          "kind": "function",
-          "classification": "Unclassified",
-          "status": "needs-triage",
-          "reason": "jank has upstream test rows, but Rasa has not yet classified this clojure.core symbol for portable support.",
-          "upstreamCases": 17,
-          "files": [
-            "test/clojure/core_test/associative_qmark.cljc"
-          ]
-        },
-        {
           "name": "atom",
           "kind": "function",
           "classification": "Unclassified",
@@ -14215,17 +14306,6 @@
           ]
         },
         {
-          "name": "some-fn",
-          "kind": "function",
-          "classification": "Unclassified",
-          "status": "needs-triage",
-          "reason": "jank has upstream test rows, but Rasa has not yet classified this clojure.core symbol for portable support.",
-          "upstreamCases": 16,
-          "files": [
-            "test/clojure/core_test/some_fn.cljc"
-          ]
-        },
-        {
           "name": "sort",
           "kind": "function",
           "classification": "Unclassified",
@@ -15120,6 +15200,43 @@
         "caseIds": []
       },
       {
+        "name": "associative?",
+        "kind": "function",
+        "arglists": [
+          "(associative? x)"
+        ],
+        "classification": "PortableEquivalent",
+        "status": "implemented-alpha",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/associative?",
+        "notes": [
+          "Public Rasa core function is defined in source over already-admitted core operations."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/associative-x3f.ras"
+        ],
+        "summary": "Returns true when x supports key association.",
+        "caseIds": [
+          "jank/clojure.core/associativeqmark/0",
+          "jank/clojure.core/associativeqmark/1",
+          "jank/clojure.core/associativeqmark/2",
+          "jank/clojure.core/associativeqmark/3",
+          "jank/clojure.core/associativeqmark/4",
+          "jank/clojure.core/associativeqmark/5",
+          "jank/clojure.core/associativeqmark/6",
+          "jank/clojure.core/associativeqmark/7",
+          "jank/clojure.core/associativeqmark/8",
+          "jank/clojure.core/associativeqmark/9",
+          "jank/clojure.core/associativeqmark/10",
+          "jank/clojure.core/associativeqmark/11",
+          "jank/clojure.core/associativeqmark/13",
+          "jank/clojure.core/associativeqmark/14",
+          "jank/clojure.core/associativeqmark/15",
+          "jank/clojure.core/associativeqmark/16",
+          "rasa/core-source/associative?"
+        ]
+      },
+      {
         "name": "bit-and",
         "kind": "function",
         "arglists": [
@@ -15751,6 +15868,29 @@
         ]
       },
       {
+        "name": "distinct?",
+        "kind": "function",
+        "arglists": [
+          "(distinct? x)",
+          "(distinct? x y)",
+          "(distinct? x y & more)"
+        ],
+        "classification": "PortableEquivalent",
+        "status": "implemented-alpha",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/distinct?",
+        "notes": [
+          "Public Rasa core function is defined in source over already-admitted core operations."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/distinct-x3f.ras"
+        ],
+        "summary": "Returns true when no two supplied values are equal.",
+        "caseIds": [
+          "rasa/core-source/distinct?"
+        ]
+      },
+      {
         "name": "drop",
         "kind": "function",
         "arglists": [
@@ -15884,6 +16024,27 @@
           "jank/clojure.core/emptyqmark/8",
           "jank/clojure.core/emptyqmark/9",
           "jank/clojure.core/emptyqmark/10"
+        ]
+      },
+      {
+        "name": "every-pred",
+        "kind": "function",
+        "arglists": [
+          "(every-pred pred & preds)"
+        ],
+        "classification": "PortableEquivalent",
+        "status": "implemented-alpha",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/every-pred",
+        "notes": [
+          "Public Rasa core function is defined in source over already-admitted core operations."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/every-x2dpred.ras"
+        ],
+        "summary": "Returns a function that is true when every predicate is truthy for every supplied argument.",
+        "caseIds": [
+          "rasa/core-source/every-pred"
         ]
       },
       {
@@ -17320,6 +17481,27 @@
         ]
       },
       {
+        "name": "nat-int?",
+        "kind": "function",
+        "arglists": [
+          "(nat-int? x)"
+        ],
+        "classification": "PortableEquivalent",
+        "status": "implemented-alpha",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/nat-int?",
+        "notes": [
+          "Public Rasa core function is defined in source over already-admitted core operations."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/nat-x2dint-x3f.ras"
+        ],
+        "summary": "Returns true when x is a non-negative integer.",
+        "caseIds": [
+          "rasa/core-source/nat-int?"
+        ]
+      },
+      {
         "name": "neg-int?",
         "kind": "function",
         "arglists": [
@@ -18074,6 +18256,27 @@
         ]
       },
       {
+        "name": "run!",
+        "kind": "function",
+        "arglists": [
+          "(run! proc coll)"
+        ],
+        "classification": "PortableEquivalent",
+        "status": "implemented-eager",
+        "sequencePolicy": "eager-finite",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/run!",
+        "notes": [
+          "Public Rasa core function is defined in source over already-admitted core operations."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/run-x21.ras"
+        ],
+        "summary": "Invokes proc on every item in coll for its effects and returns nil.",
+        "caseIds": [
+          "rasa/core-source/run!"
+        ]
+      },
+      {
         "name": "satisfies?",
         "kind": "function",
         "arglists": [
@@ -18356,6 +18559,31 @@
         "caseIds": []
       },
       {
+        "name": "some-fn",
+        "kind": "function",
+        "arglists": [
+          "(some-fn pred & preds)"
+        ],
+        "classification": "PortableEquivalent",
+        "status": "implemented-alpha",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/some-fn",
+        "notes": [
+          "Public Rasa core function is defined in source over already-admitted core operations."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/some-x2dfn.ras"
+        ],
+        "summary": "Returns a function yielding the first truthy result from applying each predicate to the supplied arguments.",
+        "caseIds": [
+          "jank/clojure.core/some-fn/6",
+          "jank/clojure.core/some-fn/10",
+          "jank/clojure.core/some-fn/11",
+          "jank/clojure.core/some-fn/12",
+          "rasa/core-source/some-fn"
+        ]
+      },
+      {
         "name": "some?",
         "kind": "function",
         "arglists": [
@@ -18620,6 +18848,28 @@
         ]
       },
       {
+        "name": "trampoline",
+        "kind": "function",
+        "arglists": [
+          "(trampoline f)",
+          "(trampoline f & args)"
+        ],
+        "classification": "PortableEquivalent",
+        "status": "implemented-alpha",
+        "sequencePolicy": "strict",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/trampoline",
+        "notes": [
+          "Public Rasa core function is defined in source over already-admitted core operations."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/trampoline.ras"
+        ],
+        "summary": "Calls f and repeatedly calls returned functions with no arguments until a non-function value is produced.",
+        "caseIds": [
+          "rasa/core-source/trampoline"
+        ]
+      },
+      {
         "name": "true?",
         "kind": "function",
         "arglists": [
@@ -18761,6 +19011,48 @@
         ],
         "summary": "Updates a nested value at key path ks by applying f to the old value and args.",
         "caseIds": []
+      },
+      {
+        "name": "update-keys",
+        "kind": "function",
+        "arglists": [
+          "(update-keys m f)"
+        ],
+        "classification": "PortableEquivalent",
+        "status": "implemented-eager",
+        "sequencePolicy": "eager-finite",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/update-keys",
+        "notes": [
+          "Public Rasa core function is defined in source over already-admitted core operations."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/update-x2dkeys.ras"
+        ],
+        "summary": "Returns an associative value whose keys are the results of applying f to the keys of m.",
+        "caseIds": [
+          "rasa/core-source/update-keys"
+        ]
+      },
+      {
+        "name": "update-vals",
+        "kind": "function",
+        "arglists": [
+          "(update-vals m f)"
+        ],
+        "classification": "PortableEquivalent",
+        "status": "implemented-eager",
+        "sequencePolicy": "eager-finite",
+        "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/update-vals",
+        "notes": [
+          "Public Rasa core function is defined in source over already-admitted core operations."
+        ],
+        "provenance": [
+          "compat/generated/namespaces/clojure.core/function/update-x2dvals.ras"
+        ],
+        "summary": "Returns an associative value whose values are the results of applying f to the values of m.",
+        "caseIds": [
+          "rasa/core-source/update-vals"
+        ]
       },
       {
         "name": "vals",
@@ -20208,6 +20500,262 @@
         "upstream": {
           "source": "jank-lang/clojure-test-suite",
           "file": "test/clojure/core_test/assoc.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/associativeqmark/0",
+        "function": "associative?",
+        "title": "associative? upstream table row 1",
+        "source": "(= true (associative? []))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/associative_qmark.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/associativeqmark/1",
+        "function": "associative?",
+        "title": "associative? upstream table row 2",
+        "source": "(= true (associative? [1 2 3]))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/associative_qmark.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/associativeqmark/2",
+        "function": "associative?",
+        "title": "associative? upstream table row 3",
+        "source": "(= true (associative? {}))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/associative_qmark.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/associativeqmark/3",
+        "function": "associative?",
+        "title": "associative? upstream table row 4",
+        "source": "(= true (associative? {:a 1 :b 2}))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/associative_qmark.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/associativeqmark/4",
+        "function": "associative?",
+        "title": "associative? upstream table row 5",
+        "source": "(= false (associative? nil))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/associative_qmark.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/associativeqmark/5",
+        "function": "associative?",
+        "title": "associative? upstream table row 6",
+        "source": "(= false (associative? '()))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/associative_qmark.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/associativeqmark/6",
+        "function": "associative?",
+        "title": "associative? upstream table row 7",
+        "source": "(= false (associative? (range 10)))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/associative_qmark.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/associativeqmark/7",
+        "function": "associative?",
+        "title": "associative? upstream table row 8",
+        "source": "(= false (associative? (range)))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/associative_qmark.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/associativeqmark/8",
+        "function": "associative?",
+        "title": "associative? upstream table row 9",
+        "source": "(= false (associative? #{}))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/associative_qmark.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/associativeqmark/9",
+        "function": "associative?",
+        "title": "associative? upstream table row 10",
+        "source": "(= false (associative? #{:a :b}))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/associative_qmark.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/associativeqmark/10",
+        "function": "associative?",
+        "title": "associative? upstream table row 11",
+        "source": "(= false (associative? \"ab\"))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/associative_qmark.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/associativeqmark/11",
+        "function": "associative?",
+        "title": "associative? upstream table row 12",
+        "source": "(= false (associative? (seq \"ab\")))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/associative_qmark.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/associativeqmark/13",
+        "function": "associative?",
+        "title": "associative? upstream table row 14",
+        "source": "(= false (associative? :a))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/associative_qmark.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/associativeqmark/14",
+        "function": "associative?",
+        "title": "associative? upstream table row 15",
+        "source": "(= false (associative? 'a))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/associative_qmark.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/associativeqmark/15",
+        "function": "associative?",
+        "title": "associative? upstream table row 16",
+        "source": "(= false (associative? 1))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/associative_qmark.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/associativeqmark/16",
+        "function": "associative?",
+        "title": "associative? upstream table row 17",
+        "source": "(= false (associative? \\a))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/associative_qmark.cljc",
           "form": "(are ...)"
         }
       },
@@ -37844,6 +38392,70 @@
         }
       },
       {
+        "id": "jank/clojure.core/some-fn/6",
+        "function": "some-fn",
+        "title": "some-fn upstream assertion 7",
+        "source": "(= 3 ((some-fn #{1 2} #{3 4}) 5 3 7))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/some_fn.cljc",
+          "form": "(is ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/some-fn/10",
+        "function": "some-fn",
+        "title": "some-fn upstream table row 1",
+        "source": "(= true (fn? (some-fn \"not a fn\")))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/some_fn.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/some-fn/11",
+        "function": "some-fn",
+        "title": "some-fn upstream table row 2",
+        "source": "(= true (fn? (some-fn 42)))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/some_fn.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
+        "id": "jank/clojure.core/some-fn/12",
+        "function": "some-fn",
+        "title": "some-fn upstream table row 3",
+        "source": "(= true (fn? (some-fn 3.14)))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface"
+        ],
+        "upstream": {
+          "source": "jank-lang/clojure-test-suite",
+          "file": "test/clojure/core_test/some_fn.cljc",
+          "form": "(are ...)"
+        }
+      },
+      {
         "id": "jank/clojure.core/someqmark/0",
         "function": "some?",
         "title": "some? upstream table row 1",
@@ -42754,11 +43366,125 @@
           "file": "test/clojure/core_test/zipmap.cljc",
           "form": "(are ...)"
         }
+      },
+      {
+        "id": "rasa/core-source/nat-int?",
+        "function": "nat-int?",
+        "title": "nat-int? recognizes non-negative i64 values",
+        "source": "(= [true false false] [(nat-int? 0) (nat-int? -1) (nat-int? 1.0)])",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface",
+          "source-defined-core"
+        ]
+      },
+      {
+        "id": "rasa/core-source/associative?",
+        "function": "associative?",
+        "title": "associative? identifies maps and vectors",
+        "source": "(= [true true false] [(associative? {}) (associative? []) (associative? '())])",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface",
+          "source-defined-core"
+        ]
+      },
+      {
+        "id": "rasa/core-source/every-pred",
+        "function": "every-pred",
+        "title": "every-pred is predicate-major and short-circuiting",
+        "source": "(= [true false false] [((every-pred integer? pos?) 1 2 3) ((every-pred integer? pos?) 1 -2 3) ((every-pred (constantly false) (fn [_] (nth [] 0))) :ignored)])",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface",
+          "higher-order",
+          "source-defined-core"
+        ]
+      },
+      {
+        "id": "rasa/core-source/some-fn",
+        "function": "some-fn",
+        "title": "some-fn returns the first truthy result and short-circuits",
+        "source": "(= [:found :first nil] [((some-fn (fn [x] (if (keyword? x) x nil)) string?) 1 :found \"later\") ((some-fn (constantly :first) (fn [_] (nth [] 0))) :ignored) ((some-fn keyword? string?))])",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface",
+          "higher-order",
+          "source-defined-core"
+        ]
+      },
+      {
+        "id": "rasa/core-source/run!",
+        "function": "run!",
+        "title": "run! eagerly consumes a collection and returns nil",
+        "source": "(nil? (run! identity [1 2 3]))",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface",
+          "higher-order",
+          "source-defined-core"
+        ]
+      },
+      {
+        "id": "rasa/core-source/trampoline",
+        "function": "trampoline",
+        "title": "trampoline handles initial arguments and returned functions",
+        "source": "(= [15 :done] [(trampoline + 1 2 3 4 5) (trampoline (fn [] (fn [] (fn [] :done))))])",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface",
+          "higher-order",
+          "source-defined-core"
+        ]
+      },
+      {
+        "id": "rasa/core-source/distinct?",
+        "function": "distinct?",
+        "title": "distinct? handles unary and variadic uniqueness",
+        "source": "(= [true true false] [(distinct? :a) (distinct? :a :b :c) (distinct? :a :b :a)])",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface",
+          "source-defined-core"
+        ]
+      },
+      {
+        "id": "rasa/core-source/update-keys",
+        "function": "update-keys",
+        "title": "update-keys transforms map and vector keys",
+        "source": "(= [{:x 1 :y 2} {1 10 2 20} {}] [(update-keys {:a 1 :b 2} (fn [k] (if (= k :a) :x :y))) (update-keys [10 20] inc) (update-keys nil identity)])",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface",
+          "higher-order",
+          "source-defined-core"
+        ]
+      },
+      {
+        "id": "rasa/core-source/update-vals",
+        "function": "update-vals",
+        "title": "update-vals transforms map and vector values",
+        "source": "(= [{:a 2 :b 3} [2 3] {}] [(update-vals {:a 1 :b 2} inc) (update-vals [1 2] inc) (update-vals nil identity)])",
+        "expected": "true",
+        "expectation": "must-pass",
+        "axes": [
+          "semantic-surface",
+          "higher-order",
+          "source-defined-core"
+        ]
       }
     ]
   },
   "run": {
-    "generatedAt": "2026-07-05T11:21:42.576Z",
+    "generatedAt": "2026-07-12T17:55:15.517Z",
     "rasaRevision": "local",
     "clojureVersion": "1.12.5",
     "engine": "rasa-runtime-wasm",
@@ -42767,22 +43493,22 @@
   "totals": {
     "upstreamFiles": 234,
     "upstreamCases": 5723,
-    "supportedFiles": 105,
-    "projectedCases": 2813,
-    "projected": 164,
-    "supported": 164,
-    "implemented": 152,
+    "supportedFiles": 107,
+    "projectedCases": 2846,
+    "projected": 173,
+    "supported": 173,
+    "implemented": 161,
     "deferred": 12,
     "excluded": 14,
-    "importedCases": 1474,
-    "importerFilteredCases": 1339,
-    "upstreamPendingFunctions": 120,
-    "unprojectedCases": 2895,
+    "importedCases": 1494,
+    "importerFilteredCases": 1352,
+    "upstreamPendingFunctions": 118,
+    "unprojectedCases": 2862,
     "unclassifiedCases": 11,
     "residualCases": 4,
-    "filteredUpstream": 1463,
-    "pass": 1425,
-    "fail": 49,
+    "filteredUpstream": 1474,
+    "pass": 1455,
+    "fail": 48,
     "expectedFailure": 0,
     "structuralGap": 0,
     "untested": 47
@@ -47068,11 +47794,11 @@
           "source": "(= 1 @counter)",
           "outcome": "fail",
           "expected": "true",
-          "observed": "unsupported analyzer form `deref`",
+          "observed": "Evaluation failed in ir.",
           "axes": [
             "semantic-surface"
           ],
-          "log": "unsupported analyzer form `deref`"
+          "log": "Evaluation failed in ir."
         },
         {
           "id": "jank/clojure.core/and/16",
@@ -47080,11 +47806,11 @@
           "source": "(= 0 @counter)",
           "outcome": "fail",
           "expected": "true",
-          "observed": "unsupported analyzer form `deref`",
+          "observed": "Evaluation failed in ir.",
           "axes": [
             "semantic-surface"
           ],
-          "log": "unsupported analyzer form `deref`"
+          "log": "Evaluation failed in ir."
         },
         {
           "id": "jank/clojure.core/and/17",
@@ -47891,6 +48617,260 @@
         "state": "untested"
       },
       "cases": []
+    },
+    {
+      "name": "associative?",
+      "kind": "function",
+      "arglists": [
+        "(associative? x)"
+      ],
+      "classification": "PortableEquivalent",
+      "status": "implemented-alpha",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/associative?",
+      "notes": [
+        "Public Rasa core function is defined in source over already-admitted core operations."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/associative-x3f.ras"
+      ],
+      "summary": "Returns true when x supports key association.",
+      "caseIds": [
+        "jank/clojure.core/associativeqmark/0",
+        "jank/clojure.core/associativeqmark/1",
+        "jank/clojure.core/associativeqmark/2",
+        "jank/clojure.core/associativeqmark/3",
+        "jank/clojure.core/associativeqmark/4",
+        "jank/clojure.core/associativeqmark/5",
+        "jank/clojure.core/associativeqmark/6",
+        "jank/clojure.core/associativeqmark/7",
+        "jank/clojure.core/associativeqmark/8",
+        "jank/clojure.core/associativeqmark/9",
+        "jank/clojure.core/associativeqmark/10",
+        "jank/clojure.core/associativeqmark/11",
+        "jank/clojure.core/associativeqmark/13",
+        "jank/clojure.core/associativeqmark/14",
+        "jank/clojure.core/associativeqmark/15",
+        "jank/clojure.core/associativeqmark/16",
+        "rasa/core-source/associative?"
+      ],
+      "counts": {
+        "pass": 17,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 17,
+        "state": "tested"
+      },
+      "cases": [
+        {
+          "id": "jank/clojure.core/associativeqmark/0",
+          "title": "associative? upstream table row 1",
+          "source": "(= true (associative? []))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/associativeqmark/1",
+          "title": "associative? upstream table row 2",
+          "source": "(= true (associative? [1 2 3]))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/associativeqmark/2",
+          "title": "associative? upstream table row 3",
+          "source": "(= true (associative? {}))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/associativeqmark/3",
+          "title": "associative? upstream table row 4",
+          "source": "(= true (associative? {:a 1 :b 2}))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/associativeqmark/4",
+          "title": "associative? upstream table row 5",
+          "source": "(= false (associative? nil))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/associativeqmark/5",
+          "title": "associative? upstream table row 6",
+          "source": "(= false (associative? '()))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/associativeqmark/6",
+          "title": "associative? upstream table row 7",
+          "source": "(= false (associative? (range 10)))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/associativeqmark/7",
+          "title": "associative? upstream table row 8",
+          "source": "(= false (associative? (range)))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/associativeqmark/8",
+          "title": "associative? upstream table row 9",
+          "source": "(= false (associative? #{}))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/associativeqmark/9",
+          "title": "associative? upstream table row 10",
+          "source": "(= false (associative? #{:a :b}))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/associativeqmark/10",
+          "title": "associative? upstream table row 11",
+          "source": "(= false (associative? \"ab\"))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/associativeqmark/11",
+          "title": "associative? upstream table row 12",
+          "source": "(= false (associative? (seq \"ab\")))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/associativeqmark/13",
+          "title": "associative? upstream table row 14",
+          "source": "(= false (associative? :a))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/associativeqmark/14",
+          "title": "associative? upstream table row 15",
+          "source": "(= false (associative? 'a))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/associativeqmark/15",
+          "title": "associative? upstream table row 16",
+          "source": "(= false (associative? 1))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/associativeqmark/16",
+          "title": "associative? upstream table row 17",
+          "source": "(= false (associative? \\a))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "rasa/core-source/associative?",
+          "title": "associative? identifies maps and vectors",
+          "source": "(= [true true false] [(associative? {}) (associative? []) (associative? '())])",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface",
+            "source-defined-core"
+          ],
+          "log": ""
+        }
+      ]
     },
     {
       "name": "bit-and",
@@ -49957,8 +50937,8 @@
         "jank/clojure.core/constantly/16"
       ],
       "counts": {
-        "pass": 12,
-        "fail": 2,
+        "pass": 13,
+        "fail": 1,
         "expectedFailure": 0,
         "structuralGap": 0
       },
@@ -49985,11 +50965,11 @@
           "source": "(= `sym ((constantly `sym)))",
           "outcome": "fail",
           "expected": "true",
-          "observed": "unsupported analyzer form `syntax-quote`",
+          "observed": "Evaluation failed in ir.",
           "axes": [
             "semantic-surface"
           ],
-          "log": "unsupported analyzer form `syntax-quote`"
+          "log": "Evaluation failed in ir."
         },
         {
           "id": "jank/clojure.core/constantly/2",
@@ -50031,13 +51011,13 @@
           "id": "jank/clojure.core/constantly/6",
           "title": "constantly upstream table row 6",
           "source": "(= \\return ((constantly \\return)))",
-          "outcome": "fail",
+          "outcome": "pass",
           "expected": "true",
-          "observed": "no function method accepts 0 arguments",
+          "observed": "true",
           "axes": [
             "semantic-surface"
           ],
-          "log": "no function method accepts 0 arguments"
+          "log": ""
         },
         {
           "id": "jank/clojure.core/constantly/7",
@@ -51013,6 +51993,54 @@
       ]
     },
     {
+      "name": "distinct?",
+      "kind": "function",
+      "arglists": [
+        "(distinct? x)",
+        "(distinct? x y)",
+        "(distinct? x y & more)"
+      ],
+      "classification": "PortableEquivalent",
+      "status": "implemented-alpha",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/distinct?",
+      "notes": [
+        "Public Rasa core function is defined in source over already-admitted core operations."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/distinct-x3f.ras"
+      ],
+      "summary": "Returns true when no two supplied values are equal.",
+      "caseIds": [
+        "rasa/core-source/distinct?"
+      ],
+      "counts": {
+        "pass": 1,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 1,
+        "state": "tested"
+      },
+      "cases": [
+        {
+          "id": "rasa/core-source/distinct?",
+          "title": "distinct? handles unary and variadic uniqueness",
+          "source": "(= [true true false] [(distinct? :a) (distinct? :a :b :c) (distinct? :a :b :a)])",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface",
+            "source-defined-core"
+          ],
+          "log": ""
+        }
+      ]
+    },
+    {
       "name": "drop",
       "kind": "function",
       "arglists": [
@@ -51257,7 +52285,7 @@
       "provenance": [
         "compat/generated/namespaces/clojure.core/function/empty.ras"
       ],
-      "summary": "Returns an empty collection of the same broad kind as coll, or nil.",
+      "summary": "Returns an empty collection of the same broad kind as coll while preserving a typed vector contract.",
       "caseIds": [
         "jank/clojure.core/empty/0",
         "jank/clojure.core/empty/1",
@@ -51587,6 +52615,53 @@
           "observed": "true",
           "axes": [
             "semantic-surface"
+          ],
+          "log": ""
+        }
+      ]
+    },
+    {
+      "name": "every-pred",
+      "kind": "function",
+      "arglists": [
+        "(every-pred pred & preds)"
+      ],
+      "classification": "PortableEquivalent",
+      "status": "implemented-alpha",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/every-pred",
+      "notes": [
+        "Public Rasa core function is defined in source over already-admitted core operations."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/every-x2dpred.ras"
+      ],
+      "summary": "Returns a function that is true when every predicate is truthy for every supplied argument.",
+      "caseIds": [
+        "rasa/core-source/every-pred"
+      ],
+      "counts": {
+        "pass": 1,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 1,
+        "state": "tested"
+      },
+      "cases": [
+        {
+          "id": "rasa/core-source/every-pred",
+          "title": "every-pred is predicate-major and short-circuiting",
+          "source": "(= [true false false] [((every-pred integer? pos?) 1 2 3) ((every-pred integer? pos?) 1 -2 3) ((every-pred (constantly false) (fn [_] (nth [] 0))) :ignored)])",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface",
+            "higher-order",
+            "source-defined-core"
           ],
           "log": ""
         }
@@ -53940,11 +55015,11 @@
           "source": "(= :d (get-in {:a {:b {:c :d} :e (range)}} [:a :b :c :d] :d))",
           "outcome": "fail",
           "expected": "true",
-          "observed": "contains? requires rasa.protocol/lookup",
+          "observed": "contains? requires lookup",
           "axes": [
             "semantic-surface"
           ],
-          "log": "contains? requires rasa.protocol/lookup"
+          "log": "contains? requires lookup"
         },
         {
           "id": "jank/clojure.core/get-in/18",
@@ -58318,6 +59393,52 @@
       ]
     },
     {
+      "name": "nat-int?",
+      "kind": "function",
+      "arglists": [
+        "(nat-int? x)"
+      ],
+      "classification": "PortableEquivalent",
+      "status": "implemented-alpha",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/nat-int?",
+      "notes": [
+        "Public Rasa core function is defined in source over already-admitted core operations."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/nat-x2dint-x3f.ras"
+      ],
+      "summary": "Returns true when x is a non-negative integer.",
+      "caseIds": [
+        "rasa/core-source/nat-int?"
+      ],
+      "counts": {
+        "pass": 1,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 1,
+        "state": "tested"
+      },
+      "cases": [
+        {
+          "id": "rasa/core-source/nat-int?",
+          "title": "nat-int? recognizes non-negative i64 values",
+          "source": "(= [true false false] [(nat-int? 0) (nat-int? -1) (nat-int? 1.0)])",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface",
+            "source-defined-core"
+          ],
+          "log": ""
+        }
+      ]
+    },
+    {
       "name": "neg-int?",
       "kind": "function",
       "arglists": [
@@ -60256,11 +61377,11 @@
           "source": "(= 1 @counter)",
           "outcome": "fail",
           "expected": "true",
-          "observed": "unsupported analyzer form `deref`",
+          "observed": "Evaluation failed in ir.",
           "axes": [
             "semantic-surface"
           ],
-          "log": "unsupported analyzer form `deref`"
+          "log": "Evaluation failed in ir."
         },
         {
           "id": "jank/clojure.core/or/16",
@@ -60268,11 +61389,11 @@
           "source": "(= 0 @counter)",
           "outcome": "fail",
           "expected": "true",
-          "observed": "unsupported analyzer form `deref`",
+          "observed": "Evaluation failed in ir.",
           "axes": [
             "semantic-surface"
           ],
-          "log": "unsupported analyzer form `deref`"
+          "log": "Evaluation failed in ir."
         },
         {
           "id": "jank/clojure.core/or/17",
@@ -60458,7 +61579,7 @@
       "provenance": [
         "compat/generated/namespaces/clojure.core/function/pop.ras"
       ],
-      "summary": "Returns a vector or list stack without its next item, or nil for nil.",
+      "summary": "Returns a vector or list stack without its next item while preserving a typed vector contract.",
       "caseIds": [
         "jank/clojure.core/pop/0",
         "jank/clojure.core/pop/2",
@@ -61484,6 +62605,53 @@
           "observed": "true",
           "axes": [
             "semantic-surface"
+          ],
+          "log": ""
+        }
+      ]
+    },
+    {
+      "name": "run!",
+      "kind": "function",
+      "arglists": [
+        "(run! proc coll)"
+      ],
+      "classification": "PortableEquivalent",
+      "status": "implemented-eager",
+      "sequencePolicy": "eager-finite",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/run!",
+      "notes": [
+        "Public Rasa core function is defined in source over already-admitted core operations."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/run-x21.ras"
+      ],
+      "summary": "Invokes proc on every item in coll for its effects and returns nil.",
+      "caseIds": [
+        "rasa/core-source/run!"
+      ],
+      "counts": {
+        "pass": 1,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 1,
+        "state": "tested"
+      },
+      "cases": [
+        {
+          "id": "rasa/core-source/run!",
+          "title": "run! eagerly consumes a collection and returns nil",
+          "source": "(nil? (run! identity [1 2 3]))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface",
+            "higher-order",
+            "source-defined-core"
           ],
           "log": ""
         }
@@ -62799,6 +63967,105 @@
         "state": "untested"
       },
       "cases": []
+    },
+    {
+      "name": "some-fn",
+      "kind": "function",
+      "arglists": [
+        "(some-fn pred & preds)"
+      ],
+      "classification": "PortableEquivalent",
+      "status": "implemented-alpha",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/some-fn",
+      "notes": [
+        "Public Rasa core function is defined in source over already-admitted core operations."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/some-x2dfn.ras"
+      ],
+      "summary": "Returns a function yielding the first truthy result from applying each predicate to the supplied arguments.",
+      "caseIds": [
+        "jank/clojure.core/some-fn/6",
+        "jank/clojure.core/some-fn/10",
+        "jank/clojure.core/some-fn/11",
+        "jank/clojure.core/some-fn/12",
+        "rasa/core-source/some-fn"
+      ],
+      "counts": {
+        "pass": 5,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 5,
+        "state": "tested"
+      },
+      "cases": [
+        {
+          "id": "jank/clojure.core/some-fn/6",
+          "title": "some-fn upstream assertion 7",
+          "source": "(= 3 ((some-fn #{1 2} #{3 4}) 5 3 7))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/some-fn/10",
+          "title": "some-fn upstream table row 1",
+          "source": "(= true (fn? (some-fn \"not a fn\")))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/some-fn/11",
+          "title": "some-fn upstream table row 2",
+          "source": "(= true (fn? (some-fn 42)))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "jank/clojure.core/some-fn/12",
+          "title": "some-fn upstream table row 3",
+          "source": "(= true (fn? (some-fn 3.14)))",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface"
+          ],
+          "log": ""
+        },
+        {
+          "id": "rasa/core-source/some-fn",
+          "title": "some-fn returns the first truthy result and short-circuits",
+          "source": "(= [:found :first nil] [((some-fn (fn [x] (if (keyword? x) x nil)) string?) 1 :found \"later\") ((some-fn (constantly :first) (fn [_] (nth [] 0))) :ignored) ((some-fn keyword? string?))])",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface",
+            "higher-order",
+            "source-defined-core"
+          ],
+          "log": ""
+        }
+      ]
     },
     {
       "name": "some?",
@@ -64119,6 +65386,54 @@
       ]
     },
     {
+      "name": "trampoline",
+      "kind": "function",
+      "arglists": [
+        "(trampoline f)",
+        "(trampoline f & args)"
+      ],
+      "classification": "PortableEquivalent",
+      "status": "implemented-alpha",
+      "sequencePolicy": "strict",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/trampoline",
+      "notes": [
+        "Public Rasa core function is defined in source over already-admitted core operations."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/trampoline.ras"
+      ],
+      "summary": "Calls f and repeatedly calls returned functions with no arguments until a non-function value is produced.",
+      "caseIds": [
+        "rasa/core-source/trampoline"
+      ],
+      "counts": {
+        "pass": 1,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 1,
+        "state": "tested"
+      },
+      "cases": [
+        {
+          "id": "rasa/core-source/trampoline",
+          "title": "trampoline handles initial arguments and returned functions",
+          "source": "(= [15 :done] [(trampoline + 1 2 3 4 5) (trampoline (fn [] (fn [] (fn [] :done))))])",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface",
+            "higher-order",
+            "source-defined-core"
+          ],
+          "log": ""
+        }
+      ]
+    },
+    {
       "name": "true?",
       "kind": "function",
       "arglists": [
@@ -65195,6 +66510,100 @@
         "state": "untested"
       },
       "cases": []
+    },
+    {
+      "name": "update-keys",
+      "kind": "function",
+      "arglists": [
+        "(update-keys m f)"
+      ],
+      "classification": "PortableEquivalent",
+      "status": "implemented-eager",
+      "sequencePolicy": "eager-finite",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/update-keys",
+      "notes": [
+        "Public Rasa core function is defined in source over already-admitted core operations."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/update-x2dkeys.ras"
+      ],
+      "summary": "Returns an associative value whose keys are the results of applying f to the keys of m.",
+      "caseIds": [
+        "rasa/core-source/update-keys"
+      ],
+      "counts": {
+        "pass": 1,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 1,
+        "state": "tested"
+      },
+      "cases": [
+        {
+          "id": "rasa/core-source/update-keys",
+          "title": "update-keys transforms map and vector keys",
+          "source": "(= [{:x 1 :y 2} {1 10 2 20} {}] [(update-keys {:a 1 :b 2} (fn [k] (if (= k :a) :x :y))) (update-keys [10 20] inc) (update-keys nil identity)])",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface",
+            "higher-order",
+            "source-defined-core"
+          ],
+          "log": ""
+        }
+      ]
+    },
+    {
+      "name": "update-vals",
+      "kind": "function",
+      "arglists": [
+        "(update-vals m f)"
+      ],
+      "classification": "PortableEquivalent",
+      "status": "implemented-eager",
+      "sequencePolicy": "eager-finite",
+      "upstream": "https://clojure.github.io/clojure/clojure.core-api.html#clojure.core/update-vals",
+      "notes": [
+        "Public Rasa core function is defined in source over already-admitted core operations."
+      ],
+      "provenance": [
+        "compat/generated/namespaces/clojure.core/function/update-x2dvals.ras"
+      ],
+      "summary": "Returns an associative value whose values are the results of applying f to the values of m.",
+      "caseIds": [
+        "rasa/core-source/update-vals"
+      ],
+      "counts": {
+        "pass": 1,
+        "fail": 0,
+        "expectedFailure": 0,
+        "structuralGap": 0
+      },
+      "coverage": {
+        "cases": 1,
+        "state": "tested"
+      },
+      "cases": [
+        {
+          "id": "rasa/core-source/update-vals",
+          "title": "update-vals transforms map and vector values",
+          "source": "(= [{:a 2 :b 3} [2 3] {}] [(update-vals {:a 1 :b 2} inc) (update-vals [1 2] inc) (update-vals nil identity)])",
+          "outcome": "pass",
+          "expected": "true",
+          "observed": "true",
+          "axes": [
+            "semantic-surface",
+            "higher-order",
+            "source-defined-core"
+          ],
+          "log": ""
+        }
+      ]
     },
     {
       "name": "vals",
@@ -66339,11 +67748,11 @@
           "source": "(= 3 @foo)",
           "outcome": "fail",
           "expected": "true",
-          "observed": "unsupported analyzer form `deref`",
+          "observed": "Evaluation failed in ir.",
           "axes": [
             "semantic-surface"
           ],
-          "log": "unsupported analyzer form `deref`"
+          "log": "Evaluation failed in ir."
         }
       ]
     },
@@ -66606,11 +68015,11 @@
           "source": "(= 3 @foo)",
           "outcome": "fail",
           "expected": "true",
-          "observed": "unsupported analyzer form `deref`",
+          "observed": "Evaluation failed in ir.",
           "axes": [
             "semantic-surface"
           ],
-          "log": "unsupported analyzer form `deref`"
+          "log": "Evaluation failed in ir."
         }
       ]
     },
@@ -67106,17 +68515,6 @@
       "upstreamCases": 38,
       "files": [
         "test/clojure/core_test/assoc_bang.cljc"
-      ]
-    },
-    {
-      "name": "associative?",
-      "kind": "function",
-      "classification": "Unclassified",
-      "status": "needs-triage",
-      "reason": "jank has upstream test rows, but Rasa has not yet classified this clojure.core symbol for portable support.",
-      "upstreamCases": 17,
-      "files": [
-        "test/clojure/core_test/associative_qmark.cljc"
       ]
     },
     {
@@ -68129,17 +69527,6 @@
       "upstreamCases": 14,
       "files": [
         "test/clojure/core_test/simple_symbol_qmark.cljc"
-      ]
-    },
-    {
-      "name": "some-fn",
-      "kind": "function",
-      "classification": "Unclassified",
-      "status": "needs-triage",
-      "reason": "jank has upstream test rows, but Rasa has not yet classified this clojure.core symbol for portable support.",
-      "upstreamCases": 16,
-      "files": [
-        "test/clojure/core_test/some_fn.cljc"
       ]
     },
     {

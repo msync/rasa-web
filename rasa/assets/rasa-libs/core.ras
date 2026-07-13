@@ -303,10 +303,20 @@
   [x]
   (if (integer? x) (neg? x) false))
 
+(defn nat-int?
+  "Returns true when x is a non-negative integer."
+  [x]
+  (if (integer? x) (not (neg? x)) false))
+
 (defn seqable?
   "Returns true when x can produce a sequence."
   [x]
   (if (nil? x) true (if (string? x) true (coll? x))))
+
+(defn associative?
+  "Returns true when x supports key association."
+  [x]
+  (if (map? x) true (vector? x)))
 
 (defn not-empty
   "Returns x when it is not empty, otherwise nil."
@@ -388,6 +398,26 @@
   [pred coll]
   (not (every? pred coll)))
 
+(defn every-pred
+  "Returns a function that is true when every predicate is truthy for every supplied argument."
+  [pred & preds]
+  (let [all-preds (cons pred preds)]
+    (fn [& args]
+      (every? (fn [next-pred] (every? next-pred args)) all-preds))))
+
+(defn some-fn
+  "Returns a function yielding the first truthy result from applying each predicate to the supplied arguments."
+  [pred & preds]
+  (let [all-preds (cons pred preds)]
+    (fn [& args]
+      (some (fn [next-pred] (some next-pred args)) all-preds))))
+
+(defn run!
+  "Invokes proc on every item in coll for its effects and returns nil."
+  [proc coll]
+  (reduce (fn [_ item] (proc item)) nil coll)
+  nil)
+
 (defn constantly
   "Returns a function that ignores its arguments and returns x."
   [x]
@@ -452,6 +482,16 @@
   (fn [& more]
     (apply f (concat args more))))
 
+(defn trampoline
+  "Calls f and repeatedly calls returned functions with no arguments until a non-function value is produced."
+  ([f]
+   (loop [ret (f)]
+     (if (fn? ret)
+       (recur (ret))
+       ret)))
+  ([f & args]
+   (trampoline (fn [] (apply f args)))))
+
 (defn reverse
   "Returns a list of the items in coll in reverse order."
   [coll]
@@ -497,6 +537,22 @@
           (recur (next s) prior started ret)
           (recur (next s) value true (conj ret value))))
       (reverse ret))))
+
+(defn distinct?
+  "Returns true when no two supplied values are equal."
+  ([x] true)
+  ([x y] (not= x y))
+  ([x y & more]
+   (if (not= x y)
+     (loop [seen #{x y}
+            items (seq more)]
+       (if items
+         (let [value (first items)]
+           (if (contains? seen value)
+             false
+             (recur (conj seen value) (next items))))
+         true))
+     false)))
 
 (defn nthrest
   "Returns the result of applying rest to coll n times."
@@ -662,6 +718,36 @@
   "Updates the value at key k by applying f to the old value and args."
   [m k f & args]
   (assoc m k (apply f (get m k) args)))
+
+(defn update-keys
+  "Returns an associative value whose keys are the results of applying f to the keys of m."
+  [m f]
+  (if (vector? m)
+    (loop [i 0
+           ret {}]
+      (if (< i (count m))
+        (recur (inc i) (assoc ret (f i) (nth m i)))
+        ret))
+    (reduce
+      (fn [ret entry]
+        (assoc ret (f (first entry)) (second entry)))
+      {}
+      m)))
+
+(defn update-vals
+  "Returns an associative value whose values are the results of applying f to the values of m."
+  [m f]
+  (if (vector? m)
+    (loop [i 0
+           ret (empty m)]
+      (if (< i (count m))
+        (recur (inc i) (assoc ret i (f (nth m i))))
+        ret))
+    (reduce
+      (fn [ret entry]
+        (assoc ret (first entry) (f (second entry))))
+      {}
+      m)))
 
 (defn assoc-in
   "Associates v in a nested lookup structure at key path ks."

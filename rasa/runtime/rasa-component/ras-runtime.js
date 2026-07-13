@@ -2800,20 +2800,6 @@ function _liftFlatBorrow(componentTableIdx, size, memory, vals, storagePtr, stor
 }
 
 
-function _lowerFlatBool(ctx) {
-  _debugLog('[_lowerFlatBool()] args', { ctx });
-  
-  if (!ctx.memory) { throw new Error("missing memory for lower"); }
-  if (ctx.vals.length !== 1) {
-    throw new Error(`unexpected number [${ctx.vals.length}] of vals (expected 1)`);
-  }
-  
-  _requireValidNumericPrimitive.bind('bool', ctx.vals[0]);
-  new DataView(ctx.memory.buffer).setUint32(ctx.storagePtr, ctx.vals[0], true);
-  
-  ctx.storagePtr += 1;
-}
-
 function _lowerFlatU8(ctx) {
   _debugLog('[_lowerFlatU8()] args', ctx);
   
@@ -3953,10 +3939,10 @@ if (call=== undefined) {
   throw err;
 }
 
-const { canCall, tryCall } = imports['rasa:runtime/optimizer'];
+const { installVersion, tryCall } = imports['rasa:runtime/optimizer'];
 
-if (canCall=== undefined) {
-  const err = new Error("unexpectedly undefined instance import 'canCall', was 'canCall' available at instantiation?");
+if (installVersion=== undefined) {
+  const err = new Error("unexpectedly undefined instance import 'installVersion', was 'installVersion' available at instantiation?");
   console.error("ERROR:", err.toString());
   throw err;
 }
@@ -4807,11 +4793,11 @@ let gen = (function* _initGenerator () {
   let realloc0;
   let realloc0Async;
   
-  const _trampoline13 = function(arg0, arg1, arg2) {
+  const _trampoline13 = function(arg0, arg1, arg2, arg3) {
     var ptr0 = arg0;
     var len0 = arg1;
     var result0 = TEXT_DECODER_UTF8.decode(new Uint8Array(memory0.buffer, ptr0, len0));
-    _debugLog('[iface="rasa:runtime/optimizer@0.1.0", function="can-call"] [Instruction::CallInterface] (sync, @ enter)');
+    _debugLog('[iface="rasa:runtime/optimizer@0.1.0", function="install-version"] [Instruction::CallInterface] (sync, @ enter)');
     const hostProvided = true;
     
     let parentTask;
@@ -4822,7 +4808,7 @@ let gen = (function* _initGenerator () {
       const results = createNewCurrentTask({
         componentIdx: -1,
         isAsync: false,
-        entryFnName: 'canCall',
+        entryFnName: 'installVersion',
         getCallbackFn: () => null,
         callbackFnName: null,
         errHandling: 'none',
@@ -4861,7 +4847,7 @@ let gen = (function* _initGenerator () {
       ret = _withGlobalCurrentTaskMeta({
         componentIdx: task.componentIdx(),
         taskID: task.id(),
-        fn: () => canCall(result0, arg2 >>> 0),
+        fn: () => installVersion(result0, BigInt.asUintN(64, BigInt(arg2))),
       })
       ;
     } catch (err) {
@@ -4878,74 +4864,78 @@ let gen = (function* _initGenerator () {
       
     }
     
-    _debugLog('[iface="rasa:runtime/optimizer@0.1.0", function="can-call"][Instruction::Return]', {
-      funcName: 'can-call',
-      paramCount: 1,
+    var variant1 = ret;
+    if (variant1 === null || variant1=== undefined) {
+      dataView(memory0).setInt8(arg3 + 0, 0, true);
+    } else {
+      const e = variant1;
+      dataView(memory0).setInt8(arg3 + 0, 1, true);
+      dataView(memory0).setBigInt64(arg3 + 8, toUint64(e), true);
+    }
+    _debugLog('[iface="rasa:runtime/optimizer@0.1.0", function="install-version"][Instruction::Return]', {
+      funcName: 'install-version',
+      paramCount: 0,
       async: false,
       postReturn: false
     });
-    task.resolve([ret ? 1 : 0]);
+    task.resolve([ret]);
     task.exit();
-    return ret ? 1 : 0;
   }
-  _trampoline13.fnName = 'rasa:runtime/optimizer@0.1.0#canCall';
+  _trampoline13.fnName = 'rasa:runtime/optimizer@0.1.0#installVersion';
   
-  const _trampoline14 = function(arg0, arg1, arg2, arg3, arg4, arg5) {
-    var ptr0 = arg0;
-    var len0 = arg1;
-    var result0 = TEXT_DECODER_UTF8.decode(new Uint8Array(memory0.buffer, ptr0, len0));
-    var len7 = arg4;
-    var base7 = arg3;
-    var result7 = [];
-    for (let i = 0; i < len7; i++) {
-      const base = base7 + i * 40;
-      let variant6;
+  const _trampoline14 = function(arg0, arg1, arg2, arg3) {
+    var len6 = arg2;
+    var base6 = arg1;
+    var result6 = [];
+    for (let i = 0; i < len6; i++) {
+      const base = base6 + i * 40;
+      let variant5;
       switch (dataView(memory0).getUint8(base + 0, true)) {
         case 0: {
-          variant6= {
+          variant5= {
             tag: 'int64',
             val: dataView(memory0).getBigInt64(base + 8, true)
           };
           break;
         }
         case 1: {
-          var ptr1 = dataView(memory0).getUint32(base + 8, true);
-          var len1 = dataView(memory0).getUint32(base + 12, true);
-          var result1 = new BigInt64Array(memory0.buffer.slice(ptr1, ptr1 + len1 * 8));
-          variant6= {
+          var ptr0 = dataView(memory0).getUint32(base + 8, true);
+          var len0 = dataView(memory0).getUint32(base + 12, true);
+          var result0 = new BigInt64Array(memory0.buffer.slice(ptr0, ptr0 + len0 * 8));
+          variant5= {
             tag: 'i64-vector',
-            val: result1
+            val: result0
           };
           break;
         }
         case 2: {
-          var ptr2 = dataView(memory0).getUint32(base + 8, true);
-          var len2 = dataView(memory0).getUint32(base + 12, true);
-          var result2 = TEXT_DECODER_UTF8.decode(new Uint8Array(memory0.buffer, ptr2, len2));
-          var ptr3 = dataView(memory0).getUint32(base + 16, true);
-          var len3 = dataView(memory0).getUint32(base + 20, true);
-          var result3 = new BigUint64Array(memory0.buffer.slice(ptr3, ptr3 + len3 * 8));
-          var ptr4 = dataView(memory0).getUint32(base + 32, true);
-          var len4 = dataView(memory0).getUint32(base + 36, true);
-          var result4 = new Uint8Array(memory0.buffer.slice(ptr4, ptr4 + len4 * 1));
-          variant6= {
+          var ptr1 = dataView(memory0).getUint32(base + 8, true);
+          var len1 = dataView(memory0).getUint32(base + 12, true);
+          var result1 = TEXT_DECODER_UTF8.decode(new Uint8Array(memory0.buffer, ptr1, len1));
+          var ptr2 = dataView(memory0).getUint32(base + 16, true);
+          var len2 = dataView(memory0).getUint32(base + 20, true);
+          var result2 = new BigUint64Array(memory0.buffer.slice(ptr2, ptr2 + len2 * 8));
+          var ptr3 = dataView(memory0).getUint32(base + 32, true);
+          var len3 = dataView(memory0).getUint32(base + 36, true);
+          var result3 = new Uint8Array(memory0.buffer.slice(ptr3, ptr3 + len3 * 1));
+          variant5= {
             tag: 'packed',
             val: {
-              dtype: result2,
-              shape: result3,
+              dtype: result1,
+              shape: result2,
               logicalBitExtent: BigInt.asUintN(64, BigInt(dataView(memory0).getBigInt64(base + 24, true))),
-              bytes: result4,
+              bytes: result3,
             }
           };
           break;
         }
         case 3: {
-          var ptr5 = dataView(memory0).getUint32(base + 8, true);
-          var len5 = dataView(memory0).getUint32(base + 12, true);
-          var result5 = new Uint8Array(memory0.buffer.slice(ptr5, ptr5 + len5 * 1));
-          variant6= {
+          var ptr4 = dataView(memory0).getUint32(base + 8, true);
+          var len4 = dataView(memory0).getUint32(base + 12, true);
+          var result4 = new Uint8Array(memory0.buffer.slice(ptr4, ptr4 + len4 * 1));
+          variant5= {
             tag: 'utf8-string',
-            val: result5
+            val: result4
           };
           break;
         }
@@ -4953,7 +4943,7 @@ let gen = (function* _initGenerator () {
           throw new TypeError('invalid variant discriminant for CallArg');
         }
       }
-      result7.push(variant6);
+      result6.push(variant5);
     }
     _debugLog('[iface="rasa:runtime/optimizer@0.1.0", function="try-call"] [Instruction::CallInterface] (sync, @ enter)');
     const hostProvided = true;
@@ -5005,7 +4995,7 @@ let gen = (function* _initGenerator () {
       ret = _withGlobalCurrentTaskMeta({
         componentIdx: task.componentIdx(),
         taskID: task.id(),
-        fn: () => tryCall(result0, arg2 >>> 0, result7),
+        fn: () => tryCall(BigInt.asUintN(64, BigInt(arg0)), result6),
       })
       ;
     } catch (err) {
@@ -5022,95 +5012,120 @@ let gen = (function* _initGenerator () {
       
     }
     
-    var variant20 = ret;
-    switch (variant20.tag) {
+    var variant19 = ret;
+    switch (variant19.tag) {
       case 'executed': {
-        const e = variant20.val;
-        dataView(memory0).setInt8(arg5 + 0, 0, true);
-        var variant16 = e;
-        switch (variant16.tag) {
+        const e = variant19.val;
+        dataView(memory0).setInt8(arg3 + 0, 0, true);
+        var variant15 = e;
+        switch (variant15.tag) {
           case 'int64': {
-            const e = variant16.val;
-            dataView(memory0).setInt8(arg5 + 8, 0, true);
-            dataView(memory0).setBigInt64(arg5 + 16, toInt64(e), true);
+            const e = variant15.val;
+            dataView(memory0).setInt8(arg3 + 8, 0, true);
+            dataView(memory0).setBigInt64(arg3 + 16, toInt64(e), true);
             break;
           }
           case 'i64-vector': {
-            const e = variant16.val;
-            dataView(memory0).setInt8(arg5 + 8, 1, true);
-            var val8 = e;
-            var len8 = val8.length;
-            var ptr8 = realloc0(0, 0, 8, len8 * 8);
+            const e = variant15.val;
+            dataView(memory0).setInt8(arg3 + 8, 1, true);
+            var val7 = e;
+            var len7 = val7.length;
+            var ptr7 = realloc0(0, 0, 8, len7 * 8);
             
-            let valData8;
-            const valLenBytes8 = len8 * 8;
-            if (Array.isArray(val8)) {
+            let valData7;
+            const valLenBytes7 = len7 * 8;
+            if (Array.isArray(val7)) {
               // Regular array likely containing numbers, write values to memory
               let offset = 0;
-              const dv8 = new DataView(memory0.buffer);
-              for (const v of val8) {
+              const dv7 = new DataView(memory0.buffer);
+              for (const v of val7) {
                 _requireValidNumericPrimitive.bind(null, 's64')(v);
-                dv8.setBigInt64(ptr8+ offset, v, true);
+                dv7.setBigInt64(ptr7+ offset, v, true);
                 offset += 8;
               }
             } else {
               // TypedArray / ArrayBuffer-like, direct copy
-              valData8 = new Uint8Array(val8.buffer || val8, val8.byteOffset, valLenBytes8);
-              const out8 = new Uint8Array(memory0.buffer, ptr8, valLenBytes8);
-              out8.set(valData8);
+              valData7 = new Uint8Array(val7.buffer || val7, val7.byteOffset, valLenBytes7);
+              const out7 = new Uint8Array(memory0.buffer, ptr7, valLenBytes7);
+              out7.set(valData7);
             }
             
-            dataView(memory0).setUint32(arg5 + 20, len8, true);
-            dataView(memory0).setUint32(arg5 + 16, ptr8, true);
+            dataView(memory0).setUint32(arg3 + 20, len7, true);
+            dataView(memory0).setUint32(arg3 + 16, ptr7, true);
             break;
           }
           case 'i64-map': {
-            const e = variant16.val;
-            dataView(memory0).setInt8(arg5 + 8, 2, true);
-            var vec11 = e;
-            var len11 = vec11.length;
-            var result11 = realloc0(0, 0, 8, len11 * 16);
-            for (let i = 0; i < vec11.length; i++) {
-              const e = vec11[i];
-              const base = result11 + i * 16;var {key: v9_0, value: v9_1 } = e;
+            const e = variant15.val;
+            dataView(memory0).setInt8(arg3 + 8, 2, true);
+            var vec10 = e;
+            var len10 = vec10.length;
+            var result10 = realloc0(0, 0, 8, len10 * 16);
+            for (let i = 0; i < vec10.length; i++) {
+              const e = vec10[i];
+              const base = result10 + i * 16;var {key: v8_0, value: v8_1 } = e;
               
-              var encodeRes = _utf8AllocateAndEncode(v9_0, realloc0, memory0);
-              var ptr10= encodeRes.ptr;
-              var len10 = encodeRes.len;
+              var encodeRes = _utf8AllocateAndEncode(v8_0, realloc0, memory0);
+              var ptr9= encodeRes.ptr;
+              var len9 = encodeRes.len;
               
-              dataView(memory0).setUint32(base + 4, len10, true);
-              dataView(memory0).setUint32(base + 0, ptr10, true);
-              dataView(memory0).setBigInt64(base + 8, toInt64(v9_1), true);
+              dataView(memory0).setUint32(base + 4, len9, true);
+              dataView(memory0).setUint32(base + 0, ptr9, true);
+              dataView(memory0).setBigInt64(base + 8, toInt64(v8_1), true);
             }
-            dataView(memory0).setUint32(arg5 + 20, len11, true);
-            dataView(memory0).setUint32(arg5 + 16, result11, true);
+            dataView(memory0).setUint32(arg3 + 20, len10, true);
+            dataView(memory0).setUint32(arg3 + 16, result10, true);
             break;
           }
           case 'packed': {
-            const e = variant16.val;
-            dataView(memory0).setInt8(arg5 + 8, 3, true);
-            var {dtype: v12_0, shape: v12_1, logicalBitExtent: v12_2, bytes: v12_3 } = e;
+            const e = variant15.val;
+            dataView(memory0).setInt8(arg3 + 8, 3, true);
+            var {dtype: v11_0, shape: v11_1, logicalBitExtent: v11_2, bytes: v11_3 } = e;
             
-            var encodeRes = _utf8AllocateAndEncode(v12_0, realloc0, memory0);
-            var ptr13= encodeRes.ptr;
-            var len13 = encodeRes.len;
+            var encodeRes = _utf8AllocateAndEncode(v11_0, realloc0, memory0);
+            var ptr12= encodeRes.ptr;
+            var len12 = encodeRes.len;
             
-            dataView(memory0).setUint32(arg5 + 20, len13, true);
-            dataView(memory0).setUint32(arg5 + 16, ptr13, true);
-            var val14 = v12_1;
-            var len14 = val14.length;
-            var ptr14 = realloc0(0, 0, 8, len14 * 8);
+            dataView(memory0).setUint32(arg3 + 20, len12, true);
+            dataView(memory0).setUint32(arg3 + 16, ptr12, true);
+            var val13 = v11_1;
+            var len13 = val13.length;
+            var ptr13 = realloc0(0, 0, 8, len13 * 8);
+            
+            let valData13;
+            const valLenBytes13 = len13 * 8;
+            if (Array.isArray(val13)) {
+              // Regular array likely containing numbers, write values to memory
+              let offset = 0;
+              const dv13 = new DataView(memory0.buffer);
+              for (const v of val13) {
+                _requireValidNumericPrimitive.bind(null, 'u64')(v);
+                dv13.setBigUint64(ptr13+ offset, v, true);
+                offset += 8;
+              }
+            } else {
+              // TypedArray / ArrayBuffer-like, direct copy
+              valData13 = new Uint8Array(val13.buffer || val13, val13.byteOffset, valLenBytes13);
+              const out13 = new Uint8Array(memory0.buffer, ptr13, valLenBytes13);
+              out13.set(valData13);
+            }
+            
+            dataView(memory0).setUint32(arg3 + 28, len13, true);
+            dataView(memory0).setUint32(arg3 + 24, ptr13, true);
+            dataView(memory0).setBigInt64(arg3 + 32, toUint64(v11_2), true);
+            var val14 = v11_3;
+            var len14 = Array.isArray(val14) ? val14.length : val14.byteLength;
+            var ptr14 = realloc0(0, 0, 1, len14 * 1);
             
             let valData14;
-            const valLenBytes14 = len14 * 8;
+            const valLenBytes14 = len14 * 1;
             if (Array.isArray(val14)) {
               // Regular array likely containing numbers, write values to memory
               let offset = 0;
               const dv14 = new DataView(memory0.buffer);
               for (const v of val14) {
-                _requireValidNumericPrimitive.bind(null, 'u64')(v);
-                dv14.setBigUint64(ptr14+ offset, v, true);
-                offset += 8;
+                _requireValidNumericPrimitive.bind(null, 'u8')(v);
+                dv14.setUint8(ptr14+ offset, v, true);
+                offset += 1;
               }
             } else {
               // TypedArray / ArrayBuffer-like, direct copy
@@ -5119,63 +5134,38 @@ let gen = (function* _initGenerator () {
               out14.set(valData14);
             }
             
-            dataView(memory0).setUint32(arg5 + 28, len14, true);
-            dataView(memory0).setUint32(arg5 + 24, ptr14, true);
-            dataView(memory0).setBigInt64(arg5 + 32, toUint64(v12_2), true);
-            var val15 = v12_3;
-            var len15 = Array.isArray(val15) ? val15.length : val15.byteLength;
-            var ptr15 = realloc0(0, 0, 1, len15 * 1);
-            
-            let valData15;
-            const valLenBytes15 = len15 * 1;
-            if (Array.isArray(val15)) {
-              // Regular array likely containing numbers, write values to memory
-              let offset = 0;
-              const dv15 = new DataView(memory0.buffer);
-              for (const v of val15) {
-                _requireValidNumericPrimitive.bind(null, 'u8')(v);
-                dv15.setUint8(ptr15+ offset, v, true);
-                offset += 1;
-              }
-            } else {
-              // TypedArray / ArrayBuffer-like, direct copy
-              valData15 = new Uint8Array(val15.buffer || val15, val15.byteOffset, valLenBytes15);
-              const out15 = new Uint8Array(memory0.buffer, ptr15, valLenBytes15);
-              out15.set(valData15);
-            }
-            
-            dataView(memory0).setUint32(arg5 + 44, len15, true);
-            dataView(memory0).setUint32(arg5 + 40, ptr15, true);
+            dataView(memory0).setUint32(arg3 + 44, len14, true);
+            dataView(memory0).setUint32(arg3 + 40, ptr14, true);
             break;
           }
           default: {
-            throw new TypeError(`invalid variant tag value \`${JSON.stringify(variant16.tag)}\` (received \`${variant16}\`) specified for \`CallValue\``);
+            throw new TypeError(`invalid variant tag value \`${JSON.stringify(variant15.tag)}\` (received \`${variant15}\`) specified for \`CallValue\``);
           }
         }
         break;
       }
       case 'refused': {
-        const e = variant20.val;
-        dataView(memory0).setInt8(arg5 + 0, 1, true);
-        var {reason: v17_0, fallback: v17_1 } = e;
+        const e = variant19.val;
+        dataView(memory0).setInt8(arg3 + 0, 1, true);
+        var {reason: v16_0, fallback: v16_1 } = e;
         
-        var encodeRes = _utf8AllocateAndEncode(v17_0, realloc0, memory0);
+        var encodeRes = _utf8AllocateAndEncode(v16_0, realloc0, memory0);
+        var ptr17= encodeRes.ptr;
+        var len17 = encodeRes.len;
+        
+        dataView(memory0).setUint32(arg3 + 12, len17, true);
+        dataView(memory0).setUint32(arg3 + 8, ptr17, true);
+        
+        var encodeRes = _utf8AllocateAndEncode(v16_1, realloc0, memory0);
         var ptr18= encodeRes.ptr;
         var len18 = encodeRes.len;
         
-        dataView(memory0).setUint32(arg5 + 12, len18, true);
-        dataView(memory0).setUint32(arg5 + 8, ptr18, true);
-        
-        var encodeRes = _utf8AllocateAndEncode(v17_1, realloc0, memory0);
-        var ptr19= encodeRes.ptr;
-        var len19 = encodeRes.len;
-        
-        dataView(memory0).setUint32(arg5 + 20, len19, true);
-        dataView(memory0).setUint32(arg5 + 16, ptr19, true);
+        dataView(memory0).setUint32(arg3 + 20, len18, true);
+        dataView(memory0).setUint32(arg3 + 16, ptr18, true);
         break;
       }
       default: {
-        throw new TypeError(`invalid variant tag value \`${JSON.stringify(variant20.tag)}\` (received \`${variant20}\`) specified for \`CallResult\``);
+        throw new TypeError(`invalid variant tag value \`${JSON.stringify(variant19.tag)}\` (received \`${variant19}\`) specified for \`CallResult\``);
       }
     }
     _debugLog('[iface="rasa:runtime/optimizer@0.1.0", function="try-call"][Instruction::Return]', {
@@ -6826,9 +6816,9 @@ function evalSourceWithId(arg0, arg1, arg2) {
   return retCopy;
   
 }
-let session010EvalPackageSource;
+let session010EvalAdmittedSource;
 
-function evalPackageSource(arg0, arg1, arg2) {
+async function evalAdmittedSource(arg0, arg1, arg2) {
   var val0 = arg0;
   var len0 = Array.isArray(val0) ? val0.length : val0.byteLength;
   var ptr0 = realloc0(0, 0, 1, len0 * 1);
@@ -6851,30 +6841,21 @@ function evalPackageSource(arg0, arg1, arg2) {
     out0.set(valData0);
   }
   
-  var val1 = arg1;
-  var len1 = Array.isArray(val1) ? val1.length : val1.byteLength;
-  var ptr1 = realloc0(0, 0, 1, len1 * 1);
-  
-  let valData1;
-  const valLenBytes1 = len1 * 1;
-  if (Array.isArray(val1)) {
-    // Regular array likely containing numbers, write values to memory
-    let offset = 0;
-    const dv1 = new DataView(memory0.buffer);
-    for (const v of val1) {
-      _requireValidNumericPrimitive.bind(null, 'u8')(v);
-      dv1.setUint8(ptr1+ offset, v, true);
-      offset += 1;
-    }
-  } else {
-    // TypedArray / ArrayBuffer-like, direct copy
-    valData1 = new Uint8Array(val1.buffer || val1, val1.byteOffset, valLenBytes1);
-    const out1 = new Uint8Array(memory0.buffer, ptr1, valLenBytes1);
-    out1.set(valData1);
+  var vec2 = arg1;
+  var len2 = vec2.length;
+  var result2 = realloc0(0, 0, 4, len2 * 8);
+  for (let i = 0; i < vec2.length; i++) {
+    const e = vec2[i];
+    const base = result2 + i * 8;
+    var encodeRes = _utf8AllocateAndEncode(e, realloc0, memory0);
+    var ptr1= encodeRes.ptr;
+    var len1 = encodeRes.len;
+    
+    dataView(memory0).setUint32(base + 4, len1, true);
+    dataView(memory0).setUint32(base + 0, ptr1, true);
   }
-  
-  _debugLog('[iface="rasa:runtime/session@0.1.0", function="eval-package-source"][Instruction::CallWasm] enter', {
-    funcName: 'eval-package-source',
+  _debugLog('[iface="rasa:runtime/session@0.1.0", function="eval-admitted-source"][Instruction::CallWasm] enter', {
+    funcName: 'eval-admitted-source',
     paramCount: 5,
     async: false,
     postReturn: true,
@@ -6884,15 +6865,24 @@ function evalPackageSource(arg0, arg1, arg2) {
   const [task, _wasm_call_currentTaskID] = createNewCurrentTask({
     componentIdx: 0,
     isAsync: false,
-    isManualAsync: false,
-    entryFnName: 'session010EvalPackageSource',
+    isManualAsync: true,
+    entryFnName: 'session010EvalAdmittedSource',
     getCallbackFn: () => null,
     callbackFnName: null,
     errHandling: 'none',
     callingWasmExport: true,
   });
   
-  const started = task.enterSync();
+  
+  const started = await task.enter();
+  if (!started) {
+    _debugLog('[Instruction::AsyncTaskReturn] failed to enter task', {
+      taskID: task.id(),
+      subtaskID: task.currentSubtask()?.id(),
+    });
+    throw new Error("failed to enter task");
+  }
+  
   
   if (0!== null) {
     task.setReturnMemoryIdx(0);
@@ -6903,35 +6893,35 @@ function evalPackageSource(arg0, arg1, arg2) {
   let ret;
   
   try {
-    ret =   _withGlobalCurrentTaskMeta({
+    ret =  await  _withGlobalCurrentTaskMetaAsync({
       taskID: task.id(),
       componentIdx: task.componentIdx(),
-      fn: () => session010EvalPackageSource(ptr0, len0, ptr1, len1, toUint32(arg2)),
+      fn: () => session010EvalAdmittedSource(ptr0, len0, result2, len2, toUint32(arg2)),
     });
   } catch (err) {
     
-    _debugLog('[Instruction::CallWasm] error during sync call', {
+    _debugLog('[Instruction::CallWasm] error during async call', {
       taskID: task.id(),
       err,
     });
     task.setErrored(err);
     task.reject(err);
     task.exit();
-    throw err;
+    return task.completionPromise();
     
   }
   
-  var ptr2 = dataView(memory0).getUint32(ret + 0, true);
-  var len2 = dataView(memory0).getUint32(ret + 4, true);
-  var result2 = TEXT_DECODER_UTF8.decode(new Uint8Array(memory0.buffer, ptr2, len2));
-  _debugLog('[iface="rasa:runtime/session@0.1.0", function="eval-package-source"][Instruction::Return]', {
-    funcName: 'eval-package-source',
+  var ptr3 = dataView(memory0).getUint32(ret + 0, true);
+  var len3 = dataView(memory0).getUint32(ret + 4, true);
+  var result3 = TEXT_DECODER_UTF8.decode(new Uint8Array(memory0.buffer, ptr3, len3));
+  _debugLog('[iface="rasa:runtime/session@0.1.0", function="eval-admitted-source"][Instruction::Return]', {
+    funcName: 'eval-admitted-source',
     paramCount: 1,
     async: false,
     postReturn: true
   });
-  task.resolve([result2]);
-  const retCopy = result2;
+  task.resolve([result3]);
+  const retCopy = result3;
   
   let cstate = getOrCreateAsyncState(0);
   cstate.mayLeave = false;
@@ -6941,9 +6931,9 @@ function evalPackageSource(arg0, arg1, arg2) {
   return retCopy;
   
 }
-let session010EvalPackageSourceWithId;
+let session010EvalAdmittedSourceWithId;
 
-function evalPackageSourceWithId(arg0, arg1, arg2, arg3) {
+async function evalAdmittedSourceWithId(arg0, arg1, arg2, arg3) {
   
   var encodeRes = _utf8AllocateAndEncode(arg0, realloc0, memory0);
   var ptr0= encodeRes.ptr;
@@ -6971,30 +6961,21 @@ function evalPackageSourceWithId(arg0, arg1, arg2, arg3) {
     out1.set(valData1);
   }
   
-  var val2 = arg2;
-  var len2 = Array.isArray(val2) ? val2.length : val2.byteLength;
-  var ptr2 = realloc0(0, 0, 1, len2 * 1);
-  
-  let valData2;
-  const valLenBytes2 = len2 * 1;
-  if (Array.isArray(val2)) {
-    // Regular array likely containing numbers, write values to memory
-    let offset = 0;
-    const dv2 = new DataView(memory0.buffer);
-    for (const v of val2) {
-      _requireValidNumericPrimitive.bind(null, 'u8')(v);
-      dv2.setUint8(ptr2+ offset, v, true);
-      offset += 1;
-    }
-  } else {
-    // TypedArray / ArrayBuffer-like, direct copy
-    valData2 = new Uint8Array(val2.buffer || val2, val2.byteOffset, valLenBytes2);
-    const out2 = new Uint8Array(memory0.buffer, ptr2, valLenBytes2);
-    out2.set(valData2);
+  var vec3 = arg2;
+  var len3 = vec3.length;
+  var result3 = realloc0(0, 0, 4, len3 * 8);
+  for (let i = 0; i < vec3.length; i++) {
+    const e = vec3[i];
+    const base = result3 + i * 8;
+    var encodeRes = _utf8AllocateAndEncode(e, realloc0, memory0);
+    var ptr2= encodeRes.ptr;
+    var len2 = encodeRes.len;
+    
+    dataView(memory0).setUint32(base + 4, len2, true);
+    dataView(memory0).setUint32(base + 0, ptr2, true);
   }
-  
-  _debugLog('[iface="rasa:runtime/session@0.1.0", function="eval-package-source-with-id"][Instruction::CallWasm] enter', {
-    funcName: 'eval-package-source-with-id',
+  _debugLog('[iface="rasa:runtime/session@0.1.0", function="eval-admitted-source-with-id"][Instruction::CallWasm] enter', {
+    funcName: 'eval-admitted-source-with-id',
     paramCount: 7,
     async: false,
     postReturn: true,
@@ -7004,15 +6985,24 @@ function evalPackageSourceWithId(arg0, arg1, arg2, arg3) {
   const [task, _wasm_call_currentTaskID] = createNewCurrentTask({
     componentIdx: 0,
     isAsync: false,
-    isManualAsync: false,
-    entryFnName: 'session010EvalPackageSourceWithId',
+    isManualAsync: true,
+    entryFnName: 'session010EvalAdmittedSourceWithId',
     getCallbackFn: () => null,
     callbackFnName: null,
     errHandling: 'none',
     callingWasmExport: true,
   });
   
-  const started = task.enterSync();
+  
+  const started = await task.enter();
+  if (!started) {
+    _debugLog('[Instruction::AsyncTaskReturn] failed to enter task', {
+      taskID: task.id(),
+      subtaskID: task.currentSubtask()?.id(),
+    });
+    throw new Error("failed to enter task");
+  }
+  
   
   if (0!== null) {
     task.setReturnMemoryIdx(0);
@@ -7023,35 +7013,35 @@ function evalPackageSourceWithId(arg0, arg1, arg2, arg3) {
   let ret;
   
   try {
-    ret =   _withGlobalCurrentTaskMeta({
+    ret =  await  _withGlobalCurrentTaskMetaAsync({
       taskID: task.id(),
       componentIdx: task.componentIdx(),
-      fn: () => session010EvalPackageSourceWithId(ptr0, len0, ptr1, len1, ptr2, len2, toUint32(arg3)),
+      fn: () => session010EvalAdmittedSourceWithId(ptr0, len0, ptr1, len1, result3, len3, toUint32(arg3)),
     });
   } catch (err) {
     
-    _debugLog('[Instruction::CallWasm] error during sync call', {
+    _debugLog('[Instruction::CallWasm] error during async call', {
       taskID: task.id(),
       err,
     });
     task.setErrored(err);
     task.reject(err);
     task.exit();
-    throw err;
+    return task.completionPromise();
     
   }
   
-  var ptr3 = dataView(memory0).getUint32(ret + 0, true);
-  var len3 = dataView(memory0).getUint32(ret + 4, true);
-  var result3 = TEXT_DECODER_UTF8.decode(new Uint8Array(memory0.buffer, ptr3, len3));
-  _debugLog('[iface="rasa:runtime/session@0.1.0", function="eval-package-source-with-id"][Instruction::Return]', {
-    funcName: 'eval-package-source-with-id',
+  var ptr4 = dataView(memory0).getUint32(ret + 0, true);
+  var len4 = dataView(memory0).getUint32(ret + 4, true);
+  var result4 = TEXT_DECODER_UTF8.decode(new Uint8Array(memory0.buffer, ptr4, len4));
+  _debugLog('[iface="rasa:runtime/session@0.1.0", function="eval-admitted-source-with-id"][Instruction::Return]', {
+    funcName: 'eval-admitted-source-with-id',
     paramCount: 1,
     async: false,
     postReturn: true
   });
-  task.resolve([result3]);
-  const retCopy = result3;
+  task.resolve([result4]);
+  const retCopy = result4;
   
   let cstate = getOrCreateAsyncState(0);
   cstate.mayLeave = false;
@@ -7242,33 +7232,24 @@ function sessionSetOptimizerEnabled(arg0, arg1) {
   task.resolve([ret]);
   task.exit();
 }
-let session010SessionLoadPackage;
+let session010SessionSetAdmittedOperations;
 
-async function sessionLoadPackage(arg0, arg1) {
-  var val0 = arg1;
-  var len0 = Array.isArray(val0) ? val0.length : val0.byteLength;
-  var ptr0 = realloc0(0, 0, 1, len0 * 1);
-  
-  let valData0;
-  const valLenBytes0 = len0 * 1;
-  if (Array.isArray(val0)) {
-    // Regular array likely containing numbers, write values to memory
-    let offset = 0;
-    const dv0 = new DataView(memory0.buffer);
-    for (const v of val0) {
-      _requireValidNumericPrimitive.bind(null, 'u8')(v);
-      dv0.setUint8(ptr0+ offset, v, true);
-      offset += 1;
-    }
-  } else {
-    // TypedArray / ArrayBuffer-like, direct copy
-    valData0 = new Uint8Array(val0.buffer || val0, val0.byteOffset, valLenBytes0);
-    const out0 = new Uint8Array(memory0.buffer, ptr0, valLenBytes0);
-    out0.set(valData0);
+async function sessionSetAdmittedOperations(arg0, arg1) {
+  var vec1 = arg1;
+  var len1 = vec1.length;
+  var result1 = realloc0(0, 0, 4, len1 * 8);
+  for (let i = 0; i < vec1.length; i++) {
+    const e = vec1[i];
+    const base = result1 + i * 8;
+    var encodeRes = _utf8AllocateAndEncode(e, realloc0, memory0);
+    var ptr0= encodeRes.ptr;
+    var len0 = encodeRes.len;
+    
+    dataView(memory0).setUint32(base + 4, len0, true);
+    dataView(memory0).setUint32(base + 0, ptr0, true);
   }
-  
-  _debugLog('[iface="rasa:runtime/session@0.1.0", function="session-load-package"][Instruction::CallWasm] enter', {
-    funcName: 'session-load-package',
+  _debugLog('[iface="rasa:runtime/session@0.1.0", function="session-set-admitted-operations"][Instruction::CallWasm] enter', {
+    funcName: 'session-set-admitted-operations',
     paramCount: 3,
     async: false,
     postReturn: true,
@@ -7279,7 +7260,7 @@ async function sessionLoadPackage(arg0, arg1) {
     componentIdx: 0,
     isAsync: false,
     isManualAsync: true,
-    entryFnName: 'session010SessionLoadPackage',
+    entryFnName: 'session010SessionSetAdmittedOperations',
     getCallbackFn: () => null,
     callbackFnName: null,
     errHandling: 'none',
@@ -7309,7 +7290,7 @@ async function sessionLoadPackage(arg0, arg1) {
     ret =  await  _withGlobalCurrentTaskMetaAsync({
       taskID: task.id(),
       componentIdx: task.componentIdx(),
-      fn: () => session010SessionLoadPackage(toUint32(arg0), ptr0, len0),
+      fn: () => session010SessionSetAdmittedOperations(toUint32(arg0), result1, len1),
     });
   } catch (err) {
     
@@ -7324,17 +7305,17 @@ async function sessionLoadPackage(arg0, arg1) {
     
   }
   
-  var ptr1 = dataView(memory0).getUint32(ret + 0, true);
-  var len1 = dataView(memory0).getUint32(ret + 4, true);
-  var result1 = TEXT_DECODER_UTF8.decode(new Uint8Array(memory0.buffer, ptr1, len1));
-  _debugLog('[iface="rasa:runtime/session@0.1.0", function="session-load-package"][Instruction::Return]', {
-    funcName: 'session-load-package',
+  var ptr2 = dataView(memory0).getUint32(ret + 0, true);
+  var len2 = dataView(memory0).getUint32(ret + 4, true);
+  var result2 = TEXT_DECODER_UTF8.decode(new Uint8Array(memory0.buffer, ptr2, len2));
+  _debugLog('[iface="rasa:runtime/session@0.1.0", function="session-set-admitted-operations"][Instruction::Return]', {
+    funcName: 'session-set-admitted-operations',
     paramCount: 1,
     async: false,
     postReturn: true
   });
-  task.resolve([result1]);
-  const retCopy = result1;
+  task.resolve([result2]);
+  const retCopy = result2;
   
   let cstate = getOrCreateAsyncState(0);
   cstate.mayLeave = false;
@@ -8380,9 +8361,20 @@ null,
   componentIdx: 0,
   isAsync: false,
   isManualAsync: _trampoline13.manuallyAsync,
-  paramLiftFns: [_liftFlatStringAny,_liftFlatU32],
-  resultLowerFns: [_lowerFlatBool],
-  hasResultPointer: false,
+  paramLiftFns: [_liftFlatStringAny,_liftFlatU64],
+  resultLowerFns: [
+  _lowerFlatOption({
+    caseMetas: [
+    [ 'none', null, 0, 0, 0 ],
+    [ 'some', _lowerFlatU64, 8, 8, 1],
+    ],
+    variantSize32: 16,
+    variantAlign32: 8,
+    variantPayloadOffset32: 8,
+    variantFlatCount: 2,
+  })
+  ],
+  hasResultPointer: true,
   funcTypeIsAsync: false,
   getCallbackFn: () => null,
   getPostReturnFn: () => null,
@@ -8400,9 +8392,20 @@ null,
   componentIdx: 0,
   isAsync: false,
   isManualAsync: _trampoline13.manuallyAsync,
-  paramLiftFns: [_liftFlatStringAny,_liftFlatU32],
-  resultLowerFns: [_lowerFlatBool],
-  hasResultPointer: false,
+  paramLiftFns: [_liftFlatStringAny,_liftFlatU64],
+  resultLowerFns: [
+  _lowerFlatOption({
+    caseMetas: [
+    [ 'none', null, 0, 0, 0 ],
+    [ 'some', _lowerFlatU64, 8, 8, 1],
+    ],
+    variantSize32: 16,
+    variantAlign32: 8,
+    variantPayloadOffset32: 8,
+    variantFlatCount: 2,
+  })
+  ],
+  hasResultPointer: true,
   funcTypeIsAsync: false,
   getCallbackFn: () => null,
   getPostReturnFn: () => null,
@@ -8421,7 +8424,7 @@ null,
   componentIdx: 0,
   isAsync: false,
   isManualAsync: _trampoline14.manuallyAsync,
-  paramLiftFns: [_liftFlatStringAny,_liftFlatU32,_liftFlatList({
+  paramLiftFns: [_liftFlatU64,_liftFlatList({
     elemLiftFn: _liftFlatVariant({
       caseMetas: [['int64', _liftFlatS64, 8, 8, 1],['i64-vector', _liftFlatList({
         elemLiftFn: _liftFlatS64,
@@ -8500,7 +8503,7 @@ null,
   componentIdx: 0,
   isAsync: false,
   isManualAsync: _trampoline14.manuallyAsync,
-  paramLiftFns: [_liftFlatStringAny,_liftFlatU32,_liftFlatList({
+  paramLiftFns: [_liftFlatU64,_liftFlatList({
     elemLiftFn: _liftFlatVariant({
       caseMetas: [['int64', _liftFlatS64, 8, 8, 1],['i64-vector', _liftFlatList({
         elemLiftFn: _liftFlatS64,
@@ -9533,7 +9536,7 @@ Promise.all([module0, module1, module2]).catch(() => {});
     call: exports0['3'],
   },
   'rasa:runtime/optimizer@0.1.0': {
-    'can-call': exports0['0'],
+    'install-version': exports0['0'],
     'try-call': exports0['1'],
   },
   'rasa:runtime/source-loader@0.1.0': {
@@ -9619,32 +9622,32 @@ try {
     '9': trampoline22,
   },
 }));
-postReturn0 = exports1['cabi_post_rasa:runtime/session@0.1.0#eval-package-source'];
+postReturn0 = exports1['cabi_post_rasa:runtime/session@0.1.0#eval-admitted-source'];
 
 try {
-  postReturn0Async = WebAssembly.promising(exports1['cabi_post_rasa:runtime/session@0.1.0#eval-package-source']);
+  postReturn0Async = WebAssembly.promising(exports1['cabi_post_rasa:runtime/session@0.1.0#eval-admitted-source']);
 } catch(err) {
-  postReturn0Async = exports1['cabi_post_rasa:runtime/session@0.1.0#eval-package-source'];
+  postReturn0Async = exports1['cabi_post_rasa:runtime/session@0.1.0#eval-admitted-source'];
 }
 
 session010Status = exports1['rasa:runtime/session@0.1.0#status'];
 session010RenderHash = exports1['rasa:runtime/session@0.1.0#render-hash'];
 session010EvalSource = exports1['rasa:runtime/session@0.1.0#eval-source'];
 session010EvalSourceWithId = exports1['rasa:runtime/session@0.1.0#eval-source-with-id'];
-session010EvalPackageSource = exports1['rasa:runtime/session@0.1.0#eval-package-source'];
-session010EvalPackageSourceWithId = exports1['rasa:runtime/session@0.1.0#eval-package-source-with-id'];
+session010EvalAdmittedSource = WebAssembly.promising(exports1['rasa:runtime/session@0.1.0#eval-admitted-source']);
+session010EvalAdmittedSourceWithId = WebAssembly.promising(exports1['rasa:runtime/session@0.1.0#eval-admitted-source-with-id']);
 session010SessionNew = exports1['rasa:runtime/session@0.1.0#session-new'];
 session010SessionFree = exports1['rasa:runtime/session@0.1.0#session-free'];
 session010SessionSetOptimizerEnabled = exports1['rasa:runtime/session@0.1.0#session-set-optimizer-enabled'];
-session010SessionLoadPackage = WebAssembly.promising(exports1['rasa:runtime/session@0.1.0#session-load-package']);
+session010SessionSetAdmittedOperations = WebAssembly.promising(exports1['rasa:runtime/session@0.1.0#session-set-admitted-operations']);
 session010SessionEval = WebAssembly.promising(exports1['rasa:runtime/session@0.1.0#session-eval']);
 session010SessionEvalWithId = exports1['rasa:runtime/session@0.1.0#session-eval-with-id'];
 session010SessionReplEval = WebAssembly.promising(exports1['rasa:runtime/session@0.1.0#session-repl-eval']);
 session010InspectSource = exports1['rasa:runtime/session@0.1.0#inspect-source'];
 session010SyntaxTokens = exports1['rasa:runtime/session@0.1.0#syntax-tokens'];
 const session010 = {
-  evalPackageSource: evalPackageSource,
-  evalPackageSourceWithId: evalPackageSourceWithId,
+  evalAdmittedSource: evalAdmittedSource,
+  evalAdmittedSourceWithId: evalAdmittedSourceWithId,
   evalSource: evalSource,
   evalSourceWithId: evalSourceWithId,
   inspectSource: inspectSource,
@@ -9652,9 +9655,9 @@ const session010 = {
   sessionEval: sessionEval,
   sessionEvalWithId: sessionEvalWithId,
   sessionFree: sessionFree,
-  sessionLoadPackage: sessionLoadPackage,
   sessionNew: sessionNew,
   sessionReplEval: sessionReplEval,
+  sessionSetAdmittedOperations: sessionSetAdmittedOperations,
   sessionSetOptimizerEnabled: sessionSetOptimizerEnabled,
   status: status,
   syntaxTokens: syntaxTokens,

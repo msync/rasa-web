@@ -3,6 +3,7 @@
     {
       "abi": "packed-vector-v1",
       "arity": 0,
+      "currency": "sha256:428bf82e7e41b5dd07492c38638009109599da48df2df023c34787f0e7375932",
       "inputIndex": 0,
       "inputShape": "none",
       "packed": {
@@ -23,11 +24,13 @@
       },
       "result": "packed-array",
       "symbol": "demo.visuals.packed-oil-current/packed-rgba",
-      "url": "wasmgc-callables/0-demo-visuals-packed-oil-current-packed-rgba-a0.wasm"
+      "url": "wasmgc-callables/0-demo-visuals-packed-oil-current-packed-rgba-a0-v5.wasm",
+      "version": "5"
     },
     {
       "abi": "packed-vector-v1",
       "arity": 0,
+      "currency": "sha256:380a835d70a0ff4a771118bdd1dd2a193bb338026984a1d98e53475281d8d0ab",
       "inputIndex": 0,
       "inputShape": "none",
       "packed": {
@@ -48,8 +51,9 @@
       },
       "result": "packed-array",
       "symbol": "demo.visuals.packed-signal-cathedral/packed-rgba",
-      "url": "wasmgc-callables/1-demo-visuals-packed-signal-cathedral-packed-rgba-a0.wasm"
+      "url": "wasmgc-callables/1-demo-visuals-packed-signal-cathedral-packed-rgba-a0-v5.wasm",
+      "version": "5"
     }
   ],
-  "schema": "rasa.browser.wasmgc-callables.v1"
+  "schema": "rasa.browser.wasmgc-callables.v2"
 }

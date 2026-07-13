@@ -112,6 +112,31 @@ export class RasaWasmEngine {
     return this.session.evalSource(encodeUtf8(source), reportFlags(options));
   }
 
+  evaluateAdmitted(source, operationIds, options = null) {
+    return this.session.evalAdmittedSource(
+      encodeUtf8(source),
+      [...operationIds].map(String),
+      reportFlags(options),
+    );
+  }
+
+  async evaluateAdmittedAsync(source, operationIds, options = null) {
+    return await this.evaluateAdmitted(source, operationIds, options);
+  }
+
+  evaluateAdmittedWithSourceId(sourceId, source, operationIds, options = null) {
+    return this.session.evalAdmittedSourceWithId(
+      String(sourceId || "browser://eval"),
+      encodeUtf8(source),
+      [...operationIds].map(String),
+      reportFlags(options),
+    );
+  }
+
+  async evaluateAdmittedWithSourceIdAsync(sourceId, source, operationIds, options = null) {
+    return await this.evaluateAdmittedWithSourceId(sourceId, source, operationIds, options);
+  }
+
   inspect(source, options = null) {
     const text = this.session.inspectSource(encodeUtf8(source), reportFlags(options));
     return parseJsonPayload(text, "inspection artifact");
@@ -139,12 +164,12 @@ export class RasaWasmEngine {
     return this.session.sessionSetOptimizerEnabled(session, Boolean(enabled));
   }
 
-  loadPackage(session, packageBytes) {
-    return this.session.sessionLoadPackage(session, bytesFor(packageBytes));
+  setAdmittedOperations(session, operationIds) {
+    return this.session.sessionSetAdmittedOperations(session, [...operationIds].map(String));
   }
 
-  async loadPackageAsync(session, packageBytes) {
-    return await this.loadPackage(session, packageBytes);
+  async setAdmittedOperationsAsync(session, operationIds) {
+    return await this.setAdmittedOperations(session, operationIds);
   }
 
   evaluateSession(session, source, options = null) {
@@ -193,20 +218,26 @@ export function decodeUtf8(bytes) {
 
 // Consumes already-lowered callable artifacts; it does not inspect or admit Rasa source.
 export async function createCallableWasmGcOptimizer(entries = [], options = {}) {
-  const prepared = new Map();
+  const versions = new Map();
+  const tokens = new Map();
+  let nextToken = 1n;
   for (const entry of entries) {
-    const key = callableKey(entry.symbol, entry.arity);
-    prepared.set(key, await prepareCallableEntry(entry, options));
+    const prepared = await prepareCallableEntry(entry, options);
+    if (prepared.currency == null || prepared.version == null) continue;
+    const token = nextToken;
+    nextToken += 1n;
+    versions.set(versionKey(prepared.currency, prepared.version), token);
+    tokens.set(token.toString(), prepared);
   }
 
   return {
-    canCall(symbol, arity) {
-      return prepared.has(callableKey(symbol, arity));
+    installVersion(currency, version) {
+      return versions.get(versionKey(currency, version));
     },
-    tryCall(symbol, arity, args) {
-      const entry = prepared.get(callableKey(symbol, arity));
+    tryCall(token, args) {
+      const entry = tokens.get(BigInt(token).toString());
       if (!entry) {
-        return optimizerRefused("missing-callable-region");
+        return optimizerRefused("missing-version-token");
       }
       return executeCallableEntry(entry, args);
     },
@@ -218,6 +249,8 @@ export async function createCallableWasmGcOptimizerFromManifest(manifestUrl, opt
   const readJson = options.readJson || defaultReadJson;
   const manifest = options.manifest || await readJson(baseUrl.href);
   const entries = (manifest.callables || []).map((entry) => ({
+    currency: requiredField(entry, "currency"),
+    version: requiredField(entry, "version"),
     symbol: entry.symbol,
     arity: entry.arity,
     abi: entry.abi,
@@ -287,15 +320,15 @@ function hostImport(host) {
 
 function optimizerImport(optimizer) {
   return {
-    canCall(symbol, arity) {
-      if (typeof optimizer?.canCall === "function") {
-        return Boolean(optimizer.canCall(symbol, arity));
+    installVersion(currency, version) {
+      if (typeof optimizer?.installVersion === "function") {
+        return optimizer.installVersion(currency, version);
       }
-      return false;
+      return undefined;
     },
-    tryCall(symbol, arity, args) {
+    tryCall(token, args) {
       if (typeof optimizer?.tryCall === "function") {
-        return optimizer.tryCall(symbol, arity, args);
+        return optimizer.tryCall(token, args);
       }
       return {
         tag: "refused",
@@ -316,6 +349,8 @@ async function prepareCallableEntry(entry, options) {
   const packed = normalizePackedCallableAbi(entry.packed);
   try {
     return {
+      currency: entry.currency == null ? null : String(entry.currency),
+      version: entry.version == null ? null : BigInt(entry.version),
       symbol: String(entry.symbol),
       arity: Number(entry.arity),
       abi,
@@ -330,6 +365,8 @@ async function prepareCallableEntry(entry, options) {
     };
   } catch (error) {
     return {
+      currency: entry.currency == null ? null : String(entry.currency),
+      version: entry.version == null ? null : BigInt(entry.version),
       symbol: String(entry.symbol),
       arity: Number(entry.arity),
       abi,
@@ -598,8 +635,8 @@ function browserCallableErrorReason(error) {
   return "browser-wasmgc-callable-execution-error";
 }
 
-function callableKey(symbol, arity) {
-  return `${String(symbol)}/${Number(arity)}`;
+function versionKey(currency, version) {
+  return `${String(currency)}\u0000${BigInt(version).toString()}`;
 }
 
 function normalizeResultProbe(value) {
