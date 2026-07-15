@@ -1,0 +1,7 @@
+(ns rasa.test
+  (:require [rasa.test.impl :as impl]))
+
+(defn run-tests
+  "Runs loaded tests and returns structured result data."
+  ([] (rasa.test.impl/run-tests))
+  ([& namespaces] (rasa.test.impl/run-tests namespaces)))

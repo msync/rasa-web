@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
     <script defer src="../assets/analytics/google-tag.js"></script>
-    <title>Rasa in the Browser: The Same Runtime, A New Host | Rasa Blog</title>
+    <title>Rasa in the Browser: One Verified Product | Rasa Blog</title>
     <style>
       
     :root {
@@ -547,154 +547,66 @@
             <span>June 30, 2026</span>
             <span>rasa</span><span>browser</span><span>wasm</span><span>wit</span><span>capabilities</span>
           </div>
-          <h1>Rasa in the Browser: The Same Runtime, A New Host</h1>
-          <p>How Rasa now runs in browser pages through the ras.wasm component, generated WIT adapter assets, and explicit browser capability providers.</p>
+          <h1>Rasa in the Browser: One Verified Product</h1>
+          <p>How Rasa packages its Wasm runtime, source inventory, compatibility requirements, capabilities, and sessions behind one browser API.</p>
         </header>
         <div class="post-body">
-          <p>A programming language becomes easier to trust when its examples are executable. Not screenshots of results. Not a parallel teaching interpreter. Executable source, running through the same runtime contract that the rest of the product uses.</p>
-<p>That is the browser story Rasa now has a concrete path for. A Rasa page can show code, let a reader edit it, run it in place, inspect the result, and still preserve the same language boundary rules used by native and Wasm-hosted execution.</p>
-<p>The browser is not a toy host. It has its own capabilities: DOM state, fetch, storage, workers, WebGPU, WebNN, TensorFlow.js, browser permission prompts, and a security model that refuses ambient local power by design. If Rasa is serious about portable semantics and explicit host boundaries, the browser is not a special exception. It is one of the best tests of the design.</p>
-<p>This post is about the current browser runtime shape: <code>ras.wasm</code>, WIT session exports, generated component adapter assets, a shared <code>@rasa/browser/engine</code> facade, and capability calls routed through browser-owned providers.</p>
-<h2>The Product Shape</h2>
-<p>There are three runtime product names worth knowing:</p>
-<pre><code class="language-text">ras       native Rasa executable
-ras-wasmtime  native Wasmtime launcher for the Rasa Wasm runtime product
-ras.wasm  Rasa runtime Wasm component</code></pre>
-<p>The browser consumes <code>ras.wasm</code>. That matters.</p>
-<p>Rasa does not ask the website to maintain a JavaScript implementation of the language. The browser page loads a Wasm component produced from the Rasa runtime product and talks to it through a typed component interface. The JavaScript code around it is a host and UI adapter, not the semantic owner of the language.</p>
-<p>The published website carries this shape:</p>
-<pre><code class="language-text">assets/
-  ras.wasm
-  rasa-component/
-    generated browser adapter assets</code></pre>
-<p><code>ras.wasm</code> is the Rasa runtime component. The <code>rasa-component/</code> assets are generated browser adapter assets derived from it. The exact files in that directory are produced by the component tooling and are not Rasa language concepts. They are not a second runtime and not an alternate semantic path.</p>
-<p>Local section builds keep the same shape:</p>
-<pre><code class="language-text">web/model-architecture-explorer/dist/
-  ras.wasm
-  rasa-component/</code></pre>
-<p>That lets each page run standalone during development while the published site can share one runtime asset across sections.</p>
-<h2>The Runtime Contract</h2>
-<p>The browser boundary is WIT-shaped:</p>
-<pre><code class="language-wit">package rasa:runtime@0.1.0;
+          <p>Rasa browser pages execute the same Rasa runtime product used by the Wasm host. The website does not contain a JavaScript interpreter or a second language implementation. It consumes one generated browser product through <code>@rasa/browser</code>.</p>
+<h2>The Product</h2>
+<p>Core build tooling produces the source components and the complete Rasa source inventory. The browser product builder turns those inputs into one atomic, inventory-verified distribution:</p>
+<pre><code class="language-text">browser-product.json
+browser-product.sha256
+api/
+runtime/
+  capability-jspi/
+  pure/
+  probes/
+source/
+package.json</code></pre>
+<p><code>browser-product.json</code> identifies the public API, source inventory, runtime variants, browser requirements, product build identity, and every deployed file's byte length and SHA-256 digest. Validation rejects missing, changed, or undeclared files.</p>
+<p>The source Wasm components are build inputs, not parallel deployed runtimes. Each browser variant contains the generated component projection it needs.</p>
+<h2>Browser Compatibility</h2>
+<p>The manifest declares requirements for each runtime variant, including WebAssembly, ESM, Web Crypto, JSPI, imported component interfaces, memory shape, and concrete Wasm proposals. Small checked Wasm modules probe proposal support before the large runtime projection is loaded.</p>
+<p>Selection follows application needs:</p>
+<ul><li>ordinary source can use the <code>pure</code> variant;</li><li>applications with browser providers require <code>capability-jspi</code>;</li><li>an unsupported browser receives structured compatibility refusals before application source or provider modules execute.</li></ul>
+<p>The browser UI may explain those refusals, but it does not choose a weaker runtime or substitute JavaScript execution.</p>
+<h2>The Public API</h2>
+<p>The common case is intentionally small:</p>
+<pre><code class="language-js">import { loadProduct } from &quot;@rasa/browser&quot;;
 
-interface host {
-  call: func(request: list&lt;u8&gt;) -&gt; result&lt;list&lt;u8&gt;, string&gt;;
-}
+const product = await loadProduct(&quot;/rasa/browser-product.json&quot;);
+const session = await product.openSession();
+const result = await session.eval(&quot;(+ 1 2 3)&quot;);
 
-interface session {
-  status: func() -&gt; s32;
-  render-hash: func() -&gt; u32;
-  eval-source: func(source: list&lt;u8&gt;, phase-flags: u32) -&gt; string;
-  eval-package-source: func(source: list&lt;u8&gt;, package-bytes: list&lt;u8&gt;, phase-flags: u32) -&gt; string;
-  session-new: func() -&gt; u32;
-  session-free: func(session: u32);
-  session-load-package: func(session: u32, package-bytes: list&lt;u8&gt;) -&gt; string;
-  session-eval: func(session: u32, source: list&lt;u8&gt;, phase-flags: u32) -&gt; string;
-  inspect-source: func(source: list&lt;u8&gt;, options: u32) -&gt; string;
-  syntax-tokens: func(source: list&lt;u8&gt;) -&gt; string;
-}
+await session.close();
+await product.close();</code></pre>
+<p><code>Product</code> owns the verified distribution, selected runtime, providers, and open sessions. <code>Session</code> owns persistent evaluation state. Its <code>eval</code> and <code>load</code> methods return structured runs with values, diagnostics, reports, traces, and phase status.</p>
+<p>Inspection and syntax tokens come from the same product:</p>
+<pre><code class="language-js">const artifact = await product.inspect(source, { phases: &quot;all&quot; });
+const tokens = product.tokens(source);</code></pre>
+<p>Editors render those compiler products. They do not maintain a second Rasa lexer or infer semantic facts from report strings.</p>
+<h2>Applications And Capabilities</h2>
+<p>Most pages need only the core product. An application manifest is added when a page supplies Rasa source libraries, normalized packages, browser providers, policy, or session configuration. It references the core product and owns only its application assets.</p>
+<pre><code class="language-js">import { buildBrowserApplication } from &quot;@rasa/browser/build&quot;;
 
-world runtime {
-  import host;
-  export session;
-}</code></pre>
-<p>This is a compact but important line in the sand.</p>
-<p>The runtime exports session operations: create a session, load packages, evaluate source, inspect source, and ask for syntax tokens. The host provides one import: <code>host.call</code>, the admitted capability boundary.</p>
-<p>That split matches Rasa's larger philosophy. Language execution belongs to the runtime. Host power enters only through explicit capability calls.</p>
-<h2>Build-Time Generation</h2>
-<p>Browsers do not directly import a Wasm component the way a Wasmtime host does. The website needs JavaScript adapter assets around the component. Rasa generates those assets at build time.</p>
-<p>The flow is:</p>
-<pre><code class="language-text">target/rasa-products/ras.wasm
-  -&gt; jco component transpilation
-  -&gt; target/rasa-web/component-adapters/&lt;hash&gt;/
-  -&gt; section dist/rasa-component/
-  -&gt; published assets/rasa-component/</code></pre>
-<p>The hash cache is deliberate. If the runtime component has not changed, the adapter assets do not need to be regenerated. If <code>ras.wasm</code> changes, the adapter cache key changes with it.</p>
-<p>The important boundary is still simple:</p>
-<pre><code class="language-text">ras.wasm owns runtime behavior.
-Generated adapter assets own browser component loading.
-Browser UI owns presentation and host resources.</code></pre>
-<p>That separation keeps the website useful without letting website code become language authority.</p>
-<h2>The Browser Session Facade</h2>
-<p>Browser sections use one shared package:</p>
-<pre><code class="language-text">@rasa/browser/engine</code></pre>
-<p>It is the browser facade over the generated component adapter. A page asks for a runtime engine, creates a session, and evaluates source through that session:</p>
-<pre><code class="language-javascript">const engine = await RasaWasmEngine.load(&quot;./ras.wasm&quot;, { host });
-const session = engine.createSession();
-
-await engine.evaluateSessionAsync(session, &quot;(def x 41)&quot;, { phases: &quot;all&quot; });
-await engine.evaluateSessionAsync(session, &quot;(+ x 1)&quot;, { phases: &quot;all&quot; });</code></pre>
-<p>The second evaluation sees the <code>x</code> defined by the first one. This is not a stateless request-response evaluator hidden behind a button. It is a stateful Rasa session inside the browser host.</p>
-<p>The same facade powers syntax highlighting:</p>
-<pre><code class="language-javascript">const tokens = engine.syntaxTokens(&quot;(+ 1 2 3)&quot;);</code></pre>
-<p>That choice is small but telling. The editor does not need to invent a separate tokenizer to approximate Rasa. It can ask the runtime-facing facade for the same kind of syntax-token payload used by the rest of the browser experience.</p>
-<h2>What A Reader Can Run</h2>
-<p>The smallest proof is ordinary Rasa:</p>
-<pre><code class="language-clojure"><span class="tok-punct">(</span><span class="tok-symbol">+</span> <span class="tok-number">1</span> <span class="tok-number">2</span> <span class="tok-number">3</span><span class="tok-punct">)</span></code></pre>
-<p>Then state:</p>
-<pre><code class="language-clojure"><span class="tok-punct">(</span><span class="tok-form">def</span> <span class="tok-symbol">x</span> <span class="tok-number">41</span><span class="tok-punct">)</span></code></pre>
-<p>And then reuse it:</p>
-<pre><code class="language-clojure"><span class="tok-punct">(</span><span class="tok-symbol">+</span> <span class="tok-symbol">x</span> <span class="tok-number">1</span><span class="tok-punct">)</span></code></pre>
-<p>That sequence proves the browser has a real session. It is the shape expected from a Lisp-family REPL: evaluate, define, continue.</p>
-<p>The model explorer uses the same runtime path for a more interesting workload. Its Rasa source talks to a browser provider for TensorFlow.js model data:</p>
-<pre><code class="language-clojure"><span class="tok-punct">(</span><span class="tok-form">ns</span> <span class="tok-symbol">demo</span>
-  <span class="tok-punct">(</span><span class="tok-keyword">:import</span> <span class="tok-punct">[</span><span class="tok-symbol">demo.tfjs/model</span> <span class="tok-keyword">:as</span> <span class="tok-symbol">model</span><span class="tok-punct">]</span><span class="tok-punct">)</span><span class="tok-punct">)</span>
-
-<span class="tok-punct">(</span><span class="tok-form">def</span> <span class="tok-symbol">m</span>
-  <span class="tok-punct">(</span><span class="tok-symbol">model/load-model</span> <span class="tok-keyword">:tiny-cnn</span><span class="tok-punct">)</span><span class="tok-punct">)</span>
-
-<span class="tok-punct">(</span><span class="tok-symbol">model/summary</span> <span class="tok-symbol">m</span><span class="tok-punct">)</span></code></pre>
-<p>The result is not a screenshot baked into the page. The browser session loads a package, evaluates Rasa source, crosses an admitted host boundary, and receives Rasa data back from a browser provider that owns the TensorFlow.js model handle.</p>
-<p>That distinction is the point. The page is interactive because Rasa is running, not because the UI simulates a result.</p>
-<h2>Host Calls Stay Explicit</h2>
-<p>The browser host bridge is intentionally narrow.</p>
-<pre><code class="language-text">Rasa source
-  -&gt; package import
-  -&gt; analyzer and IR host-call evidence
-  -&gt; admitted capability
-  -&gt; WIT host.call import
-  -&gt; browser capability provider
-  -&gt; encoded Rasa data response</code></pre>
-<p>For a tiny test package, the source can look like this:</p>
-<pre><code class="language-clojure"><span class="tok-punct">(</span><span class="tok-form">ns</span> <span class="tok-symbol">demo</span>
-  <span class="tok-punct">(</span><span class="tok-keyword">:import</span> <span class="tok-punct">[</span><span class="tok-symbol">demo.host/test</span> <span class="tok-keyword">:as</span> <span class="tok-symbol">host</span><span class="tok-punct">]</span><span class="tok-punct">)</span><span class="tok-punct">)</span>
-
-<span class="tok-punct">(</span><span class="tok-symbol">host/echo</span> <span class="tok-number">41</span><span class="tok-punct">)</span></code></pre>
-<p>The browser provider receives a canonical request shape:</p>
-<pre><code class="language-clojure"><span class="tok-punct">{</span><span class="tok-keyword">:package</span> <span class="tok-symbol">demo.host/test</span>
- <span class="tok-keyword">:export</span> <span class="tok-symbol">echo</span>
- <span class="tok-keyword">:args</span> <span class="tok-punct">[</span><span class="tok-number">41</span><span class="tok-punct">]</span><span class="tok-punct">}</span></code></pre>
-<p>And it returns Rasa data:</p>
-<pre><code class="language-clojure"><span class="tok-punct">{</span><span class="tok-keyword">:status</span> <span class="tok-keyword">:ok</span>
- <span class="tok-keyword">:value</span> <span class="tok-number">42</span><span class="tok-punct">}</span></code></pre>
-<p>The runtime report can include admitted-host-call traces. That gives the page a way to explain what happened: source evaluation, host boundary, provider dispatch, returned value.</p>
-<p>This is not just a security mechanism. It is a usability mechanism. When a program crosses into browser power, users should be able to see where and why.</p>
-<h2>Browser Suspension Without Source Async</h2>
-<p>The browser <code>host.call</code> WIT shape remains ordinary:</p>
-<pre><code class="language-wit">call: func(request: list&lt;u8&gt;) -&gt; result&lt;list&lt;u8&gt;, string&gt;;</code></pre>
-<p>The generated browser component adapter lowers that import through JSPI for the stateful session exports. A browser provider can return a JavaScript promise, the shared session facade awaits it, and Rasa source still looks ordinary:</p>
-<pre><code class="language-clojure"><span class="tok-punct">(</span><span class="tok-form">http/request</span> <span class="tok-punct">{</span><span class="tok-keyword">:method</span> <span class="tok-keyword">:get</span>
-              <span class="tok-keyword">:url</span> <span class="tok-string">&quot;https://example.com/data.json&quot;</span><span class="tok-punct">}</span><span class="tok-punct">)</span></code></pre>
-<p>That is still intentionally narrow. It is a browser/session boundary, not a new source-visible async API. Rasa's direction remains colorless async: source should not pay syntax tax just because an admitted host operation may suspend. Future WASI 0.3 and component async work can deepen this boundary. The important part is the ownership: suspension belongs to the capability and runtime contract, not to ad hoc user code conventions.</p>
-<h2>What The Browser Page Can Show</h2>
-<p>Because the runtime is real, the website can become more than documentation.</p>
-<p>A page can show:</p>
-<ul><li>source code being evaluated;</li><li>syntax tokens coming from the runtime facade;</li><li>phase reports for reader, analysis, IR, facts, checks, and eval;</li><li>admitted host-call traces;</li><li>provider request and response data;</li><li>model summaries, graphs, and tables created from live browser resources;</li><li>reset behavior that creates a fresh runtime session.</li></ul>
-<p>That is a different kind of documentation surface. It does not ask a reader to believe that a language has clean boundaries. It lets them run code and inspect the boundary.</p>
-<h2>Why This Matters</h2>
-<p>Rasa wants Clojure-family ergonomics without inheriting an ambient-host runtime model. That means the browser cannot be treated as a lower-fidelity demo lane. It has to be a real host with explicit powers, visible limits, and the same semantic runtime contract.</p>
-<p>The current browser runtime work proves the first useful slice:</p>
-<pre><code class="language-text">same ras.wasm runtime product
-generated component adapter assets
-one shared browser session facade
-stateful REPL behavior
-runtime syntax tokens
-admitted host-call bridge
-browser provider dispatch
-live model explorer workload</code></pre>
-<p>That gives Rasa a credible path toward executable documentation, browser-hosted conformance exploration, model inspection, and capability-driven applications that can be read and run in the same place.</p>
-<p>The deeper compiler work still matters. WasmGC representation, richer capabilities, colorless async, optimizer proofs, and native-tier execution are not replaced by this. But the browser now has a real place in the product architecture. It can apply pressure on the language from a user-facing surface, not just from a roadmap diagram.</p>
-<p>For a language built around inspectable execution, that is the right kind of pressure.</p>
+await buildBrowserApplication({
+  workspace,
+  dist,
+  application: { id: &quot;example.music&quot;, version: &quot;1.0.0&quot; },
+  product: &quot;../rasa/browser-product.json&quot;,
+  libraries,
+  packages,
+  providers,
+});</code></pre>
+<p>Provider modules are fetched as verified bytes before import. Package exports form the default capability policy; applications can provide a tighter policy explicitly. Calls still originate from admitted Rasa capability operations.</p>
+<p>Capability projections declare the asynchronous host import and every public evaluation export that can transitively reach it. The application simply awaits <code>Session.eval</code>; it does not install JSPI wrappers or manage component projection details.</p>
+<h2>Publication</h2>
+<p>The website assembly contains exactly one core browser product under <code>rasa/</code>. Studio, conformance, proofs, and the inspection workspace all reference it. Assembly rejects section-local runtime copies and source components that should not be deployed.</p>
+<p>This boundary keeps the responsibilities narrow:</p>
+<pre><code class="language-text">Rasa core owns language semantics and source artifacts.
+@rasa/browser owns product verification, compatibility, capabilities, and sessions.
+Applications own examples, browser providers, and presentation.</code></pre>
+<p>That is the browser contract: one runtime product, one public lifecycle, and structured evidence at every refusal or execution boundary.</p>
         </div>
       </article>
     

@@ -1,0 +1,66 @@
+{
+  "schema": "rasa.source-inventory.v0",
+  "id": "sha256:87c311007ff257920b99ae547eac4f0aa9a5e75161f577a677fa4dd758853796",
+  "sources": [
+    {
+      "namespace": "rasa.array",
+      "path": "rasa/array.ras",
+      "contentId": "sha256:b114df557f83ce4c86a1587c31bfeef1deedb502598b27f573aa5ca1e4432f76"
+    },
+    {
+      "namespace": "rasa.core",
+      "path": "rasa/core.ras",
+      "contentId": "sha256:cde169851847f825ed23b7895993b07002f435b6a623ecf5b73d3d1441d37763"
+    },
+    {
+      "namespace": "rasa.edn",
+      "path": "rasa/edn.ras",
+      "contentId": "sha256:477302c4bc6e0b1ca8d9f6c97d18e7d761f2049d011c56e953490478c57aa5ae"
+    },
+    {
+      "namespace": "rasa.http",
+      "path": "rasa/http.ras",
+      "contentId": "sha256:197255bef7715a0453774195804117cedf2f2643270387b89ff9d63332949cbf"
+    },
+    {
+      "namespace": "rasa.io",
+      "path": "rasa/io.ras",
+      "contentId": "sha256:73b70725bc2f4888d170ce077d071c6701073147d5724aa97ff33eb3b870fa44"
+    },
+    {
+      "namespace": "rasa.json",
+      "path": "rasa/json.ras",
+      "contentId": "sha256:a928049ca7071f4fc2760c725b7ac4a559cea089b31c8555454c49122543ba8d"
+    },
+    {
+      "namespace": "rasa.process",
+      "path": "rasa/process.ras",
+      "contentId": "sha256:30d7047c07069f8f18c4c4a3d13df5b4384e623e7caff30fc6a123af5359d058"
+    },
+    {
+      "namespace": "rasa.string",
+      "path": "rasa/string.ras",
+      "contentId": "sha256:65c564976e359fa831b7042dcd7b361b26ef2bca9b59eb47de37db49cc1cb32f"
+    },
+    {
+      "namespace": "rasa.test",
+      "path": "rasa/test.ras",
+      "contentId": "sha256:6e5bfc3331dd3e1bdbe4a6c2070ebd3e06af07ab3aa16ea2bbf5e70efa1eeaef"
+    },
+    {
+      "namespace": "rasa.test.impl",
+      "path": "rasa/test/impl.ras",
+      "contentId": "sha256:512ae404007cc1621990ebd0f406fb906d5b455ed8651ada447af984070458e2"
+    },
+    {
+      "namespace": "rasa.test.runner",
+      "path": "rasa/test/runner.ras",
+      "contentId": "sha256:f4886c3149e47ed67cbb2e045eb84826bfe6bdd7b780b0b9acac16b552986df7"
+    },
+    {
+      "namespace": "rasa.test.runner.impl",
+      "path": "rasa/test/runner/impl.ras",
+      "contentId": "sha256:0d7f2b6dca9afe1f63be2d9e30af100bd766821b1bf08e1c33907769cc12605b"
+    }
+  ]
+}

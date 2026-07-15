@@ -1,0 +1,16 @@
+(ns rasa.process)
+
+(defn args
+  "Returns command-line arguments admitted for the running Rasa script."
+  []
+  (host/call :rasa.process/args))
+
+(defn env
+  "Returns the environment variable named by `name`, or nil when absent."
+  [name]
+  (host/call :rasa.process/env name))
+
+(defn exit
+  "Terminates the current process with admitted exit code `code`."
+  [code]
+  (host/call :rasa.process/exit code))

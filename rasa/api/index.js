@@ -1,10 +1,10 @@
 export {
-  Browser,
-  BrowserError,
+  Product,
+  ProductError,
   Session,
   assertRunOk,
-  loadBrowser,
+  loadProduct,
   projectRun,
   runOk,
-} from "./browser.js";
+} from "./product.js";
 export * from "./contract.js";

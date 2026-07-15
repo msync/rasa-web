@@ -20,9 +20,9 @@
     {
       "file": "2026-06-30-rasa-browser-component-runtime.md",
       "slug": "rasa-browser-component-runtime",
-      "title": "Rasa in the Browser: The Same Runtime, A New Host",
+      "title": "Rasa in the Browser: One Verified Product",
       "date": "2026-06-30",
-      "description": "How Rasa now runs in browser pages through the ras.wasm component, generated WIT adapter assets, and explicit browser capability providers.",
+      "description": "How Rasa packages its Wasm runtime, source inventory, compatibility requirements, capabilities, and sessions behind one browser API.",
       "series": "Building Rasa",
       "seriesOrder": 2,
       "tags": [

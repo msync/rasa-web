@@ -1,0 +1,16 @@
+(ns rasa.io)
+
+(defn read-text
+  "Reads eager finite text from an admitted source."
+  [source]
+  (host/call :rasa.io/read-text source))
+
+(defn list-tree
+  "Lists regular files under an admitted path in stable order."
+  [path]
+  (host/call :rasa.io/list-tree path))
+
+(defn write-text
+  "Writes eager finite text to an admitted sink."
+  [sink text]
+  (host/call :rasa.io/write-text sink text))

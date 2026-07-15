@@ -1,8 +1,9 @@
 const DEFAULT_TONE_CDN = "https://cdn.jsdelivr.net/npm/tone@15.1.22/+esm";
 
 export class DemosToneAdapter {
-  constructor({ toneCdn = DEFAULT_TONE_CDN } = {}) {
+  constructor({ importTone = importToneModule, toneCdn = DEFAULT_TONE_CDN } = {}) {
     this.toneCdn = toneCdn;
+    this.importTone = importTone;
     this.refusal = null;
     this.toneModule = null;
     this.toneLoadPromise = null;
@@ -19,6 +20,8 @@ export class DemosToneAdapter {
     this.started = false;
     this.witnessController = null;
     this.witnessRunId = null;
+    this.readinessListeners = new Set();
+    this.readinessState = Object.freeze({ status: "idle", message: "Tone.js has not started loading" });
   }
 
   async playTracks(tracksValue) {
@@ -27,7 +30,12 @@ export class DemosToneAdapter {
     const composition = normalizeComposition(tracksValue);
     const tracks = composition.tracks;
     const events = flattenTrackEvents(tracks);
-    const Tone = await this.loadTone();
+    const Tone = this.toneModule;
+    if (!Tone) {
+      throw new Error(this.readinessState.status === "failed"
+        ? this.readinessState.message
+        : "Tone.js is not ready; wait for the music provider before running Rasa");
+    }
     let toneStart = this.toneStartPromise;
     const boundary = await witnessController?.beforeEffect?.(witnessRunId, {
       artifact: true,
@@ -47,7 +55,9 @@ export class DemosToneAdapter {
       payload: tracksValue,
       unit: "notes",
     }) || null;
-    if (!toneStart) toneStart = this.activateFromGesture();
+    if (!toneStart) {
+      throw new Error("Tone.js audio was not activated by the browser Run gesture");
+    }
     const audioReady = toneStart ? await toneStart : false;
     if (!audioReady) {
       throw new Error(`Tone.js audio activation failed: ${this.audioError || "browser audio is unavailable"}`);
@@ -184,16 +194,38 @@ export class DemosToneAdapter {
     if (this.toneModule) return Promise.resolve(this.toneModule);
     if (!this.toneLoadPromise) {
       const testModule = globalThis.__RASA_TONE_MODULE__;
+      this.publishReadiness("loading", `Loading Tone.js from ${testModule ? "the test module" : this.toneCdn}`);
       this.toneLoadPromise = (testModule
         ? Promise.resolve(testModule)
-        : import(/* @vite-ignore */ this.toneCdn))
+        : this.importTone(this.toneCdn))
         .then((Tone) => {
           this.toneModule = Tone;
           this.loadedFrom = testModule ? "test-module" : this.toneCdn;
+          this.publishReadiness("ready", `Tone.js ready from ${this.loadedFrom}`);
           return Tone;
+        }, (error) => {
+          const message = `Tone.js failed to load: ${error?.message || String(error)}`;
+          this.audioError = message;
+          this.publishReadiness("failed", message);
+          throw error;
         });
     }
     return this.toneLoadPromise;
+  }
+
+  getReadiness() {
+    return this.readinessState;
+  }
+
+  subscribeReadiness(listener) {
+    this.readinessListeners.add(listener);
+    listener(this.readinessState);
+    return () => this.readinessListeners.delete(listener);
+  }
+
+  publishReadiness(status, message) {
+    this.readinessState = Object.freeze({ status, message });
+    for (const listener of this.readinessListeners) listener(this.readinessState);
   }
 
   activateFromGesture() {
@@ -250,9 +282,13 @@ export class DemosToneAdapter {
   }
 }
 
+function importToneModule(url) {
+  return import(/* @vite-ignore */ url);
+}
+
 export function register(registry, context = {}) {
   const adapter = new DemosToneAdapter({
-    toneCdn: context.provider?.toneCdn || DEFAULT_TONE_CDN,
+    toneCdn: context.provider?.config?.toneCdn || DEFAULT_TONE_CDN,
   });
   adapter.refusal = context.refusal || null;
   registry.register("demo.tone-js", "play!", ([tracks]) => adapter.playTracks(tracks));

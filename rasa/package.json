@@ -1,0 +1,25 @@
+{
+  "name": "@rasa/browser",
+  "version": "0.2.0",
+  "type": "module",
+  "types": "./api/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./api/index.d.ts",
+      "default": "./api/index.js"
+    },
+    "./advanced": "./api/advanced.js",
+    "./capability": "./api/capability.js",
+    "./data": "./api/data.js",
+    "./distribution": "./api/distribution.js",
+    "./runtime": "./api/runtime.js",
+    "./browser-product.json": "./browser-product.json"
+  },
+  "files": [
+    "api/",
+    "runtime/",
+    "source/",
+    "browser-product.json",
+    "browser-product.sha256"
+  ]
+}
