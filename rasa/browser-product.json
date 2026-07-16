@@ -21,8 +21,8 @@
       "priority": 20,
       "component": {
         "world": "rasa:runtime/session@0.1.0",
-        "contentId": "sha256:4aea46596a24663b5bb6c6d707877074121065ee52f7bf372b9d8d6b8e9f53b9",
-        "sourceBytes": 4280884
+        "contentId": "sha256:368af33baec87ec35e4a365b175f2fb4384128a4c6922ce80fc13d7a1a6b799f",
+        "sourceBytes": 4282416
       },
       "projection": {
         "schema": "rasa.browser-component-projection.v0",
@@ -73,8 +73,8 @@
       "priority": 10,
       "component": {
         "world": "rasa:runtime/session@0.1.0",
-        "contentId": "sha256:a87804fb6db0ec8f9338d04eeb8eeaa37eeaaa4a3d6de908a72a54ed1695a632",
-        "sourceBytes": 4227671
+        "contentId": "sha256:2cb733575325bc651abb474365eb28c054c1dbedeecb50dd37489eab78921437",
+        "sourceBytes": 4229203
       },
       "projection": {
         "schema": "rasa.browser-component-projection.v0",
@@ -118,7 +118,7 @@
   "packageSchema": "rasa.package/v1",
   "build": {
     "producer": "rasa-web/browser-product-v2",
-    "sourceRevision": "5892c99a62609f64d843ed5ed02f2b88a7c7a611",
+    "sourceRevision": "32dd971a1286a2451201eec6cf85b0edd2fbb482",
     "sourceState": "dirty"
   },
   "inventory": [
@@ -216,13 +216,13 @@
       "path": "runtime/capability-jspi/browser-projection.json",
       "kind": "component-projection-manifest",
       "bytes": 898,
-      "sha256": "1044130655f046055c006eb455613ccd0ef20c8b76ed2f6c1804955204b043f3"
+      "sha256": "eb991f336808a8bbf94da4ca6a55b92379d8f9e974a4a62c8873141527f79060"
     },
     {
       "path": "runtime/capability-jspi/guest-runtime.core.wasm",
       "kind": "component-projection-module",
-      "bytes": 4268811,
-      "sha256": "f8ce21a93d1ae4b2614eeaa516b00c9a5f869805c5d096151473ff6b56b8a068"
+      "bytes": 4270343,
+      "sha256": "1d6e606c9104b6a34909a5fef3bc205639b9fc4a21193dac173393efe47e5f52"
     },
     {
       "path": "runtime/capability-jspi/guest-runtime.core2.wasm",
@@ -300,13 +300,13 @@
       "path": "runtime/pure/browser-projection.json",
       "kind": "component-projection-manifest",
       "bytes": 896,
-      "sha256": "57ee8dd67a4b655191ba1993b3581a2931c82a3b768b5e9d736c9896631fd94a"
+      "sha256": "8fe2e291b77e22aae5e546ad2a24f6e3a768081ee5cd8fc2fdc8ca086e1c5971"
     },
     {
       "path": "runtime/pure/guest-runtime.core.wasm",
       "kind": "component-projection-module",
-      "bytes": 4216589,
-      "sha256": "7cd874abb8734f371d4dd5a4b1c1dc2acaf0add929640fa515eb03d8560908b1"
+      "bytes": 4218121,
+      "sha256": "7528021732b387d03055f84e12cd325fc2530edb983522aeeb995effe536bd96"
     },
     {
       "path": "runtime/pure/guest-runtime.core2.wasm",

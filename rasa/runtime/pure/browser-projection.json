@@ -1,6 +1,6 @@
 {
   "schema": "rasa.browser-component-projection.v0",
-  "componentId": "sha256:a87804fb6db0ec8f9338d04eeb8eeaa37eeaaa4a3d6de908a72a54ed1695a632",
+  "componentId": "sha256:2cb733575325bc651abb474365eb28c054c1dbedeecb50dd37489eab78921437",
   "profile": "jco-1.24.5-async-instantiation-sync-component-v1",
   "requirements": {
     "jspi": false
@@ -9,7 +9,7 @@
   "modules": [
     {
       "path": "guest-runtime.core.wasm",
-      "contentId": "sha256:7cd874abb8734f371d4dd5a4b1c1dc2acaf0add929640fa515eb03d8560908b1"
+      "contentId": "sha256:7528021732b387d03055f84e12cd325fc2530edb983522aeeb995effe536bd96"
     },
     {
       "path": "guest-runtime.core2.wasm",
