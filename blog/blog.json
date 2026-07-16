@@ -2,6 +2,23 @@
   "schema": 1,
   "posts": [
     {
+      "file": "2026-07-16-direct-style-io-across-runtimes.md",
+      "slug": "direct-style-io-across-runtimes",
+      "title": "Waiting Without Coloring the Language: Direct-Style IO Across Native, Wasm, and the Browser",
+      "date": "2026-07-16",
+      "description": "What JVM virtual threads, Rust futures, Tokio, Wasmtime, WASI 0.3, and browser JSPI teach us about simple source code and rigorous concurrency.",
+      "series": "Building Rasa",
+      "seriesOrder": 4,
+      "tags": [
+        "rasa",
+        "io",
+        "concurrency",
+        "rust",
+        "wasm",
+        "browser"
+      ]
+    },
+    {
       "file": "2026-07-02-rasa-data-scripts-checkpoint.md",
       "slug": "rasa-data-scripts-checkpoint",
       "title": "Rasa Data Scripts: A Practical Checkpoint",

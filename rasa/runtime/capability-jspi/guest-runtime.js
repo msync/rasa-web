@@ -1978,6 +1978,8 @@ export function instantiate(getCoreModule, imports, instantiateCore = WebAssembl
     return taskMeta;
   }
   
+  const emptyFunc = () => {};
+  
   let dv = new DataView(new ArrayBuffer());
   const dataView = mem => dv.buffer === mem.buffer ? dv : dv = new DataView(mem.buffer);
   
@@ -2009,6 +2011,35 @@ export function instantiate(getCoreModule, imports, instantiateCore = WebAssembl
     return res;
   }
   
+  
+  const T_FLAG = 1 << 30;
+  
+  function rscTableCreateOwn(table, rep) {
+    const free = table[0] & ~T_FLAG;
+    table._createdReps.add(rep);
+    if (free === 0) {
+      table.push(0);
+      table.push(rep | T_FLAG);
+      return (table.length >> 1) - 1;
+    }
+    table[0] = table[free << 1];
+    table[free << 1] = 0;
+    table[(free << 1) + 1] = rep | T_FLAG;
+    return free;
+  }
+  
+  function rscTableRemove(table, handle) {
+    const scope = table[handle << 1];
+    const val = table[(handle << 1) + 1];
+    const own = (val & T_FLAG) !== 0;
+    const rep = val & ~T_FLAG;
+    if (val === 0 || (scope & T_FLAG) !== 0) {
+      throw new TypeError("Invalid handle");
+    }
+    table[handle << 1] = table[0] | T_FLAG;
+    table[0] = handle | T_FLAG;
+    return { rep, scope, own };
+  }
   
   function createNewCurrentTask(args) {
     _debugLog('[createNewCurrentTask()] args', args);
@@ -3473,6 +3504,18 @@ async function fetchCompile (url) {
   return fetch(url).then(WebAssembly.compileStreaming);
 }
 
+const symbolRscHandle = Symbol('handle');
+
+const HANDLE_TABLES= [];
+
+
+function finalizationRegistryCreate (unregister) {
+  if (typeof FinalizationRegistry === 'undefined') {
+    return { unregister () {} };
+  }
+  return new FinalizationRegistry(unregister);
+}
+
 class ComponentError extends Error {
   constructor (value) {
     const enumerable = typeof value !== 'string';
@@ -3522,7 +3565,7 @@ let gen = (function* _initGenerator () {
   let realloc0;
   let realloc0Async;
   
-  const _trampoline0 = async function(arg0, arg1, arg2) {
+  const _trampoline2 = async function(arg0, arg1, arg2) {
     var ptr0 = arg0;
     var len0 = arg1;
     var result0 = new Uint8Array(memory0.buffer.slice(ptr0, ptr0 + len0 * 1));
@@ -3650,10 +3693,10 @@ let gen = (function* _initGenerator () {
   task.resolve([ret]);
   task.exit();
 }
-_trampoline0.fnName = 'rasa:runtime/host@0.1.0#call';
-_trampoline0.manuallyAsync = true;
+_trampoline2.fnName = 'rasa:runtime/host@0.1.0#call';
+_trampoline2.manuallyAsync = true;
 
-const _trampoline1 = function(arg0, arg1, arg2, arg3, arg4) {
+const _trampoline3 = function(arg0, arg1, arg2, arg3, arg4) {
   var len1 = arg1;
   var base1 = arg0;
   var result1 = [];
@@ -3821,12 +3864,350 @@ _debugLog('[iface="rasa:runtime/source-loader@0.1.0", function="load-runner-sour
 task.resolve([ret]);
 task.exit();
 }
-_trampoline1.fnName = 'rasa:runtime/source-loader@0.1.0#loadRunnerSources';
+_trampoline3.fnName = 'rasa:runtime/source-loader@0.1.0#loadRunnerSources';
 let exports3;
 let postReturn0;
 let postReturn0Async;
 let postReturn1;
 let postReturn1Async;
+let postReturn2;
+let postReturn2Async;
+let postReturn3;
+let postReturn3Async;
+let postReturn4;
+let postReturn4Async;
+
+const handleTable0 = [T_FLAG, 0];
+handleTable0._createdReps = new Set();
+const finalizationRegistry0 = finalizationRegistryCreate((handle) => {
+  const { rep } = rscTableRemove(handleTable0, handle);
+  exports0['5'](rep);
+});
+
+HANDLE_TABLES[0] = handleTable0;
+let session010MethodCheckedProgramSourceIdentity;
+
+class CheckedProgram{
+  constructor () {
+    throw new Error('"CheckedProgram" resource does not define a constructor');
+  }
+}
+
+CheckedProgram.prototype.sourceIdentity = function sourceIdentity() {
+  
+  var handle1 = this[symbolRscHandle];
+  if (!handle1 || (handleTable0[(handle1 << 1) + 1] & T_FLAG) === 0) {
+    throw new TypeError('Resource error: Not a valid \"CheckedProgram\" resource.');
+  }
+  var handle0 = handleTable0[(handle1 << 1) + 1] & ~T_FLAG;
+  
+  _debugLog('[iface="rasa:runtime/session@0.1.0", function="[method]checked-program.source-identity"][Instruction::CallWasm] enter', {
+    funcName: '[method]checked-program.source-identity',
+    paramCount: 1,
+    async: false,
+    postReturn: true,
+  });
+  const hostProvided = false;
+  
+  const [task, _wasm_call_currentTaskID] = createNewCurrentTask({
+    componentIdx: 0,
+    isAsync: false,
+    isManualAsync: false,
+    entryFnName: 'session010MethodCheckedProgramSourceIdentity',
+    getCallbackFn: () => null,
+    callbackFnName: null,
+    errHandling: 'none',
+    callingWasmExport: true,
+  });
+  
+  const started = task.enterSync();
+  
+  if (0!== null) {
+    task.setReturnMemoryIdx(0);
+    task.setReturnMemory(() => memory0());
+  }
+  
+  
+  let ret;
+  
+  try {
+    ret =   _withGlobalCurrentTaskMeta({
+      taskID: task.id(),
+      componentIdx: task.componentIdx(),
+      fn: () => session010MethodCheckedProgramSourceIdentity(handle0),
+    });
+  } catch (err) {
+    
+    _debugLog('[Instruction::CallWasm] error during sync call', {
+      taskID: task.id(),
+      err,
+    });
+    task.setErrored(err);
+    task.reject(err);
+    task.exit();
+    throw err;
+    
+  }
+  
+  var ptr2 = dataView(memory0).getUint32(ret + 0, true);
+  var len2 = dataView(memory0).getUint32(ret + 4, true);
+  var result2 = TEXT_DECODER_UTF8.decode(new Uint8Array(memory0.buffer, ptr2, len2));
+  _debugLog('[iface="rasa:runtime/session@0.1.0", function="[method]checked-program.source-identity"][Instruction::Return]', {
+    funcName: '[method]checked-program.source-identity',
+    paramCount: 1,
+    async: false,
+    postReturn: true
+  });
+  task.resolve([result2]);
+  const retCopy = result2;
+  
+  let cstate = getOrCreateAsyncState(0);
+  cstate.mayLeave = false;
+  postReturn0(ret);
+  cstate.mayLeave = true;
+  task.exit();
+  return retCopy;
+  
+};
+let session010MethodCheckedProgramEmit;
+
+CheckedProgram.prototype.emit = function emit() {
+  
+  var handle1 = this[symbolRscHandle];
+  if (!handle1 || (handleTable0[(handle1 << 1) + 1] & T_FLAG) === 0) {
+    throw new TypeError('Resource error: Not a valid \"CheckedProgram\" resource.');
+  }
+  var handle0 = handleTable0[(handle1 << 1) + 1] & ~T_FLAG;
+  
+  _debugLog('[iface="rasa:runtime/session@0.1.0", function="[method]checked-program.emit"][Instruction::CallWasm] enter', {
+    funcName: '[method]checked-program.emit',
+    paramCount: 1,
+    async: false,
+    postReturn: true,
+  });
+  const hostProvided = false;
+  
+  const [task, _wasm_call_currentTaskID] = createNewCurrentTask({
+    componentIdx: 0,
+    isAsync: false,
+    isManualAsync: false,
+    entryFnName: 'session010MethodCheckedProgramEmit',
+    getCallbackFn: () => null,
+    callbackFnName: null,
+    errHandling: 'throw-result-err',
+    callingWasmExport: true,
+  });
+  
+  const started = task.enterSync();
+  
+  if (0!== null) {
+    task.setReturnMemoryIdx(0);
+    task.setReturnMemory(() => memory0());
+  }
+  
+  
+  let ret;
+  
+  try {
+    ret =   _withGlobalCurrentTaskMeta({
+      taskID: task.id(),
+      componentIdx: task.componentIdx(),
+      fn: () => session010MethodCheckedProgramEmit(handle0),
+    });
+  } catch (err) {
+    
+    _debugLog('[Instruction::CallWasm] error during sync call', {
+      taskID: task.id(),
+      err,
+    });
+    task.setErrored(err);
+    task.reject(err);
+    task.exit();
+    throw err;
+    
+  }
+  
+  let variant6;
+  switch (dataView(memory0).getUint8(ret + 0, true)) {
+    case 0: {
+      var ptr2 = dataView(memory0).getUint32(ret + 4, true);
+      var len2 = dataView(memory0).getUint32(ret + 8, true);
+      var result2 = new Uint8Array(memory0.buffer.slice(ptr2, ptr2 + len2 * 1));
+      var ptr3 = dataView(memory0).getUint32(ret + 12, true);
+      var len3 = dataView(memory0).getUint32(ret + 16, true);
+      var result3 = TEXT_DECODER_UTF8.decode(new Uint8Array(memory0.buffer, ptr3, len3));
+      var ptr4 = dataView(memory0).getUint32(ret + 24, true);
+      var len4 = dataView(memory0).getUint32(ret + 28, true);
+      var result4 = TEXT_DECODER_UTF8.decode(new Uint8Array(memory0.buffer, ptr4, len4));
+      variant6= {
+        tag: 'ok',
+        val: {
+          module: result2,
+          artifactId: result3,
+          functionCount: dataView(memory0).getInt32(ret + 20, true) >>> 0,
+          codeAbi: result4,
+        }
+      };
+      break;
+    }
+    case 1: {
+      var ptr5 = dataView(memory0).getUint32(ret + 4, true);
+      var len5 = dataView(memory0).getUint32(ret + 8, true);
+      var result5 = TEXT_DECODER_UTF8.decode(new Uint8Array(memory0.buffer, ptr5, len5));
+      variant6= {
+        tag: 'err',
+        val: result5
+      };
+      break;
+    }
+    default: {
+      throw new TypeError('invalid variant discriminant for expected');
+    }
+  }
+  _debugLog('[iface="rasa:runtime/session@0.1.0", function="[method]checked-program.emit"][Instruction::Return]', {
+    funcName: '[method]checked-program.emit',
+    paramCount: 1,
+    async: false,
+    postReturn: true
+  });
+  const retCopy = variant6;
+  task.resolve([retCopy.val]);
+  
+  let cstate = getOrCreateAsyncState(0);
+  cstate.mayLeave = false;
+  postReturn1(ret);
+  cstate.mayLeave = true;
+  task.exit();
+  
+  
+  
+  if (typeof retCopy === 'object' && retCopy.tag === 'err') {
+    throw new ComponentError(retCopy.val);
+  }
+  return retCopy.val;
+  
+};
+let session010MethodCheckedProgramRun;
+
+CheckedProgram.prototype.run = async function run(arg1) {
+  
+  var handle1 = this[symbolRscHandle];
+  if (!handle1 || (handleTable0[(handle1 << 1) + 1] & T_FLAG) === 0) {
+    throw new TypeError('Resource error: Not a valid \"CheckedProgram\" resource.');
+  }
+  var handle0 = handleTable0[(handle1 << 1) + 1] & ~T_FLAG;
+  
+  _debugLog('[iface="rasa:runtime/session@0.1.0", function="[method]checked-program.run"][Instruction::CallWasm] enter', {
+    funcName: '[method]checked-program.run',
+    paramCount: 2,
+    async: false,
+    postReturn: true,
+  });
+  const hostProvided = false;
+  
+  const [task, _wasm_call_currentTaskID] = createNewCurrentTask({
+    componentIdx: 0,
+    isAsync: false,
+    isManualAsync: true,
+    entryFnName: 'session010MethodCheckedProgramRun',
+    getCallbackFn: () => null,
+    callbackFnName: null,
+    errHandling: 'none',
+    callingWasmExport: true,
+  });
+  
+  
+  const started = await task.enter();
+  if (!started) {
+    _debugLog('[Instruction::AsyncTaskReturn] failed to enter task', {
+      taskID: task.id(),
+      subtaskID: task.currentSubtask()?.id(),
+    });
+    throw new Error("failed to enter task");
+  }
+  
+  
+  if (0!== null) {
+    task.setReturnMemoryIdx(0);
+    task.setReturnMemory(() => memory0());
+  }
+  
+  
+  let ret;
+  
+  try {
+    ret =  await  _withGlobalCurrentTaskMetaAsync({
+      taskID: task.id(),
+      componentIdx: task.componentIdx(),
+      fn: () => session010MethodCheckedProgramRun(handle0, toUint32(arg1)),
+    });
+  } catch (err) {
+    
+    _debugLog('[Instruction::CallWasm] error during async call', {
+      taskID: task.id(),
+      err,
+    });
+    task.setErrored(err);
+    task.reject(err);
+    task.exit();
+    return task.completionPromise();
+    
+  }
+  
+  var ptr2 = dataView(memory0).getUint32(ret + 0, true);
+  var len2 = dataView(memory0).getUint32(ret + 4, true);
+  var result2 = TEXT_DECODER_UTF8.decode(new Uint8Array(memory0.buffer, ptr2, len2));
+  let variant6;
+  switch (dataView(memory0).getUint8(ret + 8, true)) {
+    case 0: {
+      variant6 = undefined;
+      break;
+    }
+    case 1: {
+      var ptr3 = dataView(memory0).getUint32(ret + 16, true);
+      var len3 = dataView(memory0).getUint32(ret + 20, true);
+      var result3 = TEXT_DECODER_UTF8.decode(new Uint8Array(memory0.buffer, ptr3, len3));
+      var ptr4 = dataView(memory0).getUint32(ret + 24, true);
+      var len4 = dataView(memory0).getUint32(ret + 28, true);
+      var result4 = new Uint32Array(memory0.buffer.slice(ptr4, ptr4 + len4 * 4));
+      var ptr5 = dataView(memory0).getUint32(ret + 40, true);
+      var len5 = dataView(memory0).getUint32(ret + 44, true);
+      var result5 = new Uint8Array(memory0.buffer.slice(ptr5, ptr5 + len5 * 1));
+      variant6 = {
+        dtype: result3,
+        shape: result4,
+        logicalBitExtent: BigInt.asUintN(64, BigInt(dataView(memory0).getBigInt64(ret + 32, true))),
+        bytes: result5,
+      };
+      break;
+    }
+    default: {
+      throw new TypeError('invalid variant discriminant for option');
+    }
+  }
+  _debugLog('[iface="rasa:runtime/session@0.1.0", function="[method]checked-program.run"][Instruction::Return]', {
+    funcName: '[method]checked-program.run',
+    paramCount: 1,
+    async: false,
+    postReturn: true
+  });
+  task.resolve([{
+    report: result2,
+    packedResult: variant6,
+  }]);
+  const retCopy = {
+    report: result2,
+    packedResult: variant6,
+  };
+  
+  let cstate = getOrCreateAsyncState(0);
+  cstate.mayLeave = false;
+  postReturn2(ret);
+  cstate.mayLeave = true;
+  task.exit();
+  return retCopy;
+  
+};
 let session010Status;
 
 function status() {
@@ -4034,18 +4415,52 @@ async function evalSource(arg0, arg1) {
   var ptr1 = dataView(memory0).getUint32(ret + 0, true);
   var len1 = dataView(memory0).getUint32(ret + 4, true);
   var result1 = TEXT_DECODER_UTF8.decode(new Uint8Array(memory0.buffer, ptr1, len1));
+  let variant5;
+  switch (dataView(memory0).getUint8(ret + 8, true)) {
+    case 0: {
+      variant5 = undefined;
+      break;
+    }
+    case 1: {
+      var ptr2 = dataView(memory0).getUint32(ret + 16, true);
+      var len2 = dataView(memory0).getUint32(ret + 20, true);
+      var result2 = TEXT_DECODER_UTF8.decode(new Uint8Array(memory0.buffer, ptr2, len2));
+      var ptr3 = dataView(memory0).getUint32(ret + 24, true);
+      var len3 = dataView(memory0).getUint32(ret + 28, true);
+      var result3 = new Uint32Array(memory0.buffer.slice(ptr3, ptr3 + len3 * 4));
+      var ptr4 = dataView(memory0).getUint32(ret + 40, true);
+      var len4 = dataView(memory0).getUint32(ret + 44, true);
+      var result4 = new Uint8Array(memory0.buffer.slice(ptr4, ptr4 + len4 * 1));
+      variant5 = {
+        dtype: result2,
+        shape: result3,
+        logicalBitExtent: BigInt.asUintN(64, BigInt(dataView(memory0).getBigInt64(ret + 32, true))),
+        bytes: result4,
+      };
+      break;
+    }
+    default: {
+      throw new TypeError('invalid variant discriminant for option');
+    }
+  }
   _debugLog('[iface="rasa:runtime/session@0.1.0", function="eval-source"][Instruction::Return]', {
     funcName: 'eval-source',
     paramCount: 1,
     async: false,
     postReturn: true
   });
-  task.resolve([result1]);
-  const retCopy = result1;
+  task.resolve([{
+    report: result1,
+    packedResult: variant5,
+  }]);
+  const retCopy = {
+    report: result1,
+    packedResult: variant5,
+  };
   
   let cstate = getOrCreateAsyncState(0);
   cstate.mayLeave = false;
-  postReturn0(ret);
+  postReturn2(ret);
   cstate.mayLeave = true;
   task.exit();
   return retCopy;
@@ -4141,18 +4556,52 @@ async function evalSourceWithId(arg0, arg1, arg2) {
   var ptr2 = dataView(memory0).getUint32(ret + 0, true);
   var len2 = dataView(memory0).getUint32(ret + 4, true);
   var result2 = TEXT_DECODER_UTF8.decode(new Uint8Array(memory0.buffer, ptr2, len2));
+  let variant6;
+  switch (dataView(memory0).getUint8(ret + 8, true)) {
+    case 0: {
+      variant6 = undefined;
+      break;
+    }
+    case 1: {
+      var ptr3 = dataView(memory0).getUint32(ret + 16, true);
+      var len3 = dataView(memory0).getUint32(ret + 20, true);
+      var result3 = TEXT_DECODER_UTF8.decode(new Uint8Array(memory0.buffer, ptr3, len3));
+      var ptr4 = dataView(memory0).getUint32(ret + 24, true);
+      var len4 = dataView(memory0).getUint32(ret + 28, true);
+      var result4 = new Uint32Array(memory0.buffer.slice(ptr4, ptr4 + len4 * 4));
+      var ptr5 = dataView(memory0).getUint32(ret + 40, true);
+      var len5 = dataView(memory0).getUint32(ret + 44, true);
+      var result5 = new Uint8Array(memory0.buffer.slice(ptr5, ptr5 + len5 * 1));
+      variant6 = {
+        dtype: result3,
+        shape: result4,
+        logicalBitExtent: BigInt.asUintN(64, BigInt(dataView(memory0).getBigInt64(ret + 32, true))),
+        bytes: result5,
+      };
+      break;
+    }
+    default: {
+      throw new TypeError('invalid variant discriminant for option');
+    }
+  }
   _debugLog('[iface="rasa:runtime/session@0.1.0", function="eval-source-with-id"][Instruction::Return]', {
     funcName: 'eval-source-with-id',
     paramCount: 1,
     async: false,
     postReturn: true
   });
-  task.resolve([result2]);
-  const retCopy = result2;
+  task.resolve([{
+    report: result2,
+    packedResult: variant6,
+  }]);
+  const retCopy = {
+    report: result2,
+    packedResult: variant6,
+  };
   
   let cstate = getOrCreateAsyncState(0);
   cstate.mayLeave = false;
-  postReturn0(ret);
+  postReturn2(ret);
   cstate.mayLeave = true;
   task.exit();
   return retCopy;
@@ -4256,18 +4705,52 @@ async function evalAdmittedSource(arg0, arg1, arg2) {
   var ptr3 = dataView(memory0).getUint32(ret + 0, true);
   var len3 = dataView(memory0).getUint32(ret + 4, true);
   var result3 = TEXT_DECODER_UTF8.decode(new Uint8Array(memory0.buffer, ptr3, len3));
+  let variant7;
+  switch (dataView(memory0).getUint8(ret + 8, true)) {
+    case 0: {
+      variant7 = undefined;
+      break;
+    }
+    case 1: {
+      var ptr4 = dataView(memory0).getUint32(ret + 16, true);
+      var len4 = dataView(memory0).getUint32(ret + 20, true);
+      var result4 = TEXT_DECODER_UTF8.decode(new Uint8Array(memory0.buffer, ptr4, len4));
+      var ptr5 = dataView(memory0).getUint32(ret + 24, true);
+      var len5 = dataView(memory0).getUint32(ret + 28, true);
+      var result5 = new Uint32Array(memory0.buffer.slice(ptr5, ptr5 + len5 * 4));
+      var ptr6 = dataView(memory0).getUint32(ret + 40, true);
+      var len6 = dataView(memory0).getUint32(ret + 44, true);
+      var result6 = new Uint8Array(memory0.buffer.slice(ptr6, ptr6 + len6 * 1));
+      variant7 = {
+        dtype: result4,
+        shape: result5,
+        logicalBitExtent: BigInt.asUintN(64, BigInt(dataView(memory0).getBigInt64(ret + 32, true))),
+        bytes: result6,
+      };
+      break;
+    }
+    default: {
+      throw new TypeError('invalid variant discriminant for option');
+    }
+  }
   _debugLog('[iface="rasa:runtime/session@0.1.0", function="eval-admitted-source"][Instruction::Return]', {
     funcName: 'eval-admitted-source',
     paramCount: 1,
     async: false,
     postReturn: true
   });
-  task.resolve([result3]);
-  const retCopy = result3;
+  task.resolve([{
+    report: result3,
+    packedResult: variant7,
+  }]);
+  const retCopy = {
+    report: result3,
+    packedResult: variant7,
+  };
   
   let cstate = getOrCreateAsyncState(0);
   cstate.mayLeave = false;
-  postReturn0(ret);
+  postReturn2(ret);
   cstate.mayLeave = true;
   task.exit();
   return retCopy;
@@ -4376,18 +4859,52 @@ async function evalAdmittedSourceWithId(arg0, arg1, arg2, arg3) {
   var ptr4 = dataView(memory0).getUint32(ret + 0, true);
   var len4 = dataView(memory0).getUint32(ret + 4, true);
   var result4 = TEXT_DECODER_UTF8.decode(new Uint8Array(memory0.buffer, ptr4, len4));
+  let variant8;
+  switch (dataView(memory0).getUint8(ret + 8, true)) {
+    case 0: {
+      variant8 = undefined;
+      break;
+    }
+    case 1: {
+      var ptr5 = dataView(memory0).getUint32(ret + 16, true);
+      var len5 = dataView(memory0).getUint32(ret + 20, true);
+      var result5 = TEXT_DECODER_UTF8.decode(new Uint8Array(memory0.buffer, ptr5, len5));
+      var ptr6 = dataView(memory0).getUint32(ret + 24, true);
+      var len6 = dataView(memory0).getUint32(ret + 28, true);
+      var result6 = new Uint32Array(memory0.buffer.slice(ptr6, ptr6 + len6 * 4));
+      var ptr7 = dataView(memory0).getUint32(ret + 40, true);
+      var len7 = dataView(memory0).getUint32(ret + 44, true);
+      var result7 = new Uint8Array(memory0.buffer.slice(ptr7, ptr7 + len7 * 1));
+      variant8 = {
+        dtype: result5,
+        shape: result6,
+        logicalBitExtent: BigInt.asUintN(64, BigInt(dataView(memory0).getBigInt64(ret + 32, true))),
+        bytes: result7,
+      };
+      break;
+    }
+    default: {
+      throw new TypeError('invalid variant discriminant for option');
+    }
+  }
   _debugLog('[iface="rasa:runtime/session@0.1.0", function="eval-admitted-source-with-id"][Instruction::Return]', {
     funcName: 'eval-admitted-source-with-id',
     paramCount: 1,
     async: false,
     postReturn: true
   });
-  task.resolve([result4]);
-  const retCopy = result4;
+  task.resolve([{
+    report: result4,
+    packedResult: variant8,
+  }]);
+  const retCopy = {
+    report: result4,
+    packedResult: variant8,
+  };
   
   let cstate = getOrCreateAsyncState(0);
   cstate.mayLeave = false;
-  postReturn0(ret);
+  postReturn2(ret);
   cstate.mayLeave = true;
   task.exit();
   return retCopy;
@@ -4544,7 +5061,7 @@ function sessionNew(arg0, arg1) {
   
   let cstate = getOrCreateAsyncState(0);
   cstate.mayLeave = false;
-  postReturn1(ret);
+  postReturn3(ret);
   cstate.mayLeave = true;
   task.exit();
   
@@ -4785,18 +5302,52 @@ async function sessionEval(arg0, arg1, arg2) {
   var ptr1 = dataView(memory0).getUint32(ret + 0, true);
   var len1 = dataView(memory0).getUint32(ret + 4, true);
   var result1 = TEXT_DECODER_UTF8.decode(new Uint8Array(memory0.buffer, ptr1, len1));
+  let variant5;
+  switch (dataView(memory0).getUint8(ret + 8, true)) {
+    case 0: {
+      variant5 = undefined;
+      break;
+    }
+    case 1: {
+      var ptr2 = dataView(memory0).getUint32(ret + 16, true);
+      var len2 = dataView(memory0).getUint32(ret + 20, true);
+      var result2 = TEXT_DECODER_UTF8.decode(new Uint8Array(memory0.buffer, ptr2, len2));
+      var ptr3 = dataView(memory0).getUint32(ret + 24, true);
+      var len3 = dataView(memory0).getUint32(ret + 28, true);
+      var result3 = new Uint32Array(memory0.buffer.slice(ptr3, ptr3 + len3 * 4));
+      var ptr4 = dataView(memory0).getUint32(ret + 40, true);
+      var len4 = dataView(memory0).getUint32(ret + 44, true);
+      var result4 = new Uint8Array(memory0.buffer.slice(ptr4, ptr4 + len4 * 1));
+      variant5 = {
+        dtype: result2,
+        shape: result3,
+        logicalBitExtent: BigInt.asUintN(64, BigInt(dataView(memory0).getBigInt64(ret + 32, true))),
+        bytes: result4,
+      };
+      break;
+    }
+    default: {
+      throw new TypeError('invalid variant discriminant for option');
+    }
+  }
   _debugLog('[iface="rasa:runtime/session@0.1.0", function="session-eval"][Instruction::Return]', {
     funcName: 'session-eval',
     paramCount: 1,
     async: false,
     postReturn: true
   });
-  task.resolve([result1]);
-  const retCopy = result1;
+  task.resolve([{
+    report: result1,
+    packedResult: variant5,
+  }]);
+  const retCopy = {
+    report: result1,
+    packedResult: variant5,
+  };
   
   let cstate = getOrCreateAsyncState(0);
   cstate.mayLeave = false;
-  postReturn0(ret);
+  postReturn2(ret);
   cstate.mayLeave = true;
   task.exit();
   return retCopy;
@@ -4892,18 +5443,52 @@ async function sessionEvalWithId(arg0, arg1, arg2, arg3) {
   var ptr2 = dataView(memory0).getUint32(ret + 0, true);
   var len2 = dataView(memory0).getUint32(ret + 4, true);
   var result2 = TEXT_DECODER_UTF8.decode(new Uint8Array(memory0.buffer, ptr2, len2));
+  let variant6;
+  switch (dataView(memory0).getUint8(ret + 8, true)) {
+    case 0: {
+      variant6 = undefined;
+      break;
+    }
+    case 1: {
+      var ptr3 = dataView(memory0).getUint32(ret + 16, true);
+      var len3 = dataView(memory0).getUint32(ret + 20, true);
+      var result3 = TEXT_DECODER_UTF8.decode(new Uint8Array(memory0.buffer, ptr3, len3));
+      var ptr4 = dataView(memory0).getUint32(ret + 24, true);
+      var len4 = dataView(memory0).getUint32(ret + 28, true);
+      var result4 = new Uint32Array(memory0.buffer.slice(ptr4, ptr4 + len4 * 4));
+      var ptr5 = dataView(memory0).getUint32(ret + 40, true);
+      var len5 = dataView(memory0).getUint32(ret + 44, true);
+      var result5 = new Uint8Array(memory0.buffer.slice(ptr5, ptr5 + len5 * 1));
+      variant6 = {
+        dtype: result3,
+        shape: result4,
+        logicalBitExtent: BigInt.asUintN(64, BigInt(dataView(memory0).getBigInt64(ret + 32, true))),
+        bytes: result5,
+      };
+      break;
+    }
+    default: {
+      throw new TypeError('invalid variant discriminant for option');
+    }
+  }
   _debugLog('[iface="rasa:runtime/session@0.1.0", function="session-eval-with-id"][Instruction::Return]', {
     funcName: 'session-eval-with-id',
     paramCount: 1,
     async: false,
     postReturn: true
   });
-  task.resolve([result2]);
-  const retCopy = result2;
+  task.resolve([{
+    report: result2,
+    packedResult: variant6,
+  }]);
+  const retCopy = {
+    report: result2,
+    packedResult: variant6,
+  };
   
   let cstate = getOrCreateAsyncState(0);
   cstate.mayLeave = false;
-  postReturn0(ret);
+  postReturn2(ret);
   cstate.mayLeave = true;
   task.exit();
   return retCopy;
@@ -4994,21 +5579,336 @@ async function sessionReplEval(arg0, arg1, arg2) {
   var ptr1 = dataView(memory0).getUint32(ret + 0, true);
   var len1 = dataView(memory0).getUint32(ret + 4, true);
   var result1 = TEXT_DECODER_UTF8.decode(new Uint8Array(memory0.buffer, ptr1, len1));
+  let variant5;
+  switch (dataView(memory0).getUint8(ret + 8, true)) {
+    case 0: {
+      variant5 = undefined;
+      break;
+    }
+    case 1: {
+      var ptr2 = dataView(memory0).getUint32(ret + 16, true);
+      var len2 = dataView(memory0).getUint32(ret + 20, true);
+      var result2 = TEXT_DECODER_UTF8.decode(new Uint8Array(memory0.buffer, ptr2, len2));
+      var ptr3 = dataView(memory0).getUint32(ret + 24, true);
+      var len3 = dataView(memory0).getUint32(ret + 28, true);
+      var result3 = new Uint32Array(memory0.buffer.slice(ptr3, ptr3 + len3 * 4));
+      var ptr4 = dataView(memory0).getUint32(ret + 40, true);
+      var len4 = dataView(memory0).getUint32(ret + 44, true);
+      var result4 = new Uint8Array(memory0.buffer.slice(ptr4, ptr4 + len4 * 1));
+      variant5 = {
+        dtype: result2,
+        shape: result3,
+        logicalBitExtent: BigInt.asUintN(64, BigInt(dataView(memory0).getBigInt64(ret + 32, true))),
+        bytes: result4,
+      };
+      break;
+    }
+    default: {
+      throw new TypeError('invalid variant discriminant for option');
+    }
+  }
   _debugLog('[iface="rasa:runtime/session@0.1.0", function="session-repl-eval"][Instruction::Return]', {
     funcName: 'session-repl-eval',
     paramCount: 1,
     async: false,
     postReturn: true
   });
-  task.resolve([result1]);
-  const retCopy = result1;
+  task.resolve([{
+    report: result1,
+    packedResult: variant5,
+  }]);
+  const retCopy = {
+    report: result1,
+    packedResult: variant5,
+  };
   
   let cstate = getOrCreateAsyncState(0);
   cstate.mayLeave = false;
-  postReturn0(ret);
+  postReturn2(ret);
   cstate.mayLeave = true;
   task.exit();
   return retCopy;
+  
+}
+let session010SessionReplEvalGeneric;
+
+async function sessionReplEvalGeneric(arg0, arg1, arg2) {
+  var val0 = arg1;
+  var len0 = Array.isArray(val0) ? val0.length : val0.byteLength;
+  var ptr0 = realloc0(0, 0, 1, len0 * 1);
+  
+  let valData0;
+  const valLenBytes0 = len0 * 1;
+  if (Array.isArray(val0)) {
+    // Regular array likely containing numbers, write values to memory
+    let offset = 0;
+    const dv0 = new DataView(memory0.buffer);
+    for (const v of val0) {
+      _requireValidNumericPrimitive.bind(null, 'u8')(v);
+      dv0.setUint8(ptr0+ offset, v, true);
+      offset += 1;
+    }
+  } else {
+    // TypedArray / ArrayBuffer-like, direct copy
+    valData0 = new Uint8Array(val0.buffer || val0, val0.byteOffset, valLenBytes0);
+    const out0 = new Uint8Array(memory0.buffer, ptr0, valLenBytes0);
+    out0.set(valData0);
+  }
+  
+  _debugLog('[iface="rasa:runtime/session@0.1.0", function="session-repl-eval-generic"][Instruction::CallWasm] enter', {
+    funcName: 'session-repl-eval-generic',
+    paramCount: 4,
+    async: false,
+    postReturn: true,
+  });
+  const hostProvided = false;
+  
+  const [task, _wasm_call_currentTaskID] = createNewCurrentTask({
+    componentIdx: 0,
+    isAsync: false,
+    isManualAsync: true,
+    entryFnName: 'session010SessionReplEvalGeneric',
+    getCallbackFn: () => null,
+    callbackFnName: null,
+    errHandling: 'none',
+    callingWasmExport: true,
+  });
+  
+  
+  const started = await task.enter();
+  if (!started) {
+    _debugLog('[Instruction::AsyncTaskReturn] failed to enter task', {
+      taskID: task.id(),
+      subtaskID: task.currentSubtask()?.id(),
+    });
+    throw new Error("failed to enter task");
+  }
+  
+  
+  if (0!== null) {
+    task.setReturnMemoryIdx(0);
+    task.setReturnMemory(() => memory0());
+  }
+  
+  
+  let ret;
+  
+  try {
+    ret =  await  _withGlobalCurrentTaskMetaAsync({
+      taskID: task.id(),
+      componentIdx: task.componentIdx(),
+      fn: () => session010SessionReplEvalGeneric(toUint64(arg0), ptr0, len0, toUint32(arg2)),
+    });
+  } catch (err) {
+    
+    _debugLog('[Instruction::CallWasm] error during async call', {
+      taskID: task.id(),
+      err,
+    });
+    task.setErrored(err);
+    task.reject(err);
+    task.exit();
+    return task.completionPromise();
+    
+  }
+  
+  var ptr1 = dataView(memory0).getUint32(ret + 0, true);
+  var len1 = dataView(memory0).getUint32(ret + 4, true);
+  var result1 = TEXT_DECODER_UTF8.decode(new Uint8Array(memory0.buffer, ptr1, len1));
+  let variant5;
+  switch (dataView(memory0).getUint8(ret + 8, true)) {
+    case 0: {
+      variant5 = undefined;
+      break;
+    }
+    case 1: {
+      var ptr2 = dataView(memory0).getUint32(ret + 16, true);
+      var len2 = dataView(memory0).getUint32(ret + 20, true);
+      var result2 = TEXT_DECODER_UTF8.decode(new Uint8Array(memory0.buffer, ptr2, len2));
+      var ptr3 = dataView(memory0).getUint32(ret + 24, true);
+      var len3 = dataView(memory0).getUint32(ret + 28, true);
+      var result3 = new Uint32Array(memory0.buffer.slice(ptr3, ptr3 + len3 * 4));
+      var ptr4 = dataView(memory0).getUint32(ret + 40, true);
+      var len4 = dataView(memory0).getUint32(ret + 44, true);
+      var result4 = new Uint8Array(memory0.buffer.slice(ptr4, ptr4 + len4 * 1));
+      variant5 = {
+        dtype: result2,
+        shape: result3,
+        logicalBitExtent: BigInt.asUintN(64, BigInt(dataView(memory0).getBigInt64(ret + 32, true))),
+        bytes: result4,
+      };
+      break;
+    }
+    default: {
+      throw new TypeError('invalid variant discriminant for option');
+    }
+  }
+  _debugLog('[iface="rasa:runtime/session@0.1.0", function="session-repl-eval-generic"][Instruction::Return]', {
+    funcName: 'session-repl-eval-generic',
+    paramCount: 1,
+    async: false,
+    postReturn: true
+  });
+  task.resolve([{
+    report: result1,
+    packedResult: variant5,
+  }]);
+  const retCopy = {
+    report: result1,
+    packedResult: variant5,
+  };
+  
+  let cstate = getOrCreateAsyncState(0);
+  cstate.mayLeave = false;
+  postReturn2(ret);
+  cstate.mayLeave = true;
+  task.exit();
+  return retCopy;
+  
+}
+let session010SessionCheck;
+
+function sessionCheck(arg0, arg1, arg2, arg3) {
+  
+  var encodeRes = _utf8AllocateAndEncode(arg1, realloc0, memory0);
+  var ptr0= encodeRes.ptr;
+  var len0 = encodeRes.len;
+  
+  var val1 = arg2;
+  var len1 = Array.isArray(val1) ? val1.length : val1.byteLength;
+  var ptr1 = realloc0(0, 0, 1, len1 * 1);
+  
+  let valData1;
+  const valLenBytes1 = len1 * 1;
+  if (Array.isArray(val1)) {
+    // Regular array likely containing numbers, write values to memory
+    let offset = 0;
+    const dv1 = new DataView(memory0.buffer);
+    for (const v of val1) {
+      _requireValidNumericPrimitive.bind(null, 'u8')(v);
+      dv1.setUint8(ptr1+ offset, v, true);
+      offset += 1;
+    }
+  } else {
+    // TypedArray / ArrayBuffer-like, direct copy
+    valData1 = new Uint8Array(val1.buffer || val1, val1.byteOffset, valLenBytes1);
+    const out1 = new Uint8Array(memory0.buffer, ptr1, valLenBytes1);
+    out1.set(valData1);
+  }
+  
+  _debugLog('[iface="rasa:runtime/session@0.1.0", function="session-check"][Instruction::CallWasm] enter', {
+    funcName: 'session-check',
+    paramCount: 6,
+    async: false,
+    postReturn: true,
+  });
+  const hostProvided = false;
+  
+  const [task, _wasm_call_currentTaskID] = createNewCurrentTask({
+    componentIdx: 0,
+    isAsync: false,
+    isManualAsync: false,
+    entryFnName: 'session010SessionCheck',
+    getCallbackFn: () => null,
+    callbackFnName: null,
+    errHandling: 'throw-result-err',
+    callingWasmExport: true,
+  });
+  
+  const started = task.enterSync();
+  
+  if (0!== null) {
+    task.setReturnMemoryIdx(0);
+    task.setReturnMemory(() => memory0());
+  }
+  
+  
+  let ret;
+  
+  try {
+    ret =   _withGlobalCurrentTaskMeta({
+      taskID: task.id(),
+      componentIdx: task.componentIdx(),
+      fn: () => session010SessionCheck(toUint64(arg0), ptr0, len0, ptr1, len1, toUint32(arg3)),
+    });
+  } catch (err) {
+    
+    _debugLog('[Instruction::CallWasm] error during sync call', {
+      taskID: task.id(),
+      err,
+    });
+    task.setErrored(err);
+    task.reject(err);
+    task.exit();
+    throw err;
+    
+  }
+  
+  let variant7;
+  switch (dataView(memory0).getUint8(ret + 0, true)) {
+    case 0: {
+      var handle3 = dataView(memory0).getInt32(ret + 4, true);
+      var rsc2 = new.target === CheckedProgram ? this : Object.create(CheckedProgram.prototype);
+      Object.defineProperty(rsc2, symbolRscHandle, { writable: true, value: handle3});
+      finalizationRegistry0.register(rsc2, handle3, rsc2);
+      Object.defineProperty(rsc2, symbolDispose, { writable: true, value: function () {
+        finalizationRegistry0.unregister(rsc2);
+        rscTableRemove(handleTable0, handle3);
+        rsc2[symbolDispose] = emptyFunc;
+        rsc2[symbolRscHandle] = undefined;
+        exports0['5'](handleTable0[(handle3 << 1) + 1] & ~T_FLAG);
+      }});
+      var ptr4 = dataView(memory0).getUint32(ret + 8, true);
+      var len4 = dataView(memory0).getUint32(ret + 12, true);
+      var result4 = TEXT_DECODER_UTF8.decode(new Uint8Array(memory0.buffer, ptr4, len4));
+      var ptr5 = dataView(memory0).getUint32(ret + 16, true);
+      var len5 = dataView(memory0).getUint32(ret + 20, true);
+      var result5 = TEXT_DECODER_UTF8.decode(new Uint8Array(memory0.buffer, ptr5, len5));
+      variant7= {
+        tag: 'ok',
+        val: {
+          program: rsc2,
+          report: result4,
+          sourceIdentity: result5,
+        }
+      };
+      break;
+    }
+    case 1: {
+      var ptr6 = dataView(memory0).getUint32(ret + 4, true);
+      var len6 = dataView(memory0).getUint32(ret + 8, true);
+      var result6 = TEXT_DECODER_UTF8.decode(new Uint8Array(memory0.buffer, ptr6, len6));
+      variant7= {
+        tag: 'err',
+        val: result6
+      };
+      break;
+    }
+    default: {
+      throw new TypeError('invalid variant discriminant for expected');
+    }
+  }
+  _debugLog('[iface="rasa:runtime/session@0.1.0", function="session-check"][Instruction::Return]', {
+    funcName: 'session-check',
+    paramCount: 1,
+    async: false,
+    postReturn: true
+  });
+  const retCopy = variant7;
+  task.resolve([retCopy.val]);
+  
+  let cstate = getOrCreateAsyncState(0);
+  cstate.mayLeave = false;
+  postReturn4(ret);
+  cstate.mayLeave = true;
+  task.exit();
+  
+  
+  
+  if (typeof retCopy === 'object' && retCopy.tag === 'err') {
+    throw new ComponentError(retCopy.val);
+  }
+  return retCopy.val;
   
 }
 let session010InspectSource;
@@ -5197,13 +6097,21 @@ function syntaxTokens(arg0) {
   return retCopy;
   
 }
-let trampoline0 = _trampoline0.manuallyAsync ? new WebAssembly.Suspending(_lowerImportBackwardsCompat.bind(
+const trampoline0 = rscTableCreateOwn.bind(null, handleTable0);
+function trampoline1(handle) {
+  const handleEntry = rscTableRemove(handleTable0, handle);
+  if (handleEntry.own) {
+    
+    exports0['5'](handleEntry.rep);
+  }
+}
+let trampoline2 = _trampoline2.manuallyAsync ? new WebAssembly.Suspending(_lowerImportBackwardsCompat.bind(
 null,
 {
-  trampolineIdx: 0,
+  trampolineIdx: 2,
   componentIdx: 0,
   isAsync: false,
-  isManualAsync: _trampoline0.manuallyAsync,
+  isManualAsync: _trampoline2.manuallyAsync,
   paramLiftFns: [_liftFlatList({
     elemLiftFn: _liftFlatU8,
     elemAlign32: 1,
@@ -5235,15 +6143,15 @@ null,
   stringEncoding: 'utf8',
   getMemoryFn: () => memory0,
   getReallocFn: () => realloc0,
-  importFn: _trampoline0,
+  importFn: _trampoline2,
 },
 )) : _lowerImportBackwardsCompat.bind(
 null,
 {
-  trampolineIdx: 0,
+  trampolineIdx: 2,
   componentIdx: 0,
   isAsync: false,
-  isManualAsync: _trampoline0.manuallyAsync,
+  isManualAsync: _trampoline2.manuallyAsync,
   paramLiftFns: [_liftFlatList({
     elemLiftFn: _liftFlatU8,
     elemAlign32: 1,
@@ -5275,16 +6183,16 @@ null,
   stringEncoding: 'utf8',
   getMemoryFn: () => memory0,
   getReallocFn: () => realloc0,
-  importFn: _trampoline0,
+  importFn: _trampoline2,
 },
 );
-let trampoline1 = _trampoline1.manuallyAsync ? new WebAssembly.Suspending(_lowerImportBackwardsCompat.bind(
+let trampoline3 = _trampoline3.manuallyAsync ? new WebAssembly.Suspending(_lowerImportBackwardsCompat.bind(
 null,
 {
-  trampolineIdx: 1,
+  trampolineIdx: 3,
   componentIdx: 0,
   isAsync: false,
-  isManualAsync: _trampoline1.manuallyAsync,
+  isManualAsync: _trampoline3.manuallyAsync,
   paramLiftFns: [_liftFlatList({
     elemLiftFn: _liftFlatStringAny,
     elemAlign32: 4,
@@ -5329,15 +6237,15 @@ null,
   stringEncoding: 'utf8',
   getMemoryFn: () => memory0,
   getReallocFn: () => realloc0,
-  importFn: _trampoline1,
+  importFn: _trampoline3,
 },
 )) : _lowerImportBackwardsCompat.bind(
 null,
 {
-  trampolineIdx: 1,
+  trampolineIdx: 3,
   componentIdx: 0,
   isAsync: false,
-  isManualAsync: _trampoline1.manuallyAsync,
+  isManualAsync: _trampoline3.manuallyAsync,
   paramLiftFns: [_liftFlatList({
     elemLiftFn: _liftFlatStringAny,
     elemAlign32: 4,
@@ -5382,12 +6290,16 @@ null,
   stringEncoding: 'utf8',
   getMemoryFn: () => memory0,
   getReallocFn: () => realloc0,
-  importFn: _trampoline1,
+  importFn: _trampoline3,
 },
 );
 Promise.all([module0, module1, module2, module3]).catch(() => {});
 ({ exports: exports0 } = yield instantiateCore(yield module2));
 ({ exports: exports1 } = yield instantiateCore(yield module0, {
+  '[export]rasa:runtime/session@0.1.0': {
+    '[resource-drop]checked-program': trampoline1,
+    '[resource-new]checked-program': trampoline0,
+  },
   'rasa:runtime/host@0.1.0': {
     call: exports0['3'],
   },
@@ -5420,26 +6332,54 @@ try {
     '0': exports2.available,
     '1': exports2.resolve,
     '2': exports2.call,
-    '3': trampoline0,
-    '4': trampoline1,
+    '3': trampoline2,
+    '4': trampoline3,
+    '5': exports1['rasa:runtime/session@0.1.0#[dtor]checked-program'],
   },
 }));
-postReturn0 = exports1['cabi_post_rasa:runtime/session@0.1.0#eval-admitted-source'];
+postReturn0 = exports1['cabi_post_rasa:runtime/session@0.1.0#[method]checked-program.source-identity'];
 
 try {
-  postReturn0Async = WebAssembly.promising(exports1['cabi_post_rasa:runtime/session@0.1.0#eval-admitted-source']);
+  postReturn0Async = WebAssembly.promising(exports1['cabi_post_rasa:runtime/session@0.1.0#[method]checked-program.source-identity']);
 } catch(err) {
-  postReturn0Async = exports1['cabi_post_rasa:runtime/session@0.1.0#eval-admitted-source'];
+  postReturn0Async = exports1['cabi_post_rasa:runtime/session@0.1.0#[method]checked-program.source-identity'];
 }
 
-postReturn1 = exports1['cabi_post_rasa:runtime/session@0.1.0#session-new'];
+postReturn1 = exports1['cabi_post_rasa:runtime/session@0.1.0#[method]checked-program.emit'];
 
 try {
-  postReturn1Async = WebAssembly.promising(exports1['cabi_post_rasa:runtime/session@0.1.0#session-new']);
+  postReturn1Async = WebAssembly.promising(exports1['cabi_post_rasa:runtime/session@0.1.0#[method]checked-program.emit']);
 } catch(err) {
-  postReturn1Async = exports1['cabi_post_rasa:runtime/session@0.1.0#session-new'];
+  postReturn1Async = exports1['cabi_post_rasa:runtime/session@0.1.0#[method]checked-program.emit'];
 }
 
+postReturn2 = exports1['cabi_post_rasa:runtime/session@0.1.0#[method]checked-program.run'];
+
+try {
+  postReturn2Async = WebAssembly.promising(exports1['cabi_post_rasa:runtime/session@0.1.0#[method]checked-program.run']);
+} catch(err) {
+  postReturn2Async = exports1['cabi_post_rasa:runtime/session@0.1.0#[method]checked-program.run'];
+}
+
+postReturn3 = exports1['cabi_post_rasa:runtime/session@0.1.0#session-new'];
+
+try {
+  postReturn3Async = WebAssembly.promising(exports1['cabi_post_rasa:runtime/session@0.1.0#session-new']);
+} catch(err) {
+  postReturn3Async = exports1['cabi_post_rasa:runtime/session@0.1.0#session-new'];
+}
+
+postReturn4 = exports1['cabi_post_rasa:runtime/session@0.1.0#session-check'];
+
+try {
+  postReturn4Async = WebAssembly.promising(exports1['cabi_post_rasa:runtime/session@0.1.0#session-check']);
+} catch(err) {
+  postReturn4Async = exports1['cabi_post_rasa:runtime/session@0.1.0#session-check'];
+}
+
+session010MethodCheckedProgramSourceIdentity = exports1['rasa:runtime/session@0.1.0#[method]checked-program.source-identity'];
+session010MethodCheckedProgramEmit = exports1['rasa:runtime/session@0.1.0#[method]checked-program.emit'];
+session010MethodCheckedProgramRun = WebAssembly.promising(exports1['rasa:runtime/session@0.1.0#[method]checked-program.run']);
 session010Status = exports1['rasa:runtime/session@0.1.0#status'];
 session010RenderHash = exports1['rasa:runtime/session@0.1.0#render-hash'];
 session010EvalSource = WebAssembly.promising(exports1['rasa:runtime/session@0.1.0#eval-source']);
@@ -5452,20 +6392,25 @@ session010SessionSetAdmittedOperations = exports1['rasa:runtime/session@0.1.0#se
 session010SessionEval = WebAssembly.promising(exports1['rasa:runtime/session@0.1.0#session-eval']);
 session010SessionEvalWithId = WebAssembly.promising(exports1['rasa:runtime/session@0.1.0#session-eval-with-id']);
 session010SessionReplEval = WebAssembly.promising(exports1['rasa:runtime/session@0.1.0#session-repl-eval']);
+session010SessionReplEvalGeneric = WebAssembly.promising(exports1['rasa:runtime/session@0.1.0#session-repl-eval-generic']);
+session010SessionCheck = exports1['rasa:runtime/session@0.1.0#session-check'];
 session010InspectSource = exports1['rasa:runtime/session@0.1.0#inspect-source'];
 session010SyntaxTokens = exports1['rasa:runtime/session@0.1.0#syntax-tokens'];
 const session010 = {
+  CheckedProgram: CheckedProgram,
   evalAdmittedSource: evalAdmittedSource,
   evalAdmittedSourceWithId: evalAdmittedSourceWithId,
   evalSource: evalSource,
   evalSourceWithId: evalSourceWithId,
   inspectSource: inspectSource,
   renderHash: renderHash,
+  sessionCheck: sessionCheck,
   sessionEval: sessionEval,
   sessionEvalWithId: sessionEvalWithId,
   sessionFree: sessionFree,
   sessionNew: sessionNew,
   sessionReplEval: sessionReplEval,
+  sessionReplEvalGeneric: sessionReplEvalGeneric,
   sessionSetAdmittedOperations: sessionSetAdmittedOperations,
   status: status,
   syntaxTokens: syntaxTokens,

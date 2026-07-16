@@ -123,7 +123,12 @@ export class ComponentRuntime {
     }
     const modules = new Map(projection.modules.map((module) => [module.path, module]));
     const compiled = new Map();
-    let loadedBytes = projectionBytes.byteLength + entryBytes.byteLength;
+    const installer = options.BrowserCodeInstaller
+      ? { CodeInstaller: options.BrowserCodeInstaller, loadedBytes: 0 }
+      : await loadCodeInstaller(productManifest, productBase, loadBytes, loadModule);
+    const { CodeInstaller } = installer;
+    const codeInstaller = new CodeInstaller();
+    let loadedBytes = projectionBytes.byteLength + entryBytes.byteLength + installer.loadedBytes;
     const root = await bindings.instantiate(async (path) => {
       const cached = compiled.get(path);
       if (cached) return cached;
@@ -150,7 +155,7 @@ export class ComponentRuntime {
       loadedBytes += moduleBytes.byteLength;
       compiled.set(path, module);
       return module;
-    }, options.imports || {});
+    }, options.imports || {}, codeInstaller.instantiateCore.bind(codeInstaller));
 
     return new ComponentRuntime({
       variant,
@@ -158,6 +163,7 @@ export class ComponentRuntime {
       projectionBaseUrl: projectionBaseUrl.href,
       loadedBytes,
       session: root.session || root[RUNTIME_SESSION_EXPORT],
+      codeInstaller,
     });
   }
 
@@ -172,6 +178,7 @@ export class ComponentRuntime {
     this.projectionBaseUrl = options.projectionBaseUrl || null;
     this.loadedBytes = options.loadedBytes ?? null;
     this.session = options.session;
+    this.codeInstaller = options.codeInstaller || null;
   }
 
   status() {
@@ -273,6 +280,63 @@ export class ComponentRuntime {
 
   async evaluateReplSessionAsync(session, source, options = null) {
     return await this.evaluateReplSession(session, source, options);
+  }
+
+  evaluateReplSessionGeneric(session, source, options = null) {
+    return this.session.sessionReplEvalGeneric(session, encodeUtf8(source), reportFlags(options));
+  }
+
+  async evaluateReplSessionGenericAsync(session, source, options = null) {
+    return await this.evaluateReplSessionGeneric(session, source, options);
+  }
+
+  checkSession(session, sourceId, source, options = null) {
+    return this.session.sessionCheck(
+      session,
+      String(sourceId || "browser://compiled"),
+      encodeUtf8(source),
+      reportFlags(options),
+    );
+  }
+
+  async checkSessionAsync(session, sourceId, source, options = null) {
+    return await this.checkSession(session, sourceId, source, options);
+  }
+
+  emitCheckedProgram(program) {
+    return program.emit();
+  }
+
+  runCheckedProgram(program, options = null) {
+    return program.run(reportFlags(options));
+  }
+
+  async runCheckedProgramAsync(program, options = null) {
+    return await this.runCheckedProgram(program, options);
+  }
+
+  disposeCheckedProgram(program) {
+    program?.[Symbol.dispose || Symbol.for("dispose")]?.();
+  }
+
+  async installCode(emitted) {
+    if (!this.codeInstaller) {
+      throw new Error("Rasa browser compiled execution is unavailable");
+    }
+    return await this.codeInstaller.install(emitted);
+  }
+
+  async runInstalledCode(installed, operation) {
+    return await installed.run(operation);
+  }
+
+  closeInstalledCode(installed) {
+    installed?.close();
+  }
+
+  close() {
+    this.codeInstaller?.close();
+    this.codeInstaller = null;
   }
 }
 
@@ -453,4 +517,23 @@ async function readBytes(url, label) {
 
 function absoluteUrl(value, base = null) {
   return value instanceof URL ? value : new URL(value, base || import.meta.url);
+}
+
+async function loadCodeInstaller(productManifest, productBase, loadBytes, loadModule) {
+  const installerUrl = new URL("./api/internal/installed-code.js", productBase);
+  const bytes = await verifiedProductBytes(
+    installerUrl,
+    productManifest,
+    productBase,
+    loadBytes,
+    "browser code installer",
+  );
+  const module = await importModuleBytes(installerUrl.href, bytes, loadModule);
+  if (typeof module.BrowserCodeInstaller !== "function") {
+    throw new Error("Rasa browser product has no code installer");
+  }
+  return {
+    CodeInstaller: module.BrowserCodeInstaller,
+    loadedBytes: bytes.byteLength,
+  };
 }

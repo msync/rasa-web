@@ -1,28 +1,22 @@
-import { parseRasaData } from "./data.js";
 import { prepareDistribution } from "./distribution.js";
 import { assertInspectionArtifact } from "./contract.js";
+import {
+  DEFAULT_COMPILED_SOURCE_ID,
+  compileProgram,
+} from "./compiled.js";
+import { ProductError, projectRun, runOk } from "./run.js";
 import { ComponentRuntime, loadRuntime } from "./runtime.js";
 
 const DEFAULT_EVAL_OPTIONS = Object.freeze({ phases: "all" });
 
-export class ProductError extends Error {
-  constructor(message, details = {}) {
-    super(message);
-    this.name = "ProductError";
-    this.phase = details.phase || "unknown";
-    this.run = details.run || null;
-    this.runs = details.runs || [];
-    this.refusals = details.refusals || [];
-    this.cause = details.cause;
-  }
-}
-
 export class Product {
   #closed = false;
+  #closePromise = null;
   #distribution;
   #runtime;
   #selection;
   #sessions = new Set();
+  #operationTail = Promise.resolve();
 
   constructor({ distribution, runtime, selection }) {
     this.#distribution = distribution;
@@ -79,6 +73,20 @@ export class Product {
     return this.capabilityTrace;
   }
 
+  async _serialize(operation) {
+    const previous = this.#operationTail;
+    let release;
+    this.#operationTail = new Promise((resolve) => {
+      release = resolve;
+    });
+    await previous;
+    try {
+      return await operation();
+    } finally {
+      release();
+    }
+  }
+
   async openSession(options = {}) {
     this.#assertOpen();
     const evalOptions = options.evalOptions || DEFAULT_EVAL_OPTIONS;
@@ -86,11 +94,11 @@ export class Product {
     const handle = this.#runtime.createSession(this.#distribution.sourceInventory);
     try {
       const configuration = [];
-      const reports = await this.#distribution.configureSession(
+      const reports = await this._serialize(() => this.#distribution.configureSession(
         this.#runtime,
         handle,
         configureOptions,
-      );
+      ));
       for (const report of reports) {
         const run = projectRun(report, {
           phase: "configure",
@@ -153,9 +161,13 @@ export class Product {
   }
 
   async close() {
-    if (this.#closed) return;
+    if (this.#closePromise) return await this.#closePromise;
     this.#closed = true;
-    await Promise.all([...this.#sessions].map((session) => session.close()));
+    this.#closePromise = (async () => {
+      await Promise.all([...this.#sessions].map((session) => session.close()));
+      this.#runtime.close?.();
+    })();
+    return await this.#closePromise;
   }
 
   _release(session) {
@@ -172,6 +184,9 @@ export class Product {
 export class Session {
   #product;
   #closed = false;
+  #closePromise = null;
+  #compiled = new Set();
+  #compiledBySourceId = new Map();
   #runtime;
   #handle;
 
@@ -186,23 +201,23 @@ export class Session {
   async eval(source, options = {}) {
     this.#assertOpen();
     try {
-      const { repl = true, label = "eval", ...runtimeOptions } = options || {};
+      const { label = "eval", ...runtimeOptions } = options || {};
       const evalOptions = { ...this.evalOptions, ...runtimeOptions };
-      const report = repl
-        ? await this.#runtime.evaluateReplSessionAsync(
-          this.#handle,
-          String(source ?? ""),
-          evalOptions,
-        )
-        : await this.#runtime.evaluateSessionAsync(
+      const measured = await this.#product._serialize(async () => {
+        const started = now();
+        const report = await this.#runtime.evaluateReplSessionGenericAsync(
           this.#handle,
           String(source ?? ""),
           evalOptions,
         );
-      return projectRun(report, {
+        return { report, executionMs: now() - started };
+      });
+      return projectRun(measured.report, {
         phase: "eval",
         label,
         trace: this.#product._providerTrace(),
+        mode: "eval",
+        timing: Object.freeze({ executionMs: measured.executionMs }),
       });
     } catch (error) {
       if (error instanceof ProductError) throw error;
@@ -214,18 +229,82 @@ export class Session {
   }
 
   async load(source, options = {}) {
-    return await this.eval(source, {
-      ...options,
-      repl: false,
-      label: options.label || "load",
+    this.#assertOpen();
+    try {
+      const { label = "load", ...runtimeOptions } = options || {};
+      const evalOptions = { ...this.evalOptions, ...runtimeOptions };
+      const measured = await this.#product._serialize(async () => {
+        const started = now();
+        const report = await this.#runtime.evaluateSessionAsync(
+          this.#handle,
+          String(source ?? ""),
+          evalOptions,
+        );
+        return { report, executionMs: now() - started };
+      });
+      return projectRun(measured.report, {
+        phase: "load",
+        label,
+        trace: this.#product._providerTrace(),
+        mode: "load",
+        timing: Object.freeze({ executionMs: measured.executionMs }),
+      });
+    } catch (error) {
+      if (error instanceof ProductError) throw error;
+      throw new ProductError(error.message || String(error), {
+        phase: "load",
+        cause: error,
+      });
+    }
+  }
+
+  async compile(source, options = {}) {
+    this.#assertOpen();
+    const text = String(source ?? "");
+    const {
+      sourceId = DEFAULT_COMPILED_SOURCE_ID,
+      label = "compile",
+      ...runtimeOptions
+    } = options || {};
+    const id = String(sourceId || DEFAULT_COMPILED_SOURCE_ID);
+    const evalOptions = { ...this.evalOptions, ...runtimeOptions };
+    return await this.#product._serialize(async () => {
+      const compiled = await compileProgram({
+        session: this,
+        runtime: this.#runtime,
+        handle: this.#handle,
+        source: text,
+        sourceId: id,
+        label,
+        evalOptions,
+        previous: this.#compiledBySourceId.get(id),
+      });
+      this.#compiled.add(compiled);
+      this.#compiledBySourceId.set(id, compiled);
+      return compiled;
     });
   }
 
   async close() {
-    if (this.#closed) return;
+    if (this.#closePromise) return await this.#closePromise;
     this.#closed = true;
-    this.#runtime.freeSession(this.#handle);
-    this.#product._release(this);
+    this.#closePromise = this.#product._serialize(async () => {
+      await Promise.all([...this.#compiled].map((compiled) => compiled.close()));
+      this.#runtime.freeSession(this.#handle);
+      this.#product._release(this);
+    });
+    return await this.#closePromise;
+  }
+
+  _serialize(operation) {
+    return this.#product._serialize(operation);
+  }
+
+  _releaseCompiled(compiled) {
+    this.#compiled.delete(compiled);
+    if (this.#compiledBySourceId.get(compiled.sourceId) === compiled) {
+      this.#compiledBySourceId.delete(compiled.sourceId);
+    }
   }
 
   #assertOpen() {
@@ -284,55 +363,6 @@ export async function createProduct(distribution, options = {}) {
   }
 }
 
-export function projectRun(reportText, details = {}) {
-  const text = String(reportText ?? "");
-  let report;
-  try {
-    report = parseRasaData(text);
-  } catch (error) {
-    throw new ProductError("invalid Rasa run report transport", {
-      phase: "transport",
-      cause: error,
-    });
-  }
-  const topStatus = rasaName(report?.status);
-  const evalReport = report?.eval || null;
-  const evalStatus = rasaName(evalReport?.status);
-  const status = topStatus && topStatus !== "ok"
-    ? topStatus
-    : evalStatus || topStatus || "unknown";
-  return {
-    status,
-    topStatus,
-    evalStatus,
-    failedPhase: rasaName(report?.["failed-phase"]) || null,
-    value: evalReport?.value ?? null,
-    renderedValue: evalReport?.["rendered-value"] ?? null,
-    diagnostics: Array.isArray(report?.diagnostics) ? report.diagnostics : [],
-    report,
-    reportText: text,
-    trace: details.trace || null,
-    phase: details.phase || "eval",
-    label: details.label || null,
-  };
-}
-
-export function runOk(run) {
-  return run?.status === "ok";
-}
-
-export function assertRunOk(run, label = "Rasa run") {
-  if (!runOk(run)) {
-    throw new ProductError(`${label} failed`, {
-      phase: run?.phase || "eval",
-      run,
-    });
-  }
-  return run;
-}
-
-function rasaName(value) {
-  if (!value) return null;
-  if (value.type === "keyword" || value.type === "symbol") return value.name;
-  return String(value).replace(/^:/, "");
+function now() {
+  return globalThis.performance?.now() ?? Date.now();
 }

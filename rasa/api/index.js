@@ -1,10 +1,14 @@
 export {
   Product,
-  ProductError,
   Session,
-  assertRunOk,
+  createProduct,
   loadProduct,
+} from "./product.js";
+export { CompiledProgram } from "./compiled.js";
+export {
+  ProductError,
+  assertRunOk,
   projectRun,
   runOk,
-} from "./product.js";
+} from "./run.js";
 export * from "./contract.js";

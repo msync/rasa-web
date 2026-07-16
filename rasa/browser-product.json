@@ -11,7 +11,7 @@
   },
   "source": {
     "schema": "rasa.source-inventory.v0",
-    "id": "sha256:87c311007ff257920b99ae547eac4f0aa9a5e75161f577a677fa4dd758853796",
+    "id": "sha256:5a5aa892f7ce54c0bd5e034a6127f244bf8cff8c5746a759a5d17d8710ceb270",
     "manifest": "./source/source-inventory.json",
     "root": "./source/"
   },
@@ -21,12 +21,12 @@
       "priority": 20,
       "component": {
         "world": "rasa:runtime/session@0.1.0",
-        "contentId": "sha256:f8ce751bcf793f7458dd1ab4b0a31539bda0fc9f34d8291c7cb430bcb359e16d",
-        "sourceBytes": 3812783
+        "contentId": "sha256:4aea46596a24663b5bb6c6d707877074121065ee52f7bf372b9d8d6b8e9f53b9",
+        "sourceBytes": 4280884
       },
       "projection": {
         "schema": "rasa.browser-component-projection.v0",
-        "profile": "jco-1.24.5-async-instantiation-jspi-host-exports-v2",
+        "profile": "jco-1.24.5-async-instantiation-jspi-host-exports-v4",
         "manifest": "./runtime/capability-jspi/browser-projection.json"
       },
       "requirements": {
@@ -52,6 +52,10 @@
             "probe": "./runtime/probes/reference-types.wasm"
           },
           {
+            "name": "saturating-float-to-int",
+            "probe": "./runtime/probes/saturating-float-to-int.wasm"
+          },
+          {
             "name": "sign-extension",
             "probe": "./runtime/probes/sign-extension.wasm"
           }
@@ -69,8 +73,8 @@
       "priority": 10,
       "component": {
         "world": "rasa:runtime/session@0.1.0",
-        "contentId": "sha256:583d92a2a0242a8c2abc246180689fb15e3725f587b1af023673f0ac30bb51df",
-        "sourceBytes": 3756286
+        "contentId": "sha256:a87804fb6db0ec8f9338d04eeb8eeaa37eeaaa4a3d6de908a72a54ed1695a632",
+        "sourceBytes": 4227671
       },
       "projection": {
         "schema": "rasa.browser-component-projection.v0",
@@ -97,6 +101,10 @@
             "probe": "./runtime/probes/reference-types.wasm"
           },
           {
+            "name": "saturating-float-to-int",
+            "probe": "./runtime/probes/saturating-float-to-int.wasm"
+          },
+          {
             "name": "sign-extension",
             "probe": "./runtime/probes/sign-extension.wasm"
           }
@@ -110,8 +118,8 @@
   "packageSchema": "rasa.package/v1",
   "build": {
     "producer": "rasa-web/browser-product-v2",
-    "sourceRevision": "d7bab01105c2588f72e09f5a396cc11a69feb147",
-    "sourceState": "clean"
+    "sourceRevision": "5892c99a62609f64d843ed5ed02f2b88a7c7a611",
+    "sourceState": "dirty"
   },
   "inventory": [
     {
@@ -125,6 +133,12 @@
       "kind": "public-api",
       "bytes": 5494,
       "sha256": "cc2c7a0e0f579fed9965ae491d9419df64f38d199ea74ff43bae46f7c747cb08"
+    },
+    {
+      "path": "api/compiled.js",
+      "kind": "public-api",
+      "bytes": 7397,
+      "sha256": "6473fe34ac738189aec39c726ecdd2821eeaf1474be2500a25e0eff9dbb7e7c1"
     },
     {
       "path": "api/contract.js",
@@ -147,14 +161,20 @@
     {
       "path": "api/index.d.ts",
       "kind": "public-api-types",
-      "bytes": 5107,
-      "sha256": "c6874caf64d5fbde9b49ea660f24af0994abb0a5b72601c31f4a91095072c356"
+      "bytes": 6985,
+      "sha256": "4720d76f4c0768debc417e2f35639b47dfc835d035b586adbe28519eda11eabc"
     },
     {
       "path": "api/index.js",
       "kind": "public-api",
-      "bytes": 154,
-      "sha256": "252689ab749ba4e5ea87d83e5cf119e71c82e55f15b07ba1aceb174add5ec87b"
+      "bytes": 248,
+      "sha256": "87ab8646ace521bd5a8237796dba143a87ea7cb779c141acc10cf1198814c6f9"
+    },
+    {
+      "path": "api/internal/installed-code.js",
+      "kind": "runtime-api-support",
+      "bytes": 5331,
+      "sha256": "1d2ae53feccba3c24b8831d5cf6dc96b5b77ff0b7855b2d13cd15f0ffc6e7f28"
     },
     {
       "path": "api/module.js",
@@ -165,14 +185,20 @@
     {
       "path": "api/product.js",
       "kind": "public-api",
-      "bytes": 9444,
-      "sha256": "a2a35856938af86946f2e76c0bc48c68616a756538859a33d6ab0cb3e1395650"
+      "bytes": 10702,
+      "sha256": "62b5bcc30bd9cff597ebbb79d0c942dd66f6afddaddba1dcf2815d69be9c0c82"
+    },
+    {
+      "path": "api/run.js",
+      "kind": "public-api",
+      "bytes": 2997,
+      "sha256": "c9b79ea24362a090b7312d1192f68f93d29753a62b2a44cadca8999d846103fd"
     },
     {
       "path": "api/runtime.js",
       "kind": "public-api",
-      "bytes": 15991,
-      "sha256": "fb9082b7c0a8004a6ff73c653fa15f0c2011893e0c207b0abe73e3351002b520"
+      "bytes": 18595,
+      "sha256": "7945d21cdd85fb132a318217af3fabe4089fb84d59b960449e8c6d283afb8c98"
     },
     {
       "path": "api/source-inventory.js",
@@ -190,13 +216,13 @@
       "path": "runtime/capability-jspi/browser-projection.json",
       "kind": "component-projection-manifest",
       "bytes": 898,
-      "sha256": "018160d6c058b861211d0d9359db80ae344e695fd7adf4c53c19fae39c175a09"
+      "sha256": "1044130655f046055c006eb455613ccd0ef20c8b76ed2f6c1804955204b043f3"
     },
     {
       "path": "runtime/capability-jspi/guest-runtime.core.wasm",
       "kind": "component-projection-module",
-      "bytes": 3804417,
-      "sha256": "9c5e0d5b8d94440284653733fabcf03dda2605494fe71d792a30a6511f0f8dad"
+      "bytes": 4268811,
+      "sha256": "f8ce21a93d1ae4b2614eeaa516b00c9a5f869805c5d096151473ff6b56b8a068"
     },
     {
       "path": "runtime/capability-jspi/guest-runtime.core2.wasm",
@@ -207,14 +233,14 @@
     {
       "path": "runtime/capability-jspi/guest-runtime.core3.wasm",
       "kind": "component-projection-module",
-      "bytes": 224,
-      "sha256": "cf200620fdc69f22abe8bdbdfbfdbf45cbebd8ef11c30caeff8234a26f490678"
+      "bytes": 243,
+      "sha256": "9bf1b1b01c11d8ae37a99d2345118f8d7b3d878a35ce968e76abaf325a9aa28d"
     },
     {
       "path": "runtime/capability-jspi/guest-runtime.core4.wasm",
       "kind": "component-projection-module",
-      "bytes": 152,
-      "sha256": "814bc24f8a4c05edbcfaa66241b575c8c3d501a8f3e0b9b258c576f836703aa4"
+      "bytes": 162,
+      "sha256": "82147c538c83f89522807fb59baa015a6c5dddc91238268450d8de8b172b1102"
     },
     {
       "path": "runtime/capability-jspi/guest-runtime.d.ts",
@@ -225,8 +251,8 @@
     {
       "path": "runtime/capability-jspi/guest-runtime.js",
       "kind": "component-projection-binding",
-      "bytes": 173379,
-      "sha256": "1bea511210b99c0ba4a11b4c15f2d613e418af2a6b491377e7c47fc8b93b2996"
+      "bytes": 203102,
+      "sha256": "469990dfa4d7ace705187ed85591eea24b9774abc486ba3bdadcc1bf5c4c0fb5"
     },
     {
       "path": "runtime/capability-jspi/interfaces/rasa-runtime-host.d.ts",
@@ -237,8 +263,8 @@
     {
       "path": "runtime/capability-jspi/interfaces/rasa-runtime-session.d.ts",
       "kind": "component-projection-binding",
-      "bytes": 1586,
-      "sha256": "09b727c9ba79cd05cebe117f2775fb8db57ed0eebc82e1a6894c5242a2a1a50d"
+      "bytes": 2558,
+      "sha256": "4e83d9e743f4030c2ccdf7275f9511a637464103710cd47dfd42b60737d93a9f"
     },
     {
       "path": "runtime/capability-jspi/interfaces/rasa-runtime-source-loader.d.ts",
@@ -259,6 +285,12 @@
       "sha256": "4dbad83b0f67dfbd8ee087b548bb28077168b430feeb7485011c041377bae39b"
     },
     {
+      "path": "runtime/probes/saturating-float-to-int.wasm",
+      "kind": "wasm-feature-probe",
+      "bytes": 41,
+      "sha256": "08b1106a28de5a52bdad530a6519cc437da4b816bcc1d4f51f272c2b466c85a2"
+    },
+    {
       "path": "runtime/probes/sign-extension.wasm",
       "kind": "wasm-feature-probe",
       "bytes": 40,
@@ -268,13 +300,13 @@
       "path": "runtime/pure/browser-projection.json",
       "kind": "component-projection-manifest",
       "bytes": 896,
-      "sha256": "7b78cc37ccf545cad4ad7b61d3f72fd707b8b5a465410a5320d910d061f3dcb3"
+      "sha256": "57ee8dd67a4b655191ba1993b3581a2931c82a3b768b5e9d736c9896631fd94a"
     },
     {
       "path": "runtime/pure/guest-runtime.core.wasm",
       "kind": "component-projection-module",
-      "bytes": 3748913,
-      "sha256": "2bc1a19798dabf2101e718863a43a5a7684b4f8aee63dab2e65c392a1c6ac124"
+      "bytes": 4216589,
+      "sha256": "7cd874abb8734f371d4dd5a4b1c1dc2acaf0add929640fa515eb03d8560908b1"
     },
     {
       "path": "runtime/pure/guest-runtime.core2.wasm",
@@ -285,14 +317,14 @@
     {
       "path": "runtime/pure/guest-runtime.core3.wasm",
       "kind": "component-projection-module",
-      "bytes": 168,
-      "sha256": "2d2c8b49ede29ed19b3e718564f897687f69f32972c79dd79c9673c8a968112c"
+      "bytes": 187,
+      "sha256": "e714fe917f1276378e9824f5da397781c77ebf12ea8aed90686dd494287cc9d8"
     },
     {
       "path": "runtime/pure/guest-runtime.core4.wasm",
       "kind": "component-projection-module",
-      "bytes": 126,
-      "sha256": "6fc2bb6a597680b3af4be47c0ab335ce865b360e9530e55077645277e9c2e777"
+      "bytes": 136,
+      "sha256": "45897d49dd67c14a2839e7d386047846d661aabc79fd4ff8abcaceec5b77a862"
     },
     {
       "path": "runtime/pure/guest-runtime.d.ts",
@@ -303,14 +335,14 @@
     {
       "path": "runtime/pure/guest-runtime.js",
       "kind": "component-projection-binding",
-      "bytes": 139574,
-      "sha256": "da32e02e0636bbe1a3411524e0d5e1c993f8cae9cdd8a23652ba4edcbc787d58"
+      "bytes": 172283,
+      "sha256": "751ac81aae651b791b3e210a5326ea1d7d9e0eab05f73017929b148ca7062811"
     },
     {
       "path": "runtime/pure/interfaces/rasa-runtime-session.d.ts",
       "kind": "component-projection-binding",
-      "bytes": 1586,
-      "sha256": "09b727c9ba79cd05cebe117f2775fb8db57ed0eebc82e1a6894c5242a2a1a50d"
+      "bytes": 2558,
+      "sha256": "4e83d9e743f4030c2ccdf7275f9511a637464103710cd47dfd42b60737d93a9f"
     },
     {
       "path": "source/rasa/array.ras",
@@ -321,8 +353,8 @@
     {
       "path": "source/rasa/core.ras",
       "kind": "source",
-      "bytes": 21444,
-      "sha256": "cde169851847f825ed23b7895993b07002f435b6a623ecf5b73d3d1441d37763"
+      "bytes": 21831,
+      "sha256": "cca4734b1c04aab244857ec85e8b3cee831c051d68184b65895c64619bdda19b"
     },
     {
       "path": "source/rasa/edn.ras",
@@ -347,6 +379,12 @@
       "kind": "source",
       "bytes": 309,
       "sha256": "a928049ca7071f4fc2760c725b7ac4a559cea089b31c8555454c49122543ba8d"
+    },
+    {
+      "path": "source/rasa/math.ras",
+      "kind": "source",
+      "bytes": 1136,
+      "sha256": "30e48f81c1c2beee251d4862b1686b946cd1d2e27f9bd48750c67c4986312c4a"
     },
     {
       "path": "source/rasa/process.ras",
@@ -387,8 +425,8 @@
     {
       "path": "source/source-inventory.json",
       "kind": "source-inventory",
-      "bytes": 2227,
-      "sha256": "743613e321881a0031ea98d04c2d4a7b1ff246ca1f39dbf5149717d94b93434a"
+      "bytes": 2396,
+      "sha256": "791b680d74f5d842873023a52f3faa75d6b19d742e6d2cdd7e19838e3e91f2a0"
     }
   ]
 }

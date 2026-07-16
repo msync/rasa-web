@@ -1,6 +1,6 @@
 {
   "schema": "rasa.browser-component-projection.v0",
-  "componentId": "sha256:583d92a2a0242a8c2abc246180689fb15e3725f587b1af023673f0ac30bb51df",
+  "componentId": "sha256:a87804fb6db0ec8f9338d04eeb8eeaa37eeaaa4a3d6de908a72a54ed1695a632",
   "profile": "jco-1.24.5-async-instantiation-sync-component-v1",
   "requirements": {
     "jspi": false
@@ -9,7 +9,7 @@
   "modules": [
     {
       "path": "guest-runtime.core.wasm",
-      "contentId": "sha256:2bc1a19798dabf2101e718863a43a5a7684b4f8aee63dab2e65c392a1c6ac124"
+      "contentId": "sha256:7cd874abb8734f371d4dd5a4b1c1dc2acaf0add929640fa515eb03d8560908b1"
     },
     {
       "path": "guest-runtime.core2.wasm",
@@ -17,11 +17,11 @@
     },
     {
       "path": "guest-runtime.core3.wasm",
-      "contentId": "sha256:2d2c8b49ede29ed19b3e718564f897687f69f32972c79dd79c9673c8a968112c"
+      "contentId": "sha256:e714fe917f1276378e9824f5da397781c77ebf12ea8aed90686dd494287cc9d8"
     },
     {
       "path": "guest-runtime.core4.wasm",
-      "contentId": "sha256:6fc2bb6a597680b3af4be47c0ab335ce865b360e9530e55077645277e9c2e777"
+      "contentId": "sha256:45897d49dd67c14a2839e7d386047846d661aabc79fd4ff8abcaceec5b77a862"
     }
   ]
 }

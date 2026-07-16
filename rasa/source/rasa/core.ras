@@ -15,6 +15,11 @@
   *
   rasa.prim/mul)
 
+(def ^{:doc "Returns the finite f64 reciprocal or left quotient of nums."
+       :rasa.impl/backing rasa.prim/div}
+  /
+  rasa.prim/div)
+
 (def ^{:doc "Returns true when nums are strictly increasing."
        :rasa.impl/backing rasa.prim/lt}
   <
@@ -74,6 +79,16 @@
        :rasa.impl/backing rasa.prim/quot}
   quot
   rasa.prim/quot)
+
+(def ^{:doc "Returns the numeric remainder of x divided by y."
+       :rasa.impl/backing rasa.prim/rem}
+  rem
+  rasa.prim/rem)
+
+(def ^{:doc "Returns the checked finite magnitude of x."
+       :rasa.impl/backing rasa.prim/abs}
+  abs
+  rasa.prim/abs)
 
 (def ^{:doc "Returns the bitwise and of integer arguments."
        :rasa.impl/backing rasa.prim/bit-and}

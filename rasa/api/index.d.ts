@@ -3,12 +3,20 @@ export type RasaPhase = "reader" | "analysis" | "ir" | "facts" | "eval" | "plan"
 export interface EvalOptions {
   phases?: "all" | RasaPhase | readonly RasaPhase[];
   traces?: boolean;
-  repl?: boolean;
   label?: string;
 }
 
+export interface CompileOptions extends EvalOptions {
+  sourceId?: string;
+}
+
+export interface RunTiming {
+  readonly executionMs?: number;
+  readonly checkMs?: number;
+}
+
 export interface ProductRefusal {
-  variant: string;
+  variant?: string;
   kind: "platform-unsupported" | "capability-unavailable" | "variant-load-failed" | string;
   requirements?: string[];
   capabilities?: string[];
@@ -16,18 +24,38 @@ export interface ProductRefusal {
 }
 
 export interface Run {
-  status: string;
-  topStatus: string | null;
-  evalStatus: string | null;
-  failedPhase: string | null;
-  value: unknown;
-  renderedValue: string | null;
-  diagnostics: unknown[];
-  report: unknown;
-  reportText: string;
-  trace: unknown;
-  phase: string;
-  label: string | null;
+  readonly status: string;
+  readonly topStatus: string | null;
+  readonly evalStatus: string | null;
+  readonly failedPhase: string | null;
+  readonly value: unknown;
+  readonly renderedValue: string | null;
+  readonly diagnostics: readonly unknown[];
+  readonly report: unknown;
+  readonly reportText: string;
+  readonly packedResult: PackedResult | null;
+  readonly trace: unknown;
+  readonly phase: string;
+  readonly label: string | null;
+  readonly mode: "eval" | "compile" | "compiled" | string | null;
+  readonly timing: RunTiming | null;
+}
+
+export interface PackedResult {
+  readonly dtype: string;
+  readonly shape: readonly number[];
+  readonly logicalBitExtent: bigint;
+  readonly bytes: Uint8Array;
+}
+
+export interface EvaluationResult {
+  readonly report: string;
+  readonly packedResult?: {
+    readonly dtype: string;
+    readonly shape: Uint32Array;
+    readonly logicalBitExtent: bigint;
+    readonly bytes: Uint8Array;
+  };
 }
 
 export interface RuntimeIdentity {
@@ -40,6 +68,40 @@ export interface RuntimeIdentity {
   capabilities: readonly string[];
   missingCapabilities: readonly string[];
   refusals: readonly ProductRefusal[];
+}
+
+export interface CompileTimings {
+  readonly checkMs: number;
+  readonly emitMs: number;
+  readonly verifyMs: number;
+  readonly compileMs: number;
+  readonly instantiateMs: number;
+  readonly totalMs: number;
+}
+
+export interface CompileEvidence {
+  readonly sourceId: string;
+  readonly sourceIdentity: string;
+  readonly artifactId: `sha256:${string}`;
+  readonly codeAbi: string;
+  readonly functionCount: number;
+  readonly moduleBytes: number;
+  readonly timings: CompileTimings;
+}
+
+export type CompiledProgramState = "ready" | "stale" | "closed";
+
+export class CompiledProgram {
+  readonly evidence: CompileEvidence;
+  readonly check: Run;
+  readonly sourceId: string;
+  readonly sourceIdentity: string;
+  readonly state: CompiledProgramState;
+  readonly staleReason: string | null;
+  matchesSource(source: string): boolean;
+  run(options?: EvalOptions): Promise<Run>;
+  invalidate(reason?: string): Promise<void>;
+  close(): Promise<void>;
 }
 
 export interface ProductIdentity {
@@ -127,6 +189,7 @@ export class Session {
   readonly evalOptions: EvalOptions;
   eval(source: string, options?: EvalOptions): Promise<Run>;
   load(source: string, options?: EvalOptions): Promise<Run>;
+  compile(source: string, options?: CompileOptions): Promise<CompiledProgram>;
   close(): Promise<void>;
 }
 
@@ -167,7 +230,10 @@ export function loadProduct(
   manifestUrl?: string | URL,
   options?: LoadProductOptions,
 ): Promise<Product>;
-export function projectRun(reportText: string, details?: Record<string, unknown>): Run;
+export function projectRun(
+  evaluationResult: string | EvaluationResult,
+  details?: Record<string, unknown>,
+): Run;
 export function runOk(run: Run): boolean;
 export function assertRunOk(run: Run, label?: string): Run;
 

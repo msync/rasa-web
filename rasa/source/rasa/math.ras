@@ -1,0 +1,41 @@
+(ns rasa.math)
+
+(def ^{:doc "Returns the finite non-negative square root of x."
+       :rasa.impl/backing rasa.math.impl/sqrt}
+  sqrt
+  rasa.math.impl/sqrt)
+
+(def ^{:doc "Returns the sine of x radians."
+       :rasa.impl/backing rasa.math.impl/sin}
+  sin
+  rasa.math.impl/sin)
+
+(def ^{:doc "Returns the cosine of x radians."
+       :rasa.impl/backing rasa.math.impl/cos}
+  cos
+  rasa.math.impl/cos)
+
+(def ^{:doc "Returns the greatest mathematical integer not greater than x as f64."
+       :rasa.impl/backing rasa.math.impl/floor}
+  floor
+  rasa.math.impl/floor)
+
+(def ^{:doc "Returns the least mathematical integer not less than x as f64."
+       :rasa.impl/backing rasa.math.impl/ceil}
+  ceil
+  rasa.math.impl/ceil)
+
+(def ^{:doc "Rounds x toward zero and returns f64."
+       :rasa.impl/backing rasa.math.impl/trunc}
+  trunc
+  rasa.math.impl/trunc)
+
+(def ^{:doc "Converts x to i64 exactly or rejects it."
+       :rasa.impl/backing rasa.math.impl/to-i64}
+  to-i64
+  rasa.math.impl/to-i64)
+
+(def ^{:doc "Converts x to finite f64 exactly or rejects it."
+       :rasa.impl/backing rasa.math.impl/to-f64}
+  to-f64
+  rasa.math.impl/to-f64)
